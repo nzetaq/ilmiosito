@@ -422,9 +422,140 @@
       opacity: 1;
       transform: scale(1) rotate(3deg);
     }
+
+    /* ── Toggle tema ── */
+    .au-theme-toggle {
+      position: fixed;
+      bottom: 1.75rem;
+      right: 1.75rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(180,200,230,0.3);
+      background: none;
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 0.45rem 0.9rem;
+      cursor: pointer;
+      transition: color 0.25s, border-color 0.25s;
+      z-index: 200;
+    }
+    .au-theme-toggle:hover {
+      color: rgba(180,200,230,0.65);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    /* ══ Tema chiaro ══ */
+    body.theme-light {
+      background: #f0f5fc;
+      color: rgba(10,22,45,0.82);
+    }
+
+    /* Aurora */
+    body.theme-light .au-stars { opacity: 0; }
+    body.theme-light .au-layer {
+      background:
+        radial-gradient(ellipse 120% 50% at 30% -10%,
+          rgba(20,160,90,0.06) 0%, rgba(20,160,90,0.02) 40%, transparent 70%),
+        radial-gradient(ellipse 100% 60% at 70% 5%,
+          rgba(110,80,200,0.07) 0%, rgba(110,80,200,0.02) 45%, transparent 70%),
+        radial-gradient(ellipse 80% 40% at 50% 0%,
+          rgba(0,170,170,0.05) 0%, transparent 60%);
+    }
+    body.theme-light .au-layer-2 {
+      background:
+        radial-gradient(ellipse 90% 40% at 20% 15%,
+          rgba(170,50,190,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 30% at 80% 10%,
+          rgba(0,200,120,0.04) 0%, transparent 60%);
+    }
+
+    /* Header */
+    body.theme-light .au-label   { color: rgba(18,118,88,0.85); }
+    body.theme-light .au-name    { color: rgba(5,14,35,0.95); }
+    body.theme-light .au-name em { color: rgba(38,88,162,0.62); }
+    body.theme-light .au-bio     { color: rgba(28,52,88,0.55); }
+
+    /* Nav */
+    body.theme-light .au-nav { border-bottom-color: rgba(0,0,0,0.09); }
+    body.theme-light .au-nav-btn { color: rgba(28,52,88,0.4); }
+    body.theme-light .au-nav-btn:hover { color: rgba(28,52,88,0.7); }
+    body.theme-light .au-nav-btn.active {
+      color: rgba(14,116,86,0.92);
+      border-bottom-color: rgba(14,116,86,0.42);
+    }
+
+    /* Filtri */
+    body.theme-light .au-filter-btn {
+      color: rgba(28,52,88,0.55);
+      background: rgba(0,0,0,0.03);
+      border-color: rgba(0,0,0,0.09);
+    }
+    body.theme-light .au-filter-btn:hover {
+      color: rgba(10,22,45,0.8);
+      border-color: rgba(0,0,0,0.16);
+    }
+    body.theme-light .au-filter-btn.active {
+      color: rgba(14,116,86,0.92);
+      border-color: rgba(14,116,86,0.32);
+      background: rgba(14,116,86,0.06);
+    }
+
+    /* Anno */
+    body.theme-light .au-year {
+      color: rgba(24,78,152,0.65);
+      border-bottom-color: rgba(0,0,0,0.07);
+    }
+
+    /* Articoli */
+    body.theme-light .au-article  { border-bottom-color: rgba(0,0,0,0.06); }
+    body.theme-light .au-source   { color: rgba(14,116,86,0.6); }
+    body.theme-light .au-article-title { color: rgba(5,14,35,0.9); }
+    body.theme-light .au-article-desc  { color: rgba(28,52,88,0.5); }
+    body.theme-light .au-date     { color: rgba(28,52,88,0.38); }
+    body.theme-light .au-link     { color: rgba(14,116,86,0.78); }
+    body.theme-light .au-link:hover { color: rgba(14,116,86,1); }
+
+    /* Poesie */
+    body.theme-light .au-poem { border-bottom-color: rgba(0,0,0,0.06); }
+    body.theme-light .au-poem-type    { color: rgba(92,36,162,0.62); }
+    body.theme-light .au-poem-title   { color: rgba(5,14,35,0.9); }
+    body.theme-light .au-poem-excerpt { color: rgba(28,52,88,0.5); }
+    body.theme-light .au-poem-date    { color: rgba(28,52,88,0.38); }
+    body.theme-light .au-poem-link    { color: rgba(92,36,162,0.72); }
+    body.theme-light .au-poem-link:hover { color: rgba(92,36,162,1); }
+
+    /* Home */
+    body.theme-light .au-home-card {
+      border-color: rgba(0,0,0,0.08);
+      background: rgba(0,0,0,0.025);
+    }
+    body.theme-light .au-home-card:hover {
+      border-color: rgba(0,0,0,0.14);
+      background: rgba(0,0,0,0.04);
+    }
+    body.theme-light .au-home-title { color: rgba(5,14,35,0.9); }
+    body.theme-light .au-home-desc  { color: rgba(28,52,88,0.5); }
+    body.theme-light .au-home-date  { color: rgba(28,52,88,0.38); }
+
+    /* Toggle nel tema chiaro */
+    body.theme-light .au-theme-toggle {
+      color: rgba(28,52,88,0.35);
+      border-color: rgba(0,0,0,0.1);
+    }
+    body.theme-light .au-theme-toggle:hover {
+      color: rgba(28,52,88,0.65);
+      border-color: rgba(0,0,0,0.2);
+    }
+
+    /* Footer */
+    body.theme-light .au-footer { color: rgba(0,0,0,0.14); }
   </style>
 </head>
 <body>
+
+<button class="au-theme-toggle" id="au-theme-toggle">Chiaro</button>
 
 <!-- ═══ OROLOGIO DA TASCHINO ═══ -->
 <div class="au-corner-trigger">
@@ -697,6 +828,21 @@
     });
     document.getElementById('au-sec-' + id).removeAttribute('data-hidden');
   }
+
+  // ── Toggle tema ──
+  (function() {
+    var btn = document.getElementById('au-theme-toggle');
+    var saved = localStorage.getItem('au-theme');
+    if (saved === 'light') {
+      document.body.classList.add('theme-light');
+      btn.textContent = 'Scuro';
+    }
+    btn.addEventListener('click', function() {
+      var isLight = document.body.classList.toggle('theme-light');
+      btn.textContent = isLight ? 'Scuro' : 'Chiaro';
+      localStorage.setItem('au-theme', isLight ? 'light' : 'dark');
+    });
+  })();
 
   function spFilter(source, btn) {
     document.querySelectorAll('.au-filter-btn').forEach(function(b) { b.classList.remove('active'); });
