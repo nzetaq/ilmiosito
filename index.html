@@ -424,10 +424,16 @@
     }
 
     /* ── Toggle tema ── */
+    .au-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .au-label-row .au-label { margin-bottom: 0; }
+
     .au-theme-toggle {
-      position: fixed;
-      bottom: 1.75rem;
-      right: 1.75rem;
       font-family: 'Raleway', sans-serif;
       font-size: 10px;
       font-weight: 300;
@@ -436,10 +442,9 @@
       color: rgba(180,200,230,0.3);
       background: none;
       border: 1px solid rgba(255,255,255,0.07);
-      padding: 0.45rem 0.9rem;
+      padding: 0.35rem 0.8rem;
       cursor: pointer;
       transition: color 0.25s, border-color 0.25s;
-      z-index: 200;
     }
     .au-theme-toggle:hover {
       color: rgba(180,200,230,0.65);
@@ -555,8 +560,6 @@
 </head>
 <body>
 
-<button class="au-theme-toggle" id="au-theme-toggle">Chiaro</button>
-
 <!-- ═══ OROLOGIO DA TASCHINO ═══ -->
 <div class="au-corner-trigger">
   <img class="au-pocket-watch" src="orologio.svg" alt="Orologio da taschino"/>
@@ -573,7 +576,10 @@
 
   <!-- ═══ HEADER ═══ -->
   <header class="au-header">
-    <p class="au-label">Raccogli - Cataloga - Preserva</p>
+    <div class="au-label-row">
+      <p class="au-label">Raccogli - Cataloga - Preserva</p>
+      <button class="au-theme-toggle" id="au-theme-toggle">Chiaro</button>
+    </div>
     <h1 class="au-name">N · Z · Q</h1>
     <p class="au-bio">Molti requisiti si ergono dinnanzi a una pratica esistenziale sufficientemente ben condotta.</p>
   </header>
