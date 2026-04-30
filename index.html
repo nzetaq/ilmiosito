@@ -327,6 +327,63 @@
 
     .au-poem-link:hover { color: rgba(180,120,220,1); }
 
+    /* ── Home grid ── */
+    .au-home-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .au-home-card {
+      padding: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.018);
+      transition: border-color 0.25s, background 0.25s;
+    }
+
+    .au-home-card:hover {
+      border-color: rgba(255,255,255,0.13);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .au-home-card:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .au-home-title {
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(220,235,250,0.9);
+      line-height: 1.4;
+      margin: 0.4rem 0;
+    }
+
+    .au-home-card:first-child .au-home-title {
+      font-size: 21px;
+    }
+
+    .au-home-desc {
+      font-size: 13px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(160,180,210,0.5);
+      line-height: 1.65;
+      margin: 0.4rem 0 0.75rem;
+    }
+
+    .au-home-date {
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: rgba(160,180,210,0.35);
+      margin-bottom: 0.6rem;
+    }
+
+    @media (max-width: 520px) {
+      .au-home-grid { grid-template-columns: 1fr; }
+      .au-home-card:first-child { grid-column: auto; }
+    }
+
     /* ── Footer ── */
     .au-footer {
       margin-top: 4rem;
@@ -359,13 +416,19 @@
 
   <!-- ═══ NAVIGAZIONE SEZIONI ═══ -->
   <nav class="au-nav">
-    <button class="au-nav-btn active" onclick="auSezione('articoli', this)">Articoli</button>
+    <button class="au-nav-btn active" onclick="auSezione('home', this)">Home</button>
+    <button class="au-nav-btn" onclick="auSezione('articoli', this)">Articoli</button>
     <button class="au-nav-btn" onclick="auSezione('scritti', this)">Poesie & Testi</button>
     <button class="au-nav-btn" onclick="auSezione('tesi', this)">Tesi</button>
   </nav>
 
+  <!-- ═══ SEZIONE HOME ═══ -->
+  <div class="au-section" id="au-sec-home">
+    <div class="au-home-grid" id="au-home-grid"></div>
+  </div>
+
   <!-- ═══ SEZIONE ARTICOLI ═══ -->
-  <div class="au-section" id="au-sec-articoli">
+  <div class="au-section" id="au-sec-articoli" data-hidden="true">
 
   <!-- filtri -->
   <div class="au-filters">
@@ -543,6 +606,56 @@
 </div>
 
 <script>
+  // ── Home: ultimi 3 contenuti ──
+  (function() {
+    function esc(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    var items = [];
+    document.querySelectorAll('#au-sec-articoli .au-article').forEach(function(el) {
+      items.push({ kind: 'article', el: el });
+    });
+    document.querySelectorAll('#au-sec-scritti .au-poem').forEach(function(el) {
+      items.push({ kind: 'poem', el: el });
+    });
+    document.querySelectorAll('#au-sec-tesi .au-poem').forEach(function(el) {
+      items.push({ kind: 'poem', el: el });
+    });
+
+    var grid = document.getElementById('au-home-grid');
+    items.slice(0, 3).forEach(function(item) {
+      var card = document.createElement('div');
+      card.className = 'au-home-card';
+      var inner = '';
+
+      if (item.kind === 'article') {
+        var src = item.el.querySelector('.au-source');
+        var ttl = item.el.querySelector('.au-article-title');
+        var dsc = item.el.querySelector('.au-article-desc');
+        var dt  = item.el.querySelector('.au-date');
+        var lnk = item.el.querySelector('.au-link');
+        if (src) inner += '<p class="au-source">' + esc(src.textContent) + '</p>';
+        if (ttl) inner += '<p class="au-home-title">' + esc(ttl.textContent) + '</p>';
+        if (dsc) inner += '<p class="au-home-desc">'  + esc(dsc.textContent) + '</p>';
+        if (dt)  inner += '<p class="au-home-date">'  + esc(dt.innerText.trim().replace(/\n/, ' ')) + '</p>';
+        if (lnk) inner += '<a href="' + esc(lnk.getAttribute('href')) + '" class="au-link" target="_blank" rel="noopener">Leggi →</a>';
+      } else {
+        var typ = item.el.querySelector('.au-poem-type');
+        var ttl = item.el.querySelector('.au-poem-title');
+        var exc = item.el.querySelector('.au-poem-excerpt');
+        var lnk = item.el.querySelector('.au-poem-link');
+        if (typ) inner += '<p class="au-poem-type">' + esc(typ.textContent) + '</p>';
+        if (ttl) inner += '<p class="au-home-title">' + esc(ttl.textContent) + '</p>';
+        if (exc) inner += '<p class="au-home-desc">'  + esc(exc.textContent) + '</p>';
+        if (lnk) inner += '<a href="' + esc(lnk.getAttribute('href')) + '" class="au-poem-link" target="_blank" rel="noopener">Leggi →</a>';
+      }
+
+      card.innerHTML = inner;
+      grid.appendChild(card);
+    });
+  })();
+
   function auSezione(id, btn) {
     document.querySelectorAll('.au-nav-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
