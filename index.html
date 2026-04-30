@@ -394,9 +394,42 @@
       color: rgba(255,255,255,0.1);
       text-transform: uppercase;
     }
+
+    /* ── Orologio da taschino ── */
+    .au-corner-trigger {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 185px;
+      height: 185px;
+      z-index: 999;
+    }
+
+    .au-pocket-watch {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 160px;
+      height: auto;
+      opacity: 0;
+      transform: scale(0.6) rotate(-20deg);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.7)) drop-shadow(0 0 14px rgba(100,220,180,0.12));
+    }
+
+    .au-corner-trigger:hover .au-pocket-watch {
+      opacity: 1;
+      transform: scale(1) rotate(3deg);
+    }
   </style>
 </head>
 <body>
+
+<!-- ═══ OROLOGIO DA TASCHINO ═══ -->
+<div class="au-corner-trigger">
+  <img class="au-pocket-watch" src="orologio.svg" alt="Orologio da taschino"/>
+</div>
 
 <!-- ═══ AURORA BG ═══ -->
 <div class="au-bg">
