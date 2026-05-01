@@ -132,6 +132,7 @@
     }
 
     .au-name {
+      user-select: none;
       font-size: clamp(36px, 7vw, 58px);
       font-weight: 200;
       line-height: 1.1;
@@ -423,6 +424,79 @@
       transform: scale(1) rotate(3deg);
     }
 
+    /* ── Overlay filosofo ── */
+    .au-filosofo-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,8,16,0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 900;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .au-filosofo-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .au-filosofo-card {
+      text-align: center;
+      transform: scale(0.88) translateY(12px);
+      transition: transform 0.4s ease;
+    }
+
+    .au-filosofo-overlay.visible .au-filosofo-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .au-filosofo-img {
+      width: 190px;
+      height: auto;
+      filter: drop-shadow(0 0 28px rgba(100,220,180,0.12));
+    }
+
+    .au-filosofo-quote {
+      margin-top: 1.75rem;
+      font-size: 15px;
+      font-weight: 200;
+      font-style: italic;
+      color: rgba(220,235,250,0.82);
+      letter-spacing: 0.02em;
+      line-height: 1.65;
+      max-width: 340px;
+    }
+
+    .au-filosofo-attr {
+      margin-top: 0.6rem;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(100,220,180,0.5);
+    }
+
+    .au-filosofo-dismiss {
+      margin-top: 2.5rem;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(180,200,230,0.18);
+    }
+
+    body.theme-light .au-filosofo-overlay {
+      background: rgba(210,185,140,0.9);
+    }
+    body.theme-light .au-filosofo-quote { color: rgba(24,12,3,0.82); }
+    body.theme-light .au-filosofo-attr  { color: rgba(14,116,86,0.65); }
+    body.theme-light .au-filosofo-dismiss { color: rgba(60,38,14,0.28); }
+
     /* ── Toggle tema ── */
     .au-label-row {
       display: flex;
@@ -559,6 +633,15 @@
   </style>
 </head>
 <body>
+
+<!-- ═══ OVERLAY FILOSOFO ═══ -->
+<div class="au-filosofo-overlay" id="au-filosofo-overlay">
+  <div class="au-filosofo-card">
+    <p class="au-filosofo-quote" id="au-filosofo-quote"></p>
+    <p class="au-filosofo-attr"  id="au-filosofo-attr"></p>
+    <p class="au-filosofo-dismiss">— clicca per chiudere —</p>
+  </div>
+</div>
 
 <!-- ═══ OROLOGIO DA TASCHINO ═══ -->
 <div class="au-corner-trigger">
@@ -834,6 +917,38 @@
     });
     document.getElementById('au-sec-' + id).removeAttribute('data-hidden');
   }
+
+  // ── Filosofo (doppio click su titolo) ──
+  (function() {
+    var citazioni = [
+      { testo: '«Solo perché o Leonidas sa suonare divinamente da immobile egli è o theos.»', autore: 'Vinicio Capossela' },
+      { testo: '«Il linguaggio è uno strumento. I suoi concetti sono strumenti.»', autore: 'Ludwig Wittgenstein' },
+      { testo: "«Le relazioni di produzione e l'ordine sociopolitico plasmato" +
+                " da quelle relazioni determinano l'intera gamma dei contatti verbali tra le persone," +
+                " tutte le forme e i mezzi delle loro comunicazioni verbali - al lavoro, la vita politica," +
+                " nella creatività ideologica.»", autore: 'Valentin Vološinov' },
+      { testo: '«E se il denaro è il vincolo che mi unisce alla vita umana, ' +
+                'che unisce me alla società, che mi collega con la natura e gli uomini, ' +
+                'non è il denaro forse il vincolo di tutti i vincoli?.»', autore: 'Karl Marx' },
+      { testo: "«L'etica è trascendentale.»", autore: 'Ludwig Wittgenstein' },
+      { testo: "«Una volta che tu sappia che cosa la parola designa, " +
+                "la comprendi, ne conosci l'intiera applicazione.»", autore: 'Ludwig Wittgenstein' },
+    ];
+    var overlay = document.getElementById('au-filosofo-overlay');
+    var quoteEl = document.getElementById('au-filosofo-quote');
+    var attrEl  = document.getElementById('au-filosofo-attr');
+
+    document.querySelector('.au-name').addEventListener('dblclick', function() {
+      var c = citazioni[Math.floor(Math.random() * citazioni.length)];
+      quoteEl.textContent = c.testo;
+      attrEl.textContent  = '— ' + c.autore;
+      overlay.classList.add('visible');
+    });
+
+    overlay.addEventListener('click', function() {
+      overlay.classList.remove('visible');
+    });
+  })();
 
   // ── Toggle tema ──
   (function() {
