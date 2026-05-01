@@ -25,10 +25,7 @@
       display: flex;
       gap: 0;
       margin-bottom: 0;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
     }
-
-    body.theme-light .au-nav { border-bottom-color: rgba(80,50,10,0.1); }
 
     .au-nav-btn {
       font-family: 'Raleway', sans-serif;
@@ -116,6 +113,7 @@
     .au-wrap {
       position: relative;
       z-index: 1;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 4rem 2rem 6rem;
     }
@@ -387,48 +385,21 @@
       .au-home-card:first-child { grid-column: auto; }
     }
 
-    /* ── Contenitore centrale unico ── */
-    .au-center {
-      max-width: 860px;
-      margin: 0 auto;
-    }
-
-    /* ── Layout a due colonne ── */
-    .au-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: start;
-      margin-top: 2rem;
-    }
-
-    /* Quando la sidebar è nascosta, una sola colonna centrata */
-    .au-layout.no-sidebar {
-      grid-template-columns: 1fr;
+    /* ── Area superiore centrata ── */
+    .au-top-area {
       max-width: 680px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .au-layout.no-sidebar .au-giornale-col {
-      display: none;
-    }
-
-    /* ── Colonna Giornale (sidebar) ── */
-    .au-giornale-col {
-      position: sticky;
-      top: 2rem;
-      border-right: 1px solid rgba(255,255,255,0.05);
-      padding-right: 2rem;
-      padding-top: 2.5rem;
+      margin: 0 auto;
     }
 
     /* ── Contenuto principale ── */
     .au-main {
+      max-width: 680px;
+      margin: 0 auto;
+      border-top: 1px solid rgba(255,255,255,0.07);
       padding-top: 2.5rem;
     }
 
-    body.theme-light .au-main { }
+    body.theme-light .au-main { border-top-color: rgba(80,50,10,0.1); }
 
     /* ── Preview giornale in home ── */
     .au-giornale-preview {
@@ -516,17 +487,10 @@
     body.theme-light .au-giornale-entry-title { color: rgba(24,12,3,0.88); }
     body.theme-light .au-giornale-entry-text { color: rgba(60,38,14,0.58); }
 
-    body.theme-light .au-giornale-col {
-      border-right-color: rgba(80,50,10,0.08);
-    }
-
     @media (max-width: 860px) {
       .au-layout {
         grid-template-columns: 1fr;
         gap: 0;
-      }
-      .au-layout.no-sidebar {
-        max-width: 100%;
       }
       .au-giornale-col {
         position: static;
@@ -812,8 +776,8 @@
 </div>
 
 <div class="au-wrap">
-<div class="au-center">
 
+  <div class="au-top-area">
   <!-- ═══ HEADER ═══ -->
   <header class="au-header">
     <div class="au-label-row">
@@ -833,8 +797,9 @@
     <button class="au-nav-btn" onclick="auSezione('giornale', this)">Giornale</button>
     <button class="au-nav-btn" onclick="auSezione('appunti', this)">Appunti</button>
   </nav>
+  </div>
 
-<div class="au-layout" id="au-layout">
+<div class="au-layout">
 
 <!-- ═══ COLONNA SINISTRA: GIORNALE ═══ -->
 <aside class="au-giornale-col" id="au-giornale-col">
@@ -891,7 +856,7 @@
     <div>
       <p class="au-source">Capibara</p>
       <p class="au-article-title">Una riforma di lungo percorso</p>
-      <p class="au-article-desc">D'Orsi al CPA: la riforma della magistratura è l'ultimo atto della lotta di classe dall'alto verso il basso.</p>
+      <p class="au-article-desc">D’Orsi al CPA: la riforma della magistratura è l'ultimo atto della lotta di classe dall'alto verso il basso.</p>
     </div>
     <div class="au-right">
       <p class="au-date">Marzo<br>2026</p>
@@ -902,8 +867,8 @@
   <div class="au-article" data-source="capibara">
     <div>
       <p class="au-source">Capibara</p>
-      <p class="au-article-title">Etica dell'inflazione</p>
-      <p class="au-article-desc">Il denaro come confine ontologico: a ogni aumento dei prezzi segue una deflazione dell'essere.</p>
+      <p class="au-article-title">Etica dell’inflazione</p>
+      <p class="au-article-desc">Il denaro come confine ontologico: a ogni aumento dei prezzi segue una deflazione dell’essere.</p>
     </div>
     <div class="au-right">
       <p class="au-date">Febbraio<br>2026</p>
@@ -961,7 +926,7 @@
   <div class="au-article" data-source="marxismo-oggi">
     <div>
       <p class="au-source">Marxismo Oggi</p>
-      <p class="au-article-title">Intelligenza Artificiale: un'altra mente nel mercato?</p>
+      <p class="au-article-title">Intelligenza Artificiale: un’altra mente nel mercato?</p>
       <!--<p class="au-article-desc">Breve descrizione o sottotitolo dell'articolo. Una o due righe che ne sintetizzano il contenuto.</p>-->
     </div>
     <div class="au-right">
@@ -1022,7 +987,7 @@
         <!--<span class="au-poem-date">Mar 2026</span>-->
       </div>
       <p class="au-poem-title">Grounding and Truth-making: A critical discussion of neo-Aristotelianism</p>
-      <p class="au-poem-excerpt">Neo-Aristotelianism is a philosophical framework that has increasingly been developed in the last two decades. Its central topic is the employment of the notions of grounding, essence and truth-making in order to explain ontological dependence and truth. This thesis is about the main aspects and problems of these notions. The chapters of which it is composed can be divided into two parts. The first two are about the meta-metaphysical framework. We will first introduce Carnapian deflationism and neo-Aristotelianism. The aim is to make their main features explicit and to explain how Carnapian deflationism can deal better with the role of existence and the scope of metaphysics. In particular, we will focus on Thomasson's easy ontology. The other two chapters are about how the notions of essence, grounding and truth-making are employed. In the third chapter we will introduce grounding and we will focus on Kit Fine's theory in order to explain its role. We will then deal with some of the problems that have made other philosophers doubt about the feasibility of Fine's approach. In the fourth chapter we will explain what truth-making is, with particular attention to Kit Fine's and Mark Jago's theories. Again, we will focus on some of the most important problem these approaches meet. During the whole path through the four chapters, Thomasson's easy ontology will help us understand how deflationism can be employed to criticize the topics we will deal with.</p>
+      <p class="au-poem-excerpt">Neo-Aristotelianism is a philosophical framework that has increasingly been developed in the last two decades. Its central topic is the employment of the notions of grounding, essence and truth-making in order to explain ontological dependence and truth. This thesis is about the main aspects and problems of these notions. The chapters of which it is composed can be divided into two parts. The first two are about the meta-metaphysical framework. We will first introduce Carnapian deflationism and neo-Aristotelianism. The aim is to make their main features explicit and to explain how Carnapian deflationism can deal better with the role of existence and the scope of metaphysics. In particular, we will focus on Thomasson’s easy ontology. The other two chapters are about how the notions of essence, grounding and truth-making are employed. In the third chapter we will introduce grounding and we will focus on Kit Fine’s theory in order to explain its role. We will then deal with some of the problems that have made other philosophers doubt about the feasibility of Fine’s approach. In the fourth chapter we will explain what truth-making is, with particular attention to Kit Fine’s and Mark Jago’s theories. Again, we will focus on some of the most important problem these approaches meet. During the whole path through the four chapters, Thomasson’s easy ontology will help us understand how deflationism can be employed to criticize the topics we will deal with.</p>
     </div>
 
   </div><!-- /au-sec-tesi -->
@@ -1039,7 +1004,6 @@
 
 </div><!-- /au-main -->
 </div><!-- /au-layout -->
-</div><!-- /au-center -->
 </div><!-- /au-wrap -->
 
 <script>
@@ -1093,7 +1057,6 @@
     });
   })();
 
-  // ── Navigazione sezioni ──
   function auSezione(id, btn) {
     document.querySelectorAll('.au-nav-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
@@ -1101,15 +1064,6 @@
       s.setAttribute('data-hidden', 'true');
     });
     document.getElementById('au-sec-' + id).removeAttribute('data-hidden');
-
-    // Mostra la sidebar del giornale solo in home
-    var layout = document.getElementById('au-layout');
-    if (id === 'home') {
-      layout.classList.remove('no-sidebar');
-    } else {
-      layout.classList.add('no-sidebar');
-    }
-
     if (id === 'giornale' && window.attivaGiornale) window.attivaGiornale();
     if (id === 'appunti'  && window.attivaAppunti)  window.attivaAppunti();
   }
