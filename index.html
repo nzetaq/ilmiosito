@@ -264,8 +264,42 @@
 
     .au-article[data-hidden="true"] { display: none; }
 
-    /* ── Sezione nascosta ── */
-    .au-section[data-hidden="true"] { display: none; }
+    /* ── Sezioni: transizione slide laterale ── */
+    .au-section {
+      display: none;
+      opacity: 0;
+    }
+
+    .au-section.is-active {
+      display: block;
+      animation: section-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .au-section.is-leaving {
+      display: block;
+      animation: section-out 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+      pointer-events: none;
+    }
+
+    @keyframes section-in {
+      from { opacity: 0; transform: translateX(28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes section-out {
+      from { opacity: 1; transform: translateX(0); }
+      to   { opacity: 0; transform: translateX(-20px); }
+    }
+
+    /* Sidebar: fade in/out separato ── */
+    .au-giornale-col {
+      transition: opacity 0.3s ease;
+    }
+
+    .au-giornale-col.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
 
     /* ── Poesia ── */
     .au-poem {
@@ -391,6 +425,12 @@
     .au-center {
       max-width: 860px;
       margin: 0 auto;
+      transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Home più larga */
+    .au-center--home {
+      max-width: 1100px;
     }
 
     /* ── Layout a due colonne ── */
@@ -812,7 +852,7 @@
 </div>
 
 <div class="au-wrap">
-<div class="au-center">
+<div class="au-center au-center--home" id="au-center">
 
   <!-- ═══ HEADER ═══ -->
   <header class="au-header">
@@ -852,7 +892,7 @@
   </div>
 
   <!-- ═══ SEZIONE ARTICOLI ═══ -->
-  <div class="au-section" id="au-sec-articoli" data-hidden="true">
+  <div class="au-section" id="au-sec-articoli">
 
   <!-- filtri -->
   <div class="au-filters">
@@ -973,7 +1013,7 @@
   </div><!-- /au-sec-articoli -->
 
   <!-- ═══ SEZIONE POESIE & TESTI ═══ -->
-  <div class="au-section" id="au-sec-scritti" data-hidden="true">
+  <div class="au-section" id="au-sec-scritti">
 
     <p class="au-year">Premio Alberoandronico</p>
     <a href="https://alberoandronico.net/albo-doro/" class="au-link" target="_blank" rel="noopener">Vai all'Albo d'oro →</a>
@@ -1011,7 +1051,7 @@
   </div><!-- /au-sec-scritti -->
 
   <!-- ═══ SEZIONE TESI ═══ -->
-  <div class="au-section" id="au-sec-tesi" data-hidden="true">
+  <div class="au-section" id="au-sec-tesi">
 
     <p class="au-year">Tesi di Laurea Magistrale</p>
     <a href="https://www.academia.edu/145003893/Grounding_and_Truth_making_A_critical_discussion_of_neo_Aristotelianism" class="au-link" target="_blank" rel="noopener">Link al testo su Academia →</a>
@@ -1028,12 +1068,12 @@
   </div><!-- /au-sec-tesi -->
 
   <!-- ═══ SEZIONE GIORNALE ═══ -->
-  <div class="au-section" id="au-sec-giornale" data-hidden="true">
+  <div class="au-section" id="au-sec-giornale">
     <div id="au-giornale-list"></div>
   </div><!-- /au-sec-giornale -->
 
   <!-- ═══ SEZIONE APPUNTI ═══ -->
-  <div class="au-section" id="au-sec-appunti" data-hidden="true">
+  <div class="au-section" id="au-sec-appunti">
     <div id="au-appunti-list"></div>
   </div><!-- /au-sec-appunti -->
 
@@ -1094,25 +1134,61 @@
   })();
 
   // ── Navigazione sezioni ──
+  var _sezioneCorrente = 'home';
+
   function auSezione(id, btn) {
+    if (id === _sezioneCorrente) return;
+
     document.querySelectorAll('.au-nav-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
-    document.querySelectorAll('.au-section').forEach(function(s) {
-      s.setAttribute('data-hidden', 'true');
-    });
-    document.getElementById('au-sec-' + id).removeAttribute('data-hidden');
 
-    // Mostra la sidebar del giornale solo in home
     var layout = document.getElementById('au-layout');
+    var center = document.getElementById('au-center');
+    var sidebar = document.getElementById('au-giornale-col');
+
+    // Sezione uscente
+    var vecchia = document.getElementById('au-sec-' + _sezioneCorrente);
+    if (vecchia) {
+      vecchia.classList.remove('is-active');
+      vecchia.classList.add('is-leaving');
+      vecchia.addEventListener('animationend', function handler() {
+        vecchia.classList.remove('is-leaving');
+        vecchia.style.display = 'none';
+        vecchia.removeEventListener('animationend', handler);
+      });
+    }
+
+    _sezioneCorrente = id;
+
+    // Sidebar
     if (id === 'home') {
       layout.classList.remove('no-sidebar');
+      center.classList.add('au-center--home');
+      sidebar.classList.remove('is-hidden');
+      if (window.attivaGiornale) window.attivaGiornale();
     } else {
+      sidebar.classList.add('is-hidden');
       layout.classList.add('no-sidebar');
+      center.classList.remove('au-center--home');
     }
+
+    // Sezione entrante
+    var nuova = document.getElementById('au-sec-' + id);
+    nuova.style.display = 'block';
+    // forza reflow per ripartire l'animazione
+    nuova.offsetHeight;
+    nuova.classList.add('is-active');
 
     if (id === 'giornale' && window.attivaGiornale) window.attivaGiornale();
     if (id === 'appunti'  && window.attivaAppunti)  window.attivaAppunti();
   }
+
+  // Inizializza home come sezione attiva
+  (function() {
+    var home = document.getElementById('au-sec-home');
+    home.style.display = 'block';
+    home.classList.add('is-active');
+  })();
 
   // ── Filosofo (doppio click su titolo) ──
   (function() {
