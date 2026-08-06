@@ -1,3 +1,8 @@
+{#- Prefisso degli asset. Vuoto per la home, che sta alla radice: i
+    percorsi relativi valgono sia su www.nzetaq.it sia sull'indirizzo
+    di ripiego nzetaq.github.io/ilmiosito/. La pagina 404, servita a
+    qualsiasi profondità, ha invece bisogno di percorsi assoluti. -#}
+{%- set base = radice | default('', true) -%}
 <!DOCTYPE html>
 <html lang="{{ site.lingua }}">
 <head>
@@ -22,7 +27,7 @@
 
   <meta name="theme-color" content="#050810" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f0e2be" media="(prefers-color-scheme: light)">
-  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="{{ base }}assets/img/favicon.svg" type="image/svg+xml">
 
   {#- Applica il tema salvato prima del primo disegno, così chi ha scelto
      il tema chiaro non vede lampeggiare quello scuro. #}
@@ -38,8 +43,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300&display=swap">
 
-  <link rel="stylesheet" href="/assets/css/style.css">
-  <script type="module" src="/assets/js/main.js"></script>
+  <link rel="stylesheet" href="{{ base }}assets/css/style.css">
+  <script type="module" src="{{ base }}assets/js/main.js"></script>
 
   {#- Senza JavaScript il router non può nascondere nulla: si mostra
      tutto, così la pagina resta leggibile e navigabile per intero. #}

@@ -20,7 +20,11 @@ function scomponi(data) {
 export default function (eleventyConfig) {
   // ── Copia diretta degli asset statici ──
   eleventyConfig.addPassthroughCopy({ 'src/assets': 'assets' });
-  eleventyConfig.addPassthroughCopy({ 'src/CNAME': 'CNAME' });
+
+  // Il CNAME resta nella radice del repository: è da lì che GitHub
+  // legge il dominio personalizzato. Di qui viene solo copiato nel
+  // sito compilato, perché serve anche dentro l'artefatto pubblicato.
+  eleventyConfig.addPassthroughCopy({ CNAME: 'CNAME' });
 
   eleventyConfig.addWatchTarget('src/assets/');
 
