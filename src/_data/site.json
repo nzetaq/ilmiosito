@@ -1,0 +1,17 @@
+{
+  "titolo": "NZQ",
+  "nome": "N · Z · Q",
+  "url": "https://www.nzetaq.it",
+  "lingua": "it",
+  "motto": "Raccogli - Cataloga - Preserva",
+  "bio": "Molti requisiti si ergono dinnanzi a una pratica esistenziale sufficientemente ben condotta.",
+  "descrizione": "Scritti di filosofia di N·Z·Q: articoli su marxismo, linguaggio e intelligenza artificiale, poesie, tesi di laurea, giornale e appunti.",
+  "sezioni": [
+    { "id": "home", "etichetta": "Home" },
+    { "id": "articoli", "etichetta": "Articoli" },
+    { "id": "scritti", "etichetta": "Poesie & Testi" },
+    { "id": "tesi", "etichetta": "Tesi" },
+    { "id": "giornale", "etichetta": "Giornale" },
+    { "id": "appunti", "etichetta": "Appunti" }
+  ]
+}

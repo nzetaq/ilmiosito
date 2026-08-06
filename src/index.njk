@@ -1,0 +1,202 @@
+---
+layout: layouts/base.njk
+permalink: /index.html
+---
+{%- set articoli = collections.articoli | ordina('ordine', true) -%}
+{%- set scritti = collections.scritti | ordina('ordine') -%}
+{%- set tesi = collections.tesi | ordina('ordine') -%}
+{%- set giornale = collections.giornale | ordina('data', true) -%}
+{%- set appunti = collections.appunti | ordina('data', true) -%}
+{%- set ultimaGiornale = giornale | first -%}
+
+<a class="au-salta" href="#contenuto">Salta al contenuto</a>
+
+<!-- ═══ OVERLAY FILOSOFO ═══ -->
+<dialog class="au-filosofo-overlay" id="au-filosofo-overlay" aria-label="Citazione">
+  <div class="au-filosofo-card">
+    <p class="au-filosofo-quote" id="au-filosofo-quote"></p>
+    <p class="au-filosofo-attr" id="au-filosofo-attr"></p>
+    <p class="au-filosofo-dismiss">— clicca per chiudere —</p>
+  </div>
+</dialog>
+
+<!-- ═══ OROLOGIO DA TASCHINO ═══ -->
+<div class="au-corner-trigger" aria-hidden="true">
+  <img class="au-pocket-watch" src="/assets/img/orologio.svg" alt="" width="160" height="160">
+</div>
+
+<!-- ═══ AURORA DI SFONDO ═══ -->
+<div class="au-bg" aria-hidden="true">
+  <div class="au-stars"></div>
+  <div class="au-layer"></div>
+  <div class="au-layer-2"></div>
+</div>
+
+<div class="au-wrap">
+<div class="au-center au-center--home" id="au-center">
+
+  <!-- ═══ INTESTAZIONE ═══ -->
+  <header class="au-header">
+    <div class="au-label-row">
+      <p class="au-label">{{ site.motto }}</p>
+      <button class="au-theme-toggle" id="au-theme-toggle" type="button">Chiaro</button>
+    </div>
+    <h1 class="au-name">{{ site.nome }}</h1>
+    <p class="au-bio">{{ site.bio }}</p>
+  </header>
+
+  <!-- ═══ NAVIGAZIONE SEZIONI ═══ -->
+  <nav class="au-nav" id="au-nav" aria-label="Sezioni del sito">
+    {%- for sezione in site.sezioni %}
+    <a class="au-nav-btn{% if loop.first %} active{% endif %}"
+       href="#{{ sezione.id }}"
+       data-sez="{{ sezione.id }}"
+       {% if loop.first %}aria-current="page"{% endif %}>{{ sezione.etichetta }}</a>
+    {%- endfor %}
+  </nav>
+
+<div class="au-layout" id="au-layout">
+
+  <!-- ═══ COLONNA SINISTRA: ULTIMA PAGINA DI GIORNALE ═══ -->
+  <aside class="au-giornale-col" id="au-giornale-col" aria-label="Ultima pagina di giornale">
+    <p class="au-gp-label">Giornale</p>
+    {%- if ultimaGiornale %}
+    <p class="au-gp-date">{{ ultimaGiornale.data.data | dataEstesa }}</p>
+    <div class="au-gp-text">{{ ultimaGiornale.templateContent | safe }}</div>
+    {%- endif %}
+  </aside>
+
+  <!-- ═══ COLONNA DESTRA: CONTENUTO PRINCIPALE ═══ -->
+  <main class="au-main" id="contenuto">
+
+    <!-- ═══ HOME ═══ -->
+    <section class="au-section" id="sec-home" aria-label="Home">
+      <div class="au-home-grid">
+        {%- for voce in collections.recenti %}
+        <article class="au-home-card">
+          {%- if voce.data.tipoScheda == 'articolo' %}
+          <p class="au-source">{{ voce.data.fonte }}</p>
+          <h2 class="au-home-title">{{ voce.data.titolo }}</h2>
+          {%- if voce.templateContent | trim %}
+          <div class="au-home-desc">{{ voce.templateContent | safe }}</div>
+          {%- endif %}
+          <p class="au-home-date">{{ voce.data.data | mese }} {{ voce.data.data | anno }}</p>
+          <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener">Leggi →</a>
+          {%- else %}
+          <p class="au-poem-type">{{ voce.data.tipo }}</p>
+          <h2 class="au-home-title">{{ voce.data.titolo }}</h2>
+          {%- if voce.templateContent | trim %}
+          <div class="au-home-desc">{{ voce.templateContent | safe }}</div>
+          {%- endif %}
+          {%- if voce.data.url %}
+          <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
+          {%- endif %}
+          {%- endif %}
+        </article>
+        {%- endfor %}
+      </div>
+    </section>
+
+    <!-- ═══ ARTICOLI ═══ -->
+    <section class="au-section" id="sec-articoli" aria-label="Articoli">
+      <div class="au-filters" id="au-filters" role="group" aria-label="Filtra per fonte">
+        <button class="au-filter-btn active" type="button" data-fonte="tutti" aria-pressed="true">Tutti</button>
+        {%- for fonte in articoli | fonti %}
+        <button class="au-filter-btn" type="button" data-fonte="{{ fonte.id }}" aria-pressed="false">{{ fonte.nome }}</button>
+        {%- endfor %}
+      </div>
+
+      {%- for gruppo in articoli | perAnno %}
+      <div class="au-anno-gruppo">
+        <h2 class="au-year">{{ gruppo.anno }}</h2>
+        {%- for voce in gruppo.voci %}
+        <article class="au-article" data-source="{{ voce.data.fonteId }}">
+          <div>
+            <p class="au-source">{{ voce.data.fonte }}</p>
+            <h3 class="au-article-title">{{ voce.data.titolo }}</h3>
+            {%- if voce.templateContent | trim %}
+            <div class="au-article-desc">{{ voce.templateContent | safe }}</div>
+            {%- endif %}
+          </div>
+          <div class="au-right">
+            <p class="au-date">{{ voce.data.data | mese }}<br>{{ voce.data.data | anno }}</p>
+            <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener">Leggi →</a>
+          </div>
+        </article>
+        {%- endfor %}
+      </div>
+      {%- endfor %}
+    </section>
+
+    <!-- ═══ POESIE & TESTI ═══ -->
+    <section class="au-section" id="sec-scritti" aria-label="Poesie e testi">
+      {%- for gruppo in scritti | perGruppo %}
+      <h2 class="au-year">{{ gruppo.nome }}</h2>
+      <a href="{{ gruppo.url }}" class="au-link" target="_blank" rel="noopener">{{ gruppo.linkTesto }}</a>
+      {%- for voce in gruppo.voci %}
+      <article class="au-poem">
+        <div class="au-poem-meta">
+          <span class="au-poem-type">{{ voce.data.tipo }}</span>
+          {%- if voce.data.data %}
+          <span class="au-poem-date">{{ voce.data.data | dataEstesa }}</span>
+          {%- endif %}
+        </div>
+        <h3 class="au-poem-title">{{ voce.data.titolo }}</h3>
+        <div class="au-poem-excerpt">{{ voce.templateContent | safe }}</div>
+        {%- if voce.data.url %}
+        <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
+        {%- endif %}
+      </article>
+      {%- endfor %}
+      {%- endfor %}
+    </section>
+
+    <!-- ═══ TESI ═══ -->
+    <section class="au-section" id="sec-tesi" aria-label="Tesi">
+      {%- for gruppo in tesi | perGruppo %}
+      <h2 class="au-year">{{ gruppo.nome }}</h2>
+      <a href="{{ gruppo.url }}" class="au-link" target="_blank" rel="noopener">{{ gruppo.linkTesto }}</a>
+      {%- for voce in gruppo.voci %}
+      <article class="au-poem">
+        <div class="au-poem-meta">
+          <span class="au-poem-type">{{ voce.data.tipo }}</span>
+          {%- if voce.data.data %}
+          <span class="au-poem-date">{{ voce.data.data | dataEstesa }}</span>
+          {%- endif %}
+        </div>
+        <h3 class="au-poem-title">{{ voce.data.titolo }}</h3>
+        <div class="au-poem-excerpt">{{ voce.templateContent | safe }}</div>
+        {%- if voce.data.url %}
+        <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
+        {%- endif %}
+      </article>
+      {%- endfor %}
+      {%- endfor %}
+    </section>
+
+    <!-- ═══ GIORNALE ═══ -->
+    <section class="au-section" id="sec-giornale" aria-label="Giornale">
+      {%- for voce in giornale %}
+      <article class="au-giornale-entry">
+        <p class="au-giornale-entry-date">{{ voce.data.data | dataEstesa }}</p>
+        <h2 class="au-giornale-entry-title">{{ voce.data.titolo }}</h2>
+        <div class="au-giornale-entry-text">{{ voce.templateContent | safe }}</div>
+      </article>
+      {%- endfor %}
+    </section>
+
+    <!-- ═══ APPUNTI ═══ -->
+    <section class="au-section" id="sec-appunti" aria-label="Appunti">
+      {%- for voce in appunti %}
+      <article class="au-giornale-entry">
+        <p class="au-giornale-entry-date">{{ voce.data.data | dataEstesa }}</p>
+        <h2 class="au-giornale-entry-title">{{ voce.data.titolo }}</h2>
+        <div class="au-giornale-entry-text">{{ voce.templateContent | safe }}</div>
+      </article>
+      {%- endfor %}
+    </section>
+
+  </main>
+</div><!-- /au-layout -->
+</div><!-- /au-center -->
+</div><!-- /au-wrap -->

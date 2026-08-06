@@ -1,0 +1,916 @@
+/* ═══════════════════════════════════════════════════════════════
+   NZQ — foglio di stile unico
+   I colori sono definiti una sola volta come variabili: il tema
+   chiaro si limita a ridichiararle, senza duplicare le regole.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Tavolozza: tema scuro (predefinito) ── */
+:root {
+  color-scheme: dark;
+
+  --bg: #050810;
+  --testo: rgba(220, 235, 250, 0.85);
+
+  /* Titoli */
+  --titolo-forte: rgba(230, 245, 255, 0.95);
+  --titolo-em: rgba(180, 220, 255, 0.7);
+  --titolo: rgba(220, 235, 250, 0.9);
+  --titolo-voce: rgba(220, 235, 250, 0.88);
+
+  /* Testi secondari */
+  --bio: rgba(180, 200, 230, 0.5);
+  --descrizione: rgba(160, 180, 210, 0.45);
+  --estratto: rgba(160, 180, 210, 0.5);
+  --meta: rgba(160, 180, 210, 0.35);
+  --gp-meta: rgba(160, 180, 210, 0.38);
+  --prosa: rgba(190, 210, 235, 0.62);
+  --prosa-voce: rgba(190, 210, 235, 0.58);
+
+  /* Accento verde */
+  --etichetta: rgba(100, 220, 180, 0.7);
+  --accento: rgba(100, 220, 180, 0.9);
+  --fonte: rgba(100, 220, 180, 0.5);
+  --link: rgba(100, 220, 180, 0.7);
+  --link-hover: rgba(100, 220, 180, 1);
+
+  /* Accento viola e blu */
+  --viola: rgba(180, 120, 220, 0.6);
+  --viola-link: rgba(180, 120, 220, 0.7);
+  --viola-link-hover: rgba(180, 120, 220, 1);
+  --anno: rgba(100, 180, 220, 0.7);
+
+  /* Navigazione */
+  --nav: rgba(180, 200, 230, 0.35);
+  --nav-hover: rgba(180, 200, 230, 0.65);
+  --nav-attivo-bordo: rgba(100, 220, 180, 0.5);
+
+  /* Filtri */
+  --filtro: rgba(180, 200, 230, 0.5);
+  --filtro-hover: rgba(220, 240, 255, 0.8);
+  --filtro-sfondo: rgba(255, 255, 255, 0.03);
+  --filtro-bordo: rgba(255, 255, 255, 0.08);
+  --filtro-bordo-hover: rgba(255, 255, 255, 0.15);
+  --filtro-attivo-bordo: rgba(100, 220, 180, 0.3);
+  --filtro-attivo-sfondo: rgba(100, 220, 180, 0.06);
+
+  /* Schede della home */
+  --scheda-sfondo: rgba(255, 255, 255, 0.018);
+  --scheda-sfondo-hover: rgba(255, 255, 255, 0.03);
+  --scheda-bordo: rgba(255, 255, 255, 0.06);
+  --scheda-bordo-hover: rgba(255, 255, 255, 0.13);
+
+  /* Separatori */
+  --filo: rgba(255, 255, 255, 0.05);
+  --filo-sezione: rgba(255, 255, 255, 0.05);
+  --filo-forte: rgba(255, 255, 255, 0.07);
+
+  /* Interruttore del tema */
+  --toggle: rgba(180, 200, 230, 0.3);
+  --toggle-hover: rgba(180, 200, 230, 0.65);
+  --toggle-bordo: rgba(255, 255, 255, 0.07);
+  --toggle-bordo-hover: rgba(255, 255, 255, 0.15);
+
+  /* Overlay della citazione */
+  --overlay: rgba(5, 8, 16, 0.88);
+  --citazione: rgba(220, 235, 250, 0.82);
+  --citazione-attr: rgba(100, 220, 180, 0.5);
+  --citazione-chiudi: rgba(180, 200, 230, 0.18);
+
+  /* Sfondo animato */
+  --stelle-opacita: 1;
+  --aurora-1:
+    radial-gradient(ellipse 120% 50% at 30% -10%,
+      rgba(32, 178, 100, 0.18) 0%, rgba(32, 178, 100, 0.06) 40%, transparent 70%),
+    radial-gradient(ellipse 100% 60% at 70% 5%,
+      rgba(100, 80, 200, 0.20) 0%, rgba(100, 80, 200, 0.06) 45%, transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% 0%,
+      rgba(0, 180, 180, 0.12) 0%, transparent 60%);
+  --aurora-2:
+    radial-gradient(ellipse 90% 40% at 20% 15%,
+      rgba(180, 60, 200, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 30% at 80% 10%,
+      rgba(0, 220, 130, 0.10) 0%, transparent 60%);
+}
+
+/* ── Tavolozza: tema chiaro, pergamena ── */
+.theme-light {
+  color-scheme: light;
+
+  --bg: #f0e2be;
+  --testo: rgba(32, 18, 6, 0.82);
+
+  --titolo-forte: rgba(24, 12, 3, 0.95);
+  --titolo-em: rgba(75, 50, 130, 0.62);
+  --titolo: rgba(24, 12, 3, 0.9);
+  --titolo-voce: rgba(24, 12, 3, 0.88);
+
+  --bio: rgba(60, 38, 14, 0.55);
+  --descrizione: rgba(60, 38, 14, 0.52);
+  --estratto: rgba(60, 38, 14, 0.52);
+  --meta: rgba(60, 38, 14, 0.38);
+  --gp-meta: rgba(60, 38, 14, 0.42);
+  --prosa: rgba(60, 38, 14, 0.6);
+  --prosa-voce: rgba(60, 38, 14, 0.58);
+
+  --etichetta: rgba(14, 110, 80, 0.82);
+  --accento: rgba(14, 116, 86, 0.92);
+  --fonte: rgba(14, 116, 86, 0.6);
+  --link: rgba(14, 116, 86, 0.78);
+  --link-hover: rgba(14, 116, 86, 1);
+
+  --viola: rgba(105, 42, 168, 0.62);
+  --viola-link: rgba(105, 42, 168, 0.72);
+  --viola-link-hover: rgba(105, 42, 168, 1);
+  --anno: rgba(75, 50, 130, 0.65);
+
+  --nav: rgba(60, 38, 14, 0.42);
+  --nav-hover: rgba(60, 38, 14, 0.72);
+  --nav-attivo-bordo: rgba(14, 116, 86, 0.4);
+
+  --filtro: rgba(60, 38, 14, 0.55);
+  --filtro-hover: rgba(32, 18, 6, 0.82);
+  --filtro-sfondo: rgba(80, 50, 10, 0.04);
+  --filtro-bordo: rgba(80, 50, 10, 0.1);
+  --filtro-bordo-hover: rgba(80, 50, 10, 0.18);
+  --filtro-attivo-bordo: rgba(14, 116, 86, 0.32);
+  --filtro-attivo-sfondo: rgba(14, 116, 86, 0.06);
+
+  --scheda-sfondo: rgba(80, 50, 10, 0.03);
+  --scheda-sfondo-hover: rgba(80, 50, 10, 0.05);
+  --scheda-bordo: rgba(80, 50, 10, 0.09);
+  --scheda-bordo-hover: rgba(80, 50, 10, 0.16);
+
+  --filo: rgba(80, 50, 10, 0.07);
+  --filo-sezione: rgba(80, 50, 10, 0.08);
+  --filo-forte: rgba(80, 50, 10, 0.1);
+
+  --toggle: rgba(60, 38, 14, 0.38);
+  --toggle-hover: rgba(60, 38, 14, 0.68);
+  --toggle-bordo: rgba(80, 50, 10, 0.12);
+  --toggle-bordo-hover: rgba(80, 50, 10, 0.22);
+
+  --overlay: rgba(210, 185, 140, 0.9);
+  --citazione: rgba(24, 12, 3, 0.82);
+  --citazione-attr: rgba(14, 116, 86, 0.65);
+  --citazione-chiudi: rgba(60, 38, 14, 0.28);
+
+  --stelle-opacita: 0;
+  --aurora-1:
+    radial-gradient(ellipse 120% 50% at 30% -10%,
+      rgba(180, 120, 30, 0.07) 0%, rgba(180, 120, 30, 0.02) 40%, transparent 70%),
+    radial-gradient(ellipse 100% 60% at 70% 5%,
+      rgba(110, 80, 180, 0.06) 0%, rgba(110, 80, 180, 0.02) 45%, transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% 0%,
+      rgba(0, 150, 130, 0.04) 0%, transparent 60%);
+  --aurora-2:
+    radial-gradient(ellipse 90% 40% at 20% 15%,
+      rgba(160, 80, 30, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 30% at 80% 10%,
+      rgba(140, 100, 20, 0.04) 0%, transparent 60%);
+}
+
+/* ── Azzeramento ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Base ── */
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--testo);
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--link-hover);
+  outline-offset: 3px;
+}
+
+/* Collegamento di servizio: invisibile finché non riceve il fuoco */
+.au-salta {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.au-salta:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  width: auto;
+  height: auto;
+  clip-path: none;
+  padding: 0.6rem 1rem;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--link-hover);
+  background: var(--bg);
+  border: 1px solid var(--filtro-bordo-hover);
+  text-decoration: none;
+}
+
+/* ── Sfondo: aurora e stelle ── */
+.au-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.au-layer,
+.au-layer-2 {
+  position: absolute;
+  inset: 0;
+}
+
+.au-layer {
+  background: var(--aurora-1);
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+
+.au-layer-2 {
+  background: var(--aurora-2);
+  animation: aurora-drift 24s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes aurora-drift {
+  0%   { transform: translateX(0) scaleY(1); opacity: 0.8; }
+  50%  { transform: translateX(3%) scaleY(1.08); opacity: 1; }
+  100% { transform: translateX(-3%) scaleY(0.94); opacity: 0.7; }
+}
+
+.au-stars {
+  position: absolute;
+  inset: 0;
+  opacity: var(--stelle-opacita);
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 42% 8%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 73% 35%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 15%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5% 65%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 55%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 30% 80%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+}
+
+/* ── Impaginazione ── */
+.au-wrap {
+  position: relative;
+  z-index: 1;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+}
+
+.au-center {
+  max-width: 860px;
+  margin: 0 auto;
+  transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* La home respira più larga */
+.au-center--home {
+  max-width: 1100px;
+}
+
+.au-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+/* Senza barra laterale: una sola colonna, centrata */
+.au-layout.no-sidebar {
+  grid-template-columns: 1fr;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.au-layout.no-sidebar .au-giornale-col {
+  display: none;
+}
+
+.au-main {
+  padding-top: 2.5rem;
+}
+
+/* ── Intestazione ── */
+.au-header {
+  margin-bottom: 4rem;
+}
+
+.au-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.au-label {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--etichetta);
+}
+
+.au-name {
+  user-select: none;
+  -webkit-user-select: none;
+  font-size: clamp(36px, 7vw, 58px);
+  font-weight: 200;
+  line-height: 1.1;
+  color: var(--titolo-forte);
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+}
+
+.au-name em {
+  font-style: italic;
+  font-weight: 200;
+  color: var(--titolo-em);
+}
+
+.au-bio {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--bio);
+  max-width: 400px;
+  line-height: 1.8;
+}
+
+.au-theme-toggle {
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--toggle);
+  background: none;
+  border: 1px solid var(--toggle-bordo);
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s;
+}
+
+.au-theme-toggle:hover {
+  color: var(--toggle-hover);
+  border-color: var(--toggle-bordo-hover);
+}
+
+/* Ritorno alla home dalla pagina d'errore */
+.au-ritorno {
+  margin-top: 2rem;
+}
+
+/* ── Navigazione ── */
+.au-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--filo-forte);
+}
+
+.au-nav-btn {
+  display: inline-block;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--nav);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding: 0.5rem 1.25rem 0.6rem;
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s;
+}
+
+.au-nav-btn:hover {
+  color: var(--nav-hover);
+}
+
+.au-nav-btn.active {
+  color: var(--accento);
+  border-bottom-color: var(--nav-attivo-bordo);
+}
+
+/* ── Sezioni: transizione laterale ── */
+.au-section {
+  display: none;
+  opacity: 0;
+}
+
+.au-section.is-active {
+  display: block;
+  animation: section-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.au-section.is-leaving {
+  display: block;
+  animation: section-out 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes section-in {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes section-out {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-20px); }
+}
+
+/* ── Filtri ── */
+.au-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.au-filter-btn {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--filtro);
+  background: var(--filtro-sfondo);
+  border: 1px solid var(--filtro-bordo);
+  border-radius: 2px;
+  padding: 0.35rem 1rem;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+}
+
+.au-filter-btn:hover {
+  color: var(--filtro-hover);
+  border-color: var(--filtro-bordo-hover);
+}
+
+.au-filter-btn.active {
+  color: var(--accento);
+  border-color: var(--filtro-attivo-bordo);
+  background: var(--filtro-attivo-sfondo);
+}
+
+/* ── Intestazione d'annata o di gruppo ── */
+.au-year {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--anno);
+  margin-top: 2.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--filo-sezione);
+}
+
+.au-anno-gruppo[hidden] {
+  display: none;
+}
+
+/* ── Articoli ── */
+.au-article {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--filo);
+  display: grid;
+  grid-template-columns: 1fr 70px;
+  gap: 1.5rem;
+  align-items: start;
+  transition: padding-left 0.3s;
+}
+
+.au-article:hover { padding-left: 0.5rem; }
+.au-article:last-child { border-bottom: none; }
+.au-article[hidden] { display: none; }
+
+.au-source {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fonte);
+  margin-bottom: 0.35rem;
+}
+
+.au-article-title {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--titolo);
+  line-height: 1.45;
+  margin-bottom: 0.4rem;
+}
+
+.au-article-desc {
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--descrizione);
+  line-height: 1.65;
+}
+
+.au-right { text-align: right; }
+
+.au-date {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--meta);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.au-link {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--link);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.au-link:hover { color: var(--link-hover); }
+
+/* ── Poesie, testi, tesi ── */
+.au-poem {
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--filo);
+  transition: padding-left 0.3s;
+}
+
+.au-poem:hover { padding-left: 0.5rem; }
+.au-poem:last-child { border-bottom: none; }
+
+.au-poem-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.6rem;
+}
+
+.au-poem-type {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--viola);
+}
+
+.au-poem-date {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--meta);
+}
+
+.au-poem-title {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--titolo);
+  line-height: 1.4;
+  margin-bottom: 0.6rem;
+}
+
+.au-poem-excerpt {
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--estratto);
+  line-height: 2;
+}
+
+.au-poem-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--viola-link);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.au-poem-link:hover { color: var(--viola-link-hover); }
+
+/* ── Griglia della home ── */
+.au-home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.au-home-card {
+  padding: 1.5rem;
+  border: 1px solid var(--scheda-bordo);
+  background: var(--scheda-sfondo);
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.au-home-card:hover {
+  border-color: var(--scheda-bordo-hover);
+  background: var(--scheda-sfondo-hover);
+}
+
+.au-home-card:first-child {
+  grid-column: 1 / -1;
+}
+
+.au-home-title {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--titolo);
+  line-height: 1.4;
+  margin: 0.4rem 0;
+}
+
+.au-home-card:first-child .au-home-title {
+  font-size: 21px;
+}
+
+.au-home-desc {
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--estratto);
+  line-height: 1.65;
+  margin: 0.4rem 0 0.75rem;
+}
+
+.au-home-date {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--meta);
+  margin-bottom: 0.6rem;
+}
+
+/* ── Colonna del giornale ── */
+.au-giornale-col {
+  position: sticky;
+  top: 2rem;
+  border-right: 1px solid var(--filo-sezione);
+  padding-right: 2rem;
+  padding-top: 2.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.au-giornale-col.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.au-gp-label {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--etichetta);
+  margin-bottom: 0.75rem;
+}
+
+.au-gp-date {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gp-meta);
+  margin-bottom: 1.5rem;
+}
+
+.au-gp-text {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--prosa);
+  line-height: 1.9;
+}
+
+/* ── Voci di giornale e appunti ── */
+.au-giornale-entry {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--filo);
+  transition: padding-left 0.25s;
+}
+
+.au-giornale-entry:hover { padding-left: 0.5rem; }
+.au-giornale-entry:last-child { border-bottom: none; }
+
+.au-giornale-entry-date {
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fonte);
+  margin-bottom: 0.3rem;
+}
+
+.au-giornale-entry-title {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--titolo-voce);
+}
+
+.au-giornale-entry-text {
+  margin-top: 0.9rem;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--prosa-voce);
+  line-height: 1.9;
+}
+
+/* ── Prosa proveniente dal Markdown ── */
+.au-gp-text p,
+.au-giornale-entry-text p,
+.au-article-desc p,
+.au-home-desc p,
+.au-poem-excerpt p {
+  margin-bottom: 1em;
+}
+
+.au-gp-text p:last-child,
+.au-giornale-entry-text p:last-child,
+.au-article-desc p:last-child,
+.au-home-desc p:last-child,
+.au-poem-excerpt p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Orologio da taschino ── */
+.au-corner-trigger {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 185px;
+  height: 185px;
+  z-index: 999;
+}
+
+.au-pocket-watch {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 160px;
+  height: auto;
+  opacity: 0;
+  transform: scale(0.6) rotate(-20deg);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+  filter:
+    drop-shadow(0 4px 20px rgba(0, 0, 0, 0.7))
+    drop-shadow(0 0 14px rgba(100, 220, 180, 0.12));
+}
+
+.au-corner-trigger:hover .au-pocket-watch {
+  opacity: 1;
+  transform: scale(1) rotate(3deg);
+}
+
+/* ── Citazione del filosofo ── */
+.au-filosofo-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  border: none;
+  padding: 0;
+  color: inherit;
+  background: var(--overlay);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition:
+    opacity 0.4s ease,
+    display 0.4s ease allow-discrete,
+    overlay 0.4s ease allow-discrete;
+}
+
+.au-filosofo-overlay[open] {
+  display: flex;
+  opacity: 1;
+}
+
+/* Stato di partenza dell'animazione d'entrata */
+@starting-style {
+  .au-filosofo-overlay[open] { opacity: 0; }
+}
+
+.au-filosofo-overlay::backdrop {
+  background: transparent;
+}
+
+.au-filosofo-card {
+  text-align: center;
+  transform: scale(0.88) translateY(12px);
+  transition: transform 0.4s ease;
+}
+
+.au-filosofo-overlay[open] .au-filosofo-card {
+  transform: scale(1) translateY(0);
+}
+
+@starting-style {
+  .au-filosofo-overlay[open] .au-filosofo-card {
+    transform: scale(0.88) translateY(12px);
+  }
+}
+
+.au-filosofo-img {
+  width: 190px;
+  height: auto;
+  filter: drop-shadow(0 0 28px rgba(100, 220, 180, 0.12));
+}
+
+.au-filosofo-quote {
+  margin-top: 1.75rem;
+  font-size: 15px;
+  font-weight: 200;
+  font-style: italic;
+  color: var(--citazione);
+  letter-spacing: 0.02em;
+  line-height: 1.65;
+  max-width: 340px;
+}
+
+.au-filosofo-attr {
+  margin-top: 0.6rem;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--citazione-attr);
+}
+
+.au-filosofo-dismiss {
+  margin-top: 2.5rem;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--citazione-chiudi);
+}
+
+/* ── Adattamento agli schermi stretti ── */
+@media (max-width: 860px) {
+  .au-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .au-layout.no-sidebar {
+    max-width: 100%;
+  }
+
+  .au-giornale-col {
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--filo-sezione);
+    padding-right: 0;
+    padding-bottom: 3rem;
+    margin-bottom: 3rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .au-home-grid { grid-template-columns: 1fr; }
+  .au-home-card:first-child { grid-column: auto; }
+}
+
+/* ── Rispetto della preferenza per il movimento ridotto ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="{{ site.lingua }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{{ titolo or site.titolo }}</title>
+  <meta name="description" content="{{ descrizione or site.descrizione }}">
+  {%- if noindex %}
+  <meta name="robots" content="noindex">
+  {%- else %}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  {%- endif %}
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.titolo }}">
+  <meta property="og:title" content="{{ titolo or site.titolo }}">
+  <meta property="og:description" content="{{ descrizione or site.descrizione }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:locale" content="it_IT">
+  <meta name="twitter:card" content="summary">
+
+  <meta name="theme-color" content="#050810" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f0e2be" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+
+  {#- Applica il tema salvato prima del primo disegno, così chi ha scelto
+     il tema chiaro non vede lampeggiare quello scuro. #}
+  <script>
+    try {
+      if (localStorage.getItem('au-theme') === 'light') {
+        document.documentElement.classList.add('theme-light');
+      }
+    } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300&display=swap">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script type="module" src="/assets/js/main.js"></script>
+
+  {#- Senza JavaScript il router non può nascondere nulla: si mostra
+     tutto, così la pagina resta leggibile e navigabile per intero. #}
+  <noscript>
+    <style>
+      .au-section { display: block; opacity: 1; }
+      .au-nav { display: none; }
+    </style>
+  </noscript>
+</head>
+<body>
+{{ content | safe }}
+</body>
+</html>
