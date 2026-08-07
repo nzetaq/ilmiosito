@@ -459,6 +459,9 @@ body {
   padding: 0.5rem 1.25rem 0.6rem;
   margin-bottom: -2px;
   cursor: pointer;
+  /* L'etichetta non va mai spezzata: «Poesie & Testi» andando a capo
+     dentro la propria linguetta gonfierebbe l'intera barra. */
+  white-space: nowrap;
   /* L'inchiostro della linguetta si accende e si spegne per
      dissolvenza: quella che lascia sbiadisce mentre l'altra si riempie,
      e le due etichette si scambiano il colore nello stesso tempo. */
@@ -1033,9 +1036,16 @@ body {
 }
 
 /* ── Orologio da taschino ── */
+/* L'orologio sta nell'angolo in basso a destra, e non in alto come
+   prima: lassù il suo riquadro d'innesco — 185×185 fissi, z-index 999 —
+   copriva il bordo destro dell'interruttore del tema e ne intercettava
+   il clic. Non era una svista di poco: il contenitore è largo al
+   massimo 1100px e centrato, quindi i due si sovrapponevano a ogni
+   finestra sotto i 1470px, cioè quasi sempre. In basso non c'è nulla
+   che possa contendergli lo spazio, a nessuna larghezza. */
 .au-corner-trigger {
   position: fixed;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: 185px;
   height: 185px;
@@ -1044,7 +1054,7 @@ body {
 
 .au-pocket-watch {
   position: absolute;
-  top: 0.75rem;
+  bottom: 0.75rem;
   right: 0.75rem;
   width: 160px;
   height: auto;
@@ -1177,9 +1187,99 @@ body {
   }
 }
 
+/* Sotto i 700px le sette voci non stanno più su una riga: sommate
+   misurano 627px, che con i margini della pagina sfondano lo schermo di
+   un telefono. Prima di questa regola le ultime tre — Tesi, Giornale,
+   Appunti — finivano oltre il bordo e, con overflow-x nascosto sul
+   corpo, restavano semplicemente irraggiungibili.
+
+   Le linguette diventano allora blocchi che vanno a capo, ciascuno col
+   proprio contorno: la stessa grammatica visiva dei filtri degli
+   articoli, e su più righe una sottolineatura condivisa non avrebbe
+   più nulla da sottolineare. */
+@media (max-width: 700px) {
+  .au-nav {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    border-bottom: none;
+  }
+
+  .au-nav-btn {
+    margin-bottom: 0;
+    border: 2px solid var(--filo-forte);
+    /* 0.7rem porta l'altezza del bersaglio intorno ai 44px, che è la
+       misura sotto la quale un dito sbaglia. */
+    padding: 0.7rem 0.9rem;
+  }
+
+  /* Il fondo pieno della voce corrente si porta dietro il contorno. */
+  :root[data-sez='home'] .au-nav-btn[data-sez='home'],
+  :root[data-sez='artificiosa'] .au-nav-btn[data-sez='artificiosa'],
+  :root[data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
+  :root[data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
+  :root[data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
+  :root[data-sez='giornale'] .au-nav-btn[data-sez='giornale'],
+  :root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'] {
+    border-color: var(--nav-attivo-sfondo);
+  }
+
+  /* Margini di pagina più stretti: a 390px di schermo i 32px per lato
+     si mangiavano un sesto della riga di testo. */
+  .au-wrap { padding: 2.5rem 1.25rem 4rem; }
+
+  .au-header { margin-bottom: 2.5rem; }
+
+  /* Le distanze verticali sono tarate su uno schermo largo: su un
+     telefono lasciavano fra la barra e il testo quasi due centimetri
+     di nulla, che è spazio sottratto alla lettura. */
+  :root { --spazio-main: 1.5rem; }
+
+  .au-layout { margin-top: 1.25rem; }
+
+  .au-giornale-col {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  /* Il motto in alto va a capo su due righe: senza questo l'interruttore
+     del tema gli finisce addosso. */
+  .au-label-row {
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .au-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+  }
+
+  .au-theme-toggle {
+    flex: none;
+    padding: 0.55rem 0.9rem;
+  }
+
+  /* Il pulsante dell'oracolo a tutta larghezza: accanto al campo, su
+     uno schermo stretto, resterebbe un francobollo. */
+  .au-ia-invio { flex: 1 0 100%; padding: 0.7rem 1.4rem; }
+
+  /* Su schermo stretto l'orologio non ha dove comparire senza coprire
+     l'intestazione, e su un telefono non comparirebbe comunque: si
+     rivela al passaggio del puntatore, che lì non esiste. */
+  .au-corner-trigger { display: none; }
+}
+
 @media (max-width: 520px) {
   .au-home-grid { grid-template-columns: 1fr; }
   .au-home-card:first-child { grid-column: auto; }
+}
+
+/* L'orologio da taschino compare al passaggio del puntatore, cosa che
+   su uno schermo tattile non accade mai. Lì il suo riquadro d'innesco
+   — 185×185 fissi, z-index 999 — resterebbe solo a intercettare i
+   tocchi diretti all'interruttore del tema, che gli sta sotto. */
+@media (hover: none) {
+  .au-corner-trigger { display: none; }
 }
 
 /* ── Rispetto della preferenza per il movimento ridotto ── */

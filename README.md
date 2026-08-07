@@ -289,6 +289,11 @@ Due limiti da conoscere:
   raccolti in cima a `style.css` (`--durata-voce`, `--passo-composizione`,
   `--durata-impaginazione`): per rendere il movimento più rapido o più
   lento basta cambiare quelli.
+- **Schermi stretti**: sotto i 700px le sette voci del menu non stanno più su
+  una riga — sommate misurano 627px — e diventano blocchi che vanno a capo,
+  ciascuno col proprio contorno, alti abbastanza da essere colpiti con un
+  dito. Prima le ultime tre finivano oltre il bordo e, con `overflow-x`
+  nascosto sul corpo, restavano irraggiungibili dal telefono.
 - **Senza JavaScript**: la pagina mostra tutte le sezioni una dopo l'altra
   invece di restare vuota.
 - **Movimento ridotto**: chi lo ha chiesto al sistema operativo non vede
