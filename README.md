@@ -163,9 +163,14 @@ elenco risultasse vuoto.
 
 - **Questo repository è pubblico:** i rapporti depositati in `analisi/`
   sono leggibili da chiunque, come i registri delle azioni.
-- **I numeri sono per difetto.** Chi usa un blocco degli script, o ha
-  chiesto di non essere tracciato, non viene conteggiato: il modulo
-  rispetta `Do Not Track` e `Global Privacy Control`.
+- **I numeri sono per difetto:** chi usa un blocco degli script non
+  viene conteggiato, perché `gc.zgo.at` compare in diversi elenchi di
+  domini bloccati.
+- **Do Not Track e Global Privacy Control non sospendono il conteggio.**
+  È una scelta deliberata, spiegata in `src/assets/js/analisi.js`: sono
+  segnali che GoatCounter stesso ignora, e rispettarli rendeva invisibili
+  al proprietario del sito perfino le proprie visite. Si ripristina con
+  poche righe, se si cambia idea.
 - GitHub sospende i workflow pianificati nei repository fermi da sessanta
   giorni. Un commit qualsiasi li riattiva.
 

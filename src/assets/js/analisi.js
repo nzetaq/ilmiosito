@@ -37,16 +37,24 @@ function smaltiscilaCoda() {
   for (const visita of arretrate) conta(visita);
 }
 
-/** Chi ha chiesto di non essere tracciato non viene contato. */
-function rifiutaTracciamento() {
-  const nav = window.navigator || {};
-  return (
-    nav.doNotTrack === '1' ||
-    window.doNotTrack === '1' ||
-    nav.msDoNotTrack === '1' ||
-    nav.globalPrivacyControl === true
-  );
-}
+/*
+ * Nota su Do Not Track e Global Privacy Control.
+ *
+ * Qui c'era un controllo che rinunciava al conteggio quando il browser
+ * mandava uno dei due segnali. È stato tolto, per tre ragioni:
+ *
+ * - Do Not Track è uno standard abbandonato: il W3C ne ha interrotto le
+ *   specifiche e Firefox ha rimosso perfino l'interruttore, perché i
+ *   siti lo ignoravano;
+ * - Global Privacy Control riguarda la vendita o cessione di dati
+ *   personali, e qui non si raccolgono dati personali né si cede nulla;
+ * - GoatCounter stesso non li controlla: il conteggio è senza cookie,
+ *   senza identificatori e senza dati personali fin dalla sua natura.
+ *
+ * Il risultato pratico era che il proprietario del sito non vedeva
+ * nemmeno le proprie visite. Per ripristinare il comportamento basta
+ * rimettere un controllo su window.navigator.doNotTrack in avviaAnalisi.
+ */
 
 /** Dalla sezione all'indirizzo con cui comparirà nel cruscotto. */
 function percorso(id) {
@@ -67,7 +75,7 @@ function segna(id) {
 export function avviaAnalisi() {
   const meta = document.querySelector('meta[name="analisi-codice"]');
   const codice = meta && meta.content.trim();
-  if (!codice || rifiutaTracciamento()) return;
+  if (!codice) return;
 
   // no_onload impedisce il conteggio automatico: le sezioni le
   // dichiariamo noi, una per una, con il loro indirizzo.
