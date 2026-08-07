@@ -18,16 +18,23 @@ const inAttesa = [];
 let pronto = false;
 
 function conta(visita) {
-  if (pronto && window.goatcounter && typeof window.goatcounter.count === 'function') {
-    window.goatcounter.count(visita);
-  } else {
+  if (!pronto) {
     inAttesa.push(visita);
+    return;
   }
+  const gc = window.goatcounter;
+  if (gc && typeof gc.count === 'function') gc.count(visita);
+  // Se lo script è caricato ma non ha lasciato `count` — perché
+  // manomesso o interrotto a metà — la visita si perde e amen: rimetterla
+  // in coda farebbe girare a vuoto lo smaltimento qui sotto.
 }
 
 function smaltiscilaCoda() {
   pronto = true;
-  while (inAttesa.length) conta(inAttesa.shift());
+  // Si svuota in un colpo solo: se si estraesse una visita per volta
+  // mentre `conta` può rimetterla dentro, il ciclo non finirebbe mai.
+  const arretrate = inAttesa.splice(0);
+  for (const visita of arretrate) conta(visita);
 }
 
 /** Chi ha chiesto di non essere tracciato non viene contato. */

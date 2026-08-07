@@ -137,8 +137,17 @@ Senza il punto 4 il workflow non fallisce: si limita a non fare nulla.
 `.github/workflows/rapporto.yml` gira ogni giorno alle 05:10 UTC e
 deposita in `analisi/` un rapporto per giornata — sezioni lette, paesi,
 provenienze, browser, sistemi — più un riepilogo aggiornato degli ultimi
-sessanta giorni. Si può avviare anche a mano dalla scheda Actions,
-indicando eventualmente un giorno arretrato da recuperare.
+sessanta giorni.
+
+Non serve però aspettare la notte per il primo: dalla scheda *Actions →
+Rapporto analisi → Run workflow* si ottiene subito, indicando nel campo
+del giorno la data che interessa — **oggi stesso**, se si vuole vedere
+quanto raccolto finora. Lasciando il campo vuoto rileva ieri, che è ciò
+che serve all'esecuzione automatica ma quasi mai a una prova manuale.
+
+Rieseguire lo stesso giorno è innocuo: il file viene semplicemente
+riscritto con i dati aggiornati. Un rapporto generato a metà giornata
+sarà quindi completato dall'esecuzione automatica del mattino dopo.
 
 Per provarlo dal proprio computer, senza scrivere nulla su disco:
 

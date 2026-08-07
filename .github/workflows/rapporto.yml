@@ -14,6 +14,11 @@ on:
         description: 'Giorno da rilevare (AAAA-MM-GG). Vuoto = ieri.'
         required: false
         type: string
+      grezzo:
+        description: 'Mostrare nel registro la risposta grezza dell API (per diagnosi)'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -43,11 +48,14 @@ jobs:
             echo "::warning::GOATCOUNTER_CODICE o GOATCOUNTER_TOKEN non configurati: nulla da fare."
             exit 0
           fi
+          ARGOMENTI=""
           if [ -n "${{ inputs.giorno }}" ]; then
-            node strumenti/rapporto-analisi.mjs --giorno=${{ inputs.giorno }}
-          else
-            node strumenti/rapporto-analisi.mjs
+            ARGOMENTI="$ARGOMENTI --giorno=${{ inputs.giorno }}"
           fi
+          if [ "${{ inputs.grezzo }}" = "true" ]; then
+            ARGOMENTI="$ARGOMENTI --grezzo"
+          fi
+          node strumenti/rapporto-analisi.mjs $ARGOMENTI
 
       - name: Deposita il rapporto
         run: |
