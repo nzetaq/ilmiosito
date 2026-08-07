@@ -3,11 +3,11 @@
 Rapporti generati una volta al giorno da GitHub Actions, a partire
 dai dati di GoatCounter. Un file per giornata; qui il riepilogo.
 
-**Ultimi 1 giorni:** 0 visite complessive, media di 0 al giorno.
+**Ultimi 1 giorni:** 1 visite complessive, media di 1 al giorno.
 
 | Giorno | Visite | Sezione più letta |
 | --- | ---: | --- |
-| [2026-08-07](2026-08-07.md) | 0 | — |
+| [2026-08-07](2026-08-07.md) | 1 | /collaudo-curl |
 
 ---
 

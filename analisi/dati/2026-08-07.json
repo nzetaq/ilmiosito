@@ -1,10 +1,31 @@
 {
   "giorno": "2026-08-07",
-  "visite": 0,
+  "visite": 1,
   "eventi": 0,
-  "pagine": [],
+  "pagine": [
+    {
+      "nome": "/collaudo-curl",
+      "titolo": "Collaudo diretto",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
   "paesi": [],
-  "provenienze": [],
-  "browser": [],
+  "provenienze": [
+    {
+      "nome": "",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "browser": [
+    {
+      "nome": "Safari",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
   "sistemi": []
 }
