@@ -11,7 +11,18 @@
  * nessuna richiesta, nessuno script di terze parti.
  */
 
-const SORGENTE = 'https://gc.zgo.at/count.js';
+/*
+ * Lo script di conteggio è ospitato qui, accanto a questo file, invece
+ * che su gc.zgo.at: è l'unico codice di terzi che girerebbe nel browser
+ * di chi legge, e da copia locale non può cambiare sotto i piedi.
+ * L'indirizzo si ricava da quello di questo modulo, così vale sia su
+ * www.nzetaq.it sia sull'indirizzo di ripiego su github.io.
+ *
+ * Attenzione a non aspettarsi troppo: il conteggio vero parte comunque
+ * verso goatcounter.com, quindi chi blocca quel dominio — Brave con gli
+ * Shields, per dirne uno — continua a non essere contato.
+ */
+const SORGENTE = new URL('./count.js', import.meta.url).href;
 
 /** Il conteggio si rimanda finché lo script esterno non è pronto. */
 const inAttesa = [];

@@ -5,6 +5,60 @@
    tema chiaro si limita a ridichiararle scambiando fondo e figura.
    ═══════════════════════════════════════════════════════════════ */
 
+/* ── I caratteri ──
+   Archivo e Space Grotesk sono ospitati qui, in assets/font/, e non
+   più chiesti a Google: nessun lettore rivela il proprio indirizzo a
+   terzi per il solo fatto di aprire la pagina, e il sito non dipende
+   da nessuno per essere disegnato. Entrambi sono caratteri variabili,
+   quindi un solo file copre tutti i pesi da 400 a 700.
+   I percorsi sono relativi a questo foglio, così valgono sia su
+   www.nzetaq.it sia sull'indirizzo di ripiego su github.io.
+   Archivo e Space Grotesk sono distribuiti con licenza SIL Open Font
+   License 1.1, che ne consente esplicitamente l'uso su un sito. */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../font/archivo-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../font/archivo-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('../font/space-grotesk-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('../font/space-grotesk-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 /* ── Gli inchiostri, uguali per entrambi i temi ── */
 :root {
   --blu: 21, 29, 51;         /* #151d33 — inchiostro di fondo */

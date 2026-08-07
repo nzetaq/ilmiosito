@@ -1,0 +1,25 @@
+# Aggiornamenti automatici delle dipendenze.
+#
+# Serve soprattutto per le azioni: sono ancorate all'identificativo
+# esatto del commit, che è più sicuro di un'etichetta come @v4 ma non
+# si aggiorna da sé. Senza questo file resterebbero ferme per sempre,
+# comprese le correzioni di sicurezza. Dependabot apre una richiesta di
+# modifica quando esce una versione nuova, e l'ancoraggio resta.
+#
+# È gratuito e non pubblica nulla da sé: propone, e si decide a mano.
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: 'Azioni:'
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: 'Dipendenze:'

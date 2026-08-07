@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 const MESI = [
   'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
   'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
@@ -27,6 +29,18 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ CNAME: 'CNAME' });
 
   eleventyConfig.addWatchTarget('src/assets/');
+
+  // ── Impronta per la Content Security Policy ──
+  // I due blocchi inline della pagina — lo script che decide tema e
+  // sezione, e lo stile di riserva senza JavaScript — sono dichiarati
+  // nella policy per impronta invece che con 'unsafe-inline'. Così il
+  // browser esegue esattamente quei due, e nient'altro che venisse
+  // iniettato nella pagina. L'impronta si ricalcola a ogni
+  // compilazione, quindi resta valida anche cambiando quel codice.
+  eleventyConfig.addFilter('impronta', (testo) => {
+    const somma = createHash('sha256').update(String(testo), 'utf8').digest('base64');
+    return `'sha256-${somma}'`;
+  });
 
   // ── Filtri per le date ──
   eleventyConfig.addFilter('mese', (data) => scomponi(data).mese);

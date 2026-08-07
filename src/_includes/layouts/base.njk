@@ -3,11 +3,69 @@
     di ripiego nzetaq.github.io/ilmiosito/. La pagina 404, servita a
     qualsiasi profondità, ha invece bisogno di percorsi assoluti. -#}
 {%- set base = radice | default('', true) -%}
+
+{#- I due blocchi inline della pagina sono catturati qui, prima di
+    essere stampati più sotto: dalla stessa variabile si ricava
+    l'impronta da dichiarare nella policy di sicurezza, e questo
+    garantisce che impronta e codice non possano divergere. -#}
+{%- set avvio -%}
+    (function () {
+      var radice = document.documentElement;
+
+      try {
+        if (localStorage.getItem('au-theme') === 'light') {
+          radice.classList.add('theme-light');
+        }
+      } catch (e) {}
+
+      // La sezione da mostrare è scritta nell'indirizzo. Va letta qui,
+      // prima che il corpo della pagina sia disegnato: il router più
+      // avanti si limiterà a subentrare.
+      var valide = [{% for s in site.sezioni %}'{{ s.id }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+      var sezione = 'home';
+      try {
+        var id = decodeURIComponent(location.hash.replace(/^#/, ''));
+        if (valide.indexOf(id) !== -1) sezione = id;
+      } catch (e) {}
+      radice.setAttribute('data-sez', sezione);
+    })();
+{%- endset -%}
+
+{%- set stileSenzaJs -%}
+      /* Il selettore è volutamente più specifico di quello del foglio
+         principale: così queste regole vincono per specificità e non
+         per ordine di dichiarazione. */
+      :root .au-section { display: block; opacity: 1; }
+      :root .au-nav { display: none; }
+{%- endset -%}
 <!DOCTYPE html>
 <html lang="{{ site.lingua }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {#- Content Security Policy. Il sito non ha moduli, né login, né
+     contenuti scritti da altri: la policy non ripara una falla
+     esistente, ma limita il danno se un giorno finisse nella pagina
+     del codice non voluto. Tutto viene da qui ('self'), i due blocchi
+     inline sono ammessi per impronta, e l'unica destinazione esterna
+     consentita è il conteggio delle visite.
+     Va dichiarata in un meta perché GitHub Pages non permette di
+     impostare intestazioni HTTP. Per la stessa ragione manca
+     frame-ancestors, che in un meta non è ammesso: contro l'inclusione
+     in una cornice altrui, su Pages, non c'è rimedio. #}
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'none';
+    base-uri 'none';
+    form-action 'none';
+    img-src 'self';
+    font-src 'self';
+    style-src 'self' {{ stileSenzaJs | impronta | safe }};
+    script-src 'self' {{ avvio | impronta | safe }};
+    {%- if site.analisi.goatcounter %}
+    connect-src https://{{ site.analisi.goatcounter }}.goatcounter.com;
+    {%- endif %}
+  ">
 
   <title>{{ titolo or site.titolo }}</title>
   <meta name="description" content="{{ descrizione or site.descrizione }}">
@@ -37,33 +95,16 @@
 
   {#- Stato deciso prima del primo disegno, così la pagina non appare
      mai in una veste che va poi corretta sotto gli occhi di chi legge:
-     né il tema sbagliato, né la sezione sbagliata. #}
-  <script>
-    (function () {
-      var radice = document.documentElement;
+     né il tema sbagliato, né la sezione sbagliata. Il codice è quello
+     catturato in cima al file, di cui la policy dichiara l'impronta. #}
+  <script>{{ avvio | safe }}</script>
 
-      try {
-        if (localStorage.getItem('au-theme') === 'light') {
-          radice.classList.add('theme-light');
-        }
-      } catch (e) {}
-
-      // La sezione da mostrare è scritta nell'indirizzo. Va letta qui,
-      // prima che il corpo della pagina sia disegnato: il router più
-      // avanti si limiterà a subentrare.
-      var valide = [{% for s in site.sezioni %}'{{ s.id }}'{% if not loop.last %}, {% endif %}{% endfor %}];
-      var sezione = 'home';
-      try {
-        var id = decodeURIComponent(location.hash.replace(/^#/, ''));
-        if (valide.indexOf(id) !== -1) sezione = id;
-      } catch (e) {}
-      radice.setAttribute('data-sez', sezione);
-    })();
-  </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+  {#- I caratteri stanno in assets/font/ e sono dichiarati in cima al
+     foglio di stile: nessuna richiesta a Google, nessun terzo fra il
+     lettore e la pagina. Il precaricamento riguarda i due file del
+     sottoinsieme latino, gli unici che servono quasi sempre. #}
+  <link rel="preload" href="{{ base }}assets/font/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ base }}assets/font/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="{{ base }}assets/css/style.css">
   <script type="module" src="{{ base }}assets/js/main.js"></script>
@@ -71,13 +112,7 @@
   {#- Senza JavaScript il router non può nascondere nulla: si mostra
      tutto, così la pagina resta leggibile e navigabile per intero. #}
   <noscript>
-    <style>
-      /* Il selettore è volutamente più specifico di quello del foglio
-         principale: così queste regole vincono per specificità e non
-         per ordine di dichiarazione. */
-      :root .au-section { display: block; opacity: 1; }
-      :root .au-nav { display: none; }
-    </style>
+    <style>{{ stileSenzaJs | safe }}</style>
   </noscript>
 </head>
 <body>

@@ -29,6 +29,7 @@ src/
 ├── assets/
 │   ├── css/style.css         foglio di stile unico
 │   ├── js/                   moduli ES: router, tema, filtri, citazioni
+│   ├── font/                 Archivo e Space Grotesk, ospitati qui
 │   └── img/                  illustrazioni e favicon
 └── content/                  i contenuti, un file Markdown per voce
     ├── articoli/
@@ -173,6 +174,48 @@ elenco risultasse vuoto.
   poche righe, se si cambia idea.
 - GitHub sospende i workflow pianificati nei repository fermi da sessanta
   giorni. Un commit qualsiasi li riattiva.
+
+## Sicurezza
+
+Il sito è statico: nessun database, nessun codice che gira su un
+server, nessun modulo da compilare, nessun dato di chi legge. Le
+vulnerabilità più comuni non hanno appiglio. Ciò che resta da
+proteggere è la possibilità che qualcuno pubblichi al posto tuo, e si
+difende fuori di qui: due fattori su GitHub, due fattori e blocco al
+trasferimento presso il registrar del dominio.
+
+Nel codice sono state prese queste misure:
+
+- **Nessuna risorsa di terzi.** I caratteri stanno in `assets/font/` e
+  il contatore di GoatCounter in `assets/js/count.js`. Nessun lettore
+  rivela il proprio indirizzo a Google o a `gc.zgo.at` per il solo
+  fatto di aprire la pagina, e nessun terzo può cambiare ciò che gira
+  nel suo browser. Le copie però non si aggiornano da sé: in cima a
+  `count.js` sono annotate provenienza, data e impronta dell'originale.
+- **Content Security Policy** dichiarata nel `<meta>` di `base.njk` —
+  su GitHub Pages non si possono impostare intestazioni HTTP. Tutto
+  proviene da `'self'`; i due blocchi inline (lo script che decide tema
+  e sezione, lo stile di riserva senza JavaScript) sono ammessi per
+  impronta, ricalcolata a ogni compilazione dal filtro `impronta`, mai
+  con `'unsafe-inline'`. L'unica destinazione esterna consentita è il
+  conteggio delle visite.
+- **Azioni ancorate all'identificativo del commit** invece che a
+  un'etichetta come `@v4`, che chi controlla quel repository può
+  spostare su codice diverso. `dependabot.yml` propone gli
+  aggiornamenti una volta al mese, così l'ancoraggio non invecchia.
+- `npm ci` in fase di pubblicazione: installa esattamente quanto è nel
+  lockfile. Il workflow che usa il token di GoatCounter non installa
+  alcun pacchetto, quindi nessun codice di terzi gli si avvicina.
+
+Due limiti da conoscere:
+
+- **Clickjacking:** `frame-ancestors` non è ammesso in un `<meta>` e su
+  Pages non si possono impostare intestazioni. Non c'è modo di impedire
+  che il sito venga incluso nella cornice di un altro. Senza pulsanti
+  che compiano azioni, il danno possibile è prossimo a zero.
+- Aprendo `dist/index.html` con l'anteprima di macOS la pagina appare
+  senza stile: in quel contesto `'self'` non corrisponde a nulla. Per
+  vedere il sito basta `npm start`.
 
 ## Note tecniche
 
