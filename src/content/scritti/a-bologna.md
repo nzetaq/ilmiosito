@@ -8,7 +8,6 @@ ordine: 1
 nota: "Selezionata nella XV Edizione del Premio Alberoandronico."
 ---
 
-<div align="center">
 Quante volte le linee di quest’archi
 han tagliato il mio volto,
 lanciando raggi di luce,
@@ -32,4 +31,3 @@ ma sono sagge:
 ché sulle mie orme
 presto tornerei,
 se volessi.
-</div>
