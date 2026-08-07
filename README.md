@@ -123,8 +123,18 @@ punti, che è bene tenere allineati.
   ricaricamento la pagina appare già nella sezione giusta, senza passare
   un istante dalla home. Il router in JavaScript si limita ad aggiornare
   l'attributo e ad animare i passaggi.
+- **Passaggi fra sezioni**: la sezione entrante si compone a scalare, un
+  elemento dopo l'altro; il router assegna a ciascuno il proprio posto in
+  fila nella variabile `--i`. Intanto la colonna del giornale si richiude
+  raccordata — è la traccia della griglia che passa da `1fr` a `0fr` — e
+  la linguetta del menu si accende per dissolvenza. Tutti i tempi sono
+  raccolti in cima a `style.css` (`--durata-voce`, `--passo-composizione`,
+  `--durata-impaginazione`): per rendere il movimento più rapido o più
+  lento basta cambiare quelli.
 - **Senza JavaScript**: la pagina mostra tutte le sezioni una dopo l'altra
   invece di restare vuota.
+- **Movimento ridotto**: chi lo ha chiesto al sistema operativo non vede
+  né composizione né raccordi; i contenuti compaiono e basta.
 - **Temi**: chiaro e scuro condividono le stesse regole e differiscono solo
   per le variabili colore definite in cima a `style.css`. La scelta è
   ricordata dal browser e applicata prima del primo disegno.

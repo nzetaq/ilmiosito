@@ -24,6 +24,17 @@
 
   /* Ombra piena, senza sfocatura: è un secondo passaggio di stampa */
   --scarto: 5px;
+
+  /* ── Tempi del movimento ──
+     Una sola curva e pochi tempi condivisi, così i pezzi che si
+     muovono insieme restano d'accordo fra loro. */
+  --curva: cubic-bezier(0.22, 1, 0.36, 1);
+  --durata-impaginazione: 0.34s;  /* colonna che si chiude, larghezze */
+  --durata-uscita: 0.16s;         /* la sezione che se ne va */
+  --durata-voce: 0.34s;           /* ogni elemento che si compone */
+  --passo-composizione: 38ms;     /* ritardo fra un elemento e il seguente */
+
+  --spazio-main: 2.5rem;
 }
 
 /* ── Tavolozza: tema scuro, inchiostro blu come fondo ── */
@@ -268,7 +279,7 @@ body {
 .au-center {
   max-width: 1100px;
   margin: 0 auto;
-  transition: max-width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: max-width var(--durata-impaginazione) var(--curva);
 }
 
 :root[data-sez]:not([data-sez='home']) .au-center {
@@ -281,22 +292,26 @@ body {
   gap: 3rem;
   align-items: start;
   margin-top: 2rem;
+  transition:
+    grid-template-columns var(--durata-impaginazione) var(--curva),
+    gap var(--durata-impaginazione) var(--curva),
+    max-width var(--durata-impaginazione) var(--curva);
 }
 
-/* Senza barra laterale: una sola colonna, centrata */
+/* Uscendo dalla home la colonna del giornale non sparisce di colpo:
+   la sua traccia della griglia si richiude fino a larghezza zero,
+   e il contenuto principale si allarga per accompagnarla. */
 :root[data-sez]:not([data-sez='home']) .au-layout {
-  grid-template-columns: 1fr;
+  grid-template-columns: 0fr 1fr;
+  gap: 0;
   max-width: 680px;
   margin-left: auto;
   margin-right: auto;
 }
 
-:root[data-sez]:not([data-sez='home']) .au-giornale-col {
-  display: none;
-}
-
 .au-main {
-  padding-top: 2.5rem;
+  position: relative; /* riferimento per la sezione che esce */
+  padding-top: var(--spazio-main);
 }
 
 /* ── Intestazione ── */
@@ -385,7 +400,13 @@ body {
   padding: 0.5rem 1.25rem 0.6rem;
   margin-bottom: -2px;
   cursor: pointer;
-  transition: color 0.12s, background-color 0.12s;
+  /* L'inchiostro della linguetta si accende e si spegne per
+     dissolvenza: quella che lascia sbiadisce mentre l'altra si riempie,
+     e le due etichette si scambiano il colore nello stesso tempo. */
+  transition:
+    color var(--durata-impaginazione) var(--curva),
+    background-color var(--durata-impaginazione) var(--curva),
+    border-bottom-color var(--durata-impaginazione) var(--curva);
 }
 
 .au-nav-btn:hover {
@@ -414,8 +435,8 @@ body {
 
 /* La sezione scritta nell'indirizzo è visibile fin dal primo disegno,
    ferma e senza animazione: al ricaricamento non si vede più comparire
-   prima la home. L'animazione d'entrata è riservata ai passaggi da una
-   sezione all'altra, che il router segna con .is-active. */
+   prima la home. La composizione a scalare è riservata ai passaggi da
+   una sezione all'altra, che il router segna con .is-componendo. */
 :root[data-sez='home'] #sec-home,
 :root[data-sez='articoli'] #sec-articoli,
 :root[data-sez='scritti'] #sec-scritti,
@@ -426,25 +447,41 @@ body {
   opacity: 1;
 }
 
-.au-section.is-active {
-  animation: section-in 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* La sezione che esce resta visibile finché l'animazione non finisce */
+/* La sezione che esce viene tolta dal flusso: se restasse, spingerebbe
+   in basso quella entrante per poi lasciarla scattare in su. */
 .au-section.is-leaving {
   display: block;
-  animation: section-out 0.14s linear forwards;
+  position: absolute;
+  top: var(--spazio-main);
+  left: 0;
+  right: 0;
+  animation: sezione-esce var(--durata-uscita) linear forwards;
   pointer-events: none;
 }
 
-@keyframes section-in {
-  from { opacity: 0; transform: translateX(20px); }
-  to   { opacity: 1; transform: translateX(0); }
+@keyframes sezione-esce {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
-@keyframes section-out {
-  from { opacity: 1; transform: translateX(0); }
-  to   { opacity: 0; transform: translateX(-14px); }
+/* ── Composizione a scalare ──
+   La sezione entrante non compare come blocco unico: i suoi elementi
+   si compongono uno dopo l'altro, come righe messe in macchina. Il
+   loro posto nella fila è in --i, che il router assegna in ordine di
+   documento; `backwards` li tiene invisibili finché non tocca a loro. */
+.au-section.is-componendo .au-filters,
+.au-section.is-componendo .au-year,
+.au-section.is-componendo .au-home-card,
+.au-section.is-componendo .au-article,
+.au-section.is-componendo .au-poem,
+.au-section.is-componendo .au-giornale-entry {
+  animation: componi var(--durata-voce) var(--curva) backwards;
+  animation-delay: calc(var(--i, 0) * var(--passo-composizione));
+}
+
+@keyframes componi {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
 }
 
 /* ── Filtri ── */
@@ -696,6 +733,28 @@ body {
   border-right: 2px solid var(--filo-sezione);
   padding-right: 2rem;
   padding-top: 2.5rem;
+  /* min-width azzerato: senza, la traccia della griglia si rifiuterebbe
+     di scendere sotto la larghezza del proprio contenuto. */
+  min-width: 0;
+  overflow: hidden;
+  visibility: visible;
+  transition:
+    padding-right var(--durata-impaginazione) var(--curva),
+    border-right-width var(--durata-impaginazione) var(--curva),
+    visibility 0s;
+}
+
+/* A colonna chiusa la barra sparisce anche dall'albero di
+   accessibilità, altrimenti verrebbe letta in ogni sezione.
+   La visibilità cambia a richiusura avvenuta. */
+:root[data-sez]:not([data-sez='home']) .au-giornale-col {
+  padding-right: 0;
+  border-right-width: 0;
+  visibility: hidden;
+  transition:
+    padding-right var(--durata-impaginazione) var(--curva),
+    border-right-width var(--durata-impaginazione) var(--curva),
+    visibility 0s linear var(--durata-impaginazione);
 }
 
 .au-gp-label {
@@ -906,6 +965,13 @@ body {
 
   :root[data-sez]:not([data-sez='home']) .au-layout {
     max-width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  /* Qui la colonna è impilata sopra al contenuto, non affiancata:
+     richiudere una traccia della griglia non avrebbe senso. */
+  :root[data-sez]:not([data-sez='home']) .au-giornale-col {
+    display: none;
   }
 
   .au-giornale-col {
@@ -930,6 +996,8 @@ body {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
 }

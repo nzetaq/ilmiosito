@@ -20,6 +20,28 @@ export function avviaRouter() {
   const collegamenti = [...nav.querySelectorAll('.au-nav-btn')];
   const uscite = new Map();
 
+  // Gli elementi che si compongono a scalare, nell'ordine in cui
+  // compaiono nel documento.
+  const COMPONIBILI =
+    '.au-filters, .au-year, .au-home-card, .au-article, .au-poem, .au-giornale-entry';
+
+  // Oltre una certa fila il ritardo non cresce più: gli elementi sotto
+  // la piega arriverebbero con un'attesa che nessuno sta guardando.
+  const FILA_MASSIMA = 9;
+
+  /** Assegna a ogni elemento il proprio posto nella fila. */
+  function componi(sezione) {
+    const elementi = sezione.querySelectorAll(COMPONIBILI);
+    elementi.forEach((elemento, indice) => {
+      elemento.style.setProperty('--i', Math.min(indice, FILA_MASSIMA));
+    });
+    // Rimozione e reflow: senza, la composizione non ripartirebbe
+    // tornando su una sezione già visitata.
+    sezione.classList.remove('is-componendo');
+    void sezione.offsetHeight;
+    sezione.classList.add('is-componendo');
+  }
+
   const sezione = (id) => (id ? document.getElementById(`sec-${id}`) : null);
 
   function daIndirizzo() {
@@ -39,16 +61,19 @@ export function avviaRouter() {
     }
   }
 
-  /** Congeda la sezione uscente al termine dell'animazione. */
+  /** Congeda la sezione uscente al termine della sua dissolvenza. */
   function congeda(el) {
-    el.classList.remove('is-active');
     el.classList.add('is-leaving');
-    const alTermine = () => {
+    const alTermine = (evento) => {
+      // animationend risale anche dagli elementi che si stanno
+      // ancora componendo dentro la sezione: vanno ignorati.
+      if (evento && evento.target !== el) return;
       el.classList.remove('is-leaving');
+      el.removeEventListener('animationend', alTermine);
       uscite.delete(el);
     };
     uscite.set(el, alTermine);
-    el.addEventListener('animationend', alTermine, { once: true });
+    el.addEventListener('animationend', alTermine);
   }
 
   /** Annulla un congedo in corso: serve se si torna subito indietro. */
@@ -80,10 +105,8 @@ export function avviaRouter() {
     if (vecchia) congeda(vecchia);
 
     const nuova = sezione(id);
-    trattieni(nuova);
-    nuova.classList.remove('is-active');
-    void nuova.offsetHeight; // forza il reflow, così l'animazione riparte
-    nuova.classList.add('is-active');
+    trattieni(nuova); // poteva essere lei stessa in uscita
+    componi(nuova);
   }
 
   window.addEventListener('hashchange', () => mostra(daIndirizzo()));
