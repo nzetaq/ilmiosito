@@ -1,8 +1,38 @@
 {
   "giorno": "2026-08-07",
-  "visite": 1,
+  "visite": 8,
   "eventi": 0,
   "pagine": [
+    {
+      "nome": "/ · home",
+      "titolo": "NZQ — Home",
+      "visite": 3,
+      "unici": 0
+    },
+    {
+      "nome": "/articoli",
+      "titolo": "NZQ — Articoli",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/tesi",
+      "titolo": "NZQ — Tesi",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/scritti",
+      "titolo": "NZQ — Poesie & Testi",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/collaudo-due",
+      "titolo": "Collaudo due",
+      "visite": 1,
+      "unici": 0
+    },
     {
       "nome": "/collaudo-curl",
       "titolo": "Collaudo diretto",
@@ -10,20 +40,26 @@
       "unici": 0
     }
   ],
-  "paesi": [],
-  "provenienze": [
+  "paesi": [
     {
-      "nome": "",
+      "nome": "Italy",
       "titolo": "",
-      "visite": 1,
+      "visite": 8,
       "unici": 0
     }
   ],
+  "provenienze": [],
   "browser": [
+    {
+      "nome": "Chrome",
+      "titolo": "",
+      "visite": 6,
+      "unici": 0
+    },
     {
       "nome": "Safari",
       "titolo": "",
-      "visite": 1,
+      "visite": 2,
       "unici": 0
     }
   ],
