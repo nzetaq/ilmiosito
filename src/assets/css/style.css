@@ -829,8 +829,16 @@ body {
   font-size: 13px;
   color: var(--bio);
   line-height: 1.7;
-  max-width: 46ch;
+  /* Largo quanto la frase più lunga delle tre, non quanto vorrebbe un
+     paragrafo di prosa: qui l'unità di lettura è la riga, non il capoverso. */
+  max-width: 64ch;
   margin: 0 auto;
+}
+
+.au-ia-frase {
+  display: block;
+  /* Se la colonna non basta — schermi stretti — la frase si spezza da
+     sola in righe di lunghezza simile invece di lasciarne una monca. */
   text-wrap: balance;
 }
 
