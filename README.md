@@ -74,15 +74,50 @@ gruppo: "Premio Alberoandronico"            # intestazione del gruppo
 gruppoUrl: "https://…"                      # link accanto all'intestazione
 gruppoLinkTesto: "Vai all'Albo d'oro →"
 ordine: 4
+nota: "Selezionata nella … Edizione del Premio."
 # data: "2026-03"                           # facoltativa
 # url: "https://…"                          # facoltativa, con linkTesto
 ---
 
-Selezionata nella … Edizione del Premio.
+Qui i versi, andando a capo dove vanno a capo.
+Le interruzioni di riga sono conservate come le scrivi,
+e una riga vuota separa una strofa dalla seguente.
 ```
 
-Le voci con lo stesso `gruppo` finiscono sotto la stessa intestazione.
-La cartella `tesi/` segue esattamente lo stesso schema.
+**Il corpo del file è la poesia**; la nota del premio sta in `nota`, nel
+front matter. Le voci con lo stesso `gruppo` finiscono sotto la stessa
+intestazione. La cartella `tesi/` segue lo stesso schema, senza la lente.
+
+#### La lente
+
+Quando il corpo contiene dei versi, il titolo diventa una **lente**: si
+segnala con `❧`, e al passaggio del puntatore apre una finestra che mostra
+la poesia. Allontanando il puntatore la finestra si chiude. Finché il corpo
+è vuoto il titolo resta un titolo normale, senza appigli e senza promesse —
+quindi si può scrivere una poesia alla volta senza stati intermedi rotti.
+
+Serve a far leggere i versi senza che si prendano con un gesto solo. Due
+regole fanno il lavoro, in `.au-versi-finestra`:
+
+- `user-select: none` toglie la selezione;
+- `pointer-events: none` rende la finestra **inafferrabile**: il puntatore la
+  attraversa e resta sul titolo, quindi non la si può cliccare, trascinare,
+  né aprirci sopra il menu contestuale.
+
+I versi **non entrano nell'indice** dell'Intelligenza Artificiosa — che è un
+file pubblico e leggibile: delle poesie si indicizzano titolo e `nota`, mai
+il corpo (`riservato: true` in `eleventy.config.js`).
+
+> **Che cosa questo non è.** Il testo viaggia comunque nel documento, e chi
+> lo cerca nel sorgente della pagina lo trova. Su un sito statico non esiste
+> modo di mostrare qualcosa senza mandarlo, e ogni tentativo di nasconderlo
+> davvero finirebbe per nasconderlo anche a chi legge con la tastiera o con
+> un lettore di schermo. È un attrito contro la copia distratta, non una
+> serratura — ed è bene saperlo prima di contarci.
+
+Per questo il titolo è raggiungibile con `Tab` e la finestra si apre anche
+al fuoco da tastiera: chi non ha un puntatore da posare deve poter leggere
+lo stesso, e non toglie nulla al deterrente.
 
 ### Una pagina di giornale — `src/content/giornale/`
 

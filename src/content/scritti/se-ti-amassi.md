@@ -5,6 +5,10 @@ gruppo: "Premio Alberoandronico"
 gruppoUrl: "https://alberoandronico.net/albo-doro/"
 gruppoLinkTesto: "Vai all'Albo d'oro →"
 ordine: 2
+nota: "Selezionata nella XVI Edizione del Premio Alberoandronico."
 ---
 
-Selezionata nella XVI Edizione del Premio Alberoandronico.
+<!-- Il corpo di questo file è la poesia: incollala qui sotto,
+     andando a capo dove va a capo. Le interruzioni di riga
+     sono conservate esattamente come le scrivi.
+     Finché resta vuoto, il titolo non apre nessuna finestra. -->

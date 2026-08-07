@@ -3,6 +3,7 @@ import { avviaTema } from './tema.js';
 import { avviaFiltri } from './filtri.js';
 import { avviaCitazioni } from './citazioni.js';
 import { avviaArtificiosa } from './artificiosa.js';
+import { avviaPoesie } from './poesie.js';
 import { avviaAnalisi } from './analisi.js';
 
 // I moduli sono differiti per natura: il documento è già completo.
@@ -13,3 +14,4 @@ avviaTema();
 avviaFiltri();
 avviaCitazioni();
 avviaArtificiosa();
+avviaPoesie();

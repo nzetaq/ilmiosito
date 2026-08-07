@@ -114,6 +114,20 @@ export default function (eleventyConfig) {
     return fonti;
   });
 
+  // ── Testo di una poesia ──
+  // Si legge il Markdown sorgente e non l'HTML reso, perché in una
+  // poesia l'andare a capo è parte del testo: il Markdown unirebbe le
+  // righe di una stessa strofa in un unico paragrafo. Il testo esce di
+  // qui grezzo e viene mostrato con `white-space: pre-line`, così le
+  // interruzioni restano quelle scritte nel file.
+  eleventyConfig.addFilter('versi', (voce) => {
+    return String((voce && voce.rawInput) || '')
+      .replace(/<!--[\s\S]*?-->/g, '')  // le istruzioni per chi scrive
+      .replace(/[ \t]+$/gm, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  });
+
   // ── Indice per il ritrovamento ──
   // L'Intelligenza Artificiosa non genera le risposte: le ritrova fra i
   // testi di questo sito. L'indice si costruisce qui, una volta per
@@ -129,7 +143,10 @@ export default function (eleventyConfig) {
   // Le sezioni da cui pescare, con l'ancora a cui rimandare il lettore.
   const INDICIZZATE = [
     { tag: 'articoli', sezione: 'articoli', etichetta: 'Articoli' },
-    { tag: 'scritti', sezione: 'scritti', etichetta: 'Poesie & Testi' },
+    // Delle poesie si indicizzano titolo e nota, mai i versi: l'indice
+    // è un file pubblico e leggibile: metterceli dentro vanificherebbe
+    // la finestra che li mostra solo al passaggio del puntatore.
+    { tag: 'scritti', sezione: 'scritti', etichetta: 'Poesie & Testi', riservato: true },
     { tag: 'tesi', sezione: 'tesi', etichetta: 'Tesi' },
     { tag: 'giornale', sezione: 'giornale', etichetta: 'Giornale' },
     { tag: 'appunti', sezione: 'appunti', etichetta: 'Appunti' }
@@ -153,12 +170,12 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addFilter('indice', (collezioni) => {
     const voci = [];
-    for (const { tag, sezione, etichetta } of INDICIZZATE) {
+    for (const { tag, sezione, etichetta, riservato } of INDICIZZATE) {
       for (const voce of collezioni[tag] || []) {
-        const testo = corpo(voce);
+        const d = voce.data;
+        const testo = riservato ? String(d.nota || '') : corpo(voce);
         if (SEGNAPOSTO.test(testo)) continue;
 
-        const d = voce.data;
         voci.push({
           t: d.titolo || '',
           s: testo,

@@ -154,8 +154,24 @@ permalink: /index.html
           <span class="au-poem-date">{{ voce.data.data | dataEstesa }}</span>
           {%- endif %}
         </div>
+        {#- I versi stanno nel corpo del file. Quando ci sono, il titolo
+            diventa una lente: al passaggio del puntatore si apre una
+            finestra che li mostra. Quando il corpo è vuoto il titolo
+            resta un titolo, senza appigli e senza promesse. -#}
+        {%- set versi = voce | versi %}
+        {%- if versi %}
+        {%- set idVersi = 'versi-' ~ voce.page.fileSlug %}
+        <h3 class="au-poem-title au-poem-title--lente"
+            tabindex="0" aria-describedby="{{ idVersi }}">{{ voce.data.titolo }}</h3>
+        {#- La sorgente resta nel documento, nascosta: è quella che legge
+            un lettore di schermo, ed è da lì che la finestra copia. -#}
+        <div class="au-poem-versi" id="{{ idVersi }}" hidden>{{ versi }}</div>
+        {%- else %}
         <h3 class="au-poem-title">{{ voce.data.titolo }}</h3>
-        <div class="au-poem-excerpt">{{ voce.templateContent | safe }}</div>
+        {%- endif %}
+        {%- if voce.data.nota %}
+        <div class="au-poem-excerpt"><p>{{ voce.data.nota }}</p></div>
+        {%- endif %}
         {%- if voce.data.url %}
         <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
         {%- endif %}
