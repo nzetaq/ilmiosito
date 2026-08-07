@@ -1,0 +1,65 @@
+# Rapporto giornaliero sul traffico del sito
+name: Rapporto analisi
+
+on:
+  schedule:
+    # 05:10 UTC — a giornata conclusa in Italia, con un po' di margine
+    # perché i dati del giorno prima siano assestati.
+    - cron: '10 5 * * *'
+
+  # Avviabile a mano, utile per la prima prova e per recuperare un giorno
+  workflow_dispatch:
+    inputs:
+      giorno:
+        description: 'Giorno da rilevare (AAAA-MM-GG). Vuoto = ieri.'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rapporto
+  cancel-in-progress: false
+
+jobs:
+  rapporto:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Genera il rapporto
+        env:
+          GOATCOUNTER_CODICE: ${{ vars.GOATCOUNTER_CODICE }}
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+        run: |
+          if [ -z "$GOATCOUNTER_CODICE" ] || [ -z "$GOATCOUNTER_TOKEN" ]; then
+            echo "::warning::GOATCOUNTER_CODICE o GOATCOUNTER_TOKEN non configurati: nulla da fare."
+            exit 0
+          fi
+          if [ -n "${{ inputs.giorno }}" ]; then
+            node strumenti/rapporto-analisi.mjs --giorno=${{ inputs.giorno }}
+          else
+            node strumenti/rapporto-analisi.mjs
+          fi
+
+      - name: Deposita il rapporto
+        run: |
+          if [ -z "$(git status --porcelain analisi)" ]; then
+            echo "Nessuna variazione da depositare."
+            exit 0
+          fi
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add analisi
+          # Il giorno si ricava dall'ultimo file prodotto, così il messaggio
+          # resta corretto anche recuperando una giornata arretrata a mano.
+          GIORNO=$(ls analisi/dati/*.json | sort | tail -1 | xargs basename | sed 's/\.json$//')
+          git commit -m "Rapporto traffico ${GIORNO}"
+          git push

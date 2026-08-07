@@ -29,6 +29,12 @@
   <meta name="theme-color" content="#f6f2e7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="{{ base }}assets/img/favicon.svg" type="image/svg+xml">
 
+  {%- if site.analisi.goatcounter %}
+  {#- Codice del sito su GoatCounter. Finché resta vuoto in site.json,
+      questo meta non compare e non viene caricato alcuno script. #}
+  <meta name="analisi-codice" content="{{ site.analisi.goatcounter }}">
+  {%- endif %}
+
   {#- Stato deciso prima del primo disegno, così la pagina non appare
      mai in una veste che va poi corretta sotto gli occhi di chi legge:
      né il tema sbagliato, né la sezione sbagliata. #}

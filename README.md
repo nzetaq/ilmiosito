@@ -111,6 +111,55 @@ punti, che è bene tenere allineati.
    elenchi di selettori che rispondono a `[data-sez]`: quello che rende
    visibile la sezione e quello che accende la linguetta nel menu.
 
+## Analisi del traffico
+
+Il conteggio si appoggia a [GoatCounter](https://www.goatcounter.com/):
+gratuito, senza cookie e senza dati personali, quindi **non serve alcun
+banner di consenso**. Finché non è configurato non viene caricato nulla:
+nessuno script di terze parti finisce nella pagina.
+
+### Messa in opera
+
+1. Aprire un conto su goatcounter.com e scegliere il codice del sito
+   (il sottodominio, per esempio `nzetaq`).
+2. Scriverlo in `src/_data/site.json`, alla voce `analisi.goatcounter`.
+   Da quel momento la pagina comincia a contare.
+3. Nel proprio conto GoatCounter, creare una chiave API con il permesso
+   di **lettura delle statistiche**.
+4. Su GitHub, in *Settings → Secrets and variables → Actions*:
+   - variabile `GOATCOUNTER_CODICE` — lo stesso codice del punto 2;
+   - segreto `GOATCOUNTER_TOKEN` — la chiave del punto 3.
+
+Senza il punto 4 il workflow non fallisce: si limita a non fare nulla.
+
+### I rapporti
+
+`.github/workflows/rapporto.yml` gira ogni giorno alle 05:10 UTC e
+deposita in `analisi/` un rapporto per giornata — sezioni lette, paesi,
+provenienze, browser, sistemi — più un riepilogo aggiornato degli ultimi
+sessanta giorni. Si può avviare anche a mano dalla scheda Actions,
+indicando eventualmente un giorno arretrato da recuperare.
+
+Per provarlo dal proprio computer, senza scrivere nulla su disco:
+
+```bash
+GOATCOUNTER_CODICE=... GOATCOUNTER_TOKEN=... \
+  node strumenti/rapporto-analisi.mjs --prova
+```
+
+Aggiungendo `--grezzo` si vede il JSON restituito dall'API, utile se un
+elenco risultasse vuoto.
+
+### Due avvertenze
+
+- **Questo repository è pubblico:** i rapporti depositati in `analisi/`
+  sono leggibili da chiunque, come i registri delle azioni.
+- **I numeri sono per difetto.** Chi usa un blocco degli script, o ha
+  chiesto di non essere tracciato, non viene conteggiato: il modulo
+  rispetta `Do Not Track` e `Global Privacy Control`.
+- GitHub sospende i workflow pianificati nei repository fermi da sessanta
+  giorni. Un commit qualsiasi li riattiva.
+
 ## Note tecniche
 
 - **Navigazione**: le sezioni sono indirizzi veri (`/#articoli`), quindi

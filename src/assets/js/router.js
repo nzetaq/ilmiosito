@@ -107,6 +107,10 @@ export function avviaRouter() {
     const nuova = sezione(id);
     trattieni(nuova); // poteva essere lei stessa in uscita
     componi(nuova);
+
+    // Il router non sa nulla di chi lo ascolta: si limita ad annunciare
+    // il cambio. Chi conta le visite si iscrive a questo evento.
+    document.dispatchEvent(new window.CustomEvent('nzq:sezione', { detail: { id } }));
   }
 
   window.addEventListener('hashchange', () => mostra(daIndirizzo()));

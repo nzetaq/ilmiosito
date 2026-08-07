@@ -5,6 +5,10 @@ on:
   # Ad ogni push sul ramo predefinito
   push:
     branches: ["main"]
+    # I rapporti di traffico non finiscono nel sito: non c'è nulla da
+    # ricostruire quando cambiano soltanto quelli.
+    paths-ignore:
+      - 'analisi/**'
 
   # Avviabile anche a mano dalla scheda Actions
   workflow_dispatch:
