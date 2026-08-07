@@ -178,12 +178,57 @@ elenco risultasse vuoto.
 ## Intelligenza Artificiosa
 
 La sezione `I.A.` è un oracolo che non capisce la domanda. **Non c'è alcun
-modello linguistico**, né qui né altrove: nessuna chiave, nessuna richiesta
-di rete, nessun dato di chi scrive che lasci la pagina. C'è una grammatica
-generativa in `src/assets/js/artificiosa.js` — circa 8 KB, zero dipendenze —
-che compone frasi sintatticamente impeccabili e semanticamente vuote.
+modello linguistico**, né qui né altrove: nessuna chiave, nessun servizio
+esterno, nessun dato di chi scrive che lasci la pagina.
 
-Funziona su tre strati:
+Risponde in due modi, e prova sempre il primo.
+
+### 1. Ritrovamento
+
+Cerca fra i testi di questo sito il passo che più somiglia alla domanda e lo
+cita, dicendo da dove viene. **La coerenza non è prodotta: è già nella frase**,
+perché la frase l'ha scritta una persona. Un sistema che ritrova non può
+inventare — non è una garanzia di prudenza, è una proprietà strutturale.
+
+- L'indice si costruisce durante la compilazione (`indice` in `eleventy.config.js`,
+  emesso da `src/indice.njk` in `assets/indice.json`). Oggi pesa **circa 5 KB**.
+- Si scarica **alla prima domanda**, non al caricamento della pagina: chi passa
+  di qui senza chiedere nulla non lo paga. È l'unica richiesta di rete della
+  sezione, e va verso questo stesso sito — da cui `connect-src 'self'` nella policy.
+- La graduatoria è **BM25** (`src/assets/js/ricerca.js`): frequenza del termine,
+  rarità nell'insieme, lunghezza del testo. Titolo, testata e categoria pesano
+  più del corpo. Un accenno di morfologia riduce le parole a radice, così
+  «magistratura» trova «magistrature».
+- Dei testi lunghi si cita **la frase pertinente**, non tutto: dell'abstract
+  della tesi interessano due righe, non millecinquecento battute.
+
+Il **segnaposto non viene indicizzato**. Finché `giornale/` e `appunti/` sono
+Lorem ipsum restano fuori da soli, senza doverlo scrivere altrove: ritrovare
+latino finto sarebbe peggio che non ritrovare nulla.
+
+> Il collo di bottiglia non è il codice, è il corpus. Oggi sono **14 voci per
+> circa 400 parole** di italiano vero. Ogni testo aggiunto migliora il
+> ritrovamento senza che si debba riaddestrare niente — è l'unico modo in cui
+> «più dati» rende davvero, su un sito statico.
+
+### 2. Insensatezza
+
+Quando non trova nulla — e con un corpus così capita spesso — l'oracolo torna
+a essere quello che era: una grammatica generativa che compone frasi
+sintatticamente impeccabili e semanticamente vuote.
+
+**Il ripiego non è una toppa: è ciò che tiene in piedi la premessa.** L'oracolo
+non dice mai di sapere. O cita qualcuno, o straparla. Le formule che
+introducono le citazioni («Non lo so. Ma di questo, qui, c'è scritto:») lo
+dichiarano ogni volta: è quella cornice a rendere un ritrovamento impreciso
+una citazione onesta anziché una risposta falsa.
+
+Le **risposte scritte a mano** precedono entrambi gli strati. A «sei
+un'intelligenza artificiale?» l'indice risponderebbe con i due articoli
+sull'IA, che è pertinente e insieme sbagliato: la domanda era rivolta a lui,
+non alla bibliografia.
+
+La grammatica funziona su tre strati:
 
 1. **Risposte fisse** per i casi prevedibili (`chi sei`, `ciao`, gli insulti,
    l'invio a vuoto, la stessa domanda posta due volte). Sono le battute

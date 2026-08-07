@@ -911,6 +911,58 @@ body {
   color: var(--bio);
 }
 
+/* ── Il brano ritrovato ──
+   Quando l'oracolo cita invece di straparlare, la risposta cambia
+   registro: rientra, si appoggia a un filetto e porta la firma di
+   dove viene. Il lettore deve vedere a colpo d'occhio che quelle non
+   sono parole della macchina. */
+.au-ia-brano {
+  margin: 0.9rem 0 0;
+  padding: 0 0 0 1.1rem;
+  border-left: 2px solid var(--accento);
+}
+
+.au-ia-citazione {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--testo);
+}
+
+.au-ia-fonte {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  margin-top: 0.6rem;
+  font-style: normal;
+}
+
+.au-ia-fonte-titolo {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--testo);
+}
+
+.au-ia-fonte-dettaglio {
+  font-size: 12px;
+  color: var(--bio);
+}
+
+.au-ia-fonte-link {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accento);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.au-ia-fonte-link:hover,
+.au-ia-fonte-link:focus-visible {
+  text-decoration: underline;
+}
+
 .au-ia-muta {
   font-size: 15px;
   line-height: 1.8;

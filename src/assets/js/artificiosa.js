@@ -1,10 +1,24 @@
 /**
  * Intelligenza Artificiosa — un oracolo che non capisce la domanda.
  *
+ * Risponde in due modi, e prova sempre il primo.
+ *
+ * 1. RITROVAMENTO. Cerca fra i testi di questo sito il passo che più
+ *    somiglia alla domanda e lo cita, dicendo da dove viene. Qui la
+ *    coerenza non è prodotta: è già nella frase, perché la frase l'ha
+ *    scritta una persona. Un sistema che ritrova non può inventare.
+ *
+ * 2. INSENSATEZZA. Quando non trova nulla — e con un sito piccolo
+ *    capita spesso — torna a essere quello che era: una grammatica
+ *    generativa, cioè regole che compongono frasi sintatticamente
+ *    impeccabili e semanticamente vuote.
+ *
+ * Il ripiego non è una toppa: è ciò che tiene in piedi la premessa.
+ * L'oracolo non dice mai di sapere. O cita qualcuno, o straparla.
+ *
  * Non c'è alcun modello linguistico, né qui né altrove: nessuna chiave,
- * nessuna richiesta di rete, nessun dato di chi scrive che lasci questa
- * pagina. C'è una grammatica generativa, cioè regole che compongono
- * frasi sintatticamente impeccabili e semanticamente vuote.
+ * nessun servizio esterno, nessun dato di chi scrive che lasci questa
+ * pagina. L'unica richiesta di rete è l'indice dei testi di qui.
  *
  * Il lessico viene da due parti che non dovrebbero stare insieme, ed è
  * proprio l'attrito a fare la battuta: l'impalcatura è quella della
@@ -13,6 +27,8 @@
  * Pascoli, Carducci — presa da Wikisource. Nel repository non stanno i
  * testi, solo le parole che ne ho scelte.
  */
+
+import { caricaIndice, interroga, passo } from './ricerca.js';
 
 /* ════════════════════════════════════════════════════════════════
    Morfologia italiana
@@ -142,6 +158,27 @@ const ATTESE = [
   'sussumo…',
   'interrogo la selva oscura…',
   'sospendo il giudizio, brevemente…'
+];
+
+/* Le formule con cui l'oracolo introduce una citazione. Nessuna
+   promette di aver capito la domanda: dicono tutte, in modi diversi,
+   «non lo so, ma qui c'era scritto questo». È questa cornice a fare
+   la differenza fra un ritrovamento impreciso e una risposta falsa. */
+const INTRODUZIONI = [
+  'Non lo so. Ma di questo, qui, c’è scritto:',
+  'Nulla mi risulta. Salvo questo:',
+  'La domanda mi eccede. Il testo, no:',
+  'Non rispondo. Cito:',
+  'Ignoro. Riporto:',
+  'Non ne ho idea. Però pare che qualcuno l’avesse già scritto:',
+  'Di mio, niente. Di suo:'
+];
+
+/* Quando il testo ritrovato non ha sommario: si può solo indicarlo. */
+const INDICAZIONI = [
+  'Non lo so. Ma esiste questo, e non ne ho conservato il sommario:',
+  'Nulla da citare. Solo un titolo:',
+  'Non rispondo. Indico:'
 ];
 
 /* ════════════════════════════════════════════════════════════════
@@ -311,6 +348,23 @@ function diverso(elenco, ultimo) {
 
 const maiuscola = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
+/**
+ * La risposta scritta a mano per questa domanda, se esiste.
+ *
+ * Va consultata *prima* del ritrovamento. A «sei un'intelligenza
+ * artificiale?» l'indice risponderebbe con i due articoli sull'IA,
+ * che è pertinente e insieme sbagliato: la domanda era rivolta a lui,
+ * non alla bibliografia. Una battuta mirata batte una citazione
+ * calzante.
+ */
+export function rispostaFissa(domanda) {
+  const pulita = String(domanda).toLowerCase().trim();
+  for (const [prova, risposta] of FISSE) {
+    if (prova.test(pulita)) return risposta;
+  }
+  return null;
+}
+
 export function creaOracolo() {
   let ultimaCoda = null;
   let ultimoVerbo = null;
@@ -319,9 +373,11 @@ export function creaOracolo() {
   return function rispondi(domanda) {
     const pulita = domanda.toLowerCase().trim();
 
-    for (const [prova, risposta] of FISSE) {
-      if (prova.test(pulita)) return risposta;
-    }
+    // Ripetuto qui di proposito: chi chiama `creaOracolo` da solo deve
+    // ottenere un oracolo completo, non uno che funziona a metà perché
+    // si aspetta che qualcun altro abbia già fatto il primo controllo.
+    const fissa = rispostaFissa(pulita);
+    if (fissa) return fissa;
 
     // Stessa domanda due volte: se ne accorge, e lo fa pesare.
     if (pulita && gia.has(pulita)) {
@@ -349,35 +405,90 @@ export function creaOracolo() {
    L'interfaccia
    ════════════════════════════════════════════════════════════════ */
 
+/** Solo http(s): l'indice lo scriviamo noi, ma un collegamento che
+    finisce in un attributo href merita comunque di essere guardato. */
+function collegamentoLecito(url) {
+  try {
+    const p = new URL(url, location.href).protocol;
+    return p === 'https:' || p === 'http:';
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * Costruisce il blocco di una citazione: il brano, e sotto la
+ * provenienza. Tutto via textContent — nell'indice ci sono i titoli
+ * che ho scritto io, ma l'abitudine di non montare HTML da stringhe
+ * è ciò che rende vera la premessa della policy di sicurezza.
+ */
+function componiBrano(voce, brano) {
+  const blocco = document.createElement('blockquote');
+  blocco.className = 'au-ia-brano';
+
+  if (brano) {
+    const testo = document.createElement('p');
+    testo.className = 'au-ia-citazione';
+    testo.textContent = `« ${brano} »`;
+    blocco.appendChild(testo);
+  }
+
+  const firma = document.createElement('cite');
+  firma.className = 'au-ia-fonte';
+
+  const titolo = document.createElement('span');
+  titolo.className = 'au-ia-fonte-titolo';
+  titolo.textContent = voce.t;
+  firma.appendChild(titolo);
+
+  const contorno = [voce.f, voce.d].filter(Boolean).join(', ');
+  if (contorno) {
+    const dettaglio = document.createElement('span');
+    dettaglio.className = 'au-ia-fonte-dettaglio';
+    dettaglio.textContent = contorno;
+    firma.appendChild(dettaglio);
+  }
+
+  if (voce.u && collegamentoLecito(voce.u)) {
+    const link = document.createElement('a');
+    link.className = 'au-ia-fonte-link';
+    link.href = voce.u;
+    link.target = '_blank';
+    // Senza questo la pagina aperta potrebbe manovrare quella di
+    // partenza attraverso window.opener.
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Leggi →';
+    firma.appendChild(link);
+  }
+
+  blocco.appendChild(firma);
+  return blocco;
+}
+
 export function avviaArtificiosa() {
   const modulo = document.getElementById('au-ia-form');
   const campo = document.getElementById('au-ia-input');
   const registro = document.getElementById('au-ia-registro');
   if (!modulo || !campo || !registro) return;
 
-  const rispondi = creaOracolo();
+  const straparla = creaOracolo();
   let inCorso = false;
 
-  function aggiungi(classe, testo) {
-    const p = document.createElement('p');
-    p.className = classe;
-    p.textContent = testo;
-    registro.prepend(p);
-    return p;
-  }
+  // L'indice parte al primo segno di interesse, non al caricamento
+  // della pagina: chi passa di qui senza chiedere niente non lo
+  // scarica mai. Al momento della domanda è quasi sempre già arrivato.
+  campo.addEventListener('focus', caricaIndice, { once: true });
 
   modulo.addEventListener('submit', (evento) => {
     evento.preventDefault();
     if (inCorso) return;
 
     const domanda = campo.value.trim().slice(0, 240);
-    const risposta = rispondi(domanda);
     inCorso = true;
     campo.value = '';
 
     const scambio = document.createElement('div');
     scambio.className = 'au-ia-scambio is-attesa';
-    scambio.innerHTML = '';
     registro.prepend(scambio);
 
     const d = document.createElement('p');
@@ -392,12 +503,32 @@ export function avviaArtificiosa() {
 
     // L'attesa non è un difetto: una risposta istantanea rivelerebbe
     // che dietro non c'è nessuno che pensa. Dietro non c'è nessuno
-    // che pensa, ma non è il caso di dirlo subito.
-    const pausa = 700 + Math.random() * 700;
-    window.setTimeout(() => {
-      r.textContent = risposta;
+    // che pensa, ma non è il caso di dirlo subito. Serve anche a
+    // coprire il caricamento dell'indice, la prima volta.
+    const pausa = new Promise((ok) => window.setTimeout(ok, 700 + Math.random() * 700));
+
+    // Le battute scritte a mano vengono prima di tutto: sono le uniche
+    // risposte di questo sito che siano davvero rivolte a chi chiede.
+    const fissa = rispostaFissa(domanda);
+
+    Promise.all([fissa ? null : caricaIndice(), pausa]).then(([indice]) => {
+      const esiti = indice ? interroga(indice, domanda, 1) : [];
+
+      if (fissa) {
+        r.textContent = fissa;
+      } else if (esiti.length) {
+        const voce = esiti[0].voce;
+        const brano = passo(voce, domanda);
+        r.textContent = a(brano ? INTRODUZIONI : INDICAZIONI);
+        scambio.appendChild(componiBrano(voce, brano));
+      } else {
+        // Nessun aggancio, o indice irraggiungibile: l'oracolo torna
+        // alla sua prima voce, che non ha mai avuto bisogno di dati.
+        r.textContent = straparla(domanda);
+      }
+
       scambio.classList.remove('is-attesa');
       inCorso = false;
-    }, pausa);
+    });
   });
 }

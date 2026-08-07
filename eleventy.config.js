@@ -19,6 +19,12 @@ function scomponi(data) {
   };
 }
 
+/** "2026-03" → "Marzo 2026"; "2026-05-01" → "1 Maggio 2026". */
+function esteso(data) {
+  const { anno, mese, giorno } = scomponi(data);
+  return giorno ? `${giorno} ${mese} ${anno}` : `${mese} ${anno}`;
+}
+
 export default function (eleventyConfig) {
   // ── Copia diretta degli asset statici ──
   eleventyConfig.addPassthroughCopy({ 'src/assets': 'assets' });
@@ -46,10 +52,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter('mese', (data) => scomponi(data).mese);
   eleventyConfig.addFilter('anno', (data) => scomponi(data).anno);
 
-  eleventyConfig.addFilter('dataEstesa', (data) => {
-    const { anno, mese, giorno } = scomponi(data);
-    return giorno ? `${giorno} ${mese} ${anno}` : `${mese} ${anno}`;
-  });
+  eleventyConfig.addFilter('dataEstesa', esteso);
 
   // ── Ordinamento ──
   // `campo` è una chiave del front matter; `decrescente` inverte l'ordine.
@@ -109,6 +112,73 @@ export default function (eleventyConfig) {
       if (!fonti.some((f) => f.id === fonteId)) fonti.push({ id: fonteId, nome: fonte });
     }
     return fonti;
+  });
+
+  // ── Indice per il ritrovamento ──
+  // L'Intelligenza Artificiosa non genera le risposte: le ritrova fra i
+  // testi di questo sito. L'indice si costruisce qui, una volta per
+  // compilazione, e viene servito come file a parte: chi non interroga
+  // l'oracolo non lo scarica nemmeno.
+
+  // Il segnaposto non va indicizzato. Ritrovare Lorem ipsum sarebbe
+  // peggio che non ritrovare nulla: l'oracolo risponderebbe in latino
+  // finto a chi ha chiesto in italiano. Finché giornale e appunti sono
+  // riempitivo restano fuori da soli, senza doverlo scrivere altrove.
+  const SEGNAPOSTO = /lorem ipsum|dolor sit amet|consectetur adipiscing/i;
+
+  // Le sezioni da cui pescare, con l'ancora a cui rimandare il lettore.
+  const INDICIZZATE = [
+    { tag: 'articoli', sezione: 'articoli', etichetta: 'Articoli' },
+    { tag: 'scritti', sezione: 'scritti', etichetta: 'Poesie & Testi' },
+    { tag: 'tesi', sezione: 'tesi', etichetta: 'Tesi' },
+    { tag: 'giornale', sezione: 'giornale', etichetta: 'Giornale' },
+    { tag: 'appunti', sezione: 'appunti', etichetta: 'Appunti' }
+  ];
+
+  // Si legge `rawInput` — il Markdown sorgente, senza front matter — e
+  // non `templateContent`. Quest'ultimo è l'HTML reso, e in questo punto
+  // della compilazione non esiste ancora: Eleventy solleva «Tried to use
+  // templateContent too early» per le voci non ancora attraversate,
+  // e quali lo siano dipende dall'ordine in cui le incontra. L'indice
+  // sarebbe risultato pieno per certe sezioni e vuoto per altre.
+  function corpo(voce) {
+    return String(voce.rawInput || '')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')  // immagini
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // collegamenti: resta il testo
+      .replace(/^[>#\s-]+/gm, ' ')             // citazioni, titoli, elenchi
+      .replace(/[*_`]/g, '')                   // enfasi
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  eleventyConfig.addFilter('indice', (collezioni) => {
+    const voci = [];
+    for (const { tag, sezione, etichetta } of INDICIZZATE) {
+      for (const voce of collezioni[tag] || []) {
+        const testo = corpo(voce);
+        if (SEGNAPOSTO.test(testo)) continue;
+
+        const d = voce.data;
+        voci.push({
+          t: d.titolo || '',
+          s: testo,
+          // La provenienza è la testata per gli articoli, il premio per
+          // le poesie: campi diversi, stesso ruolo per chi legge.
+          f: d.fonte || d.gruppo || '',
+          // La data si formatta qui: il ritrovamento gira nel browser e
+          // non ha ragione di portarsi dietro i nomi dei mesi.
+          d: d.data ? esteso(d.data) : '',
+          u: d.url || d.gruppoUrl || '',
+          z: sezione,
+          e: etichetta,
+          // Come si chiama la cosa. Senza questo «hai scritto poesie?»
+          // non trova nulla: la parola «poesia» non compare in nessuno
+          // dei testi, sta solo nel nome della sezione che li raccoglie.
+          k: [d.tipo, etichetta].filter(Boolean).join(' ')
+        });
+      }
+    }
+    return voci;
   });
 
   // ── Collezioni ──

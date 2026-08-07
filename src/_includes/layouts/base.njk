@@ -62,9 +62,10 @@
     font-src 'self';
     style-src 'self' {{ stileSenzaJs | impronta | safe }};
     script-src 'self' {{ avvio | impronta | safe }};
-    {%- if site.analisi.goatcounter %}
-    connect-src https://{{ site.analisi.goatcounter }}.goatcounter.com;
-    {%- endif %}
+    {#- 'self' serve all'Intelligenza Artificiosa, che alla prima
+        domanda scarica l'indice dei testi del sito. È il permesso più
+        stretto possibile: nessun'altra origine è raggiungibile. -#}
+    connect-src 'self'{% if site.analisi.goatcounter %} https://{{ site.analisi.goatcounter }}.goatcounter.com{% endif %};
   ">
 
   <title>{{ titolo or site.titolo }}</title>
