@@ -1036,17 +1036,19 @@ body {
 }
 
 /* ── Orologio da taschino ── */
-/* L'orologio sta nell'angolo in basso a destra, e non in alto come
-   prima: lassù il suo riquadro d'innesco — 185×185 fissi, z-index 999 —
-   copriva il bordo destro dell'interruttore del tema e ne intercettava
-   il clic. Non era una svista di poco: il contenitore è largo al
-   massimo 1100px e centrato, quindi i due si sovrapponevano a ogni
-   finestra sotto i 1470px, cioè quasi sempre. In basso non c'è nulla
-   che possa contendergli lo spazio, a nessuna larghezza. */
+/* L'orologio sta nell'angolo in alto a sinistra, e non a destra come
+   prima: da quel lato il suo riquadro d'innesco — 185×185 fissi,
+   z-index 999 — copriva il bordo destro dell'interruttore del tema e ne
+   intercettava il clic. Non era una svista di poco: il contenitore è
+   largo al massimo 1100px ed è centrato, quindi i due si sovrapponevano
+   a ogni finestra sotto i 1470px, cioè quasi sempre.
+   A sinistra l'unica cosa che incontra è il motto, che è testo e non
+   risponde al clic; e resta un angolo dove il puntatore passa, che è
+   ciò che serve a una sorpresa per essere trovata. */
 .au-corner-trigger {
   position: fixed;
-  bottom: 0;
-  right: 0;
+  top: 0;
+  left: 0;
   width: 185px;
   height: 185px;
   z-index: 999;
@@ -1054,8 +1056,8 @@ body {
 
 .au-pocket-watch {
   position: absolute;
-  bottom: 0.75rem;
-  right: 0.75rem;
+  top: 0.75rem;
+  left: 0.75rem;
   width: 160px;
   height: auto;
   opacity: 0;
