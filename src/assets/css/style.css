@@ -1,172 +1,168 @@
 /* ═══════════════════════════════════════════════════════════════
    NZQ — foglio di stile unico
-   I colori sono definiti una sola volta come variabili: il tema
-   chiaro si limita a ridichiararle, senza duplicare le regole.
+   Estetica risografica: pochi inchiostri, campiture piene, nessuna
+   sfumatura. I colori sono variabili dichiarate una sola volta; il
+   tema chiaro si limita a ridichiararle scambiando fondo e figura.
    ═══════════════════════════════════════════════════════════════ */
 
-/* ── Tavolozza: tema scuro (predefinito) ── */
+/* ── Gli inchiostri, uguali per entrambi i temi ── */
+:root {
+  --blu: 21, 29, 51;         /* #151d33 — inchiostro di fondo */
+  --carta: 244, 240, 230;    /* #f4f0e6 — il bianco della carta */
+  --arancio: 255, 90, 54;    /* #ff5a36 — arancio fluorescente */
+  --rosa: 255, 72, 176;      /* #ff48b0 — rosa fluorescente */
+  --giallo: 255, 210, 63;    /* #ffd23f — giallo */
+
+  /* Gli inchiostri fluo hanno contrasto insufficiente per il testo
+     sulla carta chiara: là il testo usa queste versioni cupe. */
+  --arancio-cupo: 203, 48, 12;
+  --rosa-cupo: 193, 24, 126;
+  --blu-vivo: 43, 62, 168;
+
+  --font-display: 'Space Grotesk', 'Archivo', sans-serif;
+  --font-testo: 'Archivo', sans-serif;
+
+  /* Ombra piena, senza sfocatura: è un secondo passaggio di stampa */
+  --scarto: 5px;
+}
+
+/* ── Tavolozza: tema scuro, inchiostro blu come fondo ── */
 :root {
   color-scheme: dark;
 
-  --bg: #050810;
-  --testo: rgba(220, 235, 250, 0.85);
+  --bg: #151d33;
+  --testo: rgba(var(--carta), 0.86);
 
-  /* Titoli */
-  --titolo-forte: rgba(230, 245, 255, 0.95);
-  --titolo-em: rgba(180, 220, 255, 0.7);
-  --titolo: rgba(220, 235, 250, 0.9);
-  --titolo-voce: rgba(220, 235, 250, 0.88);
+  --titolo-forte: rgb(var(--carta));
+  --titolo-em: rgb(var(--arancio));
+  --titolo: rgba(var(--carta), 0.96);
+  --titolo-voce: rgba(var(--carta), 0.92);
 
-  /* Testi secondari */
-  --bio: rgba(180, 200, 230, 0.5);
-  --descrizione: rgba(160, 180, 210, 0.45);
-  --estratto: rgba(160, 180, 210, 0.5);
-  --meta: rgba(160, 180, 210, 0.35);
-  --gp-meta: rgba(160, 180, 210, 0.38);
-  --prosa: rgba(190, 210, 235, 0.62);
-  --prosa-voce: rgba(190, 210, 235, 0.58);
+  --bio: rgba(var(--carta), 0.6);
+  --descrizione: rgba(var(--carta), 0.6);
+  --estratto: rgba(var(--carta), 0.62);
+  --meta: rgba(var(--carta), 0.5);
+  --gp-meta: rgba(var(--carta), 0.52);
+  --prosa: rgba(var(--carta), 0.74);
+  --prosa-voce: rgba(var(--carta), 0.72);
 
-  /* Accento verde */
-  --etichetta: rgba(100, 220, 180, 0.7);
-  --accento: rgba(100, 220, 180, 0.9);
-  --fonte: rgba(100, 220, 180, 0.5);
-  --link: rgba(100, 220, 180, 0.7);
-  --link-hover: rgba(100, 220, 180, 1);
+  --etichetta: rgb(var(--arancio));
+  --accento: rgb(var(--arancio));
+  --fonte: rgb(var(--arancio));
+  --link: rgb(var(--arancio));
+  --link-hover: rgb(var(--giallo));
 
-  /* Accento viola e blu */
-  --viola: rgba(180, 120, 220, 0.6);
-  --viola-link: rgba(180, 120, 220, 0.7);
-  --viola-link-hover: rgba(180, 120, 220, 1);
-  --anno: rgba(100, 180, 220, 0.7);
+  --viola: rgb(255, 111, 181);
+  --viola-link: rgb(255, 111, 181);
+  --viola-link-hover: rgb(var(--giallo));
+  --anno: rgb(var(--giallo));
 
-  /* Navigazione */
-  --nav: rgba(180, 200, 230, 0.35);
-  --nav-hover: rgba(180, 200, 230, 0.65);
-  --nav-attivo-bordo: rgba(100, 220, 180, 0.5);
+  --nav: rgba(var(--carta), 0.55);
+  --nav-hover: rgb(var(--carta));
+  --nav-attivo-sfondo: rgb(var(--arancio));
+  --nav-attivo-testo: #151d33;
 
-  /* Filtri */
-  --filtro: rgba(180, 200, 230, 0.5);
-  --filtro-hover: rgba(220, 240, 255, 0.8);
-  --filtro-sfondo: rgba(255, 255, 255, 0.03);
-  --filtro-bordo: rgba(255, 255, 255, 0.08);
-  --filtro-bordo-hover: rgba(255, 255, 255, 0.15);
-  --filtro-attivo-bordo: rgba(100, 220, 180, 0.3);
-  --filtro-attivo-sfondo: rgba(100, 220, 180, 0.06);
+  --filtro: rgba(var(--carta), 0.75);
+  --filtro-hover: rgb(var(--carta));
+  --filtro-sfondo: transparent;
+  --filtro-bordo: rgba(var(--carta), 0.38);
+  --filtro-bordo-hover: rgb(var(--arancio));
+  --filtro-attivo-sfondo: rgb(var(--arancio));
+  --filtro-attivo-testo: #151d33;
 
-  /* Schede della home */
-  --scheda-sfondo: rgba(255, 255, 255, 0.018);
-  --scheda-sfondo-hover: rgba(255, 255, 255, 0.03);
-  --scheda-bordo: rgba(255, 255, 255, 0.06);
-  --scheda-bordo-hover: rgba(255, 255, 255, 0.13);
+  --scheda-sfondo: rgba(var(--carta), 0.04);
+  --scheda-bordo: rgba(var(--carta), 0.9);
+  --scheda-ombra: rgb(var(--arancio));
 
-  /* Separatori */
-  --filo: rgba(255, 255, 255, 0.05);
-  --filo-sezione: rgba(255, 255, 255, 0.05);
-  --filo-forte: rgba(255, 255, 255, 0.07);
+  --filo: rgba(var(--carta), 0.18);
+  --filo-sezione: rgba(var(--carta), 0.24);
+  --filo-forte: rgba(var(--carta), 0.32);
 
-  /* Interruttore del tema */
-  --toggle: rgba(180, 200, 230, 0.3);
-  --toggle-hover: rgba(180, 200, 230, 0.65);
-  --toggle-bordo: rgba(255, 255, 255, 0.07);
-  --toggle-bordo-hover: rgba(255, 255, 255, 0.15);
+  --toggle: rgba(var(--carta), 0.8);
+  --toggle-hover: #151d33;
+  --toggle-bordo: rgba(var(--carta), 0.45);
+  --toggle-sfondo-hover: rgb(var(--arancio));
 
-  /* Overlay della citazione */
-  --overlay: rgba(5, 8, 16, 0.88);
-  --citazione: rgba(220, 235, 250, 0.82);
-  --citazione-attr: rgba(100, 220, 180, 0.5);
-  --citazione-chiudi: rgba(180, 200, 230, 0.18);
+  --overlay: rgba(var(--blu), 0.95);
+  --citazione: rgb(var(--carta));
+  --citazione-attr: rgb(var(--arancio));
+  --citazione-chiudi: rgba(var(--carta), 0.42);
 
-  /* Sfondo animato */
-  --stelle-opacita: 1;
-  --aurora-1:
-    radial-gradient(ellipse 120% 50% at 30% -10%,
-      rgba(32, 178, 100, 0.18) 0%, rgba(32, 178, 100, 0.06) 40%, transparent 70%),
-    radial-gradient(ellipse 100% 60% at 70% 5%,
-      rgba(100, 80, 200, 0.20) 0%, rgba(100, 80, 200, 0.06) 45%, transparent 70%),
-    radial-gradient(ellipse 80% 40% at 50% 0%,
-      rgba(0, 180, 180, 0.12) 0%, transparent 60%);
-  --aurora-2:
-    radial-gradient(ellipse 90% 40% at 20% 15%,
-      rgba(180, 60, 200, 0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 30% at 80% 10%,
-      rgba(0, 220, 130, 0.10) 0%, transparent 60%);
+  /* Sfondo: retino a mezzatinta e due campiture fuori registro */
+  --retino: rgba(var(--carta), 0.1);
+  --macchia-1: radial-gradient(ellipse 26% 17% at 94% -7%,
+    rgba(var(--arancio), 0.16) 0 99.5%, transparent 100%);
+  --macchia-2: radial-gradient(ellipse 20% 13% at 2% 104%,
+    rgba(var(--rosa), 0.13) 0 99.5%, transparent 100%);
 }
 
-/* ── Tavolozza: tema chiaro, pergamena ── */
+/* ── Tavolozza: tema chiaro, la carta come fondo ── */
 .theme-light {
   color-scheme: light;
 
-  --bg: #f0e2be;
-  --testo: rgba(32, 18, 6, 0.82);
+  --bg: #f6f2e7;
+  --testo: rgba(var(--blu), 0.88);
 
-  --titolo-forte: rgba(24, 12, 3, 0.95);
-  --titolo-em: rgba(75, 50, 130, 0.62);
-  --titolo: rgba(24, 12, 3, 0.9);
-  --titolo-voce: rgba(24, 12, 3, 0.88);
+  --titolo-forte: rgb(var(--blu));
+  --titolo-em: rgb(var(--arancio-cupo));
+  --titolo: rgb(var(--blu));
+  --titolo-voce: rgba(var(--blu), 0.92);
 
-  --bio: rgba(60, 38, 14, 0.55);
-  --descrizione: rgba(60, 38, 14, 0.52);
-  --estratto: rgba(60, 38, 14, 0.52);
-  --meta: rgba(60, 38, 14, 0.38);
-  --gp-meta: rgba(60, 38, 14, 0.42);
-  --prosa: rgba(60, 38, 14, 0.6);
-  --prosa-voce: rgba(60, 38, 14, 0.58);
+  --bio: rgba(var(--blu), 0.62);
+  --descrizione: rgba(var(--blu), 0.62);
+  --estratto: rgba(var(--blu), 0.64);
+  --meta: rgba(var(--blu), 0.65);
+  --gp-meta: rgba(var(--blu), 0.65);
+  --prosa: rgba(var(--blu), 0.76);
+  --prosa-voce: rgba(var(--blu), 0.74);
 
-  --etichetta: rgba(14, 110, 80, 0.82);
-  --accento: rgba(14, 116, 86, 0.92);
-  --fonte: rgba(14, 116, 86, 0.6);
-  --link: rgba(14, 116, 86, 0.78);
-  --link-hover: rgba(14, 116, 86, 1);
+  --etichetta: rgb(var(--arancio-cupo));
+  --accento: rgb(var(--arancio-cupo));
+  --fonte: rgb(var(--arancio-cupo));
+  --link: rgb(var(--arancio-cupo));
+  --link-hover: rgb(var(--blu));
 
-  --viola: rgba(105, 42, 168, 0.62);
-  --viola-link: rgba(105, 42, 168, 0.72);
-  --viola-link-hover: rgba(105, 42, 168, 1);
-  --anno: rgba(75, 50, 130, 0.65);
+  --viola: rgb(var(--rosa-cupo));
+  --viola-link: rgb(var(--rosa-cupo));
+  --viola-link-hover: rgb(var(--blu));
+  --anno: rgb(var(--blu-vivo));
 
-  --nav: rgba(60, 38, 14, 0.42);
-  --nav-hover: rgba(60, 38, 14, 0.72);
-  --nav-attivo-bordo: rgba(14, 116, 86, 0.4);
+  --nav: rgba(var(--blu), 0.65);
+  --nav-hover: rgb(var(--blu));
+  --nav-attivo-sfondo: rgb(var(--arancio));
+  --nav-attivo-testo: #151d33;
 
-  --filtro: rgba(60, 38, 14, 0.55);
-  --filtro-hover: rgba(32, 18, 6, 0.82);
-  --filtro-sfondo: rgba(80, 50, 10, 0.04);
-  --filtro-bordo: rgba(80, 50, 10, 0.1);
-  --filtro-bordo-hover: rgba(80, 50, 10, 0.18);
-  --filtro-attivo-bordo: rgba(14, 116, 86, 0.32);
-  --filtro-attivo-sfondo: rgba(14, 116, 86, 0.06);
+  --filtro: rgba(var(--blu), 0.75);
+  --filtro-hover: rgb(var(--blu));
+  --filtro-sfondo: transparent;
+  --filtro-bordo: rgba(var(--blu), 0.35);
+  --filtro-bordo-hover: rgb(var(--arancio-cupo));
+  --filtro-attivo-sfondo: rgb(var(--arancio));
+  --filtro-attivo-testo: #151d33;
 
-  --scheda-sfondo: rgba(80, 50, 10, 0.03);
-  --scheda-sfondo-hover: rgba(80, 50, 10, 0.05);
-  --scheda-bordo: rgba(80, 50, 10, 0.09);
-  --scheda-bordo-hover: rgba(80, 50, 10, 0.16);
+  --scheda-sfondo: rgba(255, 255, 255, 0.42);
+  --scheda-bordo: rgb(var(--blu));
+  --scheda-ombra: rgb(var(--arancio));
 
-  --filo: rgba(80, 50, 10, 0.07);
-  --filo-sezione: rgba(80, 50, 10, 0.08);
-  --filo-forte: rgba(80, 50, 10, 0.1);
+  --filo: rgba(var(--blu), 0.18);
+  --filo-sezione: rgba(var(--blu), 0.24);
+  --filo-forte: rgba(var(--blu), 0.32);
 
-  --toggle: rgba(60, 38, 14, 0.38);
-  --toggle-hover: rgba(60, 38, 14, 0.68);
-  --toggle-bordo: rgba(80, 50, 10, 0.12);
-  --toggle-bordo-hover: rgba(80, 50, 10, 0.22);
+  --toggle: rgb(var(--blu));
+  --toggle-hover: #151d33;
+  --toggle-bordo: rgba(var(--blu), 0.4);
+  --toggle-sfondo-hover: rgb(var(--arancio));
 
-  --overlay: rgba(210, 185, 140, 0.9);
-  --citazione: rgba(24, 12, 3, 0.82);
-  --citazione-attr: rgba(14, 116, 86, 0.65);
-  --citazione-chiudi: rgba(60, 38, 14, 0.28);
+  --overlay: rgba(246, 242, 231, 0.96);
+  --citazione: rgb(var(--blu));
+  --citazione-attr: rgb(var(--arancio-cupo));
+  --citazione-chiudi: rgba(var(--blu), 0.45);
 
-  --stelle-opacita: 0;
-  --aurora-1:
-    radial-gradient(ellipse 120% 50% at 30% -10%,
-      rgba(180, 120, 30, 0.07) 0%, rgba(180, 120, 30, 0.02) 40%, transparent 70%),
-    radial-gradient(ellipse 100% 60% at 70% 5%,
-      rgba(110, 80, 180, 0.06) 0%, rgba(110, 80, 180, 0.02) 45%, transparent 70%),
-    radial-gradient(ellipse 80% 40% at 50% 0%,
-      rgba(0, 150, 130, 0.04) 0%, transparent 60%);
-  --aurora-2:
-    radial-gradient(ellipse 90% 40% at 20% 15%,
-      rgba(160, 80, 30, 0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 30% at 80% 10%,
-      rgba(140, 100, 20, 0.04) 0%, transparent 60%);
+  --retino: rgba(var(--blu), 0.11);
+  --macchia-1: radial-gradient(ellipse 26% 17% at 94% -7%,
+    rgba(var(--arancio), 0.24) 0 99.5%, transparent 100%);
+  --macchia-2: radial-gradient(ellipse 20% 13% at 2% 104%,
+    rgba(var(--rosa), 0.16) 0 99.5%, transparent 100%);
 }
 
 /* ── Azzeramento ── */
@@ -185,8 +181,9 @@ img {
 
 /* ── Base ── */
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-testo);
   font-size: 15px;
+  font-weight: 400;
   line-height: 1.75;
   color: var(--testo);
   background: var(--bg);
@@ -195,8 +192,8 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--link-hover);
-  outline-offset: 3px;
+  outline: 3px solid var(--accento);
+  outline-offset: 2px;
 }
 
 /* Collegamento di servizio: invisibile finché non riceve il fuoco */
@@ -218,16 +215,18 @@ body {
   height: auto;
   clip-path: none;
   padding: 0.6rem 1rem;
+  font-family: var(--font-testo);
   font-size: 12px;
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--link-hover);
-  background: var(--bg);
-  border: 1px solid var(--filtro-bordo-hover);
+  color: var(--nav-attivo-testo);
+  background: var(--nav-attivo-sfondo);
+  border: 2px solid var(--scheda-bordo);
   text-decoration: none;
 }
 
-/* ── Sfondo: aurora e stelle ── */
+/* ── Sfondo: campiture piatte e retino a mezzatinta ── */
 .au-bg {
   position: fixed;
   inset: 0;
@@ -241,35 +240,17 @@ body {
   inset: 0;
 }
 
-.au-layer {
-  background: var(--aurora-1);
-  animation: aurora-drift 18s ease-in-out infinite alternate;
-}
+/* Due campiture d'inchiostro leggermente fuori registro, come
+   accade in stampa quando i passaggi non combaciano. */
+.au-layer { background: var(--macchia-1); }
+.au-layer-2 { background: var(--macchia-2); }
 
-.au-layer-2 {
-  background: var(--aurora-2);
-  animation: aurora-drift 24s ease-in-out infinite alternate-reverse;
-}
-
-@keyframes aurora-drift {
-  0%   { transform: translateX(0) scaleY(1); opacity: 0.8; }
-  50%  { transform: translateX(3%) scaleY(1.08); opacity: 1; }
-  100% { transform: translateX(-3%) scaleY(0.94); opacity: 0.7; }
-}
-
+/* Il retino: la trama di punti tipica della riproduzione a stampa */
 .au-stars {
   position: absolute;
   inset: 0;
-  opacity: var(--stelle-opacita);
-  background-image:
-    radial-gradient(1px 1px at 15% 20%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 42% 8%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 73% 35%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 88% 15%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
-    radial-gradient(1px 1px at 5% 65%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
-    radial-gradient(1px 1px at 60% 55%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 30% 80%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 95% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+  background-image: radial-gradient(circle at center, var(--retino) 0.9px, transparent 1px);
+  background-size: 5px 5px;
 }
 
 /* ── Impaginazione ── */
@@ -329,8 +310,8 @@ body {
 
 .au-label {
   font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.35em;
+  font-weight: 700;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--etichetta);
 }
@@ -338,82 +319,81 @@ body {
 .au-name {
   user-select: none;
   -webkit-user-select: none;
+  font-family: var(--font-display);
   font-size: clamp(36px, 7vw, 58px);
-  font-weight: 200;
-  line-height: 1.1;
+  font-weight: 700;
+  line-height: 1.05;
   color: var(--titolo-forte);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
   margin-bottom: 1rem;
 }
 
 .au-name em {
-  font-style: italic;
-  font-weight: 200;
+  font-style: normal;
   color: var(--titolo-em);
 }
 
 .au-bio {
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--bio);
   max-width: 400px;
-  line-height: 1.8;
+  line-height: 1.75;
 }
 
 .au-theme-toggle {
-  font-family: inherit;
+  font-family: var(--font-testo);
   font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.28em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--toggle);
   background: none;
-  border: 1px solid var(--toggle-bordo);
+  border: 2px solid var(--toggle-bordo);
   padding: 0.35rem 0.8rem;
   cursor: pointer;
-  transition: color 0.25s, border-color 0.25s;
+  transition: color 0.12s, border-color 0.12s, background-color 0.12s;
 }
 
 .au-theme-toggle:hover {
   color: var(--toggle-hover);
-  border-color: var(--toggle-bordo-hover);
-}
-
-/* Ritorno alla home dalla pagina d'errore */
-.au-ritorno {
-  margin-top: 2rem;
+  background: var(--toggle-sfondo-hover);
+  border-color: var(--toggle-sfondo-hover);
 }
 
 /* ── Navigazione ── */
 .au-nav {
   display: flex;
   gap: 0;
-  border-bottom: 1px solid var(--filo-forte);
+  border-bottom: 2px solid var(--filo-forte);
 }
 
 .au-nav-btn {
   display: inline-block;
-  font-family: inherit;
+  font-family: var(--font-testo);
   font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.3em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--nav);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   padding: 0.5rem 1.25rem 0.6rem;
-  margin-bottom: -1px;
+  margin-bottom: -2px;
   cursor: pointer;
-  transition: color 0.25s, border-color 0.25s;
+  transition: color 0.12s, background-color 0.12s;
 }
 
 .au-nav-btn:hover {
   color: var(--nav-hover);
 }
 
+/* La sezione corrente è una campitura piena: una linguetta stampata */
 .au-nav-btn.active {
-  color: var(--accento);
-  border-bottom-color: var(--nav-attivo-bordo);
+  color: var(--nav-attivo-testo);
+  background: var(--nav-attivo-sfondo);
+  border-bottom-color: var(--nav-attivo-sfondo);
 }
 
 /* ── Sezioni: transizione laterale ── */
@@ -424,23 +404,23 @@ body {
 
 .au-section.is-active {
   display: block;
-  animation: section-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: section-in 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .au-section.is-leaving {
   display: block;
-  animation: section-out 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+  animation: section-out 0.14s linear forwards;
   pointer-events: none;
 }
 
 @keyframes section-in {
-  from { opacity: 0; transform: translateX(28px); }
+  from { opacity: 0; transform: translateX(20px); }
   to   { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes section-out {
   from { opacity: 1; transform: translateX(0); }
-  to   { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 0; transform: translateX(-14px); }
 }
 
 /* ── Filtri ── */
@@ -452,18 +432,18 @@ body {
 }
 
 .au-filter-btn {
-  font-family: inherit;
+  font-family: var(--font-testo);
   font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--filtro);
   background: var(--filtro-sfondo);
-  border: 1px solid var(--filtro-bordo);
-  border-radius: 2px;
+  border: 2px solid var(--filtro-bordo);
+  border-radius: 0;
   padding: 0.35rem 1rem;
   cursor: pointer;
-  transition: color 0.25s, border-color 0.25s, background 0.25s;
+  transition: color 0.12s, border-color 0.12s, background-color 0.12s;
 }
 
 .au-filter-btn:hover {
@@ -472,21 +452,22 @@ body {
 }
 
 .au-filter-btn.active {
-  color: var(--accento);
-  border-color: var(--filtro-attivo-bordo);
+  color: var(--filtro-attivo-testo);
+  border-color: var(--filtro-attivo-sfondo);
   background: var(--filtro-attivo-sfondo);
 }
 
 /* ── Intestazione d'annata o di gruppo ── */
 .au-year {
+  font-family: var(--font-display);
   font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.3em;
+  font-weight: 700;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--anno);
   margin-top: 2.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--filo-sezione);
+  border-bottom: 2px solid var(--filo-sezione);
 }
 
 .au-anno-gruppo[hidden] {
@@ -501,7 +482,7 @@ body {
   grid-template-columns: 1fr 70px;
   gap: 1.5rem;
   align-items: start;
-  transition: padding-left 0.3s;
+  transition: padding-left 0.15s;
 }
 
 .au-article:hover { padding-left: 0.5rem; }
@@ -510,35 +491,36 @@ body {
 
 .au-source {
   font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.2em;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fonte);
   margin-bottom: 0.35rem;
 }
 
 .au-article-title {
+  font-family: var(--font-display);
   font-size: 17px;
-  font-weight: 300;
+  font-weight: 700;
   color: var(--titolo);
-  line-height: 1.45;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
   margin-bottom: 0.4rem;
 }
 
 .au-article-desc {
   font-size: 13px;
-  font-weight: 300;
-  font-style: italic;
+  font-weight: 400;
   color: var(--descrizione);
-  line-height: 1.65;
+  line-height: 1.6;
 }
 
 .au-right { text-align: right; }
 
 .au-date {
   font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   color: var(--meta);
   margin-bottom: 0.75rem;
   line-height: 1.4;
@@ -546,21 +528,25 @@ body {
 
 .au-link {
   font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--link);
   text-decoration: none;
-  transition: color 0.2s;
+  border-bottom: 2px solid transparent;
+  transition: color 0.12s, border-color 0.12s;
 }
 
-.au-link:hover { color: var(--link-hover); }
+.au-link:hover {
+  color: var(--link-hover);
+  border-bottom-color: var(--link-hover);
+}
 
 /* ── Poesie, testi, tesi ── */
 .au-poem {
   padding: 1.75rem 0;
   border-bottom: 1px solid var(--filo);
-  transition: padding-left 0.3s;
+  transition: padding-left 0.15s;
 }
 
 .au-poem:hover { padding-left: 0.5rem; }
@@ -575,48 +561,53 @@ body {
 
 .au-poem-type {
   font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.2em;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--viola);
 }
 
 .au-poem-date {
   font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   color: var(--meta);
 }
 
 .au-poem-title {
+  font-family: var(--font-display);
   font-size: 17px;
-  font-weight: 300;
+  font-weight: 700;
   color: var(--titolo);
-  line-height: 1.4;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
   margin-bottom: 0.6rem;
 }
 
 .au-poem-excerpt {
   font-size: 13px;
-  font-weight: 300;
-  font-style: italic;
+  font-weight: 400;
   color: var(--estratto);
-  line-height: 2;
+  line-height: 1.85;
 }
 
 .au-poem-link {
   display: inline-block;
   margin-top: 0.75rem;
   font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--viola-link);
   text-decoration: none;
-  transition: color 0.2s;
+  border-bottom: 2px solid transparent;
+  transition: color 0.12s, border-color 0.12s;
 }
 
-.au-poem-link:hover { color: var(--viola-link-hover); }
+.au-poem-link:hover {
+  color: var(--viola-link-hover);
+  border-bottom-color: var(--viola-link-hover);
+}
 
 /* ── Griglia della home ── */
 .au-home-grid {
@@ -625,16 +616,19 @@ body {
   gap: 1.25rem;
 }
 
+/* Ogni scheda è un foglio stampato: bordo pieno e ombra netta,
+   spostata come un secondo passaggio d'inchiostro. */
 .au-home-card {
   padding: 1.5rem;
-  border: 1px solid var(--scheda-bordo);
+  border: 2px solid var(--scheda-bordo);
   background: var(--scheda-sfondo);
-  transition: border-color 0.25s, background 0.25s;
+  box-shadow: var(--scarto) var(--scarto) 0 var(--scheda-ombra);
+  transition: transform 0.12s, box-shadow 0.12s;
 }
 
 .au-home-card:hover {
-  border-color: var(--scheda-bordo-hover);
-  background: var(--scheda-sfondo-hover);
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0 var(--scheda-ombra);
 }
 
 .au-home-card:first-child {
@@ -642,10 +636,12 @@ body {
 }
 
 .au-home-title {
+  font-family: var(--font-display);
   font-size: 17px;
-  font-weight: 300;
+  font-weight: 700;
   color: var(--titolo);
-  line-height: 1.4;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   margin: 0.4rem 0;
 }
 
@@ -655,17 +651,16 @@ body {
 
 .au-home-desc {
   font-size: 13px;
-  font-weight: 300;
-  font-style: italic;
+  font-weight: 400;
   color: var(--estratto);
-  line-height: 1.65;
+  line-height: 1.6;
   margin: 0.4rem 0 0.75rem;
 }
 
 .au-home-date {
   font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   color: var(--meta);
   margin-bottom: 0.6rem;
 }
@@ -674,10 +669,10 @@ body {
 .au-giornale-col {
   position: sticky;
   top: 2rem;
-  border-right: 1px solid var(--filo-sezione);
+  border-right: 2px solid var(--filo-sezione);
   padding-right: 2rem;
   padding-top: 2.5rem;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 
 .au-giornale-col.is-hidden {
@@ -687,8 +682,8 @@ body {
 
 .au-gp-label {
   font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.35em;
+  font-weight: 700;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--etichetta);
   margin-bottom: 0.75rem;
@@ -696,8 +691,8 @@ body {
 
 .au-gp-date {
   font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.2em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--gp-meta);
   margin-bottom: 1.5rem;
@@ -705,16 +700,16 @@ body {
 
 .au-gp-text {
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--prosa);
-  line-height: 1.9;
+  line-height: 1.8;
 }
 
 /* ── Voci di giornale e appunti ── */
 .au-giornale-entry {
   padding: 1.25rem 0;
   border-bottom: 1px solid var(--filo);
-  transition: padding-left 0.25s;
+  transition: padding-left 0.15s;
 }
 
 .au-giornale-entry:hover { padding-left: 0.5rem; }
@@ -722,25 +717,27 @@ body {
 
 .au-giornale-entry-date {
   font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.25em;
+  font-weight: 700;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--fonte);
   margin-bottom: 0.3rem;
 }
 
 .au-giornale-entry-title {
+  font-family: var(--font-display);
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 700;
   color: var(--titolo-voce);
+  letter-spacing: -0.015em;
 }
 
 .au-giornale-entry-text {
   margin-top: 0.9rem;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--prosa-voce);
-  line-height: 1.9;
+  line-height: 1.8;
 }
 
 /* ── Prosa proveniente dal Markdown ── */
@@ -760,6 +757,11 @@ body {
   margin-bottom: 0;
 }
 
+/* Ritorno alla home dalla pagina d'errore */
+.au-ritorno {
+  margin-top: 2rem;
+}
+
 /* ── Orologio da taschino ── */
 .au-corner-trigger {
   position: fixed;
@@ -777,17 +779,15 @@ body {
   width: 160px;
   height: auto;
   opacity: 0;
-  transform: scale(0.6) rotate(-20deg);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: scale(0.7) rotate(-14deg);
+  transition: opacity 0.18s ease, transform 0.18s ease;
   pointer-events: none;
-  filter:
-    drop-shadow(0 4px 20px rgba(0, 0, 0, 0.7))
-    drop-shadow(0 0 14px rgba(100, 220, 180, 0.12));
+  filter: drop-shadow(4px 4px 0 rgba(var(--arancio), 0.85));
 }
 
 .au-corner-trigger:hover .au-pocket-watch {
   opacity: 1;
-  transform: scale(1) rotate(3deg);
+  transform: scale(1) rotate(4deg);
 }
 
 /* ── Citazione del filosofo ── */
@@ -802,15 +802,13 @@ body {
   padding: 0;
   color: inherit;
   background: var(--overlay);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition:
-    opacity 0.4s ease,
-    display 0.4s ease allow-discrete,
-    overlay 0.4s ease allow-discrete;
+    opacity 0.18s linear,
+    display 0.18s linear allow-discrete,
+    overlay 0.18s linear allow-discrete;
 }
 
 .au-filosofo-overlay[open] {
@@ -828,52 +826,55 @@ body {
 }
 
 .au-filosofo-card {
+  max-width: 420px;
+  padding: 2.5rem 2rem;
   text-align: center;
-  transform: scale(0.88) translateY(12px);
-  transition: transform 0.4s ease;
+  border: 2px solid var(--scheda-bordo);
+  background: var(--bg);
+  box-shadow: var(--scarto) var(--scarto) 0 var(--scheda-ombra);
+  transform: translate(-4px, -4px);
+  transition: transform 0.18s ease;
 }
 
 .au-filosofo-overlay[open] .au-filosofo-card {
-  transform: scale(1) translateY(0);
+  transform: translate(0, 0);
 }
 
 @starting-style {
   .au-filosofo-overlay[open] .au-filosofo-card {
-    transform: scale(0.88) translateY(12px);
+    transform: translate(-4px, -4px);
   }
 }
 
 .au-filosofo-img {
   width: 190px;
   height: auto;
-  filter: drop-shadow(0 0 28px rgba(100, 220, 180, 0.12));
+  filter: drop-shadow(4px 4px 0 rgba(var(--arancio), 0.85));
 }
 
 .au-filosofo-quote {
-  margin-top: 1.75rem;
-  font-size: 15px;
-  font-weight: 200;
-  font-style: italic;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
   color: var(--citazione);
-  letter-spacing: 0.02em;
-  line-height: 1.65;
-  max-width: 340px;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
 }
 
 .au-filosofo-attr {
-  margin-top: 0.6rem;
+  margin-top: 1.25rem;
   font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.32em;
+  font-weight: 700;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--citazione-attr);
 }
 
 .au-filosofo-dismiss {
-  margin-top: 2.5rem;
+  margin-top: 2.25rem;
   font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.28em;
+  font-weight: 600;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--citazione-chiudi);
 }
@@ -892,7 +893,7 @@ body {
   .au-giornale-col {
     position: static;
     border-right: none;
-    border-bottom: 1px solid var(--filo-sezione);
+    border-bottom: 2px solid var(--filo-sezione);
     padding-right: 0;
     padding-bottom: 3rem;
     margin-bottom: 3rem;
