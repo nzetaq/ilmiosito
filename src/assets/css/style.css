@@ -198,7 +198,12 @@ body {
   line-height: 1.75;
   color: var(--testo);
   background: var(--bg);
+  /* dvh tiene conto delle barre del browser che compaiono e scompaiono
+     sul telefono: con 100vh la pagina resterebbe sempre un po' più alta
+     dello schermo, e si potrebbe scorrere anche senza nulla da leggere.
+     La riga con vh resta per i browser che non conoscono dvh. */
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
 }
 
@@ -738,23 +743,35 @@ body {
   min-width: 0;
   overflow: hidden;
   visibility: visible;
+  height: auto;
   transition:
     padding-right var(--durata-impaginazione) var(--curva),
     border-right-width var(--durata-impaginazione) var(--curva),
-    visibility 0s;
+    visibility 0s,
+    height 0s,
+    padding-top 0s;
 }
 
-/* A colonna chiusa la barra sparisce anche dall'albero di
-   accessibilità, altrimenti verrebbe letta in ogni sezione.
-   La visibilità cambia a richiusura avvenuta. */
+/* A colonna chiusa la barra sparisce dall'albero di accessibilità —
+   altrimenti verrebbe letta in ogni sezione — e smette di occupare
+   altezza. Quest'ultimo punto non è un dettaglio: con la traccia della
+   griglia a larghezza zero il testo andrebbe a capo a ogni parola, e la
+   colonna, pur invisibile, resterebbe alta migliaia di pixel allungando
+   di altrettanto la pagina da scorrere. Le tre cose scattano a
+   richiusura avvenuta, così durante il movimento la colonna è ancora
+   intera; al ritorno sulla home tornano invece subito, senza ritardo. */
 :root[data-sez]:not([data-sez='home']) .au-giornale-col {
   padding-right: 0;
   border-right-width: 0;
   visibility: hidden;
+  height: 0;
+  padding-top: 0;
   transition:
     padding-right var(--durata-impaginazione) var(--curva),
     border-right-width var(--durata-impaginazione) var(--curva),
-    visibility 0s linear var(--durata-impaginazione);
+    visibility 0s linear var(--durata-impaginazione),
+    height 0s linear var(--durata-impaginazione),
+    padding-top 0s linear var(--durata-impaginazione);
 }
 
 .au-gp-label {
