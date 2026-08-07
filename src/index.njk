@@ -43,6 +43,19 @@ permalink: /index.html
     </div>
     <h1 class="au-name">{{ site.nome }}</h1>
     <p class="au-bio">{{ site.bio }}</p>
+
+    {#- Intestazione alternativa: nella sezione dell'oracolo prende il
+       posto del nome e della biografia. Il ricambio lo governa il CSS
+       a partire da [data-sez], quindi avviene prima del primo disegno
+       e non c'è un istante in cui si veda quella sbagliata. #}
+    <div class="au-header-ia">
+      <h1 class="au-ia-titolo">Intelligenza Artificiosa</h1>
+      <p class="au-ia-sottotitolo">
+        Modello linguistico addestrato su un corpus insufficiente.
+        Nessuna intelligenza è stata impiegata nella produzione di queste risposte.
+        Risponde a niente.
+      </p>
+    </div>
   </header>
 
   <!-- ═══ NAVIGAZIONE SEZIONI ═══ -->
@@ -191,6 +204,25 @@ permalink: /index.html
         <div class="au-giornale-entry-text">{{ voce.templateContent | safe }}</div>
       </article>
       {%- endfor %}
+    </section>
+
+    <!-- ═══ INTELLIGENZA ARTIFICIOSA ═══ -->
+    <section class="au-section" id="sec-artificiosa" aria-label="Intelligenza Artificiosa">
+      <form class="au-ia-form" id="au-ia-form" autocomplete="off">
+        <input class="au-ia-campo" id="au-ia-input" type="text" maxlength="240"
+               aria-label="La tua domanda" placeholder="Poni una domanda…">
+        <button class="au-ia-invio" type="submit">Interroga</button>
+      </form>
+
+      {#- Le risposte si annunciano da sé alle tecnologie assistive:
+         arrivano dopo una pausa, quindi senza aria-live passerebbero
+         inosservate a chi non guarda lo schermo. #}
+      <div class="au-ia-registro" id="au-ia-registro" aria-live="polite"></div>
+
+      <noscript>
+        <p class="au-ia-muta">Senza JavaScript l'Intelligenza Artificiosa tace.
+        È la sua forma più onesta.</p>
+      </noscript>
     </section>
 
   </main>

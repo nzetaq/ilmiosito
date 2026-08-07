@@ -476,6 +476,7 @@ body {
    Anche questa segue [data-sez], così la linguetta è già al posto
    giusto al primo disegno e non salta dopo il caricamento. */
 :root[data-sez='home'] .au-nav-btn[data-sez='home'],
+:root[data-sez='artificiosa'] .au-nav-btn[data-sez='artificiosa'],
 :root[data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
 :root[data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
 :root[data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
@@ -497,6 +498,7 @@ body {
    prima la home. La composizione a scalare è riservata ai passaggi da
    una sezione all'altra, che il router segna con .is-componendo. */
 :root[data-sez='home'] #sec-home,
+:root[data-sez='artificiosa'] #sec-artificiosa,
 :root[data-sez='articoli'] #sec-articoli,
 :root[data-sez='scritti'] #sec-scritti,
 :root[data-sez='tesi'] #sec-tesi,
@@ -783,6 +785,126 @@ body {
   letter-spacing: 0.04em;
   color: var(--meta);
   margin-bottom: 0.6rem;
+}
+
+/* ── Intelligenza Artificiosa ──
+   L'intestazione alternativa. Nella sezione dell'oracolo il nome e la
+   biografia lasciano il posto al titolo, centrato. Il ricambio dipende
+   da [data-sez], che lo script del <head> scrive prima del primo
+   disegno: non c'è un istante in cui si veda l'intestazione sbagliata.
+   La riga in alto con l'interruttore del tema resta, perché serve. */
+.au-header-ia {
+  display: none;
+  text-align: center;
+}
+
+:root[data-sez='artificiosa'] .au-name,
+:root[data-sez='artificiosa'] .au-bio {
+  display: none;
+}
+
+:root[data-sez='artificiosa'] .au-header-ia {
+  display: block;
+}
+
+.au-ia-titolo {
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: var(--font-display);
+  /* Più contenuto del nome: «INTELLIGENZA ARTIFICIOSA» è lungo il
+     triplo di «N·Z·Q» e a quel corpo andrebbe a capo storto. */
+  font-size: clamp(24px, 4.4vw, 40px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--titolo-forte);
+  margin-bottom: 1rem;
+}
+
+.au-ia-sottotitolo {
+  font-size: 13px;
+  color: var(--bio);
+  line-height: 1.7;
+  max-width: 46ch;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+
+/* Il modulo: stessa grammatica visiva dei filtri degli articoli. */
+.au-ia-form {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.au-ia-campo {
+  flex: 1 1 16rem;
+  min-width: 0;
+  font-family: var(--font-testo);
+  font-size: 14px;
+  color: var(--testo);
+  background: var(--filtro-sfondo);
+  border: 2px solid var(--filtro-bordo);
+  border-radius: 0;
+  padding: 0.5rem 0.9rem;
+}
+
+.au-ia-campo::placeholder { color: var(--etichetta); }
+
+.au-ia-campo:hover { border-color: var(--filtro-bordo-hover); }
+
+.au-ia-invio {
+  font-family: var(--font-testo);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--filtro-attivo-testo);
+  background: var(--filtro-attivo-sfondo);
+  border: 2px solid var(--filtro-attivo-sfondo);
+  border-radius: 0;
+  padding: 0.35rem 1.4rem;
+  cursor: pointer;
+  transition: opacity 0.12s;
+}
+
+.au-ia-invio:hover { opacity: 0.85; }
+
+/* Ogni scambio è una voce d'elenco, come gli articoli. */
+.au-ia-scambio {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--filo);
+}
+
+.au-ia-domanda {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accento);
+  margin-bottom: 0.6rem;
+}
+
+.au-ia-risposta {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--testo);
+}
+
+/* L'attesa: la riga di stato è in tono minore e in corsivo, così si
+   distingue dalla risposta vera che prenderà il suo posto. */
+.au-ia-scambio.is-attesa .au-ia-risposta {
+  font-style: italic;
+  color: var(--bio);
+}
+
+.au-ia-muta {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--bio);
+  font-style: italic;
 }
 
 /* ── Colonna del giornale ── */

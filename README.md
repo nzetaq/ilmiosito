@@ -28,7 +28,7 @@ src/
 ├── _includes/layouts/        impalcatura HTML condivisa
 ├── assets/
 │   ├── css/style.css         foglio di stile unico
-│   ├── js/                   moduli ES: router, tema, filtri, citazioni
+│   ├── js/                   moduli ES: router, tema, filtri, citazioni, oracolo
 │   ├── font/                 Archivo e Space Grotesk, ospitati qui
 │   └── img/                  illustrazioni e favicon
 └── content/                  i contenuti, un file Markdown per voce
@@ -174,6 +174,58 @@ elenco risultasse vuoto.
   poche righe, se si cambia idea.
 - GitHub sospende i workflow pianificati nei repository fermi da sessanta
   giorni. Un commit qualsiasi li riattiva.
+
+## Intelligenza Artificiosa
+
+La sezione `I.A.` è un oracolo che non capisce la domanda. **Non c'è alcun
+modello linguistico**, né qui né altrove: nessuna chiave, nessuna richiesta
+di rete, nessun dato di chi scrive che lasci la pagina. C'è una grammatica
+generativa in `src/assets/js/artificiosa.js` — circa 8 KB, zero dipendenze —
+che compone frasi sintatticamente impeccabili e semanticamente vuote.
+
+Funziona su tre strati:
+
+1. **Risposte fisse** per i casi prevedibili (`chi sei`, `ciao`, gli insulti,
+   l'invio a vuoto, la stessa domanda posta due volte). Sono le battute
+   migliori perché mirate.
+2. **L'eco**: si ripesca un sostantivo dalla domanda e lo si incastona nella
+   frase. È ciò che dà l'illusione dell'ascolto.
+3. **La morfologia**: articoli, elisioni, preposizioni articolate, accordo di
+   genere e numero. È la parte noiosa e l'unica che separa il divertente dal
+   guasto — una frase che dice «del selva oscura» non è surreale, è rotta.
+
+Senza un analizzatore grammaticale non si distingue `scrivi` (verbo) da
+`scritti` (nome), né `la merce` (singolare) da `le stelle` (plurale). La
+soluzione è rovesciare l'onere della prova: **l'eco ripesca soltanto ciò che
+riconosce** — un elenco di nomi noti, un suffisso inequivocabile, e una tabella
+di parole la cui terminazione inganna. In ogni altro caso tace e usa il lessico
+interno. Chi legge non vede il rifiuto: è precisamente il modo in cui deve
+fallire.
+
+### Il lessico e la sua provenienza
+
+L'attrito è fra due registri che non dovrebbero stare insieme: l'impalcatura
+viene dalla teoria critica novecentesca, i sostantivi dalla poesia italiana.
+Questi ultimi sono stati raccolti da [Wikisource](https://it.wikisource.org/) —
+Dante, Petrarca, Leopardi, Foscolo, Pascoli, Carducci — su un corpus di circa
+7.700 parole, e poi scelti a mano.
+
+**Tutti gli autori usati sono in pubblico dominio.** In Italia il diritto
+d'autore dura la vita più settant'anni, il che esclude i grandi del Novecento:
+Saba fino al 2028, Quasimodo al 2039, Ungaretti al 2041, Montale al 2052. Non
+sono stati usati e non vanno aggiunti.
+
+Nel repository **non stanno i testi**, solo le parole scelte: la raccolta è uno
+strumento a monte, non una dipendenza del sito.
+
+### Se un giorno il corpus crescesse
+
+Il lessico è scritto a mano perché la comicità ha bisogno di parole scelte per
+come suonano, non per come sono frequenti. Ma `src/content/` contiene oggi
+circa 170 parole di prosa italiana — il resto è testo segnaposto o l'abstract
+inglese della tesi. Quando `giornale/` e `appunti/` avranno del testo vero,
+vale la pena riprendere in mano il lessico e lasciarvi entrare i termini di
+casa.
 
 ## Sicurezza
 

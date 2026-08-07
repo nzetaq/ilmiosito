@@ -2,6 +2,7 @@ import { avviaRouter } from './router.js';
 import { avviaTema } from './tema.js';
 import { avviaFiltri } from './filtri.js';
 import { avviaCitazioni } from './citazioni.js';
+import { avviaArtificiosa } from './artificiosa.js';
 import { avviaAnalisi } from './analisi.js';
 
 // I moduli sono differiti per natura: il documento è già completo.
@@ -11,3 +12,4 @@ avviaRouter();
 avviaTema();
 avviaFiltri();
 avviaCitazioni();
+avviaArtificiosa();
