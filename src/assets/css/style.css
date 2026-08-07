@@ -261,15 +261,18 @@ body {
   padding: 4rem 2rem 6rem;
 }
 
+/* La home è lo stato di riposo: contenitore largo e due colonne.
+   Le altre sezioni si stringono. Tutto dipende da [data-sez], che
+   lo script nel <head> scrive prima del primo disegno; se manca —
+   senza JavaScript — resta valida la veste della home. */
 .au-center {
-  max-width: 860px;
+  max-width: 1100px;
   margin: 0 auto;
-  transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: max-width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* La home respira più larga */
-.au-center--home {
-  max-width: 1100px;
+:root[data-sez]:not([data-sez='home']) .au-center {
+  max-width: 860px;
 }
 
 .au-layout {
@@ -281,14 +284,14 @@ body {
 }
 
 /* Senza barra laterale: una sola colonna, centrata */
-.au-layout.no-sidebar {
+:root[data-sez]:not([data-sez='home']) .au-layout {
   grid-template-columns: 1fr;
   max-width: 680px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.au-layout.no-sidebar .au-giornale-col {
+:root[data-sez]:not([data-sez='home']) .au-giornale-col {
   display: none;
 }
 
@@ -389,8 +392,15 @@ body {
   color: var(--nav-hover);
 }
 
-/* La sezione corrente è una campitura piena: una linguetta stampata */
-.au-nav-btn.active {
+/* La sezione corrente è una campitura piena: una linguetta stampata.
+   Anche questa segue [data-sez], così la linguetta è già al posto
+   giusto al primo disegno e non salta dopo il caricamento. */
+:root[data-sez='home'] .au-nav-btn[data-sez='home'],
+:root[data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
+:root[data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
+:root[data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
+:root[data-sez='giornale'] .au-nav-btn[data-sez='giornale'],
+:root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'] {
   color: var(--nav-attivo-testo);
   background: var(--nav-attivo-sfondo);
   border-bottom-color: var(--nav-attivo-sfondo);
@@ -402,11 +412,25 @@ body {
   opacity: 0;
 }
 
-.au-section.is-active {
+/* La sezione scritta nell'indirizzo è visibile fin dal primo disegno,
+   ferma e senza animazione: al ricaricamento non si vede più comparire
+   prima la home. L'animazione d'entrata è riservata ai passaggi da una
+   sezione all'altra, che il router segna con .is-active. */
+:root[data-sez='home'] #sec-home,
+:root[data-sez='articoli'] #sec-articoli,
+:root[data-sez='scritti'] #sec-scritti,
+:root[data-sez='tesi'] #sec-tesi,
+:root[data-sez='giornale'] #sec-giornale,
+:root[data-sez='appunti'] #sec-appunti {
   display: block;
+  opacity: 1;
+}
+
+.au-section.is-active {
   animation: section-in 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* La sezione che esce resta visibile finché l'animazione non finisce */
 .au-section.is-leaving {
   display: block;
   animation: section-out 0.14s linear forwards;
@@ -672,12 +696,6 @@ body {
   border-right: 2px solid var(--filo-sezione);
   padding-right: 2rem;
   padding-top: 2.5rem;
-  transition: opacity 0.2s ease;
-}
-
-.au-giornale-col.is-hidden {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .au-gp-label {
@@ -886,7 +904,7 @@ body {
     gap: 0;
   }
 
-  .au-layout.no-sidebar {
+  :root[data-sez]:not([data-sez='home']) .au-layout {
     max-width: 100%;
   }
 

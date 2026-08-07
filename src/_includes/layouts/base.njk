@@ -29,14 +29,30 @@
   <meta name="theme-color" content="#f6f2e7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="{{ base }}assets/img/favicon.svg" type="image/svg+xml">
 
-  {#- Applica il tema salvato prima del primo disegno, così chi ha scelto
-     il tema chiaro non vede lampeggiare quello scuro. #}
+  {#- Stato deciso prima del primo disegno, così la pagina non appare
+     mai in una veste che va poi corretta sotto gli occhi di chi legge:
+     né il tema sbagliato, né la sezione sbagliata. #}
   <script>
-    try {
-      if (localStorage.getItem('au-theme') === 'light') {
-        document.documentElement.classList.add('theme-light');
-      }
-    } catch (e) {}
+    (function () {
+      var radice = document.documentElement;
+
+      try {
+        if (localStorage.getItem('au-theme') === 'light') {
+          radice.classList.add('theme-light');
+        }
+      } catch (e) {}
+
+      // La sezione da mostrare è scritta nell'indirizzo. Va letta qui,
+      // prima che il corpo della pagina sia disegnato: il router più
+      // avanti si limiterà a subentrare.
+      var valide = [{% for s in site.sezioni %}'{{ s.id }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+      var sezione = 'home';
+      try {
+        var id = decodeURIComponent(location.hash.replace(/^#/, ''));
+        if (valide.indexOf(id) !== -1) sezione = id;
+      } catch (e) {}
+      radice.setAttribute('data-sez', sezione);
+    })();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,8 +66,11 @@
      tutto, così la pagina resta leggibile e navigabile per intero. #}
   <noscript>
     <style>
-      .au-section { display: block; opacity: 1; }
-      .au-nav { display: none; }
+      /* Il selettore è volutamente più specifico di quello del foglio
+         principale: così queste regole vincono per specificità e non
+         per ordine di dichiarazione. */
+      :root .au-section { display: block; opacity: 1; }
+      :root .au-nav { display: none; }
     </style>
   </noscript>
 </head>

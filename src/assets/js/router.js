@@ -1,27 +1,42 @@
 /**
  * Navigazione fra le sezioni.
  *
+ * La sezione corrente vive in un solo posto: l'attributo `data-sez`
+ * su <html>. Lo scrive già lo script nel <head>, prima del primo
+ * disegno, e da quell'attributo il foglio di stile ricava tutto —
+ * quale sezione è visibile, quale linguetta è accesa, se la colonna
+ * del giornale c'è. Qui si aggiunge solo ciò che il CSS non sa fare:
+ * segnalare la sezione corrente alle tecnologie assistive e animare
+ * il passaggio da una sezione all'altra.
+ *
  * I collegamenti della barra sono ancore vere (`href="#articoli"`):
- * il browser aggiorna l'indirizzo da sé e qui ci si limita ad
- * ascoltare `hashchange`. Ne consegue che ricaricare la pagina
- * mantiene la sezione, e i tasti avanti/indietro funzionano.
+ * l'indirizzo lo aggiorna il browser, e qui si ascolta `hashchange`.
  */
 export function avviaRouter() {
+  const radice = document.documentElement;
   const nav = document.getElementById('au-nav');
-  const layout = document.getElementById('au-layout');
-  const centro = document.getElementById('au-center');
-  const colonna = document.getElementById('au-giornale-col');
-  if (!nav || !layout || !centro) return;
+  if (!nav) return;
 
   const collegamenti = [...nav.querySelectorAll('.au-nav-btn')];
   const uscite = new Map();
-  let corrente = null;
 
   const sezione = (id) => (id ? document.getElementById(`sec-${id}`) : null);
 
   function daIndirizzo() {
-    const id = decodeURIComponent(location.hash.replace(/^#/, ''));
+    let id = '';
+    try {
+      id = decodeURIComponent(location.hash.replace(/^#/, ''));
+    } catch (e) {
+      // Indirizzo malformato: si ricade sulla home.
+    }
     return sezione(id) ? id : 'home';
+  }
+
+  function segnalaNav(id) {
+    for (const collegamento of collegamenti) {
+      if (collegamento.dataset.sez === id) collegamento.setAttribute('aria-current', 'page');
+      else collegamento.removeAttribute('aria-current');
+    }
   }
 
   /** Congeda la sezione uscente al termine dell'animazione. */
@@ -30,7 +45,6 @@ export function avviaRouter() {
     el.classList.add('is-leaving');
     const alTermine = () => {
       el.classList.remove('is-leaving');
-      el.style.display = 'none';
       uscite.delete(el);
     };
     uscite.set(el, alTermine);
@@ -46,35 +60,31 @@ export function avviaRouter() {
     el.classList.remove('is-leaving');
   }
 
+  let corrente = daIndirizzo();
+
+  // Allineamento iniziale. Nessuna animazione: la sezione è già
+  // dipinta al posto giusto, e farla entrare ora sarebbe proprio
+  // quel guizzo che si vuole evitare.
+  radice.setAttribute('data-sez', corrente);
+  segnalaNav(corrente);
+
   function mostra(id) {
-    if (!sezione(id)) id = 'home';
     if (id === corrente) return;
 
-    for (const link of collegamenti) {
-      const attivo = link.dataset.sez === id;
-      link.classList.toggle('active', attivo);
-      if (attivo) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    }
-
     const vecchia = sezione(corrente);
-    if (vecchia) congeda(vecchia);
-
     corrente = id;
 
-    // La colonna del giornale accompagna soltanto la home.
-    const inHome = id === 'home';
-    layout.classList.toggle('no-sidebar', !inHome);
-    centro.classList.toggle('au-center--home', inHome);
-    if (colonna) colonna.classList.toggle('is-hidden', !inHome);
+    radice.setAttribute('data-sez', id);
+    segnalaNav(id);
+
+    if (vecchia) congeda(vecchia);
 
     const nuova = sezione(id);
     trattieni(nuova);
-    nuova.style.display = 'block';
+    nuova.classList.remove('is-active');
     void nuova.offsetHeight; // forza il reflow, così l'animazione riparte
     nuova.classList.add('is-active');
   }
 
-  mostra(daIndirizzo());
   window.addEventListener('hashchange', () => mostra(daIndirizzo()));
 }

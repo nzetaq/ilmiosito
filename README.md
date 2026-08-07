@@ -100,11 +100,29 @@ La cartella `appunti/` funziona allo stesso modo, ma senza colonna.
 Le date restano fra virgolette: sono stringhe, e vengono composte in
 italiano al momento della compilazione.
 
+## Aggiungere una sezione
+
+Le sezioni non nascono da sole come i contenuti: vanno dichiarate in tre
+punti, che è bene tenere allineati.
+
+1. `src/_data/site.json` — una voce in `sezioni`, che genera il menu.
+2. `src/index.njk` — il blocco `<section class="au-section" id="sec-…">`.
+3. `src/assets/css/style.css` — l'identificativo va aggiunto ai due
+   elenchi di selettori che rispondono a `[data-sez]`: quello che rende
+   visibile la sezione e quello che accende la linguetta nel menu.
+
 ## Note tecniche
 
 - **Navigazione**: le sezioni sono indirizzi veri (`/#articoli`), quindi
   ricaricare la pagina non riporta alla home e i tasti avanti/indietro
   del browser funzionano.
+- **Sezione corrente**: vive in un solo posto, l'attributo `data-sez` su
+  `<html>`. Lo scrive uno script nel `<head>`, prima del primo disegno,
+  e da lì il foglio di stile ricava tutto: quale sezione è visibile,
+  quale linguetta è accesa, se compare la colonna del giornale. Così al
+  ricaricamento la pagina appare già nella sezione giusta, senza passare
+  un istante dalla home. Il router in JavaScript si limita ad aggiornare
+  l'attributo e ad animare i passaggi.
 - **Senza JavaScript**: la pagina mostra tutte le sezioni una dopo l'altra
   invece di restare vuota.
 - **Temi**: chiaro e scuro condividono le stesse regole e differiscono solo

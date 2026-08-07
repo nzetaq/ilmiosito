@@ -33,7 +33,7 @@ permalink: /index.html
 </div>
 
 <div class="au-wrap">
-<div class="au-center au-center--home" id="au-center">
+<div class="au-center" id="au-center">
 
   <!-- ═══ INTESTAZIONE ═══ -->
   <header class="au-header">
@@ -48,10 +48,7 @@ permalink: /index.html
   <!-- ═══ NAVIGAZIONE SEZIONI ═══ -->
   <nav class="au-nav" id="au-nav" aria-label="Sezioni del sito">
     {%- for sezione in site.sezioni %}
-    <a class="au-nav-btn{% if loop.first %} active{% endif %}"
-       href="#{{ sezione.id }}"
-       data-sez="{{ sezione.id }}"
-       {% if loop.first %}aria-current="page"{% endif %}>{{ sezione.etichetta }}</a>
+    <a class="au-nav-btn" href="#{{ sezione.id }}" data-sez="{{ sezione.id }}">{{ sezione.etichetta }}</a>
     {%- endfor %}
   </nav>
 
