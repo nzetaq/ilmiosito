@@ -103,12 +103,32 @@ tagliata dal bordo dello schermo, illeggibile e senza modo di spostarla. Il
 centro è l'unico punto che non dipende da dove si trova il titolo.
 
 Le dimensioni le detta il testo — larga quanto il verso più lungo, alta
-quanto la poesia. Quando non ci sta, `adatta()` in `poesie.js` la fa entrare
-**dividendo i versi in colonne** (fino a quattro, quante ne stanno in
-larghezza) e solo se non basta scendendo di corpo, da 15px a 12px. Mai
-tagliando. La capienza è di circa **120 versi** su uno schermo da portatile;
-oltre, su schermi piccoli, si tocca un limite fisico e la cornice trattiene
-ciò che non entra.
+quanto la poesia. Quando non ci sta, `adatta()` in `poesie.js` prova, in
+quest'ordine:
+
+1. **colonne** (fino a quattro, quante ne stanno in larghezza), tenendo
+   intere le strofe;
+2. le stesse colonne **lasciando che le strofe si spezzino** — una poesia
+   scritta senza righe vuote è una strofa sola, e se restasse indivisibile
+   riempirebbe una colonna lasciando vuote le altre;
+3. **corpo più piccolo**, da 15px fino a 12px.
+
+Se nemmeno così ci sta, si passa a **una colonna sola al corpo pieno e si
+scorre**: con la rotella del mouse, con due dita sul touchpad, o da tastiera
+con le frecce, `PagSu`/`PagGiù`, `Inizio`/`Fine`. Due sfumature ai bordi
+dicono da che parte il testo continua.
+
+Una colonna e non quattro, perché scorrendo le colonne diventano un
+supplizio: si arriva in fondo alla prima e bisogna risalire tutto per
+cominciare la seconda.
+
+Lo scorrimento passa da un ascoltatore esplicito su `wheel`, non dal
+comportamento nativo: la finestra è `pointer-events: none` e il puntatore
+sta comunque sul titolo, quindi nessuno dei due riceverebbe mai l'evento per
+conto proprio. Serve `{ passive: false }`, altrimenti il browser considera
+l'ascoltatore una promessa di non interferire e ignora `preventDefault()`.
+Quando la poesia ci sta tutta la rotella non viene toccata e la pagina
+scorre come sempre.
 
 Serve a far leggere i versi senza che si prendano con un gesto solo. Due
 regole fanno il lavoro, in `.au-versi-finestra`:

@@ -772,12 +772,16 @@ body {
   box-sizing: border-box;
   max-width: calc(100vw - 2rem);
   max-height: calc(100vh - 2rem);
-  /* Ultima difesa: nulla esce mai dalla cornice, quindi nulla esce mai
-     dallo schermo. Ci si arriva solo con poesie oltre il centinaio di
-     versi, che `adatta()` non riesce a far entrare nemmeno in colonne
-     al corpo minimo — su uno schermo piccolo è un limite fisico, non
-     una scelta. */
+  /* Nulla esce mai dalla cornice, quindi nulla esce mai dallo schermo.
+     Quando il testo eccede si scorre: se ne occupa `.au-versi-vista`. */
   overflow: hidden;
+  /* In colonna, così la vista interna può restringersi al posto che
+     resta e diventare a sua volta un contenitore che scorre.
+     Nessun `position: relative` qui: `fixed` fa già da riferimento
+     alle sfumature posizionate in assoluto, e siccome verrebbe dopo
+     lo scavalcherebbe, rimettendo la finestra nel flusso. */
+  display: flex;
+  flex-direction: column;
   padding: 1.4rem 1.6rem;
   background: var(--bg);
   border: 1px solid var(--accento);
@@ -802,6 +806,48 @@ body {
   opacity: 1;
 }
 
+/* La vista che scorre. `min-height: 0` è ciò che le permette di
+   restringersi sotto la propria altezza naturale: senza, un elemento
+   flessibile non scende mai sotto il contenuto, la cornice sfonderebbe
+   il tetto e non ci sarebbe niente da scorrere.
+   Niente barra di scorrimento visibile — non si potrebbe comunque
+   afferrare, essendo la finestra inafferrabile per costruzione: a dire
+   che il testo continua pensano le due sfumature qui sotto. */
+.au-versi-vista {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Le sfumature ai bordi: compaiono solo dal lato in cui c'è ancora
+   testo, e sono l'unico segno che si può scorrere. */
+.au-versi-finestra::before,
+.au-versi-finestra::after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  height: 2.6rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s var(--curva);
+}
+
+.au-versi-finestra::before {
+  top: 1px;
+  background: linear-gradient(to bottom, var(--bg), transparent);
+}
+
+.au-versi-finestra::after {
+  bottom: 1px;
+  background: linear-gradient(to top, var(--bg), transparent);
+}
+
+.au-versi-finestra.ha-sopra::before,
+.au-versi-finestra.ha-sotto::after {
+  opacity: 1;
+}
+
 /* Il testo vero. Quando una poesia è più alta dello schermo si divide
    in colonne invece di essere tagliata: i versi sono righe corte, e la
    larghezza è la risorsa che avanza. */
@@ -813,9 +859,16 @@ body {
   white-space: pre-line;
 }
 
-/* Una strofa non si spezza fra due colonne se può evitarlo. */
+/* Una strofa non si spezza fra due colonne se può evitarlo. Quando non
+   può — una poesia senza righe vuote è una strofa sola, e indivisibile
+   riempirebbe una colonna lasciando vuote le altre — `adatta()` mette
+   `.si-spezza` sul contenitore e il divieto cade. */
 .au-versi-strofa {
   break-inside: avoid;
+}
+
+.au-versi-corpo.si-spezza .au-versi-strofa {
+  break-inside: auto;
 }
 
 .au-versi-strofa + .au-versi-strofa {

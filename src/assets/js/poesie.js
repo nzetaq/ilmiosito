@@ -54,9 +54,15 @@ export function avviaPoesie() {
   finestra.setAttribute('role', 'presentation');
   finestra.hidden = true;
 
+  // Fra la cornice e il testo c'è la vista: è lei a scorrere, mentre
+  // la cornice resta ferma e tiene le sfumature ai bordi.
+  const vista = document.createElement('div');
+  vista.className = 'au-versi-vista';
+
   const corpo = document.createElement('div');
   corpo.className = 'au-versi-corpo';
-  finestra.appendChild(corpo);
+  vista.appendChild(corpo);
+  finestra.appendChild(vista);
 
   document.body.appendChild(scena);
   document.body.appendChild(finestra);
@@ -101,6 +107,18 @@ export function avviaPoesie() {
     // Il corpo interno invece non è vincolato e dice la verità.
     const troppoAlto = () => corpo.getBoundingClientRect().height > spazioY + 1;
 
+    /**
+     * Larghezza naturale di una colonna, misurata a `max-content`.
+     *
+     * Si arrotonda per eccesso per prudenza: la misura è frazionaria e
+     * riassegnarla come `width` potrebbe ritrovarsi corta di un
+     * centesimo di pixel, mandando a capo ogni verso. Un pixel in più
+     * non si vede e toglie il dubbio.
+     */
+    function misuraColonna() {
+      return Math.min(Math.ceil(corpo.getBoundingClientRect().width) + 1, spazioX);
+    }
+
     for (const misura of CORPI) {
       corpo.style.fontSize = misura + 'px';
 
@@ -108,7 +126,7 @@ export function avviaPoesie() {
       // lungo. Va misurata a colonna singola, prima di distribuire.
       corpo.style.columnCount = '1';
       corpo.style.width = 'max-content';
-      const larga = Math.min(corpo.getBoundingClientRect().width, spazioX);
+      const larga = misuraColonna();
       const distanza = num(getComputedStyle(corpo).columnGap);
 
       corpo.style.width = larga + 'px';
@@ -122,14 +140,59 @@ export function avviaPoesie() {
       const quante = Math.max(1, Math.min(
         COLONNE_MAX, Math.floor((spazioX + distanza) / (larga + distanza))));
 
-      for (let n = 2; n <= quante; n++) {
-        corpo.style.columnCount = String(n);
-        corpo.style.width = Math.min(spazioX, larga * n + distanza * (n - 1)) + 'px';
-        if (!troppoAlto()) return;
+      // Prima si tenta tenendo intere le strofe, poi — solo se non
+      // basta — lasciando che si spezzino. Una poesia scritta senza
+      // righe vuote è una strofa sola: `break-inside: avoid` la
+      // renderebbe indivisibile, le colonne in più resterebbero vuote
+      // e l'altezza non calerebbe di un pixel, col risultato di
+      // rimpicciolire il testo credendo che le colonne non servano.
+      for (const spezza of [false, true]) {
+        corpo.classList.toggle('si-spezza', spezza);
+        for (let n = 2; n <= quante; n++) {
+          corpo.style.columnCount = String(n);
+          corpo.style.width = Math.min(spazioX, larga * n + distanza * (n - 1)) + 'px';
+          if (!troppoAlto()) return;
+        }
       }
+      corpo.classList.remove('si-spezza');
     }
-    // Esaurite le combinazioni resta l'ultima provata, la più capiente.
-    // Ci vuole una poesia di oltre centoventi versi per arrivare qui.
+
+    // Non c'è modo di farcela stare: da qui in poi si scorre. Allora si
+    // torna al corpo pieno e a una colonna sola.
+    //
+    // Una colonna, e non le quattro più capienti: scorrendo, le colonne
+    // diventano un supplizio. Si arriva in fondo alla prima e bisogna
+    // risalire tutto per cominciare la seconda. Una colonna sola si
+    // legge dall'alto in basso una volta, come si legge una poesia.
+    // E dovendo comunque scorrere, non ha senso farlo strizzando gli
+    // occhi su un corpo da 12px.
+    corpo.classList.remove('si-spezza');
+    corpo.style.fontSize = CORPI[0] + 'px';
+    corpo.style.columnCount = '1';
+    corpo.style.width = 'max-content';
+    corpo.style.width = misuraColonna() + 'px';
+  }
+
+  /** Accende le sfumature dal lato in cui il testo continua. */
+  function segnala() {
+    const scorrevole = vista.scrollHeight > vista.clientHeight + 1;
+    finestra.classList.toggle('ha-sopra', scorrevole && vista.scrollTop > 1);
+    finestra.classList.toggle(
+      'ha-sotto',
+      scorrevole && vista.scrollTop + vista.clientHeight < vista.scrollHeight - 1);
+    return scorrevole;
+  }
+
+  /**
+   * Scorre la vista di una quantità, se c'è dove scorrere.
+   * Restituisce `true` quando il movimento è stato assorbito, cioè
+   * quando la pagina sotto non deve muoversi.
+   */
+  function scorri(quanto) {
+    if (vista.scrollHeight <= vista.clientHeight + 1) return false;
+    vista.scrollTop += quanto;
+    segnala();
+    return true;
   }
 
   function apri(titolo) {
@@ -142,6 +205,8 @@ export function avviaPoesie() {
     // Va adattata da visibile: da nascosta non ha dimensioni, e senza
     // dimensioni non si sa se ci sta.
     adatta();
+    vista.scrollTop = 0;
+    segnala();
     scena.classList.add('is-aperta');
     finestra.classList.add('is-aperta');
     aperta = titolo;
@@ -153,6 +218,7 @@ export function avviaPoesie() {
     finestra.classList.remove('is-aperta');
     scena.hidden = true;
     finestra.hidden = true;
+    finestra.classList.remove('ha-sopra', 'ha-sotto');
     corpo.textContent = '';
     aperta = null;
   }
@@ -166,11 +232,39 @@ export function avviaPoesie() {
     titolo.addEventListener('blur', chiudi);
   }
 
+  /* La rotella, mentre una poesia è aperta, muove i versi e non la
+     pagina. Serve un ascoltatore esplicito perché la finestra è
+     `pointer-events: none` e il puntatore sta comunque sul titolo:
+     nessuno dei due riceverebbe mai l'evento per conto proprio.
+     `passive: false` è la condizione per poter fermare la pagina —
+     senza, il browser considera l'ascoltatore una promessa di non
+     interferire e ignora `preventDefault`. */
+  window.addEventListener('wheel', (e) => {
+    if (!aperta) return;
+    // Il browser può misurare in pixel, in righe o in schermate.
+    const unita = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? vista.clientHeight : 1;
+    if (scorri(e.deltaY * unita)) e.preventDefault();
+  }, { passive: false });
+
+  /* Chi ha aperto la poesia con la tastiera deve poterla scorrere
+     allo stesso modo: il titolo ha il fuoco, e i tasti di scorrimento
+     muoverebbero la pagina dietro invece dei versi. */
+  const PASSI = {
+    ArrowDown: () => 60, ArrowUp: () => -60,
+    PageDown: () => vista.clientHeight * 0.9, PageUp: () => -vista.clientHeight * 0.9,
+    Home: () => -vista.scrollHeight, End: () => vista.scrollHeight
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { chiudi(); return; }
+    if (!aperta || !PASSI[e.key]) return;
+    if (scorri(PASSI[e.key]())) e.preventDefault();
+  });
+
   // Cambiando le dimensioni dello schermo l'adattamento non vale più.
   window.addEventListener('resize', () => {
-    if (aperta) adatta();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') chiudi();
+    if (!aperta) return;
+    adatta();
+    segnala();
   });
 }
