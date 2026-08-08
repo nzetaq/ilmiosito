@@ -17,7 +17,7 @@
 
 .au-scrivi-titolo {
   font-family: var(--font-display);
-  font-size: clamp(28px, 5vw, 44px);
+  font-size: clamp(1.75rem, calc(5vw * var(--scala)), 2.75rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -28,7 +28,7 @@
 /* La riga di stato: dice sempre a che punto siamo, e cambia inchiostro
    solo per distinguere una riuscita da un intoppo. */
 .au-scrivi-stato {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.6;
   color: var(--bio);
   min-height: 1.6em;
@@ -38,7 +38,7 @@
 .au-scrivi-stato.is-guaio { color: var(--titolo-em); font-weight: 700; }
 
 .au-scrivi-sezione-titolo {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -68,7 +68,7 @@
 }
 
 .au-scrivi-legenda {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -83,7 +83,7 @@
 
 .au-scrivi-etichetta {
   display: block;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -99,7 +99,7 @@
 .au-scrivi-campo {
   width: 100%;
   font-family: var(--font-testo);
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--testo);
   background: var(--scheda-sfondo);
@@ -126,19 +126,19 @@
 .au-scrivi-riga .au-scrivi-etichetta { margin-bottom: 0; flex: none; }
 
 .au-scrivi-aiuto {
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.7;
   color: var(--bio);
   margin-top: 0.4rem;
 }
 
 .au-scrivi-aiuto code {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--accento);
 }
 
 .au-scrivi-percorso {
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
   color: var(--meta);
 }
@@ -146,7 +146,7 @@
 .au-scrivi-bottone {
   flex: none;
   font-family: var(--font-testo);
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -172,7 +172,7 @@
 }
 
 .au-scrivi-bottone--muto {
-  font-size: 9px;
+  font-size: 0.5625rem;
   padding: 0.4rem 0.7rem;
   border-width: 1px;
 }
@@ -205,7 +205,7 @@
 
 /* L'esito sta accanto ai pulsanti, dove guarda chi ha appena premuto. */
 .au-scrivi-esito {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.7;
   color: var(--bio);
   min-height: 1.7em;
@@ -224,7 +224,7 @@
    Deve somigliare al sito, non a un editor: stessi corpi, stessi
    inchiostri, stessa spaziatura della prosa delle sezioni. */
 .au-scrivi-resa p {
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.8;
   color: var(--prosa);
   margin-bottom: 1rem;
@@ -247,7 +247,7 @@
 }
 
 .au-scrivi-resa code {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--accento);
   background: var(--scheda-sfondo);
   padding: 0.1em 0.35em;
@@ -264,16 +264,16 @@
   margin-bottom: 0.6rem;
 }
 
-.au-scrivi-resa h3 { font-size: 20px; }
-.au-scrivi-resa h4 { font-size: 17px; }
+.au-scrivi-resa h3 { font-size: 1.25rem; }
+.au-scrivi-resa h4 { font-size: 1.0625rem; }
 .au-scrivi-resa h5,
-.au-scrivi-resa h6 { font-size: 15px; }
+.au-scrivi-resa h6 { font-size: 0.9375rem; }
 
 .au-scrivi-resa ul,
 .au-scrivi-resa ol {
   margin: 0 0 1rem 1.2rem;
   color: var(--prosa);
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.8;
 }
 
@@ -306,7 +306,7 @@
 
 .au-scrivi-bozze li {
   margin-bottom: 0.5rem;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--bio);
 }
 

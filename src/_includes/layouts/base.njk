@@ -18,17 +18,20 @@
         }
       } catch (e) {}
 
-      // Quanto movimento. Va scritto qui, prima del primo disegno: se
-      // arrivasse col resto del JavaScript, la prima transizione della
-      // visita andrebbe alla velocità piena qualunque cosa si fosse
-      // scelta. Si passa dal CSSOM e non da un foglio di stile
-      // aggiunto: la policy di sicurezza ammette il primo e non il
-      // secondo, ed è giusto così.
-      // La percentuale è la velocità, quindi il tempo è il suo
-      // inverso: a metà velocità il passaggio dura il doppio. Lo zero
-      // è un caso a parte — velocità nulla varrebbe durata infinita —
-      // e vale «nessun movimento». Stessa formula di moto.js.
+      // Le regolazioni della veste, applicate prima del primo disegno:
+      // arrivando col resto del JavaScript, la pagina apparirebbe alla
+      // misura sbagliata e si riassesterebbe sotto gli occhi di chi
+      // legge. Si passa dal CSSOM e non da un foglio di stile aggiunto:
+      // la policy di sicurezza ammette il primo e non il secondo.
+      // Le formule sono le stesse di veste.js.
       try {
+        // Quanto è grande: diretta, 150% è una volta e mezza.
+        var scala = parseInt(localStorage.getItem('au-scala'), 10);
+        if (scala >= 100 && scala <= 300) {
+          radice.style.setProperty('--scala', scala / 100);
+        }
+        // Quanto si muove: inversa, perché la percentuale è una
+        // velocità e il tempo ne è il reciproco. Lo zero è a parte.
         var moto = parseInt(localStorage.getItem('au-moto'), 10);
         if (moto >= 0 && moto <= 100) {
           radice.style.setProperty('--moto', moto > 0 ? 100 / moto : 0);
@@ -54,9 +57,8 @@
          per ordine di dichiarazione. */
       :root .au-section { display: block; opacity: 1; }
       :root .au-nav { display: none; }
-      /* Senza JavaScript le sezioni stanno tutte in pagina e non c'è
-         alcuna transizione: un cursore per regolarla ingannerebbe. */
-      :root .au-moto { display: none; }
+      /* Senza JavaScript i cursori non fanno nulla: ingannerebbero. */
+      :root .au-regolatori { display: none; }
 {%- endset -%}
 <!DOCTYPE html>
 <html lang="{{ site.lingua }}">

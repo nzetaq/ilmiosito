@@ -39,22 +39,37 @@ permalink: /index.html
   <header class="au-header">
     <div class="au-label-row">
       <p class="au-label">{{ site.motto }}</p>
-      {#- I due comandi della veste, incolonnati nell'angolo. -#}
+      {#- I comandi della veste. Senza JavaScript non fanno nulla e non
+         compaiono: li nasconde il blocco <noscript>. -#}
       <div class="au-comandi">
         <button class="au-theme-toggle" id="au-theme-toggle" type="button">Chiaro</button>
-        {#- La velocità del passaggio fra una sezione e l'altra. Il 100%
-           — il valore di partenza — è quella tarata a mano, di sempre;
-           scendendo il passaggio rallenta nella stessa proporzione. Lo
-           0% è a parte: nessun movimento, cambio netto.
-           Cinque scatti: `step` di 25 su una scala di 100.
-           Senza JavaScript non ci sono transizioni da regolare, quindi
-           il comando non compare — lo nasconde il blocco <noscript>. -#}
-        <div class="au-moto">
-          <label class="au-moto-etichetta" for="au-moto">
-            Moto <span class="au-moto-valore" id="au-moto-valore">100%</span>
-          </label>
-          <input class="au-moto-cursore" id="au-moto" type="range"
-                 min="0" max="100" step="25" value="100">
+        <div class="au-regolatori">
+          {#- Quanto è grande il sito. Il 100% è il disegno originale;
+             salendo cresce tutto insieme — corpi, spaziature, larghezza
+             della colonna — perché il foglio è scritto in rem e questo
+             ne muove il perno. Serve a riempire uno schermo grande, e
+             a chi ha poca vista: moltiplica il corpo che il browser
+             considera predefinito invece di sostituirlo. -#}
+          <div class="au-regolatore">
+            <label class="au-regolatore-etichetta" for="au-scala">
+              Scala <span class="au-regolatore-valore" id="au-scala-valore">100%</span>
+            </label>
+            <input class="au-regolatore-cursore" id="au-scala" type="range"
+                   min="100" max="300" step="5" value="100">
+          </div>
+
+          {#- La velocità del passaggio fra una sezione e l'altra. Il 100%
+             — il valore di partenza — è quella tarata a mano, di sempre;
+             scendendo il passaggio rallenta nella stessa proporzione. Lo
+             0% è a parte: nessun movimento, cambio netto.
+             Cinque scatti: `step` di 25 su una scala di 100. -#}
+          <div class="au-regolatore">
+            <label class="au-regolatore-etichetta" for="au-moto">
+              Moto <span class="au-regolatore-valore" id="au-moto-valore">100%</span>
+            </label>
+            <input class="au-regolatore-cursore" id="au-moto" type="range"
+                   min="0" max="100" step="25" value="100">
+          </div>
         </div>
       </div>
     </div>

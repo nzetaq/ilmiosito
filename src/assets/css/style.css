@@ -103,7 +103,41 @@
   --durata-voce: calc(0.34s * var(--moto));           /* ogni elemento che si compone */
   --passo-composizione: calc(38ms * var(--moto));     /* ritardo fra un elemento e il seguente */
 
+  /* ── Quanto è grande il sito ──
+     Il moltiplicatore di ogni misura. 1 è il disegno originale; il
+     cursore nell'intestazione lo porta fino a 2.
+
+     Il perno è la regola `html` qui sotto: `100%` è il corpo che il
+     browser considera predefinito — quello che chi ha poca vista alza
+     nelle proprie preferenze — e questo cursore lo *moltiplica* invece
+     di sostituirlo. Le due cose si sommano invece di annullarsi.
+
+     Da lì tutto segue da sé, perché il foglio è scritto in rem: corpi,
+     spaziature, larghezza della colonna. Le proporzioni non possono
+     rompersi, perché nessuna misura è indipendente dalle altre. */
+  --scala: 1;
+
   --spazio-main: 2.5rem;
+}
+
+html {
+  font-size: calc(100% * var(--scala));
+}
+
+/* Mentre la scala cambia, nessuna transizione. Serve a due cose, e la
+   seconda non l'avrei prevista.
+   La prima è ovvia: trascinando il cursore si vuole vedere subito la
+   misura, non inseguirla.
+   La seconda è che senza questo il cambio non arriverebbe affatto dove
+   deve. Una proprietà in transizione — `max-width` sulla colonna —
+   resta congelata al valore calcolato prima, se a cambiare è il corpo
+   della radice invece della proprietà stessa: i testi crescevano e la
+   colonna no. Spegnendo le transizioni per un istante, il valore si
+   ricalcola e resta. */
+:root[data-scalando] *,
+:root[data-scalando] *::before,
+:root[data-scalando] *::after {
+  transition: none !important;
 }
 
 /* ── Tavolozza: tema scuro, inchiostro blu come fondo ── */
@@ -262,7 +296,7 @@ img {
 /* ── Base ── */
 body {
   font-family: var(--font-testo);
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: 400;
   line-height: 1.75;
   color: var(--testo);
@@ -301,7 +335,7 @@ body {
   clip-path: none;
   padding: 0.6rem 1rem;
   font-family: var(--font-testo);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -351,13 +385,13 @@ body {
    lo script nel <head> scrive prima del primo disegno; se manca —
    senza JavaScript — resta valida la veste della home. */
 .au-center {
-  max-width: 1100px;
+  max-width: 68.75rem;
   margin: 0 auto;
   transition: max-width var(--durata-impaginazione) var(--curva);
 }
 
 :root[data-sez]:not([data-sez='home']) .au-center {
-  max-width: 860px;
+  max-width: 53.75rem;
 }
 
 .au-layout {
@@ -378,7 +412,7 @@ body {
 :root[data-sez]:not([data-sez='home']) .au-layout {
   grid-template-columns: 0fr 1fr;
   gap: 0;
-  max-width: 680px;
+  max-width: 42.5rem;
   margin-left: auto;
   margin-right: auto;
 }
@@ -401,7 +435,7 @@ body {
 }
 
 .au-label {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -417,7 +451,7 @@ body {
      distanza — dove non c'è scritto niente e nessuno se lo aspetta. */
   width: fit-content;
   font-family: var(--font-display);
-  font-size: clamp(36px, 7vw, 58px);
+  font-size: clamp(2.25rem, calc(7vw * var(--scala)), 3.625rem);
   font-weight: 700;
   line-height: 1.05;
   color: var(--titolo-forte);
@@ -432,10 +466,10 @@ body {
 }
 
 .au-bio {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--bio);
-  max-width: 400px;
+  max-width: 25rem;
   line-height: 1.75;
 }
 
@@ -445,7 +479,13 @@ body {
   flex-direction: column;
   align-items: stretch;
   gap: 0.5rem;
-  flex: none;
+  /* Comprimibile, non rigida: su schermo stretto deve poter cedere,
+     altrimenti spinge la riga oltre il bordo e la pagina prende a
+     scorrere in orizzontale. `min-width: 0` è ciò che glielo permette,
+     perché di suo un elemento flessibile non scende sotto il proprio
+     contenuto. */
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 /* ── Quanto movimento ──
@@ -453,15 +493,30 @@ body {
    Il cursore è disegnato da zero perché quello di sistema porta con sé
    arrotondamenti e ombre che qui stonerebbero: una riga sottile e un
    quadretto pieno, gli stessi due segni del resto della pagina. */
-.au-moto {
+/* I cursori: affiancati dove c'è spazio, incolonnati quando non ce n'è.
+   Uno sotto l'altro farebbe crescere l'intestazione di ottanta pixel su
+   ogni pagina, e l'intestazione è già la parte che costa di più. */
+.au-regolatori {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: 0.5rem 1.1rem;
+}
+
+.au-regolatore {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  /* Stretti quanto basta a stare affiancati anche ingranditi: se
+     andassero a capo, l'intestazione crescerebbe più che in proporzione
+     proprio quando è già alta. */
+  flex: 1 1 6.5rem;
+  min-width: 0;
 }
 
-.au-moto-etichetta {
+.au-regolatore-etichetta {
   font-family: var(--font-testo);
-  font-size: 9px;
+  font-size: 0.5625rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -471,68 +526,68 @@ body {
   gap: 0.5rem;
 }
 
-.au-moto-valore {
+.au-regolatore-valore {
   color: var(--accento);
   /* Le cifre non ballano mentre si trascina. */
   font-variant-numeric: tabular-nums;
 }
 
-.au-moto-cursore {
+.au-regolatore-cursore {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 14px;
+  height: 0.875rem;
   background: none;
   cursor: pointer;
 }
 
-.au-moto-cursore::-webkit-slider-runnable-track {
-  height: 2px;
+.au-regolatore-cursore::-webkit-slider-runnable-track {
+  height: 0.125rem;
   background: var(--toggle-bordo);
 }
 
-.au-moto-cursore::-moz-range-track {
-  height: 2px;
+.au-regolatore-cursore::-moz-range-track {
+  height: 0.125rem;
   background: var(--toggle-bordo);
 }
 
-.au-moto-cursore::-webkit-slider-thumb {
+.au-regolatore-cursore::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 10px;
-  height: 10px;
-  margin-top: -4px;    /* centra il quadretto sulla riga di 2px */
+  width: 0.625rem;
+  height: 0.625rem;
+  margin-top: -0.25rem;    /* centra il quadretto sulla riga di 2px */
   background: var(--accento);
   border: none;
   border-radius: 0;
 }
 
-.au-moto-cursore::-moz-range-thumb {
-  width: 10px;
-  height: 10px;
+.au-regolatore-cursore::-moz-range-thumb {
+  width: 0.625rem;
+  height: 0.625rem;
   background: var(--accento);
   border: none;
   border-radius: 0;
 }
 
-.au-moto-cursore:focus-visible {
+.au-regolatore-cursore:focus-visible {
   outline: 2px solid var(--accento);
   outline-offset: 3px;
 }
 
 /* Movimento ridotto per impostazione di sistema: il cursore non ha più
    voce in capitolo e lo dichiara, invece di fingere di funzionare. */
-.au-moto.is-imposto {
+.au-regolatore.is-imposto {
   opacity: 0.45;
 }
 
-.au-moto.is-imposto .au-moto-cursore {
+.au-regolatore.is-imposto .au-regolatore-cursore {
   cursor: not-allowed;
 }
 
 .au-theme-toggle {
   font-family: var(--font-testo);
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -567,7 +622,7 @@ body {
 .au-nav-btn {
   display: inline-block;
   font-family: var(--font-testo);
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -676,7 +731,7 @@ body {
 
 .au-filter-btn {
   font-family: var(--font-testo);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -703,7 +758,7 @@ body {
 /* ── Intestazione d'annata o di gruppo ── */
 .au-year {
   font-family: var(--font-display);
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -733,7 +788,7 @@ body {
 .au-article[hidden] { display: none; }
 
 .au-source {
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -743,7 +798,7 @@ body {
 
 .au-article-title {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: var(--titolo);
   line-height: 1.3;
@@ -752,7 +807,7 @@ body {
 }
 
 .au-article-desc {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 400;
   color: var(--descrizione);
   line-height: 1.6;
@@ -761,7 +816,7 @@ body {
 .au-right { text-align: right; }
 
 .au-date {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--meta);
@@ -770,7 +825,7 @@ body {
 }
 
 .au-link {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -803,7 +858,7 @@ body {
 }
 
 .au-poem-type {
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -811,7 +866,7 @@ body {
 }
 
 .au-poem-date {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--meta);
@@ -819,7 +874,7 @@ body {
 
 .au-poem-title {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: var(--titolo);
   line-height: 1.3;
@@ -994,7 +1049,7 @@ body {
 }
 
 .au-poem-excerpt {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 400;
   color: var(--estratto);
   line-height: 1.85;
@@ -1003,7 +1058,7 @@ body {
 .au-poem-link {
   display: inline-block;
   margin-top: 0.75rem;
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1046,7 +1101,7 @@ body {
 
 .au-home-title {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: var(--titolo);
   line-height: 1.25;
@@ -1055,11 +1110,11 @@ body {
 }
 
 .au-home-card:first-child .au-home-title {
-  font-size: 21px;
+  font-size: 1.3125rem;
 }
 
 .au-home-desc {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 400;
   color: var(--estratto);
   line-height: 1.6;
@@ -1067,7 +1122,7 @@ body {
 }
 
 .au-home-date {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--meta);
@@ -1107,7 +1162,7 @@ body {
   font-family: var(--font-display);
   /* Più contenuto del nome: «INTELLIGENZA ARTIFICIOSA» è lungo il
      triplo di «N·Z·Q» e a quel corpo andrebbe a capo storto. */
-  font-size: clamp(24px, 4.4vw, 40px);
+  font-size: clamp(1.5rem, calc(4.4vw * var(--scala)), 2.5rem);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -1117,7 +1172,7 @@ body {
 }
 
 .au-sottotitolo-sezione {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--bio);
   line-height: 1.7;
   /* Largo quanto la frase più lunga delle tre, non quanto vorrebbe un
@@ -1145,7 +1200,7 @@ body {
   flex: 1 1 16rem;
   min-width: 0;
   font-family: var(--font-testo);
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--testo);
   background: var(--filtro-sfondo);
   border: 2px solid var(--filtro-bordo);
@@ -1159,7 +1214,7 @@ body {
 
 .au-ia-invio {
   font-family: var(--font-testo);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1181,7 +1236,7 @@ body {
 }
 
 .au-ia-domanda {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -1190,7 +1245,7 @@ body {
 }
 
 .au-ia-risposta {
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.8;
   color: var(--testo);
 }
@@ -1214,7 +1269,7 @@ body {
 }
 
 .au-ia-citazione {
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.75;
   color: var(--testo);
 }
@@ -1229,7 +1284,7 @@ body {
 }
 
 .au-ia-fonte-titolo {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1237,12 +1292,12 @@ body {
 }
 
 .au-ia-fonte-dettaglio {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--bio);
 }
 
 .au-ia-fonte-link {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   color: var(--accento);
   text-decoration: none;
@@ -1255,7 +1310,7 @@ body {
 }
 
 .au-ia-muta {
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.8;
   color: var(--bio);
   font-style: italic;
@@ -1305,7 +1360,7 @@ body {
 }
 
 .au-gp-label {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -1314,7 +1369,7 @@ body {
 }
 
 .au-gp-date {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -1323,7 +1378,7 @@ body {
 }
 
 .au-gp-text {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--prosa);
   line-height: 1.8;
@@ -1340,7 +1395,7 @@ body {
 .au-giornale-entry:last-child { border-bottom: none; }
 
 .au-giornale-entry-date {
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -1350,7 +1405,7 @@ body {
 
 .au-giornale-entry-title {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--titolo-voce);
   letter-spacing: -0.015em;
@@ -1358,7 +1413,7 @@ body {
 
 .au-giornale-entry-text {
   margin-top: 0.9rem;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--prosa-voce);
   line-height: 1.8;
@@ -1400,8 +1455,8 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 185px;
-  height: 185px;
+  width: 11.5625rem;
+  height: 11.5625rem;
   z-index: 999;
 }
 
@@ -1409,7 +1464,7 @@ body {
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
-  width: 160px;
+  width: 10rem;
   height: auto;
   opacity: 0;
   transform: scale(0.7) rotate(-14deg);
@@ -1459,7 +1514,7 @@ body {
 }
 
 .au-filosofo-card {
-  max-width: 420px;
+  max-width: 26.25rem;
   padding: 2.5rem 2rem;
   text-align: center;
   border: 2px solid var(--scheda-bordo);
@@ -1480,14 +1535,14 @@ body {
 }
 
 .au-filosofo-img {
-  width: 190px;
+  width: 11.875rem;
   height: auto;
   filter: drop-shadow(4px 4px 0 rgba(var(--arancio), 0.85));
 }
 
 .au-filosofo-quote {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 500;
   color: var(--citazione);
   letter-spacing: -0.01em;
@@ -1496,7 +1551,7 @@ body {
 
 .au-filosofo-attr {
   margin-top: 1.25rem;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.26em;
   text-transform: uppercase;
@@ -1505,7 +1560,7 @@ body {
 
 .au-filosofo-dismiss {
   margin-top: 2.25rem;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -1600,18 +1655,29 @@ body {
   .au-label-row {
     align-items: flex-start;
     gap: 1rem;
+    /* Sotto una certa larghezza i comandi scendono sotto il motto
+       invece di schiacciarlo. */
+    flex-wrap: wrap;
   }
 
   .au-label {
-    font-size: 10px;
+    font-size: 0.625rem;
     letter-spacing: 0.18em;
   }
 
   /* Il disegno resta identico — riga di 2px, quadretto di 10 — ma la
      zona che risponde al dito diventa alta il doppio e mezzo. Su un
      comando da trascinare conta più dell'aspetto. */
-  .au-moto-cursore {
-    height: 34px;
+  .au-regolatore-cursore {
+    height: 2.125rem;
+  }
+
+  /* Su schermo stretto i due cursori vanno a capo. Affiancati stanno
+     dentro fino a 390px e non oltre: sotto, la pagina cominciava a
+     scorrere in orizzontale. Qui l'intestazione è già alta e una riga
+     in più non si nota. */
+  .au-regolatori {
+    flex-wrap: wrap;
   }
 
   .au-theme-toggle {

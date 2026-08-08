@@ -487,6 +487,35 @@ Due limiti da conoscere:
 - **Navigazione**: le sezioni sono indirizzi veri (`/#articoli`), quindi
   ricaricare la pagina non riporta alla home e i tasti avanti/indietro
   del browser funzionano.
+- **Quanto è grande**: il cursore `SCALA` regola l'intera veste, dal 100%
+  (il disegno originale) al 300%. Serve a due cose insieme: riempire uno
+  schermo grande — un 34 pollici resta al 32% della sua larghezza a scala
+  piena — e dare a chi ha poca vista un ingrandimento che *conserva* la
+  composizione, invece dello zoom del browser.
+
+  | cursore | corpo radice | colonna su 15" | colonna su 34" |
+  |---|---|---|---|
+  | 100% | 16px | 1100px (73%) | 1100px (32%) |
+  | 150% | 24px | 1416px (94%) | 1650px (48%) |
+  | 200% | 32px | 1384px (92%) | 2200px (64%) |
+  | 300% | 48px | 1320px (87%) | 3248px (94%) |
+
+  Il perno è `html { font-size: calc(100% * var(--scala)) }`, e quel `100%`
+  è **il corpo che il browser considera predefinito**: chi lo ha alzato
+  nelle proprie preferenze se lo vede moltiplicato, non sostituito. Da lì
+  segue tutto, perché ogni misura del foglio è in `rem` — corpi, spaziature,
+  larghezza della colonna. Le proporzioni non possono rompersi, perché
+  nessuna misura è indipendente dalle altre: sul 34 pollici la riga di testo
+  resta di 39 caratteri a ogni ingrandimento.
+
+  > **Il tranello.** Una proprietà **in transizione** resta congelata al
+  > valore calcolato prima, se a cambiare è il corpo della radice invece
+  > della proprietà stessa. I testi crescevano e la colonna no, perché
+  > `.au-center` ha `transition: max-width`. Per questo `applica()` mette
+  > `[data-scalando]` sulla radice, che spegne ogni transizione, forza un
+  > ricalcolo leggendo una misura, e la toglie. Serve anche di suo:
+  > trascinando il cursore si vuole vedere la misura, non inseguirla.
+
 - **Quanto movimento**: il cursore `MOTO` sotto l'interruttore del tema
   regola tutte le transizioni fra sezioni. La percentuale è la
   **velocità**: il 100% — il valore di partenza — è quella tarata a mano,
