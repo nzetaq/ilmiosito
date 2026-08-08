@@ -84,8 +84,10 @@
     script-src 'self' {{ avvio | impronta | safe }};
     {#- 'self' serve all'Intelligenza Artificiosa, che alla prima
         domanda scarica l'indice dei testi del sito. È il permesso più
-        stretto possibile: nessun'altra origine è raggiungibile. -#}
-    connect-src 'self'{% if site.analisi.goatcounter %} https://{{ site.analisi.goatcounter }}.goatcounter.com{% endif %};
+        stretto possibile: nessun'altra origine è raggiungibile.
+        `reti` la allarga per una singola pagina — la redazione, che
+        deve parlare con l'API di GitHub — e non per tutto il sito. -#}
+    connect-src 'self'{% if site.analisi.goatcounter %} https://{{ site.analisi.goatcounter }}.goatcounter.com{% endif %}{% if reti %} {{ reti }}{% endif %};
   ">
 
   <title>{{ titolo or site.titolo }}</title>
@@ -133,7 +135,13 @@
      ritrovarsi con lo stile vecchio, e basta un nome di classe cambiato
      perché la pagina si scomponga. -#}
   <link rel="stylesheet" href="{{ base }}assets/css/style.css?v={{ 'src/assets/css/style.css' | versione }}">
-  <script type="module" src="{{ base }}assets/js/main.js?v={{ 'src/assets/js/main.js' | versione }}"></script>
+  {%- if foglioExtra %}
+  {#- Un foglio in più per una pagina sola: la redazione non deve pesare
+     sul foglio che scaricano tutti gli altri. -#}
+  <link rel="stylesheet" href="{{ base }}assets/css/{{ foglioExtra }}.css?v={{ ('src/assets/css/' + foglioExtra + '.css') | versione }}">
+  {%- endif %}
+  {%- set entrata = modulo | default('main', true) %}
+  <script type="module" src="{{ base }}assets/js/{{ entrata }}.js?v={{ ('src/assets/js/' + entrata + '.js') | versione }}"></script>
 
   {#- Senza JavaScript il router non può nascondere nulla: si mostra
      tutto, così la pagina resta leggibile e navigabile per intero. #}

@@ -205,6 +205,54 @@ l'intestazione sbagliata. Il CSS però non sa confrontare due attributi fra
 loro, quindi la corrispondenza fra la sezione accesa e la sua intestazione
 va scritta a mano — due righe nei selettori di `.au-header-sezione`.
 
+## La redazione — `/scrivi/`
+
+Una pagina per scrivere un contenuto e depositarlo nel repository senza
+passare da GitHub. Non è collegata da nessuna parte, è esclusa da
+`robots.txt` e porta `noindex`.
+
+**Non è nascosta, è inerte.** Su un sito statico non esiste una pagina
+privata: chiunque la apra la vede. Ciò che non ha è la chiave, e senza
+chiave non fa nulla.
+
+### La chiave
+
+Un **token a grana fine** di GitHub, con `Contents: Read and write` sul solo
+`nzetaq/ilmiosito`. Si incolla una volta e resta in `localStorage` di quel
+browser. «Dimentica la chiave» lo cancella; revocarlo su GitHub è un clic e
+non tocca nient'altro dell'account.
+
+> È il punto debole dichiarato: un token in `localStorage` sarebbe leggibile
+> da codice ostile che finisse in questa pagina. A difendere quella porta c'è
+> la Content Security Policy, che **solo qui** si allarga ad `api.github.com`
+> — verificato che sulle altre pagine quella stessa chiamata venga rifiutata.
+
+### Come funziona
+
+Non c'è alcun server: l'API di GitHub accetta chiamate dal browser
+(`access-control-allow-origin: *`, `PUT` e `Authorization` ammessi), quindi
+la pagina scrive i file da sé e l'azione di pubblicazione fa il resto.
+
+- **Pubblica** scrive in `src/content/<sezione>/` e il pezzo è in linea in
+  circa un minuto.
+- **Salva come bozza** scrive in `bozze/<sezione>/`, che Eleventy non legge:
+  resta nel repository senza andare in linea. «Riprendi una bozza» la
+  ricarica nel modulo, e pubblicandola la bozza viene rimossa.
+
+Il modulo conosce il front matter di ogni sezione: propone le fonti e i
+gruppi già in uso, calcola l'`ordine` successivo, deriva `fonteId` dalla
+fonte e compone il nome del file secondo la convenzione della cartella
+(`slug` oppure `data-slug`).
+
+L'anteprima mostra come il testo verrà **diviso** — paragrafi e andate a
+capo — non come verrà decorato: interpretare il Markdown vorrebbe dire
+montare HTML da una stringa, che è il modo in cui si aprono i buchi.
+
+### Aggiungere una sezione alla redazione
+
+Si descrive in `src/_data/redazione.json` e basta: il template genera i
+campi, e `scrivi.js` li legge dal documento invece di ripeterne lo schema.
+
 ## Analisi del traffico
 
 Il conteggio si appoggia a [GoatCounter](https://www.goatcounter.com/):

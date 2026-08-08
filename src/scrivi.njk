@@ -1,0 +1,119 @@
+---
+layout: layouts/base.njk
+permalink: /scrivi/index.html
+titolo: "Scrivi — NZQ"
+descrizione: "Redazione."
+noindex: true
+radice: "/"
+eleventyExcludeFromCollections: true
+# Solo questa pagina parla con l'API di GitHub: la policy si allarga qui
+# e non altrove.
+reti: "https://api.github.com"
+foglioExtra: "scrivi"
+modulo: "scrivi"
+---
+<div class="au-wrap au-scrivi">
+  <header class="au-scrivi-testa">
+    <h1 class="au-scrivi-titolo">Redazione</h1>
+    <p class="au-scrivi-stato" id="au-stato" role="status" aria-live="polite"></p>
+  </header>
+
+  {#- La chiave. Finché non c'è, il resto della pagina non serve a nulla:
+     è questo, e non l'invisibilità, a rendere la redazione tua soltanto.
+     La pagina è pubblica come tutto il resto del sito. -#}
+  <section class="au-scrivi-chiave" id="au-chiave">
+    <h2 class="au-scrivi-sezione-titolo">La chiave</h2>
+    <p class="au-scrivi-aiuto">
+      Serve un token di GitHub <strong>a grana fine</strong>, valido solo su questo
+      repository e solo per i contenuti. Si crea in
+      Settings → Developer settings → Personal access tokens → Fine-grained,
+      dando <em>Repository permissions → Contents: Read and write</em> sul solo
+      <code>nzetaq/ilmiosito</code>. Resta in questo browser e non viene mandato
+      da nessuna parte se non a GitHub.
+    </p>
+    <div class="au-scrivi-riga">
+      <input class="au-scrivi-campo" id="au-token" type="password"
+             autocomplete="off" spellcheck="false" placeholder="github_pat_…"
+             aria-label="Token di accesso">
+      <button class="au-scrivi-bottone" id="au-entra" type="button">Entra</button>
+      <button class="au-scrivi-bottone au-scrivi-bottone--muto" id="au-esci" type="button" hidden>Dimentica la chiave</button>
+    </div>
+  </section>
+
+  <form class="au-scrivi-modulo" id="au-modulo" hidden>
+    <div class="au-scrivi-riga">
+      <label class="au-scrivi-etichetta" for="au-sezione">Sezione</label>
+      <select class="au-scrivi-campo" id="au-sezione">
+        {%- for s in site.sezioni %}{% if redazione[s.id] %}
+        <option value="{{ s.id }}">{{ s.etichetta }}</option>
+        {%- endif %}{% endfor %}
+      </select>
+      <button class="au-scrivi-bottone au-scrivi-bottone--muto" id="au-bozze" type="button">Riprendi una bozza</button>
+    </div>
+
+    {#- Un gruppo di campi per sezione, generati dallo schema in
+       redazione.json: si mostra quello della sezione scelta. Costruirli
+       qui e non in JavaScript tiene il codice del browser senza
+       impalcature di HTML montate a stringhe. -#}
+    {%- for s in site.sezioni %}{% if redazione[s.id] %}
+    {%- set sc = redazione[s.id] %}
+    <fieldset class="au-scrivi-gruppo" data-sez="{{ s.id }}"
+              data-cartella="{{ sc.cartella }}" data-nome-file="{{ sc.nomeFile }}" hidden>
+      <legend class="au-scrivi-legenda">{{ s.etichetta }}</legend>
+      {%- for c in sc.campi %}
+      <div class="au-scrivi-voce">
+        <label class="au-scrivi-etichetta" for="au-{{ s.id }}-{{ c.id }}">
+          {{ c.etichetta }}{% if c.obbligatorio %} <span class="au-scrivi-obbligo">obbligatorio</span>{% endif %}
+        </label>
+        <input class="au-scrivi-campo" id="au-{{ s.id }}-{{ c.id }}"
+               type="{% if c.tipo == 'numero' %}number{% elif c.tipo == 'url' %}url{% else %}text{% endif %}"
+               data-campo="{{ c.id }}" data-tipo="{{ c.tipo }}"
+               {%- if c.derivaDa %} data-deriva-da="{{ c.derivaDa }}"{% endif %}
+               {%- if c.auto %} data-auto="{{ c.auto }}"{% endif %}
+               {%- if c.predefinito %} value="{{ c.predefinito }}"{% endif %}
+               {%- if c.suggerisci %} list="au-{{ s.id }}-{{ c.id }}-elenco"{% endif %}
+               autocomplete="off">
+        {%- if c.suggerisci %}
+        <datalist id="au-{{ s.id }}-{{ c.id }}-elenco"></datalist>
+        {%- endif %}
+        {%- if c.aiuto %}
+        <p class="au-scrivi-aiuto">{{ c.aiuto }}</p>
+        {%- endif %}
+      </div>
+      {%- endfor %}
+      <div class="au-scrivi-voce">
+        <label class="au-scrivi-etichetta" for="au-{{ s.id }}-corpo">{{ sc.corpo.etichetta }}</label>
+        <textarea class="au-scrivi-campo au-scrivi-area" id="au-{{ s.id }}-corpo"
+                  data-campo="corpo" rows="{{ sc.corpo.righe }}"
+                  {%- if sc.corpo.preserva %} data-preserva="1"{% endif %} spellcheck="true"></textarea>
+        <p class="au-scrivi-aiuto">{{ sc.corpo.aiuto }}</p>
+      </div>
+    </fieldset>
+    {%- endif %}{% endfor %}
+
+    <div class="au-scrivi-riga">
+      <p class="au-scrivi-percorso" id="au-percorso"></p>
+    </div>
+
+    <div class="au-scrivi-riga au-scrivi-azioni">
+      <button class="au-scrivi-bottone au-scrivi-bottone--forte" id="au-pubblica" type="button">Pubblica</button>
+      <button class="au-scrivi-bottone" id="au-bozza" type="button">Salva come bozza</button>
+    </div>
+  </form>
+
+  <section class="au-scrivi-anteprima" id="au-anteprima-blocco" hidden>
+    <h2 class="au-scrivi-sezione-titolo">Anteprima</h2>
+    <p class="au-scrivi-aiuto">
+      Mostra come il testo verrà diviso, non come verrà decorato: paragrafi e
+      andate a capo, che è ciò che il sito usa davvero. Corsivi, grassetti e
+      collegamenti restano scritti come li hai digitati.
+    </p>
+    <div class="au-scrivi-resa" id="au-anteprima"></div>
+  </section>
+
+  <dialog class="au-scrivi-elenco" id="au-elenco-bozze">
+    <h2 class="au-scrivi-sezione-titolo">Bozze</h2>
+    <ul class="au-scrivi-bozze" id="au-bozze-voci"></ul>
+    <button class="au-scrivi-bottone au-scrivi-bottone--muto" id="au-chiudi-bozze" type="button">Chiudi</button>
+  </dialog>
+</div>

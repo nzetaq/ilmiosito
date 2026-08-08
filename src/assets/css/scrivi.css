@@ -1,0 +1,225 @@
+/* ═══════════════════════════════════════════════════════════════
+   La redazione — foglio della sola pagina /scrivi/
+
+   Si appoggia a style.css, che viene prima: da lì arrivano i caratteri,
+   la tavolozza e i tempi. Qui c'è solo ciò che serve a un modulo di
+   scrittura, e resta fuori dal foglio che scaricano tutti gli altri.
+   ═══════════════════════════════════════════════════════════════ */
+
+.au-scrivi {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.au-scrivi-testa {
+  margin-bottom: 2.5rem;
+}
+
+.au-scrivi-titolo {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--titolo-forte);
+  margin-bottom: 0.5rem;
+}
+
+/* La riga di stato: dice sempre a che punto siamo, e cambia inchiostro
+   solo per distinguere una riuscita da un intoppo. */
+.au-scrivi-stato {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--bio);
+  min-height: 1.6em;
+}
+
+.au-scrivi-stato.is-fatto { color: var(--accento); }
+.au-scrivi-stato.is-guaio { color: var(--titolo-em); font-weight: 700; }
+
+.au-scrivi-sezione-titolo {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--etichetta);
+  margin-bottom: 0.75rem;
+}
+
+.au-scrivi-chiave,
+.au-scrivi-modulo,
+.au-scrivi-anteprima {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--filo);
+}
+
+.au-scrivi-riga {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.au-scrivi-gruppo {
+  border: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.au-scrivi-legenda {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--meta);
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.au-scrivi-voce {
+  margin-bottom: 1.25rem;
+}
+
+.au-scrivi-etichetta {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--meta);
+  margin-bottom: 0.4rem;
+}
+
+.au-scrivi-obbligo {
+  color: var(--accento);
+  letter-spacing: 0.1em;
+}
+
+.au-scrivi-campo {
+  width: 100%;
+  font-family: var(--font-testo);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--testo);
+  background: var(--scheda-sfondo);
+  border: 1px solid var(--filo-forte);
+  border-radius: 0;
+  padding: 0.6rem 0.75rem;
+}
+
+.au-scrivi-campo:focus-visible {
+  outline: 2px solid var(--accento);
+  outline-offset: 1px;
+}
+
+/* L'area del testo: è qui che si passa il tempo, quindi respira più
+   del resto e conserva le andate a capo di chi scrive versi. */
+.au-scrivi-area {
+  resize: vertical;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  tab-size: 2;
+}
+
+.au-scrivi-riga .au-scrivi-campo { flex: 1 1 14rem; width: auto; }
+.au-scrivi-riga .au-scrivi-etichetta { margin-bottom: 0; flex: none; }
+
+.au-scrivi-aiuto {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--bio);
+  margin-top: 0.4rem;
+}
+
+.au-scrivi-aiuto code {
+  font-size: 11px;
+  color: var(--accento);
+}
+
+.au-scrivi-percorso {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--meta);
+}
+
+.au-scrivi-bottone {
+  flex: none;
+  font-family: var(--font-testo);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--toggle);
+  background: none;
+  border: 2px solid var(--toggle-bordo);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s, background-color 0.12s;
+}
+
+.au-scrivi-bottone:hover,
+.au-scrivi-bottone:focus-visible {
+  color: var(--toggle-hover);
+  background: var(--toggle-sfondo-hover);
+  border-color: var(--toggle-sfondo-hover);
+}
+
+.au-scrivi-bottone--forte {
+  color: var(--nav-attivo-testo);
+  background: var(--accento);
+  border-color: var(--accento);
+}
+
+.au-scrivi-bottone--muto {
+  font-size: 9px;
+  padding: 0.4rem 0.7rem;
+  border-width: 1px;
+}
+
+.au-scrivi-azioni {
+  padding-top: 0.5rem;
+}
+
+/* L'anteprima mostra la divisione del testo, non la sua decorazione:
+   paragrafi, e per le poesie anche le andate a capo. */
+.au-scrivi-resa p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--prosa);
+  margin-bottom: 1rem;
+}
+
+.au-scrivi-resa.is-versi p {
+  white-space: pre-line;
+  line-height: 1.75;
+}
+
+.au-scrivi-elenco {
+  background: var(--bg);
+  color: var(--testo);
+  border: 1px solid var(--accento);
+  padding: 1.5rem;
+  max-width: 90vw;
+}
+
+.au-scrivi-elenco::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.au-scrivi-bozze {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+
+.au-scrivi-bozze li {
+  margin-bottom: 0.5rem;
+  font-size: 13px;
+  color: var(--bio);
+}
+
+@media (max-width: 700px) {
+  .au-scrivi { padding-left: 0; padding-right: 0; }
+  .au-scrivi-riga .au-scrivi-campo { flex: 1 1 100%; }
+  .au-scrivi-bottone { flex: 1 1 auto; }
+}

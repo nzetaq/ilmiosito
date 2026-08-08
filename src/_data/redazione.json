@@ -1,0 +1,80 @@
+{
+  "_nota": "Com'è fatto il front matter di ogni sezione. Da qui l'editor in /scrivi/ costruisce i propri campi: aggiungendo una sezione al sito, la si descrive qui e l'editor la sa comporre senza altro lavoro. `nomeFile` vale 'slug' oppure 'data-slug', secondo la convenzione già in uso nella cartella.",
+
+  "articoli": {
+    "cartella": "articoli",
+    "nomeFile": "slug",
+    "corpo": {
+      "etichetta": "Sommario",
+      "aiuto": "Una o due righe che sintetizzano l'articolo. È il testo che compare nella scheda.",
+      "righe": 4
+    },
+    "campi": [
+      { "id": "titolo", "etichetta": "Titolo", "tipo": "testo", "obbligatorio": true },
+      { "id": "fonte", "etichetta": "Fonte", "tipo": "testo", "obbligatorio": true,
+        "suggerisci": true, "aiuto": "La testata. Scrivendone una già usata, il filtro esistente la raccoglie." },
+      { "id": "fonteId", "etichetta": "Identificativo della fonte", "tipo": "testo", "obbligatorio": true,
+        "derivaDa": "fonte", "aiuto": "Senza spazi né accenti: è la chiave del pulsante di filtro." },
+      { "id": "data", "etichetta": "Data", "tipo": "mese", "obbligatorio": true },
+      { "id": "ordine", "etichetta": "Ordine", "tipo": "numero", "obbligatorio": true,
+        "auto": "successivo", "aiuto": "Numero più alto, più in alto nell'elenco." },
+      { "id": "url", "etichetta": "Indirizzo dell'articolo", "tipo": "url", "obbligatorio": true }
+    ]
+  },
+
+  "scritti": {
+    "cartella": "scritti",
+    "nomeFile": "slug",
+    "corpo": {
+      "etichetta": "I versi",
+      "aiuto": "Il corpo del file è la poesia: va a capo dove va a capo, e una riga vuota separa le strofe. I versi non entrano nell'indice pubblico dell'Intelligenza Artificiosa.",
+      "righe": 14,
+      "preserva": true
+    },
+    "campi": [
+      { "id": "titolo", "etichetta": "Titolo", "tipo": "testo", "obbligatorio": true },
+      { "id": "tipo", "etichetta": "Tipo", "tipo": "testo", "obbligatorio": true, "predefinito": "Poesia" },
+      { "id": "gruppo", "etichetta": "Gruppo", "tipo": "testo", "obbligatorio": true,
+        "suggerisci": true, "aiuto": "Il premio o la raccolta: fa da intestazione comune." },
+      { "id": "gruppoUrl", "etichetta": "Indirizzo del gruppo", "tipo": "url", "suggerisci": true },
+      { "id": "gruppoLinkTesto", "etichetta": "Testo del collegamento", "tipo": "testo", "suggerisci": true },
+      { "id": "ordine", "etichetta": "Ordine", "tipo": "numero", "obbligatorio": true, "auto": "successivo" },
+      { "id": "nota", "etichetta": "Nota", "tipo": "testo",
+        "aiuto": "Compare sotto al titolo. Per esempio: «Selezionata nella XV Edizione del Premio»." }
+    ]
+  },
+
+  "tesi": {
+    "cartella": "tesi",
+    "nomeFile": "slug",
+    "corpo": { "etichetta": "Abstract", "aiuto": "Il testo di presentazione.", "righe": 10 },
+    "campi": [
+      { "id": "titolo", "etichetta": "Titolo", "tipo": "testo", "obbligatorio": true },
+      { "id": "tipo", "etichetta": "Tipo", "tipo": "testo", "obbligatorio": true, "predefinito": "Tesi di Laurea Magistrale" },
+      { "id": "gruppo", "etichetta": "Gruppo", "tipo": "testo", "obbligatorio": true, "suggerisci": true },
+      { "id": "gruppoUrl", "etichetta": "Indirizzo del testo", "tipo": "url", "suggerisci": true },
+      { "id": "gruppoLinkTesto", "etichetta": "Testo del collegamento", "tipo": "testo", "suggerisci": true },
+      { "id": "ordine", "etichetta": "Ordine", "tipo": "numero", "obbligatorio": true, "auto": "successivo" }
+    ]
+  },
+
+  "giornale": {
+    "cartella": "giornale",
+    "nomeFile": "data-slug",
+    "corpo": { "etichetta": "Il testo", "aiuto": "Diviso nei paragrafi che servono: una riga vuota fra l'uno e l'altro.", "righe": 16 },
+    "campi": [
+      { "id": "titolo", "etichetta": "Titolo", "tipo": "testo", "obbligatorio": true },
+      { "id": "data", "etichetta": "Data", "tipo": "giorno", "obbligatorio": true, "auto": "oggi" }
+    ]
+  },
+
+  "appunti": {
+    "cartella": "appunti",
+    "nomeFile": "data-slug",
+    "corpo": { "etichetta": "Il testo", "aiuto": "Diviso nei paragrafi che servono.", "righe": 16 },
+    "campi": [
+      { "id": "titolo", "etichetta": "Titolo", "tipo": "testo", "obbligatorio": true },
+      { "id": "data", "etichetta": "Data", "tipo": "giorno", "obbligatorio": true, "auto": "oggi" }
+    ]
+  }
+}

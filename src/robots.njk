@@ -4,5 +4,8 @@ eleventyExcludeFromCollections: true
 ---
 User-agent: *
 Allow: /
+# La redazione non è contenuto: è uno strumento, e per giunta inerte
+# senza la chiave. Non ha ragione di finire in un indice.
+Disallow: /scrivi/
 
 Sitemap: {{ site.url }}/sitemap.xml
