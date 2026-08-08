@@ -220,8 +220,9 @@
   white-space: nowrap;
 }
 
-/* L'anteprima mostra la divisione del testo, non la sua decorazione:
-   paragrafi, e per le poesie anche le andate a capo. */
+/* ── L'anteprima ──
+   Deve somigliare al sito, non a un editor: stessi corpi, stessi
+   inchiostri, stessa spaziatura della prosa delle sezioni. */
 .au-scrivi-resa p {
   font-size: 15px;
   line-height: 1.8;
@@ -229,9 +230,61 @@
   margin-bottom: 1rem;
 }
 
+/* Nelle poesie il sito non interpreta il Markdown: qui si conservano
+   solo le andate a capo, come fa la lente. */
 .au-scrivi-resa.is-versi p {
   white-space: pre-line;
   line-height: 1.75;
+}
+
+.au-scrivi-resa em { font-style: italic; }
+.au-scrivi-resa strong { font-weight: 700; color: var(--testo); }
+
+.au-scrivi-resa a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.au-scrivi-resa code {
+  font-size: 13px;
+  color: var(--accento);
+  background: var(--scheda-sfondo);
+  padding: 0.1em 0.35em;
+}
+
+.au-scrivi-resa h3,
+.au-scrivi-resa h4,
+.au-scrivi-resa h5,
+.au-scrivi-resa h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--titolo);
+  line-height: 1.25;
+  margin-bottom: 0.6rem;
+}
+
+.au-scrivi-resa h3 { font-size: 20px; }
+.au-scrivi-resa h4 { font-size: 17px; }
+.au-scrivi-resa h5,
+.au-scrivi-resa h6 { font-size: 15px; }
+
+.au-scrivi-resa ul,
+.au-scrivi-resa ol {
+  margin: 0 0 1rem 1.2rem;
+  color: var(--prosa);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.au-scrivi-resa ul { list-style: disc; }
+.au-scrivi-resa ol { list-style: decimal; }
+.au-scrivi-resa li { margin-bottom: 0.3rem; }
+
+.au-scrivi-resa blockquote {
+  border-left: 2px solid var(--accento);
+  padding-left: 1rem;
+  margin-bottom: 1rem;
 }
 
 .au-scrivi-elenco {

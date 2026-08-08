@@ -130,6 +130,141 @@ function scomponiFile(testo) {
   return { valori, corpo: trovato[2].replace(/^\n+/, '') };
 }
 
+/* ── Resa del Markdown ─────────────────────────────────────
+   L'anteprima interpreta la sintassi, ma non passa mai da `innerHTML`:
+   costruisce nodi con createElement e ci mette il testo con
+   textContent. È la differenza che conta su una pagina che custodisce
+   un token — non esiste stringa che possa diventare HTML, perché
+   nessuna stringa viene mai letta come HTML.
+
+   Gli indirizzi dei collegamenti sono l'unico punto in cui un valore
+   scritto da chi compone finisce in un attributo: passano solo se
+   cominciano per http o https, altrimenti restano testo. */
+
+const SCHEMI_LECITI = /^https?:\/\//i;
+
+const INLINE = /(\*\*|__)([\s\S]+?)\1|(\*|_)([\s\S]+?)\3|`([^`]+)`|\[([^\]]*)\]\(([^)\s]+)\)/;
+
+/** Il contenuto di una riga: grassetti, corsivi, codice, collegamenti. */
+function inLinea(testo) {
+  const frammento = document.createDocumentFragment();
+  let resto = testo;
+
+  while (resto) {
+    const trovato = INLINE.exec(resto);
+    if (!trovato) {
+      frammento.appendChild(document.createTextNode(resto));
+      break;
+    }
+
+    // Il trattino basso dentro una parola non è un corsivo: `nome_file`
+    // resta `nome_file`, come in qualunque Markdown serio.
+    const segno = trovato[1] || trovato[3];
+    if (segno === '_' || segno === '__') {
+      const prima = resto[trovato.index - 1];
+      const dopo = resto[trovato.index + trovato[0].length];
+      if ((prima && /[A-Za-z0-9]/.test(prima)) || (dopo && /[A-Za-z0-9]/.test(dopo))) {
+        frammento.appendChild(document.createTextNode(resto.slice(0, trovato.index + trovato[0].length)));
+        resto = resto.slice(trovato.index + trovato[0].length);
+        continue;
+      }
+    }
+
+    if (trovato.index) frammento.appendChild(document.createTextNode(resto.slice(0, trovato.index)));
+
+    if (trovato[1]) {
+      const forte = document.createElement('strong');
+      forte.appendChild(inLinea(trovato[2]));
+      frammento.appendChild(forte);
+    } else if (trovato[3]) {
+      const corsivo = document.createElement('em');
+      corsivo.appendChild(inLinea(trovato[4]));
+      frammento.appendChild(corsivo);
+    } else if (trovato[5] != null) {
+      const codice = document.createElement('code');
+      codice.textContent = trovato[5];
+      frammento.appendChild(codice);
+    } else if (SCHEMI_LECITI.test(trovato[7])) {
+      const link = document.createElement('a');
+      link.href = trovato[7];
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.appendChild(inLinea(trovato[6]));
+      frammento.appendChild(link);
+    } else {
+      // Indirizzo non ammesso: si mostra com'è scritto, senza diventare
+      // un collegamento su cui si possa cliccare.
+      frammento.appendChild(document.createTextNode(trovato[0]));
+    }
+
+    resto = resto.slice(trovato.index + trovato[0].length);
+  }
+  return frammento;
+}
+
+/**
+ * Il testo intero, diviso in blocchi.
+ *
+ * `versi` cambia tutto, e deve: per le poesie il sito **non** interpreta
+ * il Markdown. La lente mostra il testo grezzo e il filtro `versi` in
+ * eleventy.config.js si limita a togliere i segni di enfasi. Renderle
+ * in corsivo qui sarebbe un'anteprima che mente.
+ */
+function componiTesto(testo, versi) {
+  const frammento = document.createDocumentFragment();
+
+  for (const blocco of testo.split(/\n\s*\n/)) {
+    if (!blocco.trim()) continue;
+
+    if (versi) {
+      const strofa = document.createElement('p');
+      strofa.textContent = blocco.trim().replace(/[*_`]/g, '');
+      frammento.appendChild(strofa);
+      continue;
+    }
+
+    const righe = blocco.split('\n').filter((r) => r.trim());
+
+    const titolo = righe[0].match(/^(#{1,6})\s+(.*)$/);
+    if (titolo && righe.length === 1) {
+      const h = document.createElement('h' + Math.min(6, titolo[1].length + 2));
+      h.appendChild(inLinea(titolo[2]));
+      frammento.appendChild(h);
+      continue;
+    }
+
+    if (righe.every((r) => /^>\s?/.test(r))) {
+      const citazione = document.createElement('blockquote');
+      const p = document.createElement('p');
+      p.appendChild(inLinea(righe.map((r) => r.replace(/^>\s?/, '')).join(' ')));
+      citazione.appendChild(p);
+      frammento.appendChild(citazione);
+      continue;
+    }
+
+    const puntato = righe.every((r) => /^\s*[-*+]\s+/.test(r));
+    const numerato = righe.every((r) => /^\s*\d+[.)]\s+/.test(r));
+    if (puntato || numerato) {
+      const elenco = document.createElement(numerato ? 'ol' : 'ul');
+      for (const r of righe) {
+        const voce = document.createElement('li');
+        voce.appendChild(inLinea(r.replace(/^\s*(?:[-*+]|\d+[.)])\s+/, '')));
+        elenco.appendChild(voce);
+      }
+      frammento.appendChild(elenco);
+      continue;
+    }
+
+    // Paragrafo. Le andate a capo singole si uniscono con uno spazio,
+    // come fa il Markdown del sito: l'anteprima deve somigliare al
+    // risultato, non al file.
+    const p = document.createElement('p');
+    p.appendChild(inLinea(righe.join(' ')));
+    frammento.appendChild(p);
+  }
+  return frammento;
+}
+
 /* ── La pagina ─────────────────────────────────────────────── */
 
 export function avviaScrivi() {
@@ -221,25 +356,23 @@ export function avviaScrivi() {
   }
 
   /* ── Anteprima ──
-     Divide in paragrafi e conserva le andate a capo, cioè esattamente
-     quello che il sito fa del testo. Non interpreta la sintassi
-     Markdown: costruirla a mano vorrebbe dire montare HTML da una
-     stringa, che è il modo in cui si aprono i buchi. Meglio
-     un'anteprima onesta e parziale che una completa e pericolosa. */
+     Mostra il testo come lo mostrerà il sito, sezione per sezione: con
+     la formattazione dove il sito la rende, grezzo dove il sito lo
+     lascia grezzo. La resa è in `componiTesto`, che costruisce nodi e
+     non tocca mai `innerHTML`. */
   function aggiornaAnteprima() {
     const g = gruppo();
     if (!g) return;
     const area = campo(g, 'corpo');
+    const versi = area.dataset.preserva === '1';
     const resa = el('au-anteprima');
     resa.textContent = '';
-    resa.classList.toggle('is-versi', area.dataset.preserva === '1');
-    for (const blocco of area.value.split(/\n\s*\n/)) {
-      if (!blocco.trim()) continue;
-      const p = document.createElement('p');
-      p.textContent = blocco.trim();
-      resa.appendChild(p);
-    }
+    resa.classList.toggle('is-versi', versi);
+    resa.appendChild(componiTesto(area.value, versi));
     el('au-anteprima-blocco').hidden = !area.value.trim();
+    el('au-anteprima-nota').textContent = versi
+      ? 'In questa sezione il sito non interpreta il Markdown: la lente mostra i versi come li scrivi, e i segni di enfasi vengono tolti. L\'anteprima fa lo stesso.'
+      : 'Corsivo, grassetto, codice, collegamenti, titoli ed elenchi sono resi come li renderà il sito.';
   }
 
   /* ── Suggerimenti dalla cartella ──

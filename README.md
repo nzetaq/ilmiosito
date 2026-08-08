@@ -256,9 +256,24 @@ gruppi già in uso, calcola l'`ordine` successivo, deriva `fonteId` dalla
 fonte e compone il nome del file secondo la convenzione della cartella
 (`slug` oppure `data-slug`).
 
-L'anteprima mostra come il testo verrà **diviso** — paragrafi e andate a
-capo — non come verrà decorato: interpretare il Markdown vorrebbe dire
-montare HTML da una stringa, che è il modo in cui si aprono i buchi.
+### L'anteprima
+
+Rende il Markdown — corsivo, grassetto, codice, collegamenti, titoli,
+elenchi, citazioni — **costruendo nodi**, mai passando da `innerHTML`. La
+differenza conta su una pagina che custodisce un token: non esiste stringa
+che possa diventare HTML, perché nessuna stringa viene mai letta come HTML.
+HTML scritto a mano nel testo resta testo, e un collegamento che non
+cominci per `http`/`https` non diventa un'ancora.
+
+Somiglia al risultato e non al file: le andate a capo singole si uniscono
+con uno spazio, come fa il Markdown del sito, e `nome_del_file` non diventa
+un corsivo.
+
+**Nelle poesie non interpreta niente**, ed è voluto: là il sito mostra i
+versi grezzi — la lente legge il testo come lo scrivi e il filtro `versi`
+si limita a togliere i segni di enfasi. Renderli in corsivo qui sarebbe
+un'anteprima che mente. La nota sotto il titolo lo dice, e cambia con la
+sezione.
 
 ### Aggiungere una sezione alla redazione
 
