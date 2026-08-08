@@ -42,18 +42,19 @@ permalink: /index.html
       {#- I due comandi della veste, incolonnati nell'angolo. -#}
       <div class="au-comandi">
         <button class="au-theme-toggle" id="au-theme-toggle" type="button">Chiaro</button>
-        {#- Quanto movimento fra una sezione e l'altra. A 0% il passaggio
-           è netto e il contenuto non si muove; salendo si allarga, fino
-           al quadruplo al 100%. Il 25% — il valore di partenza — è la
-           misura tarata a mano, quella di sempre.
+        {#- Quanto movimento fra una sezione e l'altra. Il 100% — il
+           valore di partenza — è la misura tarata a mano, quella di
+           sempre; scendendo il passaggio si stringe in proporzione,
+           fino allo 0% dove il contenuto resta fermo e il cambio è
+           netto. Cinque scatti: `step` di 25 su una scala di 100.
            Senza JavaScript non ci sono transizioni da regolare, quindi
            il comando non compare — lo nasconde il blocco <noscript>. -#}
         <div class="au-moto">
           <label class="au-moto-etichetta" for="au-moto">
-            Moto <span class="au-moto-valore" id="au-moto-valore">25%</span>
+            Moto <span class="au-moto-valore" id="au-moto-valore">100%</span>
           </label>
           <input class="au-moto-cursore" id="au-moto" type="range"
-                 min="0" max="100" step="5" value="25">
+                 min="0" max="100" step="25" value="100">
         </div>
       </div>
     </div>

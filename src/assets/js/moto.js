@@ -1,22 +1,20 @@
 const CHIAVE = 'au-moto';
 
-/* La posizione del cursore in cui il movimento è quello tarato a mano.
-   È il punto di partenza e il perno della scala: sopra il passaggio si
-   allarga, sotto si stringe fino a fermarsi. */
-const NORMALE = 25;
+/* La posizione in cui il movimento è quello pieno, tarato a mano: il
+   fondo scala, e il valore di partenza. Da lì si scende soltanto. */
+const PIENO = 100;
 
 /**
  * Quanto movimento fra una sezione e l'altra.
  *
- * La percentuale dice quanta cerimonia, non quanta fretta: a 0% il
- * passaggio è netto e il contenuto resta fermo, e salendo il movimento
- * si allarga. Il **25% è il punto di partenza** e vale la misura tarata
- * a mano, quella di sempre; al 100% il passaggio dura il quadruplo.
+ * La percentuale è la frazione del movimento pieno. Il **100% è il
+ * punto di partenza** e vale la misura tarata a mano, quella di
+ * sempre; scendendo il passaggio si stringe in proporzione, fino allo
+ * 0% dove non c'è più: il contenuto resta fermo e il cambio è netto.
  *
- * Da qui la divisione per 25 invece che per 100: la percentuale del
- * cursore diventa un moltiplicatore che va da 0 a 4, e vale 1 proprio
- * dove sta la taratura originale. Sotto il 25% c'è la fascia svelta,
- * per chi il passaggio lo vuole solo accennato.
+ * Cinque scatti e non un continuo — 0, 25, 50, 75, 100 — perché le vie
+ * di mezzo fra due scatti non si distinguono a occhio, e una scelta
+ * fatta di posizioni riconoscibili si ritrova.
  *
  * Il valore finisce in una sola variabile, `--moto`, per cui passano
  * tutti e quattro i tempi del foglio di stile. Cambiarla li muove
@@ -52,9 +50,7 @@ export function avviaMoto() {
   }
 
   function applica(percentuale, ricorda) {
-    // Diviso NORMALE e non 100: là sta la taratura originale, e là il
-    // moltiplicatore deve valere 1.
-    radice.style.setProperty('--moto', percentuale / NORMALE);
+    radice.style.setProperty('--moto', percentuale / PIENO);
     mostra(percentuale);
     if (!ricorda) return;
     try {
@@ -81,7 +77,7 @@ export function avviaMoto() {
   // Lo script del <head> ha già applicato il valore ricordato: qui si
   // allinea soltanto la posizione del cursore, come fa il pulsante del
   // tema con la propria etichetta.
-  let iniziale = NORMALE;
+  let iniziale = PIENO;
   try {
     const salvato = parseInt(localStorage.getItem(CHIAVE), 10);
     if (salvato >= 0 && salvato <= 100) iniziale = salvato;

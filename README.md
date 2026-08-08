@@ -413,24 +413,24 @@ Due limiti da conoscere:
   ricaricare la pagina non riporta alla home e i tasti avanti/indietro
   del browser funzionano.
 - **Quanto movimento**: il cursore `MOTO` sotto l'interruttore del tema
-  regola tutte le transizioni fra sezioni. La percentuale dice **quanta
-  cerimonia**, non quanta fretta: a 0% il passaggio è netto e il contenuto
-  resta fermo, e salendo il movimento si allarga.
-  Il **25% è il punto di partenza** e vale la misura tarata a mano, quella
-  di sempre; sotto c'è la fascia svelta, sopra quella distesa:
+  regola tutte le transizioni fra sezioni. La percentuale è la **frazione
+  del movimento pieno**: il 100% — il valore di partenza — è la misura
+  tarata a mano, quella di sempre, e scendendo il passaggio si stringe in
+  proporzione fino allo 0%, dove il contenuto resta fermo e il cambio è
+  netto.
 
   | cursore | durata | passaggio completo, dieci elementi |
   |---|---|---|
   | 0% | 0 ms | istantaneo |
-  | 25% *(partenza)* | 340 ms | ~0,7 s |
-  | 50% | 680 ms | ~1,4 s |
-  | 75% | 1020 ms | ~2,0 s |
-  | 100% | 1360 ms | ~2,7 s |
+  | 25% | 85 ms | ~0,17 s |
+  | 50% | 170 ms | ~0,34 s |
+  | 75% | 255 ms | ~0,51 s |
+  | 100% *(partenza)* | 340 ms | ~0,68 s |
 
-  Da qui la divisione per 25 e non per 100 in `moto.js` e nello script del
-  `<head>`: la percentuale diventa un moltiplicatore da 0 a 4 che vale 1
-  proprio dove sta la taratura originale. Spostare il massimo è questione
-  di cambiare la costante `NORMALE`.
+  **Cinque scatti e non un continuo** (`step="25"`): le vie di mezzo fra due
+  scatti non si distinguono a occhio, e una scelta fatta di posizioni
+  riconoscibili si ritrova. Un valore intermedio viene riportato allo scatto
+  più vicino, e le frecce della tastiera si muovono di 25 alla volta.
   Passa da una sola variabile, `--moto`, per cui sono
   espressi tutti e quattro i tempi (`calc(0.34s * var(--moto))` e simili):
   si accorciano insieme, e la composizione a scalare continua a funzionare
