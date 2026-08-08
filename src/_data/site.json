@@ -22,6 +22,11 @@
       ]
     },
     {
+      "id": "giornale",
+      "etichetta": "Il Diavolo veste Pravda",
+      "titolo": "Il Diavolo veste Pravda"
+    },
+    {
       "id": "articoli",
       "etichetta": "Articoli"
     },
@@ -32,11 +37,6 @@
     {
       "id": "tesi",
       "etichetta": "Tesi"
-    },
-    {
-      "id": "giornale",
-      "etichetta": "Il Diavolo veste Pravda",
-      "titolo": "Il Diavolo veste Pravda"
     },
     {
       "id": "appunti",
