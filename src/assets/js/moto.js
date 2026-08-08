@@ -1,15 +1,25 @@
 const CHIAVE = 'au-moto';
 
+/* La posizione del cursore in cui il movimento è quello tarato a mano.
+   È il punto di partenza e il perno della scala: sopra il passaggio si
+   allarga, sotto si stringe fino a fermarsi. */
+const NORMALE = 25;
+
 /**
  * Quanto movimento fra una sezione e l'altra.
  *
- * La percentuale è la **durata**, non la velocità: 100% è la misura
- * piena di sempre, 25% la accorcia a un quarto, 0% ferma tutto. Detta
- * così la parola «moto» torna letterale — a metà cursore c'è metà
- * movimento — dove «velocità 25%» avrebbe voluto dire il contrario.
+ * La percentuale dice quanta cerimonia, non quanta fretta: a 0% il
+ * passaggio è netto e il contenuto resta fermo, e salendo il movimento
+ * si allarga. Il **25% è il punto di partenza** e vale la misura tarata
+ * a mano, quella di sempre; al 100% il passaggio dura il quadruplo.
+ *
+ * Da qui la divisione per 25 invece che per 100: la percentuale del
+ * cursore diventa un moltiplicatore che va da 0 a 4, e vale 1 proprio
+ * dove sta la taratura originale. Sotto il 25% c'è la fascia svelta,
+ * per chi il passaggio lo vuole solo accennato.
  *
  * Il valore finisce in una sola variabile, `--moto`, per cui passano
- * tutti e quattro i tempi del foglio di stile. Cambiarla li accorcia
+ * tutti e quattro i tempi del foglio di stile. Cambiarla li muove
  * insieme, ed è ciò che conta: la composizione a scalare funziona
  * perché i tempi stanno in proporzione fra loro, non perché valgano
  * quei numeri.
@@ -37,11 +47,14 @@ export function avviaMoto() {
     // Il cursore è già descritto dalla propria etichetta; questo dice
     // a voce il valore, che altrimenti resterebbe solo un numero.
     cursore.setAttribute('aria-valuetext', percentuale === 0
-      ? 'fermo' : 'movimento al ' + percentuale + ' per cento');
+      ? 'nessun movimento, passaggi netti'
+      : 'movimento al ' + percentuale + ' per cento');
   }
 
   function applica(percentuale, ricorda) {
-    radice.style.setProperty('--moto', percentuale / 100);
+    // Diviso NORMALE e non 100: là sta la taratura originale, e là il
+    // moltiplicatore deve valere 1.
+    radice.style.setProperty('--moto', percentuale / NORMALE);
     mostra(percentuale);
     if (!ricorda) return;
     try {
@@ -68,7 +81,7 @@ export function avviaMoto() {
   // Lo script del <head> ha già applicato il valore ricordato: qui si
   // allinea soltanto la posizione del cursore, come fa il pulsante del
   // tema con la propria etichetta.
-  let iniziale = 100;
+  let iniziale = NORMALE;
   try {
     const salvato = parseInt(localStorage.getItem(CHIAVE), 10);
     if (salvato >= 0 && salvato <= 100) iniziale = salvato;

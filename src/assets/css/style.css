@@ -84,11 +84,15 @@
      muovono insieme restano d'accordo fra loro. */
   --curva: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Quanto movimento. 1 è la misura piena, quella di sempre; il cursore
-     nell'intestazione scrive qui un valore fra 0 e 1 e tutti i tempi si
-     accorciano insieme, perché è dalla loro proporzione che dipende il
-     fatto che i pezzi restino d'accordo fra loro. A 0 il sito non si
-     muove più: le transizioni durano zero e i passaggi sono netti.
+  /* Quanto movimento: il moltiplicatore di tutti i tempi qui sotto.
+     Il cursore nell'intestazione scrive qui la propria percentuale
+     divisa per 25, quindi 1 è il 25% del cursore — la misura tarata a
+     mano, quella di sempre, ed è il valore di partenza. Da lì si sale
+     fino a 4 (il 100%: passaggio quattro volte più ampio) e si scende
+     fino a 0, dove il sito non si muove più e i passaggi sono netti.
+     Tutti i tempi si accorciano e si allargano insieme, perché è dalla
+     loro proporzione che dipende il fatto che i pezzi restino
+     d'accordo fra loro.
      Lo scrive lo script del <head> prima del primo disegno, così non
      c'è un istante in cui la pagina si muova alla velocità sbagliata. */
   --moto: 1;

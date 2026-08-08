@@ -24,10 +24,13 @@
       // scelta. Si passa dal CSSOM e non da un foglio di stile
       // aggiunto: la policy di sicurezza ammette il primo e non il
       // secondo, ed è giusto così.
+      // Diviso 25 e non 100: il 25% del cursore è la misura tarata a
+      // mano, quella di sempre, e vale 1. Sopra il passaggio si
+      // allarga, fino al quadruplo; sotto si stringe, fino a fermarsi.
       try {
         var moto = parseInt(localStorage.getItem('au-moto'), 10);
         if (moto >= 0 && moto <= 100) {
-          radice.style.setProperty('--moto', moto / 100);
+          radice.style.setProperty('--moto', moto / 25);
         }
       } catch (e) {}
 

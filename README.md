@@ -413,10 +413,25 @@ Due limiti da conoscere:
   ricaricare la pagina non riporta alla home e i tasti avanti/indietro
   del browser funzionano.
 - **Quanto movimento**: il cursore `MOTO` sotto l'interruttore del tema
-  regola tutte le transizioni fra sezioni. La percentuale è la **durata**,
-  non la velocità: 100% è la misura piena di sempre, 25% la accorcia a un
-  quarto, 0% ferma tutto — così la parola resta letterale, a metà cursore
-  c'è metà movimento. Passa da una sola variabile, `--moto`, per cui sono
+  regola tutte le transizioni fra sezioni. La percentuale dice **quanta
+  cerimonia**, non quanta fretta: a 0% il passaggio è netto e il contenuto
+  resta fermo, e salendo il movimento si allarga.
+  Il **25% è il punto di partenza** e vale la misura tarata a mano, quella
+  di sempre; sotto c'è la fascia svelta, sopra quella distesa:
+
+  | cursore | durata | passaggio completo, dieci elementi |
+  |---|---|---|
+  | 0% | 0 ms | istantaneo |
+  | 25% *(partenza)* | 340 ms | ~0,7 s |
+  | 50% | 680 ms | ~1,4 s |
+  | 75% | 1020 ms | ~2,0 s |
+  | 100% | 1360 ms | ~2,7 s |
+
+  Da qui la divisione per 25 e non per 100 in `moto.js` e nello script del
+  `<head>`: la percentuale diventa un moltiplicatore da 0 a 4 che vale 1
+  proprio dove sta la taratura originale. Spostare il massimo è questione
+  di cambiare la costante `NORMALE`.
+  Passa da una sola variabile, `--moto`, per cui sono
   espressi tutti e quattro i tempi (`calc(0.34s * var(--moto))` e simili):
   si accorciano insieme, e la composizione a scalare continua a funzionare
   perché dipende dalla loro proporzione, non dai valori assoluti. Restano
