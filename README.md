@@ -487,8 +487,8 @@ Due limiti da conoscere:
 - **Navigazione**: le sezioni sono indirizzi veri (`/#articoli`), quindi
   ricaricare la pagina non riporta alla home e i tasti avanti/indietro
   del browser funzionano.
-- **Quanto è grande**: il cursore `SCALA` regola l'intera veste, dal 100%
-  (il disegno originale) al 300%. Serve a due cose insieme: riempire uno
+- **Quanto è grande**: i due pulsanti `SCALA` regolano l'intera veste, dal
+  100% (il disegno originale) al 300%, a passi del 5%. Serve a due cose insieme: riempire uno
   schermo grande — un 34 pollici resta al 32% della sua larghezza a scala
   piena — e dare a chi ha poca vista un ingrandimento che *conserva* la
   composizione, invece dello zoom del browser.
@@ -507,6 +507,14 @@ Due limiti da conoscere:
   larghezza della colonna. Le proporzioni non possono rompersi, perché
   nessuna misura è indipendente dalle altre: sul 34 pollici la riga di testo
   resta di 39 caratteri a ogni ingrandimento.
+
+  > **Perché due pulsanti e non un cursore.** Cambiando la scala cambia la
+  > pagina, e con essa il comando: trascinando, il pollice del cursore
+  > scappa da sotto il puntatore. Un clic invece è istantaneo. Resta una
+  > deriva — misurata, ~24px per clic su schermo da 15 pollici, perché la
+  > colonna centrata cresce in entrambe le direzioni — quindi il primo clic
+  > cade sempre a segno ma il secondo no. Per questo dopo il clic il fuoco
+  > resta sul pulsante: si continua con Invio senza inseguire nulla.
 
   > **Il tranello.** Una proprietà **in transizione** resta congelata al
   > valore calcolato prima, se a cambiare è il corpo della radice invece

@@ -50,12 +50,22 @@ permalink: /index.html
              ne muove il perno. Serve a riempire uno schermo grande, e
              a chi ha poca vista: moltiplica il corpo che il browser
              considera predefinito invece di sostituirlo. -#}
+          {#- Due pulsanti e non un cursore, per una ragione che si
+             scopre solo usandolo: la pagina cresce mentre si trascina,
+             e il pollice del cursore scappa da sotto il puntatore.
+             Un clic invece è istantaneo. -#}
           <div class="au-regolatore">
-            <label class="au-regolatore-etichetta" for="au-scala">
-              Scala <span class="au-regolatore-valore" id="au-scala-valore">100%</span>
-            </label>
-            <input class="au-regolatore-cursore" id="au-scala" type="range"
-                   min="100" max="300" step="5" value="100">
+            <span class="au-regolatore-etichetta">
+              Scala
+              <span class="au-regolatore-valore" id="au-scala-valore"
+                    role="status" aria-live="polite">100%</span>
+            </span>
+            <div class="au-passi" role="group" aria-label="Scala del sito">
+              <button class="au-passo" id="au-scala-meno" type="button"
+                      aria-label="Riduci la scala del cinque per cento">&minus;</button>
+              <button class="au-passo" id="au-scala-piu" type="button"
+                      aria-label="Aumenta la scala del cinque per cento">+</button>
+            </div>
           </div>
 
           {#- La velocità del passaggio fra una sezione e l'altra. Il 100%

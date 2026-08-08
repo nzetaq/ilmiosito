@@ -570,6 +570,45 @@ body {
   border-radius: 0;
 }
 
+/* I due passi della scala. Quadrati, affiancati, alti quanto il
+   cursore del moto perché la coppia resti allineata. */
+.au-passi {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.au-passo {
+  flex: 1 1 auto;
+  font-family: var(--font-testo);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--toggle);
+  background: none;
+  border: 1px solid var(--toggle-bordo);
+  padding: 0.15rem 0;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s, background-color 0.12s;
+}
+
+.au-passo:hover,
+.au-passo:focus-visible {
+  color: var(--toggle-hover);
+  background: var(--toggle-sfondo-hover);
+  border-color: var(--toggle-sfondo-hover);
+}
+
+.au-passo:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.au-passo:disabled:hover {
+  color: var(--toggle);
+  background: none;
+  border-color: var(--toggle-bordo);
+}
+
 .au-regolatore-cursore:focus-visible {
   outline: 2px solid var(--accento);
   outline-offset: 3px;
@@ -1670,6 +1709,10 @@ body {
      comando da trascinare conta più dell'aspetto. */
   .au-regolatore-cursore {
     height: 2.125rem;
+  }
+
+  .au-passo {
+    padding: 0.5rem 0;
   }
 
   /* Su schermo stretto i due cursori vanno a capo. Affiancati stanno
