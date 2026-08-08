@@ -107,8 +107,13 @@
   <link rel="preload" href="{{ base }}assets/font/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{{ base }}assets/font/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-  <link rel="stylesheet" href="{{ base }}assets/css/style.css">
-  <script type="module" src="{{ base }}assets/js/main.js"></script>
+  {#- L'impronta nell'indirizzo lega la pagina alla versione esatta del
+     foglio che le serve. Su GitHub Pages i file restano in cache dieci
+     minuti e non si può cambiare: senza questo, una pagina nuova può
+     ritrovarsi con lo stile vecchio, e basta un nome di classe cambiato
+     perché la pagina si scomponga. -#}
+  <link rel="stylesheet" href="{{ base }}assets/css/style.css?v={{ 'src/assets/css/style.css' | versione }}">
+  <script type="module" src="{{ base }}assets/js/main.js?v={{ 'src/assets/js/main.js' | versione }}"></script>
 
   {#- Senza JavaScript il router non può nascondere nulla: si mostra
      tutto, così la pagina resta leggibile e navigabile per intero. #}

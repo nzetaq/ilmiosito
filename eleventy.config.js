@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 
 const MESI = [
   'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
@@ -46,6 +47,27 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter('impronta', (testo) => {
     const somma = createHash('sha256').update(String(testo), 'utf8').digest('base64');
     return `'sha256-${somma}'`;
+  });
+
+  // ── Impronta di un file, da mettere nel suo indirizzo ──
+  //
+  // GitHub Pages dichiara `max-age=600` e non permette di cambiarlo: per
+  // dieci minuti un browser può tenersi un file e chiederne un altro. È
+  // successo davvero — rinominate le classi dell'intestazione, chi aveva
+  // il foglio di stile vecchio in cache lo ha accoppiato all'HTML nuovo,
+  // e le regole che nascondono le intestazioni alternative non
+  // combaciavano più con i nomi usati nella pagina: comparivano tutte
+  // insieme, su ogni sezione.
+  //
+  // Con l'impronta nell'indirizzo il problema non è più possibile: se il
+  // foglio cambia cambia il suo indirizzo, e nessuna copia vecchia può
+  // rispondere per la nuova. Non si tratta di svuotare la cache, ma di
+  // rendere impossibile che due file in disaccordo si incontrino.
+  eleventyConfig.addFilter('versione', (percorso) => {
+    // Volutamente senza rete di protezione: se il percorso è sbagliato è
+    // meglio che la compilazione si fermi, invece di pubblicare pagine
+    // che tornano silenziosamente a essere fragili.
+    return createHash('sha256').update(readFileSync(percorso)).digest('hex').slice(0, 8);
   });
 
   // ── Filtri per le date ──

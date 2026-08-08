@@ -412,6 +412,20 @@ Due limiti da conoscere:
 - **Navigazione**: le sezioni sono indirizzi veri (`/#articoli`), quindi
   ricaricare la pagina non riporta alla home e i tasti avanti/indietro
   del browser funzionano.
+- **Impronta negli indirizzi**: il foglio di stile e `main.js` sono chiesti
+  con `?v=` seguito dall'impronta del loro contenuto (filtro `versione` in
+  `eleventy.config.js`). GitHub Pages dichiara `max-age=600` e non permette
+  di cambiarlo: per dieci minuti un browser può tenersi un file e chiederne
+  un altro. È successo davvero — rinominate le classi dell'intestazione, chi
+  aveva il foglio vecchio in cache lo ha accoppiato all'HTML nuovo, e le
+  regole che nascondono le intestazioni alternative non combaciavano più con
+  i nomi usati nella pagina: comparivano tutte insieme, su ogni sezione.
+  Con l'impronta, se il file cambia cambia il suo indirizzo, e nessuna copia
+  vecchia può rispondere per la nuova.
+  *Resta scoperto un caso*: i moduli importati da `main.js` (`router.js`,
+  `poesie.js`, …) sono chiesti con il loro nome nudo, e versionarli
+  vorrebbe dire riscrivere gli `import`. Cambiando un nome di classe usato
+  dal JavaScript la finestra dei dieci minuti si riapre.
 - **Sezione corrente**: vive in un solo posto, l'attributo `data-sez` su
   `<html>`. Lo scrive uno script nel `<head>`, prima del primo disegno,
   e da lì il foglio di stile ricava tutto: quale sezione è visibile,
