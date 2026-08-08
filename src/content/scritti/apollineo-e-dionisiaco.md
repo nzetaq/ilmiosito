@@ -9,7 +9,7 @@ nota: "Selezionata nella VI Edizione del Premio Amori sui generis"
 ---
 
 Ho cercato la pace,
-nell’oblio del tuo ricordo.
+nell'oblio del tuo ricordo.
 Più volte sono stato capace
 di fingermi sordo,
 dicendomi che non ti amavo più.
@@ -19,7 +19,7 @@ memorie che pensavo sepolte.
 Memorie che poi son solo colpe:
 vile, la mia morale
 non le ha mai sinceramente accolte.
-Io sono sceso nell’oltretomba, invero,
+Io sono sceso nell'oltretomba, invero,
 ho visto il buio così tante volte,
 da non distinguere il tuo dal mio pensiero.
 Ti ho vista di marmo scolpita,
@@ -29,12 +29,12 @@ che di passar con te bramavo,
 sebbene non così fredda e muta,
 come il mio apollineo malato
 ti dipingeva dal tuo ormai passato.
-Eppure ti movesti, quand’ormai
+Eppure ti movesti, quand'ormai
 avevo riconosciuto
 che non ti avrei riavuta mai.
 Vidi allora uscire dal tuo cristallo
 quello spirito danzante di colori,
-ebbro d’un pensiero ancor più bello,
+ebbro d'un pensiero ancor più bello,
 ora che la luce veniva da fuori.
 Priva di compromessi,
 la tua figura adesso splende.
@@ -44,7 +44,7 @@ un credo nuovo e più reale,
 ci mette infine sulla retta via.
 Io ti dico, per quel che vale,
 che non sei più nella mia fantasia,
-nel credo vuoto d’un così sia.
+nel credo vuoto d'un così sia.
 Ma sei più vera e ben ti voglio
-e t’amo ora per quel che sei:
-più bella e libera d’allora.
+e t'amo ora per quel che sei:
+più bella e libera d'allora.
