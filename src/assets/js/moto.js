@@ -1,16 +1,35 @@
 const CHIAVE = 'au-moto';
 
-/* La posizione in cui il movimento è quello pieno, tarato a mano: il
-   fondo scala, e il valore di partenza. Da lì si scende soltanto. */
+/* La posizione in cui il passaggio va alla velocità piena, quella
+   tarata a mano: il fondo scala, e il valore di partenza. */
 const PIENO = 100;
+
+/**
+ * Il moltiplicatore dei tempi per una data percentuale di velocità.
+ *
+ * La percentuale è la velocità, quindi il tempo è il suo **inverso**:
+ * a metà velocità il passaggio dura il doppio, a un quarto il
+ * quadruplo. Non è la stessa cosa che moltiplicare le durate — sembra
+ * un dettaglio, ma è la differenza fra un passaggio che rallenta e uno
+ * che si accorcia.
+ *
+ * Lo zero è un caso a parte, e deliberatamente: velocità nulla
+ * varrebbe durata infinita. Vale invece «nessun movimento», cioè
+ * durata zero e cambio netto. Ne segue che il punto più lento del
+ * cursore è il 25% e non lo 0%.
+ */
+function fattore(percentuale) {
+  return percentuale > 0 ? PIENO / percentuale : 0;
+}
 
 /**
  * Quanto movimento fra una sezione e l'altra.
  *
- * La percentuale è la frazione del movimento pieno. Il **100% è il
- * punto di partenza** e vale la misura tarata a mano, quella di
- * sempre; scendendo il passaggio si stringe in proporzione, fino allo
- * 0% dove non c'è più: il contenuto resta fermo e il cambio è netto.
+ * La percentuale è la **velocità** del passaggio. Il **100% è il punto
+ * di partenza** e vale la velocità tarata a mano, quella di sempre;
+ * scendendo il passaggio rallenta nella stessa proporzione — a metà
+ * velocità dura il doppio. Lo 0% è a parte: nessun movimento, il
+ * contenuto resta fermo e il cambio è netto.
  *
  * Cinque scatti e non un continuo — 0, 25, 50, 75, 100 — perché le vie
  * di mezzo fra due scatti non si distinguono a occhio, e una scelta
@@ -46,11 +65,11 @@ export function avviaMoto() {
     // a voce il valore, che altrimenti resterebbe solo un numero.
     cursore.setAttribute('aria-valuetext', percentuale === 0
       ? 'nessun movimento, passaggi netti'
-      : 'movimento al ' + percentuale + ' per cento');
+      : 'velocità al ' + percentuale + ' per cento');
   }
 
   function applica(percentuale, ricorda) {
-    radice.style.setProperty('--moto', percentuale / PIENO);
+    radice.style.setProperty('--moto', fattore(percentuale));
     mostra(percentuale);
     if (!ricorda) return;
     try {

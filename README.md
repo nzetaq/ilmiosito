@@ -413,19 +413,26 @@ Due limiti da conoscere:
   ricaricare la pagina non riporta alla home e i tasti avanti/indietro
   del browser funzionano.
 - **Quanto movimento**: il cursore `MOTO` sotto l'interruttore del tema
-  regola tutte le transizioni fra sezioni. La percentuale è la **frazione
-  del movimento pieno**: il 100% — il valore di partenza — è la misura
-  tarata a mano, quella di sempre, e scendendo il passaggio si stringe in
-  proporzione fino allo 0%, dove il contenuto resta fermo e il cambio è
-  netto.
+  regola tutte le transizioni fra sezioni. La percentuale è la
+  **velocità**: il 100% — il valore di partenza — è quella tarata a mano,
+  di sempre, e scendendo il passaggio rallenta nella stessa proporzione.
 
-  | cursore | durata | passaggio completo, dieci elementi |
-  |---|---|---|
-  | 0% | 0 ms | istantaneo |
-  | 25% | 85 ms | ~0,17 s |
-  | 50% | 170 ms | ~0,34 s |
-  | 75% | 255 ms | ~0,51 s |
-  | 100% *(partenza)* | 340 ms | ~0,68 s |
+  Velocità e tempo sono l'uno l'inverso dell'altro, quindi il
+  moltiplicatore è `100 / percentuale` e non `percentuale / 100`: a metà
+  velocità il passaggio dura il **doppio**. Sembra un dettaglio, ma è la
+  differenza fra un passaggio che rallenta e uno che si accorcia.
+
+  | cursore | moltiplicatore | durata | passaggio completo, dieci elementi |
+  |---|---|---|---|
+  | 0% | 0 | 0 ms | istantaneo |
+  | 25% | ×4 | 1360 ms | ~2,7 s |
+  | 50% | ×2 | 680 ms | ~1,4 s |
+  | 75% | ×1,33 | 453 ms | ~0,9 s |
+  | 100% *(partenza)* | ×1 | 340 ms | ~0,68 s |
+
+  Lo **0% è fuori regola**, e deliberatamente: velocità nulla varrebbe
+  durata infinita, e vale invece «nessun movimento». Ne segue che il punto
+  più lento del cursore è il 25% e non lo 0%.
 
   **Cinque scatti e non un continuo** (`step="25"`): le vie di mezzo fra due
   scatti non si distinguono a occhio, e una scelta fatta di posizioni

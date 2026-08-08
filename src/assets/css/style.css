@@ -84,12 +84,13 @@
      muovono insieme restano d'accordo fra loro. */
   --curva: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Quanto movimento: il moltiplicatore di tutti i tempi qui sotto.
-     1 è la misura piena, quella tarata a mano, ed è il valore di
-     partenza — il 100% del cursore nell'intestazione, che scrive qui
-     la propria percentuale divisa per cento. Scendendo, i tempi si
-     accorciano tutti nella stessa proporzione, fino a 0: là il sito
-     non si muove più e i passaggi sono netti.
+  /* Il moltiplicatore di tutti i tempi qui sotto. 1 è la velocità
+     piena, quella tarata a mano, ed è il valore di partenza — il 100%
+     del cursore nell'intestazione.
+     Il cursore dice una velocità, e questo è un tempo: sono l'uno
+     l'inverso dell'altro, quindi al 50% qui arriva 2 e il passaggio
+     dura il doppio. Lo 0% è l'unico fuori regola e scrive 0: là il
+     sito non si muove più e i passaggi sono netti.
      Contano le proporzioni fra i quattro tempi, non i loro valori: è
      da quelle che dipende il fatto che i pezzi restino d'accordo fra
      loro mentre si compongono.
