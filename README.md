@@ -524,6 +524,16 @@ Due limiti da conoscere:
   > ricalcolo leggendo una misura, e la toglie. Serve anche di suo:
   > trascinando il cursore si vuole vedere la misura, non inseguirla.
 
+- **L'orologio da taschino**: l'innesco è `position: absolute` e non
+  `fixed`, quindi l'angolo è quello della **pagina** e non della finestra:
+  scorrendo se ne va con il resto, e per trovarlo bisogna essere in cima.
+  È anche l'unica misura del foglio dichiarata in **pixel** invece che in
+  `rem`: crescendo con la scala, a 300% il suo quadrato arrivava a 555px e
+  copriva `N·Z·Q`, rubandogli il doppio clic della citazione — e il titolo
+  non può difendersi alzando il proprio `z-index`, perché `.au-wrap` apre
+  un contesto di impilamento che tiene i suoi discendenti sotto l'innesco.
+  Del resto è un'area sensibile, non un contenuto.
+
 - **Quanto movimento**: il cursore `MOTO` sotto l'interruttore del tema
   regola tutte le transizioni fra sezioni. La percentuale è la
   **velocità**: il 100% — il valore di partenza — è quella tarata a mano,

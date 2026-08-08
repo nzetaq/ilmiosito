@@ -104,8 +104,8 @@
   --passo-composizione: calc(38ms * var(--moto));     /* ritardo fra un elemento e il seguente */
 
   /* ── Quanto è grande il sito ──
-     Il moltiplicatore di ogni misura. 1 è il disegno originale; il
-     cursore nell'intestazione lo porta fino a 2.
+     Il moltiplicatore di ogni misura. 1 è il disegno originale; i due
+     pulsanti nell'intestazione lo portano fino a 3, a passi del 5%.
 
      Il perno è la regola `html` qui sotto: `100%` è il corpo che il
      browser considera predefinito — quello che chi ha poca vista alza
@@ -126,8 +126,8 @@ html {
 
 /* Mentre la scala cambia, nessuna transizione. Serve a due cose, e la
    seconda non l'avrei prevista.
-   La prima è ovvia: trascinando il cursore si vuole vedere subito la
-   misura, non inseguirla.
+   La prima è ovvia: premendo si vuole vedere subito la misura, non
+   inseguirla.
    La seconda è che senza questo il cambio non arriverebbe affatto dove
    deve. Una proprietà in transizione — `max-width` sulla colonna —
    resta congelata al valore calcolato prima, se a cambiare è il corpo
@@ -1490,12 +1490,26 @@ body {
    A sinistra l'unica cosa che incontra è il motto, che è testo e non
    risponde al clic; e resta un angolo dove il puntatore passa, che è
    ciò che serve a una sorpresa per essere trovata. */
+/* `absolute` e non `fixed`: l'angolo è quello della **pagina**, non
+   quello della finestra. Con `fixed` l'innesco restava incollato al
+   vetro dello schermo e rispondeva anche a metà lettura, in un punto
+   dove non c'è nessun angolo — una sorpresa che si trova ovunque non è
+   una sorpresa. Così invece scorre via col resto: bisogna essere in
+   cima alla pagina, dove l'angolo esiste davvero. */
 .au-corner-trigger {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 11.5625rem;
-  height: 11.5625rem;
+  /* In pixel, e non in rem come tutto il resto: è l'unica misura del
+     foglio che non deve scalare. Crescendo con la scala, a 300% questo
+     quadrato arrivava a 555px e copriva N·Z·Q, rubandogli il doppio
+     clic della citazione — e il titolo non può difendersi, perché
+     .au-wrap apre un contesto di impilamento che tiene i suoi
+     discendenti sotto a questo innesco.
+     Del resto è un'area sensibile, non un contenuto: sta in un angolo,
+     e a un angolo ci si va o non ci si va. */
+  width: 185px;
+  height: 185px;
   z-index: 999;
 }
 
@@ -1503,7 +1517,10 @@ body {
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
-  width: 10rem;
+  /* Anche l'orologio resta della sua misura: è un ornamento del
+     margine, non qualcosa da leggere, e ingrandito coprirebbe il
+     titolo invece di affiancarlo. */
+  width: 160px;
   height: auto;
   opacity: 0;
   transform: scale(0.7) rotate(-14deg);
