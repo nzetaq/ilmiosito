@@ -83,10 +83,20 @@
      Una sola curva e pochi tempi condivisi, così i pezzi che si
      muovono insieme restano d'accordo fra loro. */
   --curva: cubic-bezier(0.22, 1, 0.36, 1);
-  --durata-impaginazione: 0.34s;  /* colonna che si chiude, larghezze */
-  --durata-uscita: 0.16s;         /* la sezione che se ne va */
-  --durata-voce: 0.34s;           /* ogni elemento che si compone */
-  --passo-composizione: 38ms;     /* ritardo fra un elemento e il seguente */
+
+  /* Quanto movimento. 1 è la misura piena, quella di sempre; il cursore
+     nell'intestazione scrive qui un valore fra 0 e 1 e tutti i tempi si
+     accorciano insieme, perché è dalla loro proporzione che dipende il
+     fatto che i pezzi restino d'accordo fra loro. A 0 il sito non si
+     muove più: le transizioni durano zero e i passaggi sono netti.
+     Lo scrive lo script del <head> prima del primo disegno, così non
+     c'è un istante in cui la pagina si muova alla velocità sbagliata. */
+  --moto: 1;
+
+  --durata-impaginazione: calc(0.34s * var(--moto));  /* colonna che si chiude, larghezze */
+  --durata-uscita: calc(0.16s * var(--moto));         /* la sezione che se ne va */
+  --durata-voce: calc(0.34s * var(--moto));           /* ogni elemento che si compone */
+  --passo-composizione: calc(38ms * var(--moto));     /* ritardo fra un elemento e il seguente */
 
   --spazio-main: 2.5rem;
 }
@@ -417,6 +427,97 @@ body {
   color: var(--bio);
   max-width: 400px;
   line-height: 1.75;
+}
+
+/* I due comandi della veste, incolonnati nell'angolo in alto a destra. */
+.au-comandi {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  flex: none;
+}
+
+/* ── Quanto movimento ──
+   La percentuale è la durata: 100% è la misura piena, 0% ferma tutto.
+   Il cursore è disegnato da zero perché quello di sistema porta con sé
+   arrotondamenti e ombre che qui stonerebbero: una riga sottile e un
+   quadretto pieno, gli stessi due segni del resto della pagina. */
+.au-moto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.au-moto-etichetta {
+  font-family: var(--font-testo);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--meta);
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.au-moto-valore {
+  color: var(--accento);
+  /* Le cifre non ballano mentre si trascina. */
+  font-variant-numeric: tabular-nums;
+}
+
+.au-moto-cursore {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 14px;
+  background: none;
+  cursor: pointer;
+}
+
+.au-moto-cursore::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--toggle-bordo);
+}
+
+.au-moto-cursore::-moz-range-track {
+  height: 2px;
+  background: var(--toggle-bordo);
+}
+
+.au-moto-cursore::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  margin-top: -4px;    /* centra il quadretto sulla riga di 2px */
+  background: var(--accento);
+  border: none;
+  border-radius: 0;
+}
+
+.au-moto-cursore::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: var(--accento);
+  border: none;
+  border-radius: 0;
+}
+
+.au-moto-cursore:focus-visible {
+  outline: 2px solid var(--accento);
+  outline-offset: 3px;
+}
+
+/* Movimento ridotto per impostazione di sistema: il cursore non ha più
+   voce in capitolo e lo dichiara, invece di fingere di funzionare. */
+.au-moto.is-imposto {
+  opacity: 0.45;
+}
+
+.au-moto.is-imposto .au-moto-cursore {
+  cursor: not-allowed;
 }
 
 .au-theme-toggle {
@@ -1494,6 +1595,13 @@ body {
   .au-label {
     font-size: 10px;
     letter-spacing: 0.18em;
+  }
+
+  /* Il disegno resta identico — riga di 2px, quadretto di 10 — ma la
+     zona che risponde al dito diventa alta il doppio e mezzo. Su un
+     comando da trascinare conta più dell'aspetto. */
+  .au-moto-cursore {
+    height: 34px;
   }
 
   .au-theme-toggle {

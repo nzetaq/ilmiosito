@@ -1,5 +1,6 @@
 import { avviaRouter } from './router.js';
 import { avviaTema } from './tema.js';
+import { avviaMoto } from './moto.js';
 import { avviaFiltri } from './filtri.js';
 import { avviaCitazioni } from './citazioni.js';
 import { avviaArtificiosa } from './artificiosa.js';
@@ -11,6 +12,7 @@ import { avviaAnalisi } from './analisi.js';
 avviaAnalisi();
 avviaRouter();
 avviaTema();
+avviaMoto();
 avviaFiltri();
 avviaCitazioni();
 avviaArtificiosa();

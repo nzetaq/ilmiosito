@@ -18,6 +18,19 @@
         }
       } catch (e) {}
 
+      // Quanto movimento. Va scritto qui, prima del primo disegno: se
+      // arrivasse col resto del JavaScript, la prima transizione della
+      // visita andrebbe alla velocità piena qualunque cosa si fosse
+      // scelta. Si passa dal CSSOM e non da un foglio di stile
+      // aggiunto: la policy di sicurezza ammette il primo e non il
+      // secondo, ed è giusto così.
+      try {
+        var moto = parseInt(localStorage.getItem('au-moto'), 10);
+        if (moto >= 0 && moto <= 100) {
+          radice.style.setProperty('--moto', moto / 100);
+        }
+      } catch (e) {}
+
       // La sezione da mostrare è scritta nell'indirizzo. Va letta qui,
       // prima che il corpo della pagina sia disegnato: il router più
       // avanti si limiterà a subentrare.
@@ -37,6 +50,9 @@
          per ordine di dichiarazione. */
       :root .au-section { display: block; opacity: 1; }
       :root .au-nav { display: none; }
+      /* Senza JavaScript le sezioni stanno tutte in pagina e non c'è
+         alcuna transizione: un cursore per regolarla ingannerebbe. */
+      :root .au-moto { display: none; }
 {%- endset -%}
 <!DOCTYPE html>
 <html lang="{{ site.lingua }}">

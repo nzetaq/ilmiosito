@@ -412,6 +412,25 @@ Due limiti da conoscere:
 - **Navigazione**: le sezioni sono indirizzi veri (`/#articoli`), quindi
   ricaricare la pagina non riporta alla home e i tasti avanti/indietro
   del browser funzionano.
+- **Quanto movimento**: il cursore `MOTO` sotto l'interruttore del tema
+  regola tutte le transizioni fra sezioni. La percentuale è la **durata**,
+  non la velocità: 100% è la misura piena di sempre, 25% la accorcia a un
+  quarto, 0% ferma tutto — così la parola resta letterale, a metà cursore
+  c'è metà movimento. Passa da una sola variabile, `--moto`, per cui sono
+  espressi tutti e quattro i tempi (`calc(0.34s * var(--moto))` e simili):
+  si accorciano insieme, e la composizione a scalare continua a funzionare
+  perché dipende dalla loro proporzione, non dai valori assoluti. Restano
+  fisse le micro-interazioni — pulsanti, finestra delle poesie — che sono
+  risposte a un gesto e non passaggi di pagina.
+  La scelta sta in `localStorage` e viene applicata dallo script del
+  `<head>` **prima del primo disegno**, altrimenti la prima transizione
+  della visita andrebbe alla velocità piena comunque. Si scrive col CSSOM
+  (`style.setProperty`), che la Content Security Policy ammette, non con
+  uno `<style>` aggiunto, che rifiuta.
+  Chi ha chiesto al sistema operativo di **ridurre le animazioni** ha già
+  tutto fermo per via di `prefers-reduced-motion`, che vince con
+  `!important` su qualunque valore: in quel caso il cursore si spegne e lo
+  dichiara, invece di fingere di funzionare.
 - **Impronta negli indirizzi**: il foglio di stile e `main.js` sono chiesti
   con `?v=` seguito dall'impronta del loro contenuto (filtro `versione` in
   `eleventy.config.js`). GitHub Pages dichiara `max-age=600` e non permette
