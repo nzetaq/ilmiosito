@@ -1,30 +1,48 @@
 {
   "giorno": "2026-08-07",
-  "visite": 8,
+  "visite": 29,
   "eventi": 0,
   "pagine": [
     {
       "nome": "/ · home",
       "titolo": "NZQ — Home",
-      "visite": 3,
+      "visite": 8,
       "unici": 0
     },
     {
       "nome": "/articoli",
       "titolo": "NZQ — Articoli",
-      "visite": 1,
-      "unici": 0
-    },
-    {
-      "nome": "/tesi",
-      "titolo": "NZQ — Tesi",
-      "visite": 1,
+      "visite": 4,
       "unici": 0
     },
     {
       "nome": "/scritti",
       "titolo": "NZQ — Poesie & Testi",
-      "visite": 1,
+      "visite": 4,
+      "unici": 0
+    },
+    {
+      "nome": "/appunti",
+      "titolo": "NZQ — Appunti",
+      "visite": 3,
+      "unici": 0
+    },
+    {
+      "nome": "/giornale",
+      "titolo": "NZQ — Giornale",
+      "visite": 3,
+      "unici": 0
+    },
+    {
+      "nome": "/tesi",
+      "titolo": "NZQ — Tesi",
+      "visite": 3,
+      "unici": 0
+    },
+    {
+      "nome": "/artificiosa",
+      "titolo": "NZQ — I.A.",
+      "visite": 2,
       "unici": 0
     },
     {
@@ -44,24 +62,24 @@
     {
       "nome": "Italy",
       "titolo": "",
-      "visite": 8,
-      "unici": 0
-    }
-  ],
-  "provenienze": [],
-  "browser": [
-    {
-      "nome": "Chrome",
-      "titolo": "",
-      "visite": 6,
+      "visite": 29,
       "unici": 0
     },
     {
-      "nome": "Safari",
+      "nome": "United States",
       "titolo": "",
       "visite": 2,
       "unici": 0
     }
   ],
+  "provenienze": [
+    {
+      "nome": "",
+      "titolo": "",
+      "visite": 29,
+      "unici": 0
+    }
+  ],
+  "browser": [],
   "sistemi": []
 }
