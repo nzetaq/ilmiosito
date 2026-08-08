@@ -8,17 +8,17 @@ ordine: 1
 nota: "Selezionata nella XV Edizione del Premio Alberoandronico."
 ---
 
-Quante volte le linee di quest’archi
+Quante volte le linee di quest'archi
 han tagliato il mio volto,
 lanciando raggi di luce,
 facendo un pallido lume
-della mia pelle gonfia d’amore?
+della mia pelle gonfia d'amore?
 Tra crociere di ombre,
 che riparavano i nostri cuori
 dalle lacrime di Dio,
 quanti passi
 a fianco a te ho fatto,
-stringendo l’anima,
+stringendo l'anima,
 per entrare nel tuo cuore?
 I vecchi pavimenti
 e i capitelli antichi
