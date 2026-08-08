@@ -411,6 +411,11 @@ body {
 .au-name {
   user-select: none;
   -webkit-user-select: none;
+  /* Il riquadro si stringe sul testo. Da titolo di livello uno sarebbe
+     largo quanto il contenitore, e siccome il doppio clic sul nome apre
+     la citazione a sorpresa, la aprirebbe anche a mezzo schermo di
+     distanza — dove non c'è scritto niente e nessuno se lo aspetta. */
+  width: fit-content;
   font-family: var(--font-display);
   font-size: clamp(36px, 7vw, 58px);
   font-weight: 700;
