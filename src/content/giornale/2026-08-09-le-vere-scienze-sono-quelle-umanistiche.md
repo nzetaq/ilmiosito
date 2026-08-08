@@ -1,6 +1,7 @@
 ---
 titolo: "Le vere scienze sono quelle umanistiche"
-data: "2026-08-08"
+data: "2026-08-09"
+istante: "2026-08-09T01:20:00+02:00"
 ---
 
 Quando le cose andavano bene, si chiamavano _Geistswissenschaften_, Scienze dello Spirito. Oggi si chiamano _materie_ umanistiche, contrapposte alle _materie_ scientifiche: le _humanities_, contrapposte alle scienze. Cioè, qualunque discorso sull'uomo non può essere scientifico, se non usando la statistica, come avviene nelle moderne scienze sociali - sociologia, economica, psicologia, linguistica e, di recente, anche la storia.

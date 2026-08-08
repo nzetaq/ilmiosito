@@ -1,6 +1,7 @@
 ---
 titolo: "Robert Brandom su giudizio e concetti"
-data: "2026-08-08"
+data: "2026-08-09"
+istante: "2026-08-09T00:02:00+02:00"
 ---
 
 Brandom interpreta la modernità come quel periodo storico in cui va formandosi un'interpretazione normativa dell'uso dei concetti. Il quadro è quello della filosofia del linguaggio, che prende le sue mosse dalla filosofia analitica, ma trova il fulcro nel fondatore della Scuola di Pittsburgh - Wilfrid Sellars. Si tratta, quindi, di una commistione di pragmatismo, filosofia analitica e studi su Kant e Hegel. Del primo di quest'ultimi due, Brandom parla come il fautore della _rivoluzione normativista_ nell'interpretazione dell'intenzionalità discorsiva: Kant è il primo a interpretare i giudizi e altri atti intenzionali come prestazioni delle quali i soggetti sono responsabili.

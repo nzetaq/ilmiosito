@@ -167,6 +167,23 @@ Il testo, diviso nei paragrafi che servono.
 La voce più recente compare anche nella colonna a fianco della home.
 La cartella `appunti/` funziona allo stesso modo, ma senza colonna.
 
+Queste due sezioni si leggono **dall'ultimo scritto in giù**, e usano il
+filtro `cronologia` invece di `ordina`. La sola `data` è il giorno, e due
+pezzi dello stesso giorno risulterebbero pari: l'ultimo arrivato finirebbe
+sotto al precedente per puro caso. Il campo facoltativo `istante` — che la
+redazione compila da sé, e non compare da nessuna parte — scioglie il
+pareggio portando ora e fuso di chi ha scritto:
+
+```yaml
+data: "2026-08-09"
+istante: "2026-08-09T01:20:00+02:00"
+```
+
+> **La data è quella di chi scrive, non di Greenwich.** La redazione usava
+> `toISOString()`, che dà l'ora UTC: scrivendo dopo le ventidue — cioè fin
+> troppo spesso — il pezzo si ritrovava datato al giorno prima, finiva
+> sotto al precedente e mostrava sul sito una data sbagliata.
+
 Le date restano fra virgolette: sono stringhe, e vengono composte in
 italiano al momento della compilazione.
 

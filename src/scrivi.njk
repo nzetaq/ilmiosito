@@ -58,7 +58,8 @@ modulo: "scrivi"
     {%- for s in site.sezioni %}{% if redazione[s.id] %}
     {%- set sc = redazione[s.id] %}
     <fieldset class="au-scrivi-gruppo" data-sez="{{ s.id }}"
-              data-cartella="{{ sc.cartella }}" data-nome-file="{{ sc.nomeFile }}" hidden>
+              data-cartella="{{ sc.cartella }}" data-nome-file="{{ sc.nomeFile }}"
+              {%- if sc.cronologico %} data-cronologico="1"{% endif %} hidden>
       <legend class="au-scrivi-legenda">{{ s.etichetta }}</legend>
       {%- for c in sc.campi %}
       <div class="au-scrivi-voce">

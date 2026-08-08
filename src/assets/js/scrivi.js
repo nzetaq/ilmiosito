@@ -61,7 +61,38 @@ function inYaml(valore) {
   return '"' + String(valore).replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
 }
 
-const oggi = () => new Date().toISOString().slice(0, 10);
+/**
+ * La data di oggi secondo l'orologio di chi scrive, non di Greenwich.
+ *
+ * `toISOString()` dà l'ora UTC, e in Italia siamo avanti di una o due
+ * ore: scrivendo dopo le ventidue — cioè fin troppo spesso — il pezzo
+ * si ritrovava datato al giorno prima, finiva sotto al precedente
+ * nell'elenco, e portava sul sito una data che non era quella in cui
+ * era stato scritto.
+ */
+function oggi() {
+  const d = new Date();
+  const due = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${due(d.getMonth() + 1)}-${due(d.getDate())}`;
+}
+
+/**
+ * L'istante preciso, col fuso di chi scrive: `2026-08-09T01:20:00+02:00`.
+ *
+ * La sola data non basta a ordinare due pezzi dello stesso giorno, e
+ * due pezzi nello stesso giorno capitano. Questo campo non si mostra
+ * da nessuna parte: serve solo a sapere quale dei due viene prima.
+ */
+function adesso() {
+  const d = new Date();
+  const due = (n) => String(n).padStart(2, '0');
+  const scarto = -d.getTimezoneOffset();
+  const segno = scarto >= 0 ? '+' : '-';
+  const ore = due(Math.floor(Math.abs(scarto) / 60));
+  const minuti = due(Math.abs(scarto) % 60);
+  return `${oggi()}T${due(d.getHours())}:${due(d.getMinutes())}:${due(d.getSeconds())}` +
+         `${segno}${ore}:${minuti}`;
+}
 
 /* ── Dialogo con GitHub ────────────────────────────────────── */
 
@@ -482,6 +513,11 @@ export function avviaScrivi() {
     }
 
     const { campi, corpo } = raccogli(g);
+    // Nelle sezioni ordinate per data si annota anche l'istante: è
+    // l'unica cosa che distingue due pezzi dello stesso giorno.
+    if (g.dataset.cronologico === '1' && !campi.some((c) => c[0] === 'istante')) {
+      campi.push(['istante', adesso(), 'testo']);
+    }
     if (!corpo.trim()) {
       esito('Il testo è vuoto.', 'guaio');
       annuncia('Il testo è vuoto.', 'guaio');

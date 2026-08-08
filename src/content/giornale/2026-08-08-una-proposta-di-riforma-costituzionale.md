@@ -1,6 +1,7 @@
 ---
 titolo: "Una proposta di riforma costituzionale"
 data: "2026-08-08"
+istante: "2026-08-08T23:42:00+02:00"
 ---
 
 Sappiamo, dal primo articolo della costituzione, che l'Italia è una Repubblica Democratica e che è fondata sul lavoro.

@@ -88,6 +88,20 @@ export default function (eleventyConfig) {
     return decrescente ? ordinate.reverse() : ordinate;
   });
 
+  // ── Ordine cronologico ──
+  // Per le sezioni che si leggono dall'ultimo scritto in giù. Non basta
+  // ordinare per `data`, che è il giorno soltanto: due pezzi dello
+  // stesso giorno risulterebbero pari, e l'ultimo arrivato finirebbe
+  // sotto al precedente per puro caso. Dove c'è, `istante` scioglie il
+  // pareggio — porta con sé l'ora e il fuso di chi ha scritto.
+  eleventyConfig.addFilter('cronologia', (voci) => {
+    const quando = (voce) => {
+      const momento = Date.parse(voce.data.istante || voce.data.data || '');
+      return Number.isNaN(momento) ? 0 : momento;
+    };
+    return [...(voci || [])].sort((a, b) => quando(b) - quando(a));
+  });
+
   // ── Raggruppamenti ──
   // Raggruppa gli articoli per anno, preservando l'ordine ricevuto.
   eleventyConfig.addFilter('perAnno', (voci) => {

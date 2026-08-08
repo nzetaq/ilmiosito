@@ -61,6 +61,7 @@
   "giornale": {
     "cartella": "giornale",
     "nomeFile": "data-slug",
+    "cronologico": true,
     "corpo": { "etichetta": "Il testo", "aiuto": "Diviso nei paragrafi che servono: una riga vuota fra l'uno e l'altro.", "righe": 16 },
     "campi": [
       { "id": "titolo", "etichetta": "Titolo", "tipo": "testo", "obbligatorio": true },
@@ -71,6 +72,7 @@
   "appunti": {
     "cartella": "appunti",
     "nomeFile": "data-slug",
+    "cronologico": true,
     "corpo": { "etichetta": "Il testo", "aiuto": "Diviso nei paragrafi che servono.", "righe": 16 },
     "campi": [
       { "id": "titolo", "etichetta": "Titolo", "tipo": "testo", "obbligatorio": true },

@@ -5,8 +5,8 @@ permalink: /index.html
 {%- set articoli = collections.articoli | ordina('ordine', true) -%}
 {%- set scritti = collections.scritti | ordina('ordine') -%}
 {%- set tesi = collections.tesi | ordina('ordine') -%}
-{%- set giornale = collections.giornale | ordina('data', true) -%}
-{%- set appunti = collections.appunti | ordina('data', true) -%}
+{%- set giornale = collections.giornale | cronologia -%}
+{%- set appunti = collections.appunti | cronologia -%}
 {%- set ultimaGiornale = giornale | first -%}
 
 <a class="au-salta" href="#contenuto">Salta al contenuto</a>
