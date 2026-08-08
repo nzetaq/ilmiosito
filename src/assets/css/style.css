@@ -442,6 +442,13 @@ body {
 /* ── Navigazione ── */
 .au-nav {
   display: flex;
+  /* Va a capo a qualunque larghezza, non solo sotto la soglia del
+     telefono: le etichette le decide site.json, e una lunga come
+     «Il Diavolo veste Pravda» faceva debordare la barra — e con essa
+     la pagina, che finiva per scorrere in orizzontale — in tutta la
+     fascia fra i 700 e i 900px. Così la barra si dispone su due righe
+     quando serve, e il difetto non può ripresentarsi cambiando un nome. */
+  flex-wrap: wrap;
   gap: 0;
   border-bottom: 2px solid var(--filo-forte);
 }

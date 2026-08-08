@@ -71,8 +71,8 @@ permalink: /index.html
 <div class="au-layout" id="au-layout">
 
   <!-- ═══ COLONNA SINISTRA: ULTIMA PAGINA DI GIORNALE ═══ -->
-  <aside class="au-giornale-col" id="au-giornale-col" aria-label="Ultima pagina di giornale">
-    <p class="au-gp-label">Giornale</p>
+  <aside class="au-giornale-col" id="au-giornale-col" aria-label="Ultima pagina de Il Diavolo veste Pravda">
+    <p class="au-gp-label">Il Diavolo veste Pravda</p>
     {%- if ultimaGiornale %}
     <p class="au-gp-date">{{ ultimaGiornale.data.data | dataEstesa }}</p>
     <div class="au-gp-text">{{ ultimaGiornale.templateContent | safe }}</div>
@@ -204,7 +204,7 @@ permalink: /index.html
     </section>
 
     <!-- ═══ GIORNALE ═══ -->
-    <section class="au-section" id="sec-giornale" aria-label="Giornale">
+    <section class="au-section" id="sec-giornale" aria-label="Il Diavolo veste Pravda">
       {%- for voce in giornale %}
       <article class="au-giornale-entry">
         <p class="au-giornale-entry-date">{{ voce.data.data | dataEstesa }}</p>

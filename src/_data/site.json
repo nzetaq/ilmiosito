@@ -5,7 +5,7 @@
   "lingua": "it",
   "motto": "Raccogli - Cataloga - Preserva",
   "bio": "Molti requisiti si ergono dinnanzi a una pratica esistenziale sufficientemente ben condotta.",
-  "descrizione": "Scritti di filosofia di N·Z·Q: articoli su marxismo, linguaggio e intelligenza artificiale, poesie, tesi di laurea, giornale e appunti.",
+  "descrizione": "Scritti di filosofia di N·Z·Q: articoli su marxismo, linguaggio e intelligenza artificiale, poesie, tesi di laurea, Il Diavolo veste Pravda e appunti.",
   "sezioni": [
     {
       "id": "home",
@@ -29,7 +29,7 @@
     },
     {
       "id": "giornale",
-      "etichetta": "Giornale"
+      "etichetta": "Il Diavolo veste Pravda"
     },
     {
       "id": "appunti",
