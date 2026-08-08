@@ -70,7 +70,7 @@ modulo: "scrivi"
                data-campo="{{ c.id }}" data-tipo="{{ c.tipo }}"
                {%- if c.derivaDa %} data-deriva-da="{{ c.derivaDa }}"{% endif %}
                {%- if c.auto %} data-auto="{{ c.auto }}"{% endif %}
-               {%- if c.predefinito %} value="{{ c.predefinito }}"{% endif %}
+               {%- if c.predefinito %} value="{{ c.predefinito }}" data-predefinito="{{ c.predefinito }}"{% endif %}
                {%- if c.suggerisci %} list="au-{{ s.id }}-{{ c.id }}-elenco"{% endif %}
                autocomplete="off">
         {%- if c.suggerisci %}
@@ -98,7 +98,15 @@ modulo: "scrivi"
     <div class="au-scrivi-riga au-scrivi-azioni">
       <button class="au-scrivi-bottone au-scrivi-bottone--forte" id="au-pubblica" type="button">Pubblica</button>
       <button class="au-scrivi-bottone" id="au-bozza" type="button">Salva come bozza</button>
+      <button class="au-scrivi-bottone au-scrivi-bottone--muto" id="au-nuovo" type="button" hidden>Comincia un altro</button>
     </div>
+
+    {#- L'esito sta qui e non in cima alla pagina. Ci stava, e non si
+       vedeva: fra la riga di stato e questi pulsanti ci sono più di
+       mille pixel, quindi la conferma arrivava fuori dallo schermo di
+       chi aveva appena premuto. Una conferma che non si vede è una
+       conferma che non c'è. -#}
+    <p class="au-scrivi-esito" id="au-esito" role="status" aria-live="polite"></p>
   </form>
 
   <section class="au-scrivi-anteprima" id="au-anteprima-blocco" hidden>

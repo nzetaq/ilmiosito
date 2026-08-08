@@ -147,6 +147,57 @@ export function avviaScrivi() {
     stato.className = 'au-scrivi-stato' + (tipo ? ' is-' + tipo : '');
   }
 
+  /**
+   * L'esito di un deposito, scritto accanto ai pulsanti.
+   *
+   * In cima alla pagina c'è già una riga di stato, ma fra quella e i
+   * pulsanti corrono più di mille pixel: la conferma finiva fuori
+   * dallo schermo di chi aveva appena premuto, e sembrava che non
+   * fosse successo niente.
+   */
+  function esito(testo, tipo = '', indirizzo = '') {
+    const riga = el('au-esito');
+    riga.textContent = testo;
+    riga.className = 'au-scrivi-esito' + (tipo ? ' is-' + tipo : '');
+    if (indirizzo && /^https:\/\//.test(indirizzo)) {
+      riga.appendChild(document.createTextNode(' '));
+      const link = document.createElement('a');
+      link.href = indirizzo;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.className = 'au-scrivi-link';
+      link.textContent = 'Guarda il file →';
+      riga.appendChild(link);
+    }
+  }
+
+  /* I pulsanti si spengono appena hanno fatto il loro, e si riaccendono
+     alla prima modifica: finché il testo è quello già depositato, non
+     c'è niente da depositare di nuovo. */
+  function riabilita() {
+    el('au-pubblica').disabled = false;
+    el('au-bozza').disabled = false;
+    el('au-nuovo').hidden = true;
+    esito('');
+  }
+
+  /** Svuota i campi della sezione corrente per ricominciare da capo. */
+  function svuota() {
+    const g = gruppo();
+    for (const ingresso of campiDi(g)) {
+      ingresso.value = ingresso.dataset.predefinito || '';
+      delete ingresso.dataset.toccato;
+    }
+    bozzaAperta = null;
+    riabilita();
+    preimposta(g);
+    aggiornaPercorso();
+    aggiornaAnteprima();
+    if (sportello) raccogliSuggerimenti(g).catch(() => {});
+    const primo = campiDi(g)[0];
+    if (primo) primo.focus();
+  }
+
   const gruppo = () => document.querySelector(`.au-scrivi-gruppo[data-sez="${scelta.value}"]`);
   const campiDi = (g) => [...g.querySelectorAll('[data-campo]')];
   const campo = (g, nome) => g.querySelector(`[data-campo="${nome}"]`);
@@ -195,9 +246,35 @@ export function avviaScrivi() {
      Legge i file già presenti nella sezione per proporre le fonti e i
      gruppi esistenti, e per calcolare l'ordine successivo. È la parte
      noiosa che l'editor esiste per togliere di mezzo. */
+  /**
+   * I valori che si possono mettere senza chiedere niente a nessuno.
+   *
+   * Stavano dentro `raccogliSuggerimenti`, e dipendevano quindi dal
+   * fatto che l'elenco della cartella arrivasse: con una cartella vuota
+   * — o appena creata — la data restava vuota, la validazione la dava
+   * per mancante e il deposito si fermava senza dire perché. Una data
+   * di oggi non ha nulla a che vedere con ciò che c'è nella cartella.
+   */
+  function preimposta(g) {
+    for (const ingresso of campiDi(g)) {
+      if (ingresso.value) continue;
+      if (ingresso.dataset.auto === 'oggi') {
+        ingresso.value = ingresso.dataset.tipo === 'mese' ? oggi().slice(0, 7) : oggi();
+        ingresso.dataset.automatico = '1';
+      }
+      if (ingresso.dataset.auto === 'successivo') {
+        ingresso.value = '1';
+        ingresso.dataset.automatico = '1';
+      }
+    }
+  }
+
   async function raccogliSuggerimenti(g) {
     const voci = await sportello.elenca(`${RADICE_CONTENUTI}/${g.dataset.cartella}`);
-    if (!Array.isArray(voci)) return;
+    if (!Array.isArray(voci)) {
+      annuncia('La cartella è vuota o non esiste ancora: nessun suggerimento.');
+      return;
+    }
 
     const testi = await Promise.all(
       voci.filter((v) => v.name.endsWith('.md'))
@@ -217,12 +294,11 @@ export function avviaScrivi() {
         }
       }
 
-      if (ingresso.dataset.auto === 'successivo' && !ingresso.value) {
+      // L'ordine si affina con ciò che c'è davvero nella cartella, ma
+      // solo se nessuno l'ha ancora scritto a mano.
+      if (ingresso.dataset.auto === 'successivo' && ingresso.dataset.automatico === '1') {
         const numeri = frontMatter.map((f) => Number(f[nome])).filter((n) => !Number.isNaN(n));
         ingresso.value = String(numeri.length ? Math.max(...numeri) + 1 : 1);
-      }
-      if (ingresso.dataset.auto === 'oggi' && !ingresso.value) {
-        ingresso.value = ingresso.dataset.tipo === 'mese' ? oggi().slice(0, 7) : oggi();
       }
     }
     annuncia(`${frontMatter.length} voci già presenti in questa sezione.`);
@@ -233,6 +309,10 @@ export function avviaScrivi() {
       g.hidden = g.dataset.sez !== scelta.value;
     }
     bozzaAperta = null;
+    el('au-pubblica').textContent = 'Pubblica';
+    el('au-bozza').textContent = 'Salva come bozza';
+    riabilita();
+    preimposta(gruppo());
     aggiornaPercorso();
     aggiornaAnteprima();
     if (sportello) raccogliSuggerimenti(gruppo()).catch((e) => annuncia(e.message, 'guaio'));
@@ -259,22 +339,38 @@ export function avviaScrivi() {
     const g = gruppo();
     const vuoti = mancanti(g);
     if (vuoti.length) {
+      // Anche questo va scritto accanto ai pulsanti: è il momento in cui
+      // ci si aspetta una risposta, e in cima alla pagina non si vede.
+      esito('Mancano: ' + vuoti.join(', '), 'guaio');
       annuncia('Mancano: ' + vuoti.join(', '), 'guaio');
+      const primo = campiDi(g).find((i) => i.dataset.campo === vuoti[0]);
+      if (primo) primo.focus();
       return;
     }
 
     const { campi, corpo } = raccogli(g);
-    if (!corpo.trim()) { annuncia('Il testo è vuoto.', 'guaio'); return; }
+    if (!corpo.trim()) {
+      esito('Il testo è vuoto.', 'guaio');
+      annuncia('Il testo è vuoto.', 'guaio');
+      campo(g, 'corpo').focus();
+      return;
+    }
 
     const percorso = percorsoDi(g, dentroBozze);
     annuncia('Deposito…');
+
+    const pulsante = el(dentroBozze ? 'au-bozza' : 'au-pubblica');
+    const etichetta = pulsante.textContent;
+    pulsante.disabled = true;
+    pulsante.textContent = 'Un momento…';
+    esito('');
 
     try {
       // Se il file esiste già lo si sovrascrive, ma serve il suo `sha`:
       // GitHub lo chiede per essere certo che non si stia cancellando
       // una versione più recente senza saperlo.
       const esistente = await sportello.leggi(percorso);
-      await sportello.scrivi(
+      const scritto = await sportello.scrivi(
         percorso,
         componiFile(campi, corpo),
         (dentroBozze ? 'Bozza: ' : 'Aggiungo ') + (campi.find((c) => c[0] === 'titolo') || [, ''])[1],
@@ -288,10 +384,22 @@ export function avviaScrivi() {
         bozzaAperta = null;
       }
 
-      annuncia(dentroBozze
-        ? `Bozza salvata in ${percorso}. Non è in linea: il sito legge solo src/.`
-        : `Depositato in ${percorso}. Sarà in linea fra un minuto circa.`, 'fatto');
+      const dove = scritto && scritto.content && scritto.content.html_url;
+      const verbo = esistente ? 'aggiornata' : 'salvata';
+      esito(dentroBozze
+        ? `Bozza ${verbo} in ${percorso}. Resta fuori dal sito: Eleventy legge solo src/.`
+        : `${esistente ? 'Aggiornato' : 'Pubblicato'} in ${percorso}. In linea fra un minuto circa.`,
+        'fatto', dove);
+      annuncia(dentroBozze ? 'Bozza salvata.' : 'Pubblicato.', 'fatto');
+
+      // Resta spento finché non si cambia qualcosa: è la prova che ciò
+      // che si vede sullo schermo è già depositato.
+      pulsante.textContent = dentroBozze ? 'Bozza salvata ✓' : 'Pubblicato ✓';
+      if (!dentroBozze) el('au-nuovo').hidden = false;
     } catch (e) {
+      pulsante.disabled = false;
+      pulsante.textContent = etichetta;
+      esito(e.message, 'guaio');
       annuncia(e.message, 'guaio');
     }
   }
@@ -385,9 +493,22 @@ export function avviaScrivi() {
   el('au-bozze').addEventListener('click', apriBozze);
   el('au-chiudi-bozze').addEventListener('click', () => el('au-elenco-bozze').close());
 
+  el('au-nuovo').addEventListener('click', () => {
+    el('au-pubblica').textContent = 'Pubblica';
+    el('au-bozza').textContent = 'Salva come bozza';
+    svuota();
+  });
+
   modulo.addEventListener('input', (e) => {
     const ingresso = e.target;
     if (!ingresso.dataset || !ingresso.dataset.campo) return;
+
+    // Prima modifica dopo un deposito: i pulsanti tornano validi.
+    if (el('au-pubblica').disabled || el('au-bozza').disabled) {
+      el('au-pubblica').textContent = 'Pubblica';
+      el('au-bozza').textContent = 'Salva come bozza';
+      riabilita();
+    }
     // L'identificativo del filtro si scrive da sé mentre si scrive la
     // fonte, finché non lo si tocca a mano.
     const g = gruppo();
@@ -399,6 +520,7 @@ export function avviaScrivi() {
     if (ingresso.dataset.derivaDa === undefined && ingresso.dataset.campo !== 'corpo') aggiornaPercorso();
     if (ingresso.dataset.campo === 'corpo') aggiornaAnteprima();
     if (ingresso.dataset.derivaDa) ingresso.dataset.toccato = '1';
+    delete ingresso.dataset.automatico;
   });
 
   // Chiave già in casa: si entra da soli.

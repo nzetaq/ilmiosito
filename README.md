@@ -239,6 +239,18 @@ la pagina scrive i file da sé e l'azione di pubblicazione fa il resto.
   resta nel repository senza andare in linea. «Riprendi una bozza» la
   ricarica nel modulo, e pubblicandola la bozza viene rimossa.
 
+A deposito riuscito il pulsante **si spegne** e cambia etichetta in
+«Pubblicato ✓» o «Bozza salvata ✓», e la conferma compare **accanto ai
+pulsanti** con il collegamento al file su GitHub. Alla prima modifica il
+pulsante torna valido. Dopo una pubblicazione appare «Comincia un altro»,
+che svuota il modulo tenendo i valori predefiniti.
+
+> L'esito sta lì e non in cima alla pagina perché in cima **non si vedeva**:
+> fra la riga di stato e i pulsanti corrono oltre mille pixel, quindi la
+> conferma arrivava fuori dallo schermo di chi aveva appena premuto. Vale
+> anche per gli avvisi di campo mancante, che oltre a comparire lì portano
+> il fuoco sul primo campo vuoto.
+
 Il modulo conosce il front matter di ogni sezione: propone le fonti e i
 gruppi già in uso, calcola l'`ordine` successivo, deriva `fonteId` dalla
 fonte e compone il nome del file secondo la convenzione della cartella

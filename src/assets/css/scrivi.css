@@ -179,6 +179,45 @@
 
 .au-scrivi-azioni {
   padding-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Un pulsante spento ha già fatto il suo: resta leggibile — dice cosa è
+   successo — ma non invita più a premere. */
+.au-scrivi-bottone:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.au-scrivi-bottone:disabled:hover,
+.au-scrivi-bottone:disabled:focus-visible {
+  color: var(--toggle);
+  background: none;
+  border-color: var(--toggle-bordo);
+}
+
+.au-scrivi-bottone--forte:disabled:hover,
+.au-scrivi-bottone--forte:disabled:focus-visible {
+  color: var(--nav-attivo-testo);
+  background: var(--accento);
+  border-color: var(--accento);
+}
+
+/* L'esito sta accanto ai pulsanti, dove guarda chi ha appena premuto. */
+.au-scrivi-esito {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--bio);
+  min-height: 1.7em;
+}
+
+.au-scrivi-esito.is-fatto { color: var(--accento); }
+.au-scrivi-esito.is-guaio { color: var(--titolo-em); font-weight: 700; }
+
+.au-scrivi-link {
+  color: var(--accento);
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 /* L'anteprima mostra la divisione del testo, non la sua decorazione:
