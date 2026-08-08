@@ -13,7 +13,13 @@
     },
     {
       "id": "artificiosa",
-      "etichetta": "I.A."
+      "etichetta": "I.A.",
+      "titolo": "Intelligenza Artificiosa",
+      "sottotitolo": [
+        "Modello linguistico addestrato su un corpus insufficiente.",
+        "Nessuna intelligenza è stata impiegata nella produzione di queste risposte.",
+        "Risponde a niente."
+      ]
     },
     {
       "id": "articoli",
@@ -29,7 +35,8 @@
     },
     {
       "id": "giornale",
-      "etichetta": "Il Diavolo veste Pravda"
+      "etichetta": "Il Diavolo veste Pravda",
+      "titolo": "Il Diavolo veste Pravda"
     },
     {
       "id": "appunti",

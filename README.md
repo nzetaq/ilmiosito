@@ -181,6 +181,30 @@ punti, che è bene tenere allineati.
    elenchi di selettori che rispondono a `[data-sez]`: quello che rende
    visibile la sezione e quello che accende la linguetta nel menu.
 
+### Un'intestazione propria
+
+Una sezione può sostituire `N·Z·Q` e il motto con un titolo proprio,
+centrato — lo fanno *Intelligenza Artificiosa* e *Il Diavolo veste Pravda*.
+Basta aggiungere alla sua voce in `site.json`:
+
+```json
+{
+  "id": "giornale",
+  "etichetta": "Il Diavolo veste Pravda",
+  "titolo": "Il Diavolo veste Pravda",
+  "sottotitolo": ["Prima frase.", "Seconda frase."]
+}
+```
+
+`titolo` è obbligatorio perché l'intestazione compaia; `sottotitolo` è
+facoltativo, e ogni voce dell'elenco prende una riga per sé.
+
+Il ricambio lo governa il CSS a partire da `[data-sez]`, che lo script del
+`<head>` scrive prima del primo disegno: non c'è un istante in cui si veda
+l'intestazione sbagliata. Il CSS però non sa confrontare due attributi fra
+loro, quindi la corrispondenza fra la sezione accesa e la sua intestazione
+va scritta a mano — due righe nei selettori di `.au-header-sezione`.
+
 ## Analisi del traffico
 
 Il conteggio si appoggia a [GoatCounter](https://www.goatcounter.com/):

@@ -969,21 +969,28 @@ body {
    da [data-sez], che lo script del <head> scrive prima del primo
    disegno: non c'è un istante in cui si veda l'intestazione sbagliata.
    La riga in alto con l'interruttore del tema resta, perché serve. */
-.au-header-ia {
+.au-header-sezione {
   display: none;
   text-align: center;
 }
 
+/* Le sezioni che in site.json dichiarano un `titolo`. Il CSS non sa
+   confrontare due attributi fra loro, quindi la corrispondenza fra la
+   sezione accesa e la sua intestazione va scritta una volta per
+   ciascuna: aggiungerne una terza costa due righe qui. */
 :root[data-sez='artificiosa'] .au-name,
-:root[data-sez='artificiosa'] .au-bio {
+:root[data-sez='artificiosa'] .au-bio,
+:root[data-sez='giornale'] .au-name,
+:root[data-sez='giornale'] .au-bio {
   display: none;
 }
 
-:root[data-sez='artificiosa'] .au-header-ia {
+:root[data-sez='artificiosa'] .au-header-sezione[data-sez='artificiosa'],
+:root[data-sez='giornale'] .au-header-sezione[data-sez='giornale'] {
   display: block;
 }
 
-.au-ia-titolo {
+.au-titolo-sezione {
   user-select: none;
   -webkit-user-select: none;
   font-family: var(--font-display);
@@ -998,7 +1005,7 @@ body {
   margin-bottom: 1rem;
 }
 
-.au-ia-sottotitolo {
+.au-sottotitolo-sezione {
   font-size: 13px;
   color: var(--bio);
   line-height: 1.7;
@@ -1008,7 +1015,7 @@ body {
   margin: 0 auto;
 }
 
-.au-ia-frase {
+.au-frase-sezione {
   display: block;
   /* Se la colonna non basta — schermi stretti — la frase si spezza da
      sola in righe di lunghezza simile invece di lasciarne una monca. */

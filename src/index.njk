@@ -44,21 +44,28 @@ permalink: /index.html
     <h1 class="au-name">{{ site.nome }}</h1>
     <p class="au-bio">{{ site.bio }}</p>
 
-    {#- Intestazione alternativa: nella sezione dell'oracolo prende il
-       posto del nome e della biografia. Il ricambio lo governa il CSS
-       a partire da [data-sez], quindi avviene prima del primo disegno
-       e non c'è un istante in cui si veda quella sbagliata. #}
-    <div class="au-header-ia">
-      <h1 class="au-ia-titolo">Intelligenza Artificiosa</h1>
-      {# Una frase per riga: sono tre dichiarazioni distinte, non un
+    {#- Intestazioni alternative: le sezioni che in site.json dichiarano
+       un `titolo` mettono quello al posto del nome e della biografia.
+       Il ricambio lo governa il CSS a partire da [data-sez], che lo
+       script del <head> scrive prima del primo disegno: non c'è un
+       istante in cui si veda l'intestazione sbagliata. #}
+    {%- for s in site.sezioni %}
+    {%- if s.titolo %}
+    <div class="au-header-sezione" data-sez="{{ s.id }}">
+      <h1 class="au-titolo-sezione">{{ s.titolo }}</h1>
+      {%- if s.sottotitolo %}
+      {#- Una frase per riga: sono dichiarazioni distinte, non un
          paragrafo. Blocchi e non <br>, così su schermo stretto ognuna
          va a capo per conto suo senza trascinarsi dietro la seguente. #}
-      <p class="au-ia-sottotitolo">
-        <span class="au-ia-frase">Modello linguistico addestrato su un corpus insufficiente.</span>
-        <span class="au-ia-frase">Nessuna intelligenza è stata impiegata nella produzione di queste risposte.</span>
-        <span class="au-ia-frase">Risponde a niente.</span>
+      <p class="au-sottotitolo-sezione">
+        {%- for frase in s.sottotitolo %}
+        <span class="au-frase-sezione">{{ frase }}</span>
+        {%- endfor %}
       </p>
+      {%- endif %}
     </div>
+    {%- endif %}
+    {%- endfor %}
   </header>
 
   <!-- ═══ NAVIGAZIONE SEZIONI ═══ -->
