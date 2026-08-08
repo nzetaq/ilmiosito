@@ -91,10 +91,24 @@ intestazione. La cartella `tesi/` segue lo stesso schema, senza la lente.
 #### La lente
 
 Quando il corpo contiene dei versi, il titolo diventa una **lente**: si
-segnala con `❧`, e al passaggio del puntatore apre una finestra che mostra
-la poesia. Allontanando il puntatore la finestra si chiude. Finché il corpo
-è vuoto il titolo resta un titolo normale, senza appigli e senza promesse —
-quindi si può scrivere una poesia alla volta senza stati intermedi rotti.
+segnala con `❧`, e al passaggio del puntatore apre **al centro dello
+schermo** una finestra che mostra la poesia. Allontanando il puntatore la
+finestra si chiude. Finché il corpo è vuoto il titolo resta un titolo
+normale, senza appigli e senza promesse — quindi si può scrivere una poesia
+alla volta senza stati intermedi rotti.
+
+La finestra sta al centro e non accanto al titolo: un titolo in fondo alla
+pagina non lascia spazio né sotto né sopra, e una poesia lunga finiva
+tagliata dal bordo dello schermo, illeggibile e senza modo di spostarla. Il
+centro è l'unico punto che non dipende da dove si trova il titolo.
+
+Le dimensioni le detta il testo — larga quanto il verso più lungo, alta
+quanto la poesia. Quando non ci sta, `adatta()` in `poesie.js` la fa entrare
+**dividendo i versi in colonne** (fino a quattro, quante ne stanno in
+larghezza) e solo se non basta scendendo di corpo, da 15px a 12px. Mai
+tagliando. La capienza è di circa **120 versi** su uno schermo da portatile;
+oltre, su schermi piccoli, si tocca un limite fisico e la cornice trattiene
+ciò che non entra.
 
 Serve a far leggere i versi senza che si prendano con un gesto solo. Due
 regole fanno il lavoro, in `.au-versi-finestra`:

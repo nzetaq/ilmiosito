@@ -740,27 +740,56 @@ body {
   display: none;
 }
 
+/* Il velo che smorza la pagina dietro la finestra. Centrata com'è, la
+   finestra si sovrappone al testo della sezione: senza un fondo che
+   arretri, i versi si leggerebbero sopra un rumore di altre parole. */
+.au-versi-scena {
+  position: fixed;
+  inset: 0;
+  z-index: 1999;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.14s var(--curva);
+}
+
+.au-versi-scena.is-aperta {
+  opacity: 1;
+}
+
+/* La finestra sta al centro dello schermo e non altrove. Ancorarla al
+   titolo sembrava naturale, ma un titolo in fondo alla pagina non
+   lascia spazio sotto né sopra, e una poesia lunga finiva tagliata dal
+   bordo: il centro è l'unico punto che non dipende da dove si trova il
+   titolo. Le dimensioni le detta il testo, entro i limiti dello
+   schermo; a farcelo stare pensa `adatta()` in poesie.js. */
 .au-versi-finestra {
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2000;
-  max-width: min(34rem, calc(100vw - 2rem));
-  max-height: min(60vh, 34rem);
+  box-sizing: border-box;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+  /* Ultima difesa: nulla esce mai dalla cornice, quindi nulla esce mai
+     dallo schermo. Ci si arriva solo con poesie oltre il centinaio di
+     versi, che `adatta()` non riesce a far entrare nemmeno in colonne
+     al corpo minimo — su uno schermo piccolo è un limite fisico, non
+     una scelta. */
   overflow: hidden;
-  padding: 1.1rem 1.4rem;
+  padding: 1.4rem 1.6rem;
   background: var(--bg);
   border: 1px solid var(--accento);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
 
-  font-size: 15px;
-  line-height: 1.75;
   color: var(--testo);
-  /* I versi vanno a capo dove sono andati a capo nel file. */
-  white-space: pre-line;
 
   /* Le due righe che fanno il lavoro. La selezione non è possibile, e
      la finestra non riceve eventi: il puntatore la attraversa e resta
-     sul titolo, quindi non la si può cliccare, trascinare, né aprirci
-     sopra il menu contestuale. */
+     sul titolo — cosa ancora più necessaria ora che la finestra può
+     coprire il titolo che l'ha aperta. Non la si può cliccare,
+     trascinare, né aprirci sopra il menu contestuale. */
   user-select: none;
   -webkit-user-select: none;
   pointer-events: none;
@@ -771,6 +800,26 @@ body {
 
 .au-versi-finestra.is-aperta {
   opacity: 1;
+}
+
+/* Il testo vero. Quando una poesia è più alta dello schermo si divide
+   in colonne invece di essere tagliata: i versi sono righe corte, e la
+   larghezza è la risorsa che avanza. */
+.au-versi-corpo {
+  column-gap: 2.4rem;
+  column-rule: 1px solid var(--filo);
+  line-height: 1.75;
+  /* I versi vanno a capo dove sono andati a capo nel file. */
+  white-space: pre-line;
+}
+
+/* Una strofa non si spezza fra due colonne se può evitarlo. */
+.au-versi-strofa {
+  break-inside: avoid;
+}
+
+.au-versi-strofa + .au-versi-strofa {
+  margin-top: 1.4em;
 }
 
 .au-poem-excerpt {
