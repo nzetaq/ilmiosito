@@ -1472,6 +1472,32 @@ body {
   border-color: var(--link-hover);
 }
 
+.au-contatti-invio:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Il pulsante e la sua risposta stanno sulla stessa riga finché ci
+   stanno, e vanno a capo insieme quando la colonna si stringe. */
+.au-contatti-coda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+/* Stesso vocabolario dell'esito della redazione: l'accento per ciò che
+   è andato a buon fine, il rosso del titolo per ciò che non è andato. */
+.au-contatti-esito {
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--bio);
+  max-width: 28rem;
+}
+
+.au-contatti-esito.is-fatto { color: var(--accento); font-weight: 700; }
+.au-contatti-esito.is-guaio { color: var(--titolo-em); font-weight: 700; }
+
 .au-contatti-nota {
   font-size: 0.75rem;
   line-height: 1.7;

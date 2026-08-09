@@ -6,6 +6,7 @@ import { avviaCitazioni } from './citazioni.js';
 import { avviaArtificiosa } from './artificiosa.js';
 import { avviaPoesie } from './poesie.js';
 import { avviaAnalisi } from './analisi.js';
+import { avviaContatti } from './contatti.js';
 
 // I moduli sono differiti per natura: il documento è già completo.
 // L'analisi si iscrive per prima, così non perde il primo annuncio.
@@ -17,3 +18,4 @@ avviaFiltri();
 avviaCitazioni();
 avviaArtificiosa();
 avviaPoesie();
+avviaContatti();

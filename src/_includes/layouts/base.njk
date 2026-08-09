@@ -84,7 +84,12 @@
         l'unico del sito che parte davvero: quello dell'oracolo viene
         fermato dal JavaScript, e quello della redazione non è un
         modulo che si spedisce. -#}
-    form-action {% if moduli %}{{ moduli }}{% else %}'none'{% endif %};
+    {#- `safe` perché la policy parla per apostrofi — 'self', 'none' —
+        e l'autoescape li trasformerebbe in entità: il browser le
+        rimetterebbe a posto, ma affidare una regola di sicurezza a un
+        giro di decodifica è un rischio inutile. Il valore viene dal
+        front matter di questo sito, non da fuori. -#}
+    form-action {% if moduli %}{{ moduli | safe }}{% else %}'none'{% endif %};
     img-src 'self';
     font-src 'self';
     style-src 'self' {{ stileSenzaJs | impronta | safe }};

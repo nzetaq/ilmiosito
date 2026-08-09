@@ -2,7 +2,14 @@
 layout: layouts/base.njk
 permalink: /index.html
 # L'unica destinazione a cui un modulo di questa pagina possa spedire.
-moduli: "https://formsubmit.co"
+# 'self' e il nome per esteso sono per chi naviga senza JavaScript: lì
+# il modulo parte davvero, e il servizio rimanda a /grazie/ — un
+# rimbalzo che la policy deve ammettere, altrimenti il browser lo ferma
+# e la pagina resta dov'era, muta.
+moduli: "https://formsubmit.co 'self' https://www.nzetaq.it"
+# Con JavaScript il messaggio parte da qui, senza cambiare pagina: la
+# risposta arriva in JSON e l'esito si scrive accanto al pulsante.
+reti: "https://formsubmit.co"
 ---
 {%- set articoli = collections.articoli | ordina('ordine', true) -%}
 {%- set scritti = collections.scritti | ordina('ordine') -%}
@@ -339,7 +346,14 @@ moduli: "https://formsubmit.co"
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_next" value="{{ site.url }}/grazie/">
 
-        <button class="au-contatti-invio" type="submit">Invia</button>
+        {#- La riga d'esito sta accanto al pulsante, non in cima alla
+           pagina: una conferma che compare fuori dallo sguardo è come
+           non esserci. `role="status"` la fa leggere ad alta voce da
+           chi non la vede, senza interrompere quel che stava facendo. -#}
+        <div class="au-contatti-coda">
+          <button class="au-contatti-invio" type="submit">Invia</button>
+          <p class="au-contatti-esito" id="au-contatti-esito" role="status" aria-live="polite" hidden></p>
+        </div>
       </form>
 
       <p class="au-contatti-nota">
