@@ -297,6 +297,40 @@ sezione.
 Si descrive in `src/_data/redazione.json` e basta: il template genera i
 campi, e `scrivi.js` li legge dal documento invece di ripeterne lo schema.
 
+## Contatti — `#contatti`
+
+Un modulo che inoltra per posta, appoggiato a **FormSubmit**: gratuito, senza
+registrazione, e senza che questo sito debba avere un server.
+
+**L'indirizzo non compare da nessuna parte.** Al suo posto, in
+`site.json → contatti.formsubmit`, c'è un **alias**: una stringa casuale che
+FormSubmit manda per posta dopo la prima attivazione e che non rivela nulla.
+Finché quella voce è vuota, il modulo non compare — meglio niente che un
+modulo che non recapita.
+
+### Attivarlo, senza esporre l'indirizzo
+
+L'alias arriva solo dopo un primo invio. Farlo dal sito significherebbe
+mettere l'indirizzo vero in `site.json`, cioè nel repository pubblico **e nel
+registro dei commit, che non dimentica**. Si fa invece da un file locale, mai
+versionato, che manda quel primo messaggio; poi si incolla nel sito la sola
+stringa ricevuta.
+
+### Come è protetto
+
+- **`form-action`** nella policy ammette la sola `https://formsubmit.co`, e
+  solo sulla pagina che ne ha bisogno: ovunque altro resta `'none'`.
+  Verificato che una destinazione diversa venga rifiutata dal browser.
+- **Niente reCAPTCHA** (`_captcha=false`): chiamerebbe in causa Google, e
+  questo sito non ha terzi. Al suo posto il campo esca `_honey`, fuori dallo
+  schermo e invisibile anche ai lettori vocali: un riempitore automatico lo
+  compila e il messaggio viene buttato via.
+- `_next` riporta su `/grazie/`, una pagina del sito, invece che sulla
+  schermata di FormSubmit.
+
+Se lo spam dovesse comunque arrivare, `_blacklist` accetta un elenco di frasi
+da filtrare, fino a una ventina.
+
 ## Analisi del traffico
 
 Il conteggio si appoggia a [GoatCounter](https://www.goatcounter.com/):

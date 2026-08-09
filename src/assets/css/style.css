@@ -696,7 +696,8 @@ body {
 :root[data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
 :root[data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
 :root[data-sez='giornale'] .au-nav-btn[data-sez='giornale'],
-:root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'] {
+:root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
+:root[data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
   color: var(--nav-attivo-testo);
   background: var(--nav-attivo-sfondo);
   border-bottom-color: var(--nav-attivo-sfondo);
@@ -718,7 +719,8 @@ body {
 :root[data-sez='scritti'] #sec-scritti,
 :root[data-sez='tesi'] #sec-tesi,
 :root[data-sez='giornale'] #sec-giornale,
-:root[data-sez='appunti'] #sec-appunti {
+:root[data-sez='appunti'] #sec-appunti,
+:root[data-sez='contatti'] #sec-contatti {
   display: block;
   opacity: 1;
 }
@@ -1355,6 +1357,98 @@ body {
   font-style: italic;
 }
 
+/* ── Contatti ──
+   Un modulo, e la stessa grammatica del resto: campiture piatte,
+   spigoli netti, etichette in maiuscoletto spaziato. */
+.au-contatti-intro {
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: var(--prosa);
+  max-width: 42rem;
+  margin-bottom: 2rem;
+}
+
+.au-contatti-form {
+  max-width: 34rem;
+}
+
+.au-contatti-voce {
+  margin-bottom: 1.25rem;
+}
+
+.au-contatti-etichetta {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--meta);
+  margin-bottom: 0.4rem;
+}
+
+.au-contatti-campo {
+  width: 100%;
+  font-family: var(--font-testo);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--testo);
+  background: var(--scheda-sfondo);
+  border: 1px solid var(--filo-forte);
+  border-radius: 0;
+  padding: 0.6rem 0.75rem;
+}
+
+.au-contatti-campo:focus-visible {
+  outline: 2px solid var(--accento);
+  outline-offset: 1px;
+}
+
+.au-contatti-area {
+  resize: vertical;
+  line-height: 1.75;
+}
+
+/* Il campo esca. Non `display: none`, che i riempitori automatici sanno
+   riconoscere ed evitare: sta fuori dallo schermo, invisibile a chi
+   legge e a chi ascolta, ma per un programma è un campo come gli altri
+   — ed è proprio compilandolo che si tradisce. */
+.au-esca {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.au-contatti-invio {
+  font-family: var(--font-testo);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--nav-attivo-testo);
+  background: var(--accento);
+  border: 2px solid var(--accento);
+  padding: 0.6rem 1.6rem;
+  cursor: pointer;
+  transition: background-color 0.12s, border-color 0.12s;
+}
+
+.au-contatti-invio:hover,
+.au-contatti-invio:focus-visible {
+  background: var(--link-hover);
+  border-color: var(--link-hover);
+}
+
+.au-contatti-nota {
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--bio);
+  max-width: 34rem;
+  margin-top: 1.5rem;
+}
+
 /* ── Colonna del giornale ── */
 .au-giornale-col {
   position: sticky;
@@ -1683,7 +1777,8 @@ body {
   :root[data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
   :root[data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
   :root[data-sez='giornale'] .au-nav-btn[data-sez='giornale'],
-  :root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'] {
+  :root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
+  :root[data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
     border-color: var(--nav-attivo-sfondo);
   }
 

@@ -1,6 +1,8 @@
 ---
 layout: layouts/base.njk
 permalink: /index.html
+# L'unica destinazione a cui un modulo di questa pagina possa spedire.
+moduli: "https://formsubmit.co"
 ---
 {%- set articoli = collections.articoli | ordina('ordine', true) -%}
 {%- set scritti = collections.scritti | ordina('ordine') -%}
@@ -291,6 +293,66 @@ permalink: /index.html
         <p class="au-ia-muta">Senza JavaScript l'Intelligenza Artificiosa tace.
         È la sua forma più onesta.</p>
       </noscript>
+    </section>
+
+
+    <!-- ═══ CONTATTI ═══ -->
+    <section class="au-section" id="sec-contatti" aria-label="Contatti">
+      {%- if site.contatti.formsubmit %}
+      <p class="au-contatti-intro">
+        Per scrivermi. Il messaggio arriva per posta: non resta su questo sito,
+        che non ha un archivio dove metterlo.
+      </p>
+
+      {#- L'indirizzo di destinazione non compare da nessuna parte: al suo
+         posto c'è un alias di FormSubmit, una stringa casuale che non lo
+         rivela. `form-action` nella policy ammette solo questa
+         destinazione — l'unica del sito, che per il resto è a `none`. -#}
+      <form class="au-contatti-form" action="https://formsubmit.co/{{ site.contatti.formsubmit }}" method="POST">
+        <div class="au-contatti-voce">
+          <label class="au-contatti-etichetta" for="au-contatti-nome">Nome</label>
+          <input class="au-contatti-campo" id="au-contatti-nome" type="text"
+                 name="nome" required autocomplete="name" maxlength="80">
+        </div>
+
+        <div class="au-contatti-voce">
+          <label class="au-contatti-etichetta" for="au-contatti-email">Indirizzo a cui rispondere</label>
+          <input class="au-contatti-campo" id="au-contatti-email" type="email"
+                 name="email" required autocomplete="email" maxlength="120">
+        </div>
+
+        <div class="au-contatti-voce">
+          <label class="au-contatti-etichetta" for="au-contatti-messaggio">Messaggio</label>
+          <textarea class="au-contatti-campo au-contatti-area" id="au-contatti-messaggio"
+                    name="messaggio" required rows="8" maxlength="4000"></textarea>
+        </div>
+
+        {#- Il campo esca: invisibile a chi legge, irresistibile per un
+           riempitore automatico. Se arriva compilato, FormSubmit butta via
+           il messaggio senza dire niente a nessuno. -#}
+        <input type="text" name="_honey" class="au-esca" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <input type="hidden" name="_subject" value="Un messaggio da nzetaq.it">
+        <input type="hidden" name="_template" value="table">
+        {#- Il reCAPTCHA di serie chiamerebbe in causa Google. Al suo posto
+           l'esca qui sopra, che non costa nulla a chi scrive davvero. -#}
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="{{ site.url }}/grazie/">
+
+        <button class="au-contatti-invio" type="submit">Invia</button>
+      </form>
+
+      <p class="au-contatti-nota">
+        Premendo «Invia» il messaggio passa da FormSubmit, che lo inoltra e non
+        lo conserva. Nome, indirizzo e testo sono l'unica cosa che viene mandata.
+      </p>
+      {%- else %}
+      <p class="au-contatti-intro">
+        Questa sezione è pronta ma non ancora attiva: manca l'alias del servizio
+        di inoltro. Finché non c'è, il modulo non compare — meglio niente che un
+        modulo che non recapita.
+      </p>
+      {%- endif %}
     </section>
 
   </main>
