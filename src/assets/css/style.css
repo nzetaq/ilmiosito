@@ -652,23 +652,54 @@ body {
      «Il Diavolo veste Pravda» faceva debordare la barra — e con essa
      la pagina, che finiva per scorrere in orizzontale — in tutta la
      fascia fra i 700 e i 900px. Così la barra si dispone su due righe
-     quando serve, e il difetto non può ripresentarsi cambiando un nome. */
+     quando serve, e il difetto non può ripresentarsi cambiando un nome.
+
+     Resta una rete di sicurezza, non più il comportamento normale:
+     sopra i 700px la riga si difende da sé stringendo il corpo delle
+     linguette (vedi .au-nav-btn), e va a capo solo se nemmeno quello
+     basta. */
   flex-wrap: wrap;
   gap: 0;
   border-bottom: 2px solid var(--filo-forte);
+  /* La barra diventa il metro di sé stessa: le linguette possono
+     misurarsi in cqw, cioè sulla larghezza che hanno davvero a
+     disposizione, e non sulla finestra — che è un'altra cosa, perché
+     fra le due c'è il margine di pagina. Il contenimento è solo
+     nell'asse orizzontale, e qui dentro non vive nulla di fisso: la
+     lente delle poesie sta altrove, e non se ne accorge. */
+  container-type: inline-size;
 }
 
 .au-nav-btn {
   display: inline-block;
   font-family: var(--font-testo);
-  font-size: 0.6875rem;
+  /* Tre misure legate a una sola: il corpo comanda, e i fianchi e la
+     spaziatura lo seguono in em. Così la linguetta si stringe tutta
+     insieme, in proporzione, invece di rimpicciolire il testo dentro
+     un guscio rimasto largo.
+
+     Il termine centrale è la condizione di capienza: le otto etichette
+     di oggi occupano circa 78 volte il corpo del carattere, dunque
+     entrano in una riga finché il corpo sta sotto 1/78 della barra —
+     1.24cqw, con un margine di sicurezza. Sopra quel punto vince il
+     tetto di 0.6875rem, che è la misura di sempre; sotto, la riga si
+     stringe quel tanto che basta a non spezzarsi. Il pavimento di
+     0.5625rem è il limite oltre il quale la lettura si guasta: se
+     nemmeno lì la barra entra, allora sì che va a capo.
+
+     Se un giorno le etichette cambiassero molto di lunghezza, il
+     numero da rivedere è quel 1.24 — e nel frattempo il difetto non
+     sarebbe un debordamento ma una seconda riga, che è innocua. */
+  font-size: clamp(0.5625rem, 1.24cqw, 0.6875rem);
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--nav);
   text-decoration: none;
   border-bottom: 2px solid transparent;
-  padding: 0.5rem 1.25rem 0.6rem;
+  /* L'altezza resta in rem: la fascia non si abbassa quando il corpo
+     si stringe, e le linguette non ballano. */
+  padding: 0.5rem 1.55em 0.6rem;
   margin-bottom: -2px;
   cursor: pointer;
   /* L'etichetta non va mai spezzata: «Poesie & Testi» andando a capo
@@ -1768,6 +1799,10 @@ body {
     /* 0.7rem porta l'altezza del bersaglio intorno ai 44px, che è la
        misura sotto la quale un dito sbaglia. */
     padding: 0.7rem 0.9rem;
+    /* Qui la barra va a capo per scelta, in blocchi: stringere il corpo
+       non servirebbe a evitarlo e renderebbe solo le voci più piccole
+       proprio dove lo schermo è già stretto. Il corpo torna fisso. */
+    font-size: 0.6875rem;
   }
 
   /* Il fondo pieno della voce corrente si porta dietro il contorno. */
