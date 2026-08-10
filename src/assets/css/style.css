@@ -992,6 +992,13 @@ body {
   cursor: help;
   display: inline-block;
   border-bottom: 1px dotted var(--filo);
+  /* Sul telefono la poesia si apre tenendo fermo il dito. Senza queste
+     due righe il tocco prolungato farebbe prima quel che fa di suo:
+     selezionare la parola e offrire «Copia» — cioè proprio la cosa che
+     la lente esiste per rendere scomoda. */
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .au-poem-title--lente::after {

@@ -223,13 +223,82 @@ export function avviaPoesie() {
     aperta = null;
   }
 
+  /* ── Il dito ──
+     Su un telefono non esiste posare il puntatore: esiste tenere fermo
+     il dito. La finestra si apre dopo mezzo secondo di immobilità sul
+     titolo, resta finché il dito resta, e si chiude quando si stacca —
+     che è esattamente la stessa promessa fatta al mouse, tradotta.
+
+     Un dito che scivola prima del mezzo secondo è la pagina che scorre,
+     e l'attesa si annulla: chi sta solo passando oltre non deve vedersi
+     comparire una poesia in faccia. */
+  const ATTESA_DITO = 500;
+  const SCARTO = 10;
+  let dito = null;
+  // Un tocco produce anche fuoco e passaggio del puntatore, che
+  // aprirebbero la finestra all'istante scavalcando l'attesa.
+  let daTocco = false;
+
+  const conMouse = (azione) => () => { if (!daTocco) azione(); };
+
   for (const titolo of titoli) {
-    titolo.addEventListener('mouseenter', () => apri(titolo));
+    titolo.addEventListener('mouseenter', conMouse(() => apri(titolo)));
     titolo.addEventListener('mouseleave', chiudi);
     // Chi naviga con la tastiera non ha un puntatore da posare: senza
     // questo la poesia sarebbe raggiungibile solo col mouse.
-    titolo.addEventListener('focus', () => apri(titolo));
+    titolo.addEventListener('focus', conMouse(() => apri(titolo)));
     titolo.addEventListener('blur', chiudi);
+
+    titolo.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      daTocco = true;
+      const t = e.touches[0];
+      dito = { x: t.clientX, y: t.clientY, aperta: false, attesa: 0 };
+      dito.attesa = setTimeout(() => {
+        dito.aperta = true;
+        apri(titolo);
+      }, ATTESA_DITO);
+    }, { passive: true });
+
+    /* Prima dell'apertura il movimento annulla; dopo, muove i versi.
+       `passive: false` è la condizione per poter fermare la pagina:
+       senza, il browser tratta l'ascoltatore come una promessa di non
+       interferire e ignora `preventDefault`. */
+    titolo.addEventListener('touchmove', (e) => {
+      if (!dito) return;
+      const t = e.touches[0];
+
+      if (!dito.aperta) {
+        if (Math.abs(t.clientY - dito.y) > SCARTO || Math.abs(t.clientX - dito.x) > SCARTO) {
+          clearTimeout(dito.attesa);
+          dito = null;
+        }
+        return;
+      }
+
+      // Il verso segue il dito: si trascina il testo, non la finestra.
+      const spostamento = dito.y - t.clientY;
+      dito.y = t.clientY;
+      if (scorri(spostamento)) e.preventDefault();
+    }, { passive: false });
+
+    const stacca = () => {
+      if (!dito) return;
+      clearTimeout(dito.attesa);
+      if (dito.aperta) chiudi();
+      dito = null;
+      // Il fuoco e il finto passaggio del puntatore arrivano subito
+      // dopo il distacco: si lascia passare quel momento prima di
+      // riaprire la porta al mouse.
+      setTimeout(() => { daTocco = false; }, 400);
+    };
+
+    titolo.addEventListener('touchend', stacca);
+    titolo.addEventListener('touchcancel', stacca);
+
+    // Il menù contestuale del tocco prolungato — «Copia», «Cerca» —
+    // arriverebbe proprio nell'istante in cui la poesia si apre.
+    titolo.addEventListener('contextmenu', (e) => { if (dito) e.preventDefault(); });
   }
 
   /* La rotella, mentre una poesia è aperta, muove i versi e non la
