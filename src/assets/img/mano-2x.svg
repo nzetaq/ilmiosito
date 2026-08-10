@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+  <!-- Variante a doppia risoluzione. Stesso disegno, dimensione
+       propria doppia: Safari rasterizza il cursore una volta sola, e
+       senza questa lo mostrerebbe sfocato sugli schermi fitti. -->
+  <!-- La mano che indica, negli stessi tre strati della freccia.
+       Le dita sono forme separate, ma i contorni interni non si vedono:
+       i pieni passano dopo e coprono ogni cucitura che cada dentro la
+       sagoma. Fuori, dove non c'è pieno, il contorno resta.
+       Il punto caldo è la punta dell'indice, in (10,2). -->
+  <defs>
+    <g id="dita">
+      <rect x="8.2" y="1.6" width="3.8" height="12" rx="1.9"/>
+      <rect x="11.4" y="6.8" width="3.6" height="8" rx="1.8"/>
+      <rect x="14.4" y="8" width="3.4" height="7" rx="1.7"/>
+      <rect x="4.8" y="11.4" width="3.6" height="7.6" rx="1.8"
+            transform="rotate(-18 6.6 15.2)"/>
+      <rect x="6.6" y="10.8" width="11.2" height="10.4" rx="3.2"/>
+    </g>
+  </defs>
+  <use href="#dita" fill="#ff5a36" stroke="#151d33" stroke-width="3.2" stroke-linejoin="round"/>
+  <use href="#dita" fill="#ff5a36" stroke="#f4f0e6" stroke-width="1.5" stroke-linejoin="round"/>
+  <use href="#dita" fill="#ff5a36"/>
+</svg>

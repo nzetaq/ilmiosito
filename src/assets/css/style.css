@@ -117,11 +117,81 @@
      rompersi, perché nessuna misura è indipendente dalle altre. */
   --scala: 1;
 
+  /* ── Il puntatore ──
+     La freccia di sistema è grigia in mezzo a una pagina che non ha
+     nulla di grigio. Qui diventa arancio come il resto, con un anello
+     di carta e un orlo d'inchiostro: gli stessi tre strati servono sul
+     fondo scuro e su quello chiaro, così non serve un disegno per
+     tema.
+
+     Sono valori, non regole: ogni punto del foglio continua a
+     dichiarare l'intenzione — «qui si clicca» — e il disegno si decide
+     in un posto solo. Le forme restano quelle di sempre, freccia e
+     mano: cambia il colore, non il significato.
+
+     Fuori dalla condizione qui sotto valgono le parole di sempre, e il
+     sistema disegna come ha sempre disegnato. */
+  --cursore-base: default;
+  --cursore-mano: pointer;
+
   --spazio-main: 2.5rem;
 }
 
 html {
   font-size: calc(100% * var(--scala));
+  cursor: var(--cursore-base);
+}
+
+/* Il puntatore disegnato vale solo dove c'è davvero un puntatore, e
+   solo per chi non ha chiesto al sistema un contrasto diverso da
+   quello di serie.
+
+   La seconda condizione non è un vezzo. Un cursore dichiarato in CSS
+   scavalca le preferenze di accessibilità del sistema operativo: chi
+   ha ingrandito il puntatore per riuscire a seguirlo, o ne ha cambiato
+   il colore, se lo vedrebbe tornare piccolo e arancio proprio qui.
+   `prefers-contrast` non è la stessa impostazione, ma è l'unico
+   segnale che il browser espone e che vi si accompagna spesso; dove
+   manca del tutto, la condizione fallisce e vince il sistema — che è
+   il modo giusto di sbagliare. */
+@media (pointer: fine) and (prefers-contrast: no-preference) {
+  :root {
+    --cursore-base: url('../img/cursore.svg') 2 2, default;
+    --cursore-mano: url('../img/mano.svg') 10 2, pointer;
+  }
+
+  /* Sugli schermi fitti il cursore viene rasterizzato una volta sola,
+     e a dimensione propria risulterebbe morbido. `image-set` dice che
+     esiste lo stesso disegno al doppio dei punti. Sta dentro `@supports`
+     perché una proprietà personalizzata non conosce ripieghi: un valore
+     che il browser non sa leggere non viene scartato in fase di lettura,
+     ma solo al momento dell'uso — e a quel punto non c'è più niente
+     dietro cui ripararsi. */
+  @supports (cursor: image-set(url('../img/cursore-2x.svg') 2x) 0 0, default) {
+    :root {
+      --cursore-base: image-set(url('../img/cursore.svg') 1x,
+                                url('../img/cursore-2x.svg') 2x) 2 2, default;
+      --cursore-mano: image-set(url('../img/mano.svg') 1x,
+                                url('../img/mano-2x.svg') 2x) 10 2, pointer;
+    }
+  }
+}
+
+/* Anche il trattino che lampeggia mentre si scrive è un cursore, e
+   nasconderlo dietro il grigio di sistema sarebbe metà lavoro. Questo
+   non scavalca nessuna preferenza: è solo un colore. */
+input,
+textarea {
+  caret-color: var(--accento);
+}
+
+/* I collegamenti non dichiarano il proprio cursore in nessun punto di
+   questo foglio: la mano gliela dà il browser per conto suo. Senza
+   questa riga sarebbero l'unico posto del sito dove ricompare quella
+   di sistema, proprio dove si passa più spesso. */
+a[href],
+[role='button'] {
+  cursor: var(--cursore-mano);
 }
 
 /* Mentre la scala cambia, nessuna transizione. Serve a due cose, e la
@@ -555,7 +625,7 @@ body {
   width: 100%;
   height: 0.875rem;
   background: none;
-  cursor: pointer;
+  cursor: var(--cursore-mano);
 }
 
 .au-regolatore-cursore::-webkit-slider-runnable-track {
@@ -604,7 +674,7 @@ body {
   background: none;
   border: 1px solid var(--toggle-bordo);
   padding: 0.15rem 0;
-  cursor: pointer;
+  cursor: var(--cursore-mano);
   transition: color 0.12s, border-color 0.12s, background-color 0.12s;
 }
 
@@ -617,7 +687,7 @@ body {
 
 .au-passo:disabled {
   opacity: 0.35;
-  cursor: default;
+  cursor: var(--cursore-base);
 }
 
 .au-passo:disabled:hover {
@@ -651,7 +721,7 @@ body {
   background: none;
   border: 2px solid var(--toggle-bordo);
   padding: 0.35rem 0.8rem;
-  cursor: pointer;
+  cursor: var(--cursore-mano);
   transition: color 0.12s, border-color 0.12s, background-color 0.12s;
 }
 
@@ -731,7 +801,7 @@ body {
      si stringe, e le linguette non ballano. */
   padding: 0.5rem 1.55em 0.6rem;
   margin-bottom: -2px;
-  cursor: pointer;
+  cursor: var(--cursore-mano);
   /* L'etichetta non va mai spezzata: «Poesie & Testi» andando a capo
      dentro la propria linguetta gonfierebbe l'intera barra. */
   white-space: nowrap;
@@ -842,7 +912,7 @@ body {
   border: 2px solid var(--filtro-bordo);
   border-radius: 0;
   padding: 0.35rem 1rem;
-  cursor: pointer;
+  cursor: var(--cursore-mano);
   transition: color 0.12s, border-color 0.12s, background-color 0.12s;
 }
 
@@ -1332,7 +1402,7 @@ body {
   border: 2px solid var(--filtro-attivo-sfondo);
   border-radius: 0;
   padding: 0.35rem 1.4rem;
-  cursor: pointer;
+  cursor: var(--cursore-mano);
   transition: opacity 0.12s;
 }
 
@@ -1499,7 +1569,7 @@ body {
   background: var(--accento);
   border: 2px solid var(--accento);
   padding: 0.6rem 1.6rem;
-  cursor: pointer;
+  cursor: var(--cursore-mano);
   transition: background-color 0.12s, border-color 0.12s;
 }
 
@@ -1511,7 +1581,7 @@ body {
 
 .au-contatti-invio:disabled {
   opacity: 0.5;
-  cursor: default;
+  cursor: var(--cursore-base);
 }
 
 /* Il pulsante e la sua risposta stanno sulla stessa riga finché ci
@@ -2185,7 +2255,7 @@ body {
        che cambierebbe al primo ritocco del corpo. */
     padding: 0.8rem 1rem;
     min-height: 2.75rem;
-    cursor: pointer;
+    cursor: var(--cursore-mano);
     transition: color 0.12s, border-color 0.12s;
   }
 

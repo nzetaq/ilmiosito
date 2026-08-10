@@ -154,7 +154,7 @@
   background: none;
   border: 2px solid var(--toggle-bordo);
   padding: 0.5rem 1rem;
-  cursor: pointer;
+  cursor: var(--cursore-mano);
   transition: color 0.12s, border-color 0.12s, background-color 0.12s;
 }
 
@@ -186,7 +186,7 @@
    successo — ma non invita più a premere. */
 .au-scrivi-bottone:disabled {
   opacity: 0.5;
-  cursor: default;
+  cursor: var(--cursore-base);
 }
 
 .au-scrivi-bottone:disabled:hover,
