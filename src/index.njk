@@ -120,11 +120,26 @@ reti: "https://formsubmit.co"
   </header>
 
   <!-- ═══ NAVIGAZIONE SEZIONI ═══ -->
-  <nav class="au-nav" id="au-nav" aria-label="Sezioni del sito">
-    {%- for sezione in site.sezioni %}
-    <a class="au-nav-btn" href="#{{ sezione.id }}" data-sez="{{ sezione.id }}">{{ sezione.etichetta }}</a>
-    {%- endfor %}
-  </nav>
+  {#- Il pulsante esiste in ogni pagina ma si vede solo sotto i 700px,
+     dove le otto voci non stanno in una riga. Sopra quella soglia
+     scompare e la barra torna quella di sempre: un solo elenco di
+     collegamenti, una sola verità nel documento, nessun menù
+     duplicato da tenere allineato.
+     `aria-controls` lo lega al <nav> che apre, `aria-expanded` dice se
+     è aperto: chi non vede l'icona sente comunque a che punto è. -#}
+  <div class="au-nav-fascia">
+    <button class="au-nav-apri" id="au-nav-apri" type="button"
+            aria-expanded="false" aria-controls="au-nav">
+      <span class="au-nav-tratti" aria-hidden="true"></span>
+      <span class="au-nav-apri-voce" id="au-nav-apri-voce">Sezioni</span>
+    </button>
+
+    <nav class="au-nav" id="au-nav" aria-label="Sezioni del sito">
+      {%- for sezione in site.sezioni %}
+      <a class="au-nav-btn" href="#{{ sezione.id }}" data-sez="{{ sezione.id }}">{{ sezione.etichetta }}</a>
+      {%- endfor %}
+    </nav>
+  </div>
 
 <div class="au-layout" id="au-layout">
 

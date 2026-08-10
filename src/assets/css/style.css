@@ -645,6 +645,19 @@ body {
 }
 
 /* ── Navigazione ── */
+
+/* Il pulsante del menù non esiste su schermo largo: lì la barra si
+   vede tutta e un pulsante che apre ciò che è già aperto sarebbe solo
+   un ostacolo in più. Compare sotto i 700px, dove la fascia lo
+   riaccende. */
+.au-nav-apri {
+  display: none;
+}
+
+.au-nav-fascia {
+  position: relative;
+}
+
 .au-nav {
   display: flex;
   /* Va a capo a qualunque larghezza, non solo sotto la soglia del
@@ -1802,45 +1815,112 @@ body {
   }
 }
 
-/* Sotto i 700px le sette voci non stanno più su una riga: sommate
-   misurano 627px, che con i margini della pagina sfondano lo schermo di
-   un telefono. Prima di questa regola le ultime tre — Tesi, Giornale,
-   Appunti — finivano oltre il bordo e, con overflow-x nascosto sul
-   corpo, restavano semplicemente irraggiungibili.
+/* Sotto i 700px le otto voci non stanno più su una riga: nemmeno
+   stringendo il corpo, perché lo schermo di un telefono non ha la
+   larghezza per otto etichette in fila. Prima si disponevano in blocchi
+   su tre o quattro righe — leggibili, ma un muro di linguette che si
+   mangiava mezzo schermo prima ancora del contenuto.
 
-   Le linguette diventano allora blocchi che vanno a capo, ciascuno col
-   proprio contorno: la stessa grammatica visiva dei filtri degli
-   articoli, e su più righe una sottolineatura condivisa non avrebbe
-   più nulla da sottolineare. */
+   Qui diventano un menù: un pulsante che dice dove siamo, e sotto
+   l'elenco delle sezioni una per riga. Il documento resta uno solo —
+   sono gli stessi collegamenti di sempre, non una seconda copia da
+   tenere allineata alla prima. */
 @media (max-width: 700px) {
+  .au-nav-apri {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    font-family: var(--font-testo);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--nav);
+    background: none;
+    border: 2px solid var(--filo-forte);
+    /* 44px è la misura sotto la quale un dito sbaglia bersaglio: qui è
+       un minimo dichiarato, non il risultato di una somma di margini
+       che cambierebbe al primo ritocco del corpo. */
+    padding: 0.8rem 1rem;
+    min-height: 2.75rem;
+    cursor: pointer;
+    transition: color 0.12s, border-color 0.12s;
+  }
+
+  .au-nav-apri[aria-expanded='true'] {
+    color: var(--nav-hover);
+    border-color: var(--nav-attivo-sfondo);
+  }
+
+  /* L'icona è una barra sola: le altre due sono i suoi pseudo-elementi,
+     sospesi sopra e sotto. Aperto il menù, la barra di mezzo sparisce e
+     le altre due si incrociano — la stessa icona diventa la croce che
+     la chiude, senza aggiungere un secondo pulsante. */
+  .au-nav-tratti {
+    position: relative;
+    display: block;
+    flex: none;
+    width: 1.125rem;
+    height: 2px;
+    background: currentColor;
+    transition: background-color var(--durata-uscita) var(--curva);
+  }
+
+  .au-nav-tratti::before,
+  .au-nav-tratti::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transition:
+      top var(--durata-uscita) var(--curva),
+      transform var(--durata-uscita) var(--curva);
+  }
+
+  .au-nav-tratti::before { top: -0.375rem; }
+  .au-nav-tratti::after { top: 0.375rem; }
+
+  :root[data-menu='aperto'] .au-nav-tratti { background: transparent; }
+  :root[data-menu='aperto'] .au-nav-tratti::before { top: 0; transform: rotate(45deg); }
+  :root[data-menu='aperto'] .au-nav-tratti::after { top: 0; transform: rotate(-45deg); }
+
+  /* Il pannello è chiuso finché non lo si apre. Sta nel flusso e non
+     sopra la pagina: aprendolo il contenuto scende, e non c'è modo di
+     perdere di vista quel che stava sotto. */
   .au-nav {
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    border-bottom: none;
+    display: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+    border: 2px solid var(--filo-forte);
+    border-top: none;
+  }
+
+  :root[data-menu='aperto'] .au-nav {
+    display: flex;
   }
 
   .au-nav-btn {
     margin-bottom: 0;
-    border: 2px solid var(--filo-forte);
-    /* 0.7rem porta l'altezza del bersaglio intorno ai 44px, che è la
-       misura sotto la quale un dito sbaglia. */
-    padding: 0.7rem 0.9rem;
-    /* Qui la barra va a capo per scelta, in blocchi: stringere il corpo
-       non servirebbe a evitarlo e renderebbe solo le voci più piccole
-       proprio dove lo schermo è già stretto. Il corpo torna fisso. */
+    /* Il filo separa una voce dall'altra e non gira attorno a ciascuna:
+       in colonna, un contorno per voce sarebbe otto rettangoli. Sta in
+       alto perché il fondo è già impegnato dalla regola che accende la
+       sezione corrente. */
+    border: none;
+    border-top: 2px solid var(--filo-sezione);
+    padding: 0.9rem 1rem;
+    /* Qui il corpo non si stringe: la larghezza non è più il problema,
+       e rimpicciolire il testo dove lo schermo è già piccolo sarebbe
+       il rimedio sbagliato. */
     font-size: 0.6875rem;
   }
 
-  /* Il fondo pieno della voce corrente si porta dietro il contorno. */
-  :root[data-sez='home'] .au-nav-btn[data-sez='home'],
-  :root[data-sez='artificiosa'] .au-nav-btn[data-sez='artificiosa'],
-  :root[data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
-  :root[data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
-  :root[data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
-  :root[data-sez='giornale'] .au-nav-btn[data-sez='giornale'],
-  :root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
-  :root[data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
-    border-color: var(--nav-attivo-sfondo);
+  .au-nav-btn:first-child {
+    border-top: none;
   }
 
   /* Margini di pagina più stretti: a 390px di schermo i 32px per lato
