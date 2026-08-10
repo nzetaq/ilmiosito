@@ -1,0 +1,52 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+{#- Il feed: l'edicola al contrario. Invece che passare a controllare
+   se è uscito qualcosa, chi vuole seguire mette questo indirizzo nel
+   proprio lettore, e il lettore ripassa da sé.
+
+   Ogni voce porta le prime righe e il collegamento, non il testo
+   intero: si legge sul sito, nella veste in cui è stato scritto.
+
+   È RSS 2.0 e non Atom perché è la forma che qualunque lettore
+   digerisce senza discutere. -#}
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.titolo }} — {{ site.motto }}</title>
+    <link>{{ site.url }}/</link>
+    <description>{{ site.descrizione }}</description>
+    <language>{{ site.lingua }}</language>
+    {#- `atom:link` dice al lettore dove abita questo file: senza,
+       alcuni non sanno più ritrovarlo se cambia il percorso da cui
+       l'hanno preso. -#}
+    <atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml"/>
+    {%- if site.licenza %}
+    <copyright>{{ site.licenza.nome }} — {{ site.licenza.url }}</copyright>
+    {%- endif %}
+{%- for voce in collections.seguibili %}
+{#- Un pezzo del giornale ha una pagina qui; un articolo è uscito
+   altrove, e il suo indirizzo è quello della rivista. -#}
+{%- set indirizzo = voce.data.url or (site.url + voce.url) %}
+    <item>
+      <title>{{ voce.data.titolo }}</title>
+      <link>{{ indirizzo }}</link>
+      {#- Il guid è ciò che distingue una voce già letta da una nuova:
+         deve restare uguale per sempre, anche se il titolo cambia. -#}
+      <guid isPermaLink="true">{{ indirizzo }}</guid>
+      {%- set momento = voce.data.istante or voce.data.data %}
+      {%- if momento %}
+      <pubDate>{{ momento | dataRss }}</pubDate>
+      {%- endif %}
+      {%- if voce.data.fonte %}
+      <category>{{ voce.data.fonte }}</category>
+      {%- endif %}
+      {#- Più lunga della descrizione di una pagina: là servono 160
+         caratteri perché è quanto ne mostra un motore di ricerca, qui
+         chi legge deve poter decidere se il pezzo lo interessa. -#}
+      <description>{{ voce.rawInput | sintesi(400) }}</description>
+    </item>
+{%- endfor %}
+  </channel>
+</rss>

@@ -128,6 +128,13 @@
   <meta property="og:locale" content="it_IT">
   <meta name="twitter:card" content="summary">
 
+  {#- Perché il lettore di feed lo trovi da sé: chi incolla
+     l'indirizzo del sito nel proprio lettore, senza sapere che esiste
+     un /feed.xml, viene comunque iscritto. -#}
+  <link rel="alternate" type="application/rss+xml"
+        title="{{ site.titolo }} — Il Diavolo veste Pravda e articoli"
+        href="{{ site.url }}/feed.xml">
+
   <meta name="theme-color" content="#151d33" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f6f2e7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="{{ base }}assets/img/favicon.svg" type="image/svg+xml">
@@ -173,5 +180,30 @@
 </head>
 <body>
 {{ content | safe }}
+{%- if not senzaPiede %}
+{#- Il piede dice due cose sole, ed è tutto quello che deve dire: a
+   quali condizioni si possono usare questi testi, e come seguirli
+   senza tornare a controllare. La lente sulle poesie è un dosso; la
+   riga della licenza è il fatto giuridico, ed è quella che dà
+   appiglio se qualcuno ripubblica. -#}
+<footer class="au-piede">
+  <div class="au-piede-dentro">
+    {%- if site.licenza %}
+    <p class="au-piede-riga">
+      I testi di questo sito sono di {{ site.nome }} e si possono
+      ricondividere per intero, citando l'autore, senza scopo di lucro e
+      senza modifiche:
+      <a class="au-piede-link" href="{{ site.licenza.url }}"
+         rel="license noopener" target="_blank">{{ site.licenza.nome }}</a>.
+    </p>
+    {%- endif %}
+    <p class="au-piede-riga">
+      <a class="au-piede-link" href="{{ site.url }}/feed.xml">Feed RSS</a>
+      — per seguire Il Diavolo veste Pravda e gli articoli dal proprio
+      lettore, senza lasciare un indirizzo a nessuno.
+    </p>
+  </div>
+</footer>
+{%- endif %}
 </body>
 </html>

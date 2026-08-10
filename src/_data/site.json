@@ -51,6 +51,12 @@
     "_nota": "L'alias di FormSubmit: una stringa casuale che arriva per posta dopo la prima attivazione, e che sta al posto dell'indirizzo. Finché è vuota il modulo non compare, perché scriverci dentro l'indirizzo vero significherebbe regalarlo ai raccoglitori di spam — e al registro dei commit, che non dimentica.",
     "formsubmit": "2f70b6301c93b6f89db201df518fc682"
   },
+  "licenza": {
+    "_nota": "Le condizioni d'uso dei testi. Compaiono in fondo a ogni pagina e nel feed. Cambiare qui cambia ovunque.",
+    "nome": "CC BY-NC-ND 4.0",
+    "esteso": "Attribuzione - Non commerciale - Non opere derivate 4.0 Internazionale",
+    "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.it"
+  },
   "analisi": {
     "goatcounter": "nzetaq"
   }

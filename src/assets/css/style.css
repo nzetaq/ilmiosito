@@ -1751,6 +1751,50 @@ body {
   .au-pezzo-testo { font-size: 0.9375rem; }
 }
 
+/* ── Il piede ──
+   Deve esserci e non farsi notare: chi legge non è venuto per la
+   licenza. Sta sotto un filo, in corpo minore, nell'inchiostro più
+   sommesso che il tema abbia. */
+.au-piede {
+  border-top: 2px solid var(--filo-forte);
+  margin-top: 4rem;
+  padding: 2rem 2rem 3rem;
+}
+
+.au-piede-dentro {
+  max-width: 68.75rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 3rem;
+}
+
+.au-piede-riga {
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--bio);
+  max-width: 30rem;
+}
+
+.au-piede-link {
+  color: var(--nav);
+  text-decoration: none;
+  border-bottom: 1px solid var(--filo-forte);
+  transition: color var(--durata-uscita) var(--curva),
+              border-color var(--durata-uscita) var(--curva);
+}
+
+.au-piede-link:hover,
+.au-piede-link:focus-visible {
+  color: var(--accento);
+  border-color: var(--accento);
+}
+
+@media (max-width: 700px) {
+  .au-piede { padding: 1.5rem 1.25rem 2.5rem; margin-top: 2.5rem; }
+  .au-piede-dentro { gap: 1rem; }
+}
+
 /* Ritorno alla home dalla pagina d'errore */
 .au-ritorno {
   margin-top: 2rem;

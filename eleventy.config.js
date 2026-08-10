@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
+import { sintesi } from './strumenti/sintesi.mjs';
 
 const MESI = [
   'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
@@ -76,6 +77,28 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addFilter('dataEstesa', esteso);
 
+  /* Le prime righe di un testo, spogliate dei segni del Markdown.
+     Serve al feed e alle descrizioni delle pagine singole; la
+     lunghezza cambia secondo il posto in cui finiscono. */
+  eleventyConfig.addFilter('sintesi', (testo, limite) => sintesi(testo, limite));
+
+  /* Il momento di una voce, in millisecondi, per ordinarla fra le
+     altre. `istante` quando c'è — porta l'ora e il fuso di chi ha
+     scritto — altrimenti `data`, che è il giorno soltanto, o il mese
+     soltanto negli articoli. Quel che non si sa datare va in fondo. */
+  const quando = (voce) => {
+    const momento = Date.parse((voce && voce.data && (voce.data.istante || voce.data.data)) || '');
+    return Number.isNaN(momento) ? 0 : momento;
+  };
+
+  /* La data nella forma che i lettori di feed sanno leggere: RFC 822.
+     `toUTCString` la produce già esatta, con GMT al posto del fuso —
+     che lo standard ammette. */
+  eleventyConfig.addFilter('dataRss', (valore) => {
+    const momento = Date.parse(valore || '');
+    return Number.isNaN(momento) ? '' : new Date(momento).toUTCString();
+  });
+
   // ── Ordinamento ──
   // `campo` è una chiave del front matter; `decrescente` inverte l'ordine.
   eleventyConfig.addFilter('ordina', (voci, campo, decrescente = false) => {
@@ -95,10 +118,6 @@ export default function (eleventyConfig) {
   // sotto al precedente per puro caso. Dove c'è, `istante` scioglie il
   // pareggio — porta con sé l'ora e il fuso di chi ha scritto.
   eleventyConfig.addFilter('cronologia', (voci) => {
-    const quando = (voce) => {
-      const momento = Date.parse(voce.data.istante || voce.data.data || '');
-      return Number.isNaN(momento) ? 0 : momento;
-    };
     return [...(voci || [])].sort((a, b) => quando(b) - quando(a));
   });
 
@@ -252,6 +271,21 @@ export default function (eleventyConfig) {
       ...api.getFilteredByTag('scritti').sort((a, b) => a.data.ordine - b.data.ordine),
       ...api.getFilteredByTag('tesi')
     ].slice(0, 3);
+  });
+
+  /* Quel che si può seguire da fuori: i pezzi del Diavolo veste Pravda
+     e gli articoli usciti altrove, mescolati in un unico ordine
+     cronologico. Sono le due cose che escono a cadenza; il resto del
+     sito — poesie, tesi, appunti — si visita, non si segue.
+
+     I due tipi puntano a posti diversi, e il modello lo sa: un pezzo
+     del giornale porta alla propria pagina qui, un articolo porta alla
+     rivista che l'ha pubblicato. */
+  eleventyConfig.addCollection('seguibili', (api) => {
+    return [
+      ...api.getFilteredByTag('giornale'),
+      ...api.getFilteredByTag('articoli')
+    ].sort((a, b) => quando(b) - quando(a));
   });
 
   return {
