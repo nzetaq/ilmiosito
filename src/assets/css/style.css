@@ -280,11 +280,19 @@ a[href],
     rgba(var(--rosa), 0.13) 0 99.5%, transparent 100%);
 }
 
-/* ── Tavolozza: tema chiaro, la carta come fondo ── */
+/* ── Tavolozza: tema chiaro, lo stesso fondo alzato di luce ──
+   Non è una carta diversa: è l'inchiostro di fondo del tema scuro
+   portato dal 14% al 94% di luce, alla stessa tinta esatta — 224° in
+   entrambi. Da qui i due temi sono la stessa immagine con la luce
+   accesa e spenta, e non due mondi con due temperature.
+
+   Il fondo caldo di prima costava una cosa che qui si guadagna: sul
+   crema il testo blu prendeva una sfumatura d'ambra che non era di
+   nessuno dei due. -- */
 .theme-light {
   color-scheme: light;
 
-  --bg: #f6f2e7;
+  --bg: #eaedf5;
   --testo: rgba(var(--blu), 0.88);
 
   --titolo-forte: rgb(var(--blu));
@@ -292,8 +300,11 @@ a[href],
   --titolo: rgb(var(--blu));
   --titolo-voce: rgba(var(--blu), 0.92);
 
-  --bio: rgba(var(--blu), 0.62);
-  --descrizione: rgba(var(--blu), 0.62);
+  /* 0.64 e non 0.62: sul fondo azzurro, un gradino più scuro del
+     crema, il vecchio valore scendeva a 4.43:1 e mancava la soglia
+     per un soffio. Adesso è 4.75:1. */
+  --bio: rgba(var(--blu), 0.64);
+  --descrizione: rgba(var(--blu), 0.64);
   --estratto: rgba(var(--blu), 0.64);
   --meta: rgba(var(--blu), 0.65);
   --gp-meta: rgba(var(--blu), 0.65);
@@ -337,7 +348,7 @@ a[href],
   --toggle-bordo: rgba(var(--blu), 0.4);
   --toggle-sfondo-hover: rgb(var(--arancio));
 
-  --overlay: rgba(246, 242, 231, 0.96);
+  --overlay: rgba(234, 237, 245, 0.96);
   --citazione: rgb(var(--blu));
   --citazione-attr: rgb(var(--arancio-cupo));
   --citazione-chiudi: rgba(var(--blu), 0.45);
