@@ -204,8 +204,13 @@ export default function (eleventyConfig) {
   const SEGNAPOSTO = /lorem ipsum|dolor sit amet|consectetur adipiscing/i;
 
   // Le sezioni da cui pescare, con l'ancora a cui rimandare il lettore.
+  // `fuori` dice che il testo vero abita altrove: un articolo uscito
+  // su una rivista sta là, e mandare chi cerca alla sezione che lo
+  // elenca sarebbe un passaggio in più verso lo stesso posto. Per
+  // tutto il resto la destinazione è qui — anche per le poesie, il cui
+  // `gruppoUrl` porta alla pagina di un premio e non ai versi.
   const INDICIZZATE = [
-    { tag: 'articoli', sezione: 'articoli', etichetta: 'Articoli' },
+    { tag: 'articoli', sezione: 'articoli', etichetta: 'Articoli', fuori: true },
     // Delle poesie si indicizzano titolo e nota, mai i versi: l'indice
     // è un file pubblico e leggibile: metterceli dentro vanificherebbe
     // la finestra che li mostra solo al passaggio del puntatore.
@@ -233,7 +238,7 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addFilter('indice', (collezioni) => {
     const voci = [];
-    for (const { tag, sezione, etichetta, riservato } of INDICIZZATE) {
+    for (const { tag, sezione, etichetta, riservato, fuori } of INDICIZZATE) {
       for (const voce of collezioni[tag] || []) {
         const d = voce.data;
         const testo = riservato ? String(d.nota || '') : corpo(voce);
@@ -249,6 +254,14 @@ export default function (eleventyConfig) {
           // non ha ragione di portarsi dietro i nomi dei mesi.
           d: d.data ? esteso(d.data) : '',
           u: d.url || d.gruppoUrl || '',
+          // La pagina propria del pezzo, dove esiste: la ricerca ci
+          // manda chi cerca, invece di depositarlo in cima a una
+          // sezione lasciandogli il compito di ritrovare la voce.
+          // Vuota per le poesie, che pagina non hanno.
+          p: voce.url || '',
+          // 1 quando l'indirizzo esterno è la casa del testo, non un
+          // riferimento accanto a esso.
+          x: fuori && d.url ? 1 : 0,
           z: sezione,
           e: etichetta,
           // Come si chiama la cosa. Senza questo «hai scritto poesie?»

@@ -8,6 +8,7 @@ import { avviaPoesie } from './poesie.js';
 import { avviaAnalisi } from './analisi.js';
 import { avviaContatti } from './contatti.js';
 import { avviaMenu } from './menu.js';
+import { avviaCerca } from './cerca.js';
 
 // I moduli sono differiti per natura: il documento è già completo.
 // L'analisi si iscrive per prima, così non perde il primo annuncio.
@@ -21,3 +22,4 @@ avviaCitazioni();
 avviaArtificiosa();
 avviaPoesie();
 avviaContatti();
+avviaCerca();

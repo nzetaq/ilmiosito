@@ -29,6 +29,24 @@ reti: "https://formsubmit.co"
   </div>
 </dialog>
 
+<!-- ═══ RICERCA ═══ -->
+{#- Lo stesso indice e lo stesso ritrovamento dell'Intelligenza
+   Artificiosa, che però lo usa per scherzare. Qui risponde sul serio:
+   niente oracolo, solo i pezzi che contengono quel che si cerca. -#}
+<dialog class="au-cerca-scena" id="au-cerca-scena" aria-label="Cerca nel sito">
+  <div class="au-cerca-pannello">
+    <form class="au-cerca-riga" id="au-cerca-form" role="search">
+      <label class="au-cerca-etichetta" for="au-cerca-campo">Cerca fra gli scritti</label>
+      <input class="au-cerca-campo" id="au-cerca-campo" type="search" name="q"
+             autocomplete="off" spellcheck="false"
+             placeholder="una parola, un nome, un tema…">
+    </form>
+    <p class="au-cerca-stato" id="au-cerca-stato" role="status" aria-live="polite"></p>
+    <div class="au-cerca-esiti" id="au-cerca-esiti"></div>
+    <p class="au-cerca-chiudi">— Esc per chiudere —</p>
+  </div>
+</dialog>
+
 <!-- ═══ OROLOGIO DA TASCHINO ═══ -->
 <div class="au-corner-trigger" aria-hidden="true">
   <img class="au-pocket-watch" src="assets/img/orologio.svg" alt="" width="160" height="160">
@@ -51,7 +69,16 @@ reti: "https://formsubmit.co"
       {#- I comandi della veste. Senza JavaScript non fanno nulla e non
          compaiono: li nasconde il blocco <noscript>. -#}
       <div class="au-comandi">
-        <button class="au-theme-toggle" id="au-theme-toggle" type="button">Chiaro</button>
+        {#- La ricerca non è una sezione e non prende una linguetta: la
+           barra ne ha già otto, e la nona la spezzerebbe. È un pannello
+           che si apre sopra la pagina e si richiude senza lasciare
+           traccia — chi cerca vuole tornare dov'era, non trovarsi
+           altrove. Si apre anche col tasto «/». -#}
+        <div class="au-comandi-riga">
+          <button class="au-theme-toggle au-cerca-apri" id="au-cerca-apri" type="button"
+                  aria-haspopup="dialog">Cerca</button>
+          <button class="au-theme-toggle" id="au-theme-toggle" type="button">Chiaro</button>
+        </div>
         <div class="au-regolatori">
           {#- Quanto è grande il sito. Il 100% è il disegno originale;
              salendo cresce tutto insieme — corpi, spaziature, larghezza

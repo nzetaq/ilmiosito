@@ -488,6 +488,23 @@ body {
   min-width: 0;
 }
 
+/* I due pulsanti che aprono qualcosa — la ricerca e il tema — stanno
+   sulla stessa riga: incolonnati peserebbero il doppio in un angolo
+   che deve restare secondario rispetto al nome. Si dividono lo spazio
+   in parti uguali, così nessuno dei due comanda sull'altro. */
+.au-comandi-riga {
+  display: flex;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.au-comandi-riga > .au-theme-toggle {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 /* ── Quanto movimento ──
    La percentuale è la durata: 100% è la misura piena, 0% ferma tutto.
    Il cursore è disegnato da zero perché quello di sistema porta con sé
@@ -1749,6 +1766,166 @@ body {
   .au-pezzo-testata { margin-bottom: 2rem; }
   .au-pezzo-titolo { margin-bottom: 1.5rem; }
   .au-pezzo-testo { font-size: 0.9375rem; }
+}
+
+/* ── La ricerca ──
+   Un pannello sopra la pagina, non una sezione: si apre, si consulta,
+   si chiude, e chi cercava resta dov'era. Segue la grammatica del
+   dialogo delle citazioni, che il sito ha già. */
+.au-cerca-scena {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  border: none;
+  padding: 0;
+  color: inherit;
+  background: var(--overlay);
+  align-items: flex-start;
+  justify-content: center;
+  opacity: 0;
+  transition:
+    opacity 0.18s linear,
+    display 0.18s linear allow-discrete,
+    overlay 0.18s linear allow-discrete;
+}
+
+.au-cerca-scena[open] {
+  display: flex;
+  opacity: 1;
+}
+
+@starting-style {
+  .au-cerca-scena[open] { opacity: 0; }
+}
+
+.au-cerca-pannello {
+  width: min(42.5rem, calc(100% - 2.5rem));
+  /* In alto e non al centro: l'elenco cresce verso il basso, e un
+     pannello centrato ballerebbe a ogni lettera digitata. */
+  margin: 6vh 0 4vh;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border: 2px solid var(--filo-forte);
+  padding: 1.5rem;
+}
+
+.au-cerca-etichetta {
+  display: block;
+  font-family: var(--font-testo);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fonte);
+  margin-bottom: 0.6rem;
+}
+
+.au-cerca-campo {
+  width: 100%;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--titolo);
+  background: none;
+  border: none;
+  border-bottom: 2px solid var(--filo-forte);
+  padding: 0.4rem 0 0.6rem;
+  outline: none;
+}
+
+.au-cerca-campo:focus {
+  border-bottom-color: var(--accento);
+}
+
+.au-cerca-stato {
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--fonte);
+  margin-top: 0.9rem;
+  min-height: 1.2em;
+}
+
+.au-cerca-esiti {
+  margin-top: 0.5rem;
+  overflow-y: auto;
+  /* La striscia che scorre è l'elenco, non il pannello: il campo di
+     ricerca resta fermo sotto le dita mentre si scorrono gli esiti. */
+  min-height: 0;
+}
+
+.au-cerca-esito {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--filo);
+}
+
+.au-cerca-esito:hover,
+.au-cerca-esito:focus-visible {
+  /* Lo stesso scarto delle voci del giornale: la riga si sposta di
+     poco invece di accendersi. Un fondo pieno sotto otto risultati
+     sarebbe una scacchiera. */
+  padding-left: 0.4rem;
+}
+
+.au-cerca-esito:hover .au-cerca-esito-titolo,
+.au-cerca-esito:focus-visible .au-cerca-esito-titolo {
+  color: var(--accento);
+}
+
+.au-cerca-esito-dove {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.8rem;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fonte);
+  margin-bottom: 0.35rem;
+}
+
+.au-cerca-esito-sezione { color: var(--accento); }
+
+.au-cerca-esito-titolo {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--titolo-voce);
+  margin-bottom: 0.3rem;
+}
+
+.au-cerca-esito-brano {
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--prosa-voce);
+}
+
+.au-cerca-chiudi {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fonte);
+  text-align: center;
+  margin-top: 1rem;
+  opacity: 0.7;
+}
+
+@media (max-width: 700px) {
+  .au-cerca-pannello {
+    margin: 3vh 0;
+    max-height: 94vh;
+    padding: 1.1rem;
+  }
+  /* Sedici pixel: sotto quella misura iOS ingrandisce la pagina da sé
+     appena il campo prende il fuoco, e non la rimpicciolisce più. */
+  .au-cerca-campo { font-size: 1rem; }
 }
 
 /* ── Il piede ──
