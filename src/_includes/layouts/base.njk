@@ -128,6 +128,29 @@
   <meta property="og:locale" content="it_IT">
   <meta name="twitter:card" content="summary">
 
+  {#- I due disegni del puntatore, chiesti in anticipo.
+     Senza, il browser li scarica solo nell'istante in cui servono — e
+     fino ad allora disegna il ripiego di sistema. Il risultato è che
+     entrando nella pagina si vede ancora la freccia del computer, e
+     quella del sito compare più tardi, al primo movimento che cambia
+     l'elemento sotto il puntatore: un clic, o il passaggio su un
+     collegamento. Non è un ritardo di rete che si possa aspettare, è
+     che il cursore viene ridisegnato solo quando c'è motivo di
+     ridisegnarlo.
+
+     Le condizioni sono le stesse del foglio di stile: dove il
+     puntatore disegnato non varrebbe, i file non vengono nemmeno
+     chiesti. Ogni schermo scarica solo la risoluzione che userà. -#}
+  {%- set finestraFine = '(pointer: fine) and (prefers-contrast: no-preference)' %}
+  <link rel="preload" as="image" href="{{ base }}assets/img/cursore.svg"
+        media="{{ finestraFine }} and (max-resolution: 1.9dppx)">
+  <link rel="preload" as="image" href="{{ base }}assets/img/mano.svg"
+        media="{{ finestraFine }} and (max-resolution: 1.9dppx)">
+  <link rel="preload" as="image" href="{{ base }}assets/img/cursore-2x.svg"
+        media="{{ finestraFine }} and (min-resolution: 2dppx)">
+  <link rel="preload" as="image" href="{{ base }}assets/img/mano-2x.svg"
+        media="{{ finestraFine }} and (min-resolution: 2dppx)">
+
   {#- Perché il lettore di feed lo trovi da sé: chi incolla
      l'indirizzo del sito nel proprio lettore, senza sapere che esiste
      un /feed.xml, viene comunque iscritto. -#}
