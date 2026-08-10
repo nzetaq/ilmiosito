@@ -105,7 +105,12 @@
     connect-src 'self'{% if site.analisi.goatcounter %} https://{{ site.analisi.goatcounter }}.goatcounter.com{% endif %}{% if reti %} {{ reti }}{% endif %};
   ">
 
-  <title>{{ titolo or site.titolo }}</title>
+  {#- Il titolo della scheda porta anche il nome del sito: una pagina
+     singola arriva spesso da fuori, e «Le vere scienze sono quelle
+     umanistiche» da solo non dice a chi appartiene. Nell'anteprima
+     social invece resta il solo titolo del pezzo, dove il nome del
+     sito compare già per conto suo. -#}
+  <title>{{ titoloPagina or titolo or site.titolo }}</title>
   <meta name="description" content="{{ descrizione or site.descrizione }}">
   {%- if noindex %}
   <meta name="robots" content="noindex">
@@ -113,7 +118,9 @@
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   {%- endif %}
 
-  <meta property="og:type" content="website">
+  {#- `article` e non `website` per i singoli pezzi: è la differenza fra
+     un sito e uno scritto, e le anteprime la usano. -#}
+  <meta property="og:type" content="{{ tipoOg or 'website' }}">
   <meta property="og:site_name" content="{{ site.titolo }}">
   <meta property="og:title" content="{{ titolo or site.titolo }}">
   <meta property="og:description" content="{{ descrizione or site.descrizione }}">

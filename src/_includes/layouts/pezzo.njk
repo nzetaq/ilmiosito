@@ -1,0 +1,44 @@
+---
+layout: layouts/base.njk
+---
+{#- La pagina di un singolo pezzo: quella che si manda a qualcuno.
+   Non è una copia della home con dentro un solo articolo — è più
+   spoglia apposta. Chi arriva qui ci arriva per leggere una cosa
+   precisa, e ha già in testa il titolo. -#}
+{%- set sez = site.sezioni | trovaSezione(sezione) -%}
+<div class="au-wrap">
+  <div class="au-center">
+
+    <nav class="au-pezzo-testata" aria-label="Ritorno al sito">
+      <a class="au-pezzo-marchio" href="{{ site.url }}/">{{ site.nome }}</a>
+      <a class="au-pezzo-ritorno" href="{{ site.url }}/#{{ sezione }}">{{ sez.titolo or sez.etichetta }} →</a>
+    </nav>
+
+    <article class="au-pezzo" id="contenuto">
+      {%- if data %}
+      <p class="au-pezzo-data">{{ data | dataEstesa }}</p>
+      {%- elif tipo %}
+      <p class="au-pezzo-data">{{ tipo }}</p>
+      {%- endif %}
+
+      <h1 class="au-pezzo-titolo">{{ titolo }}</h1>
+
+      {#- `au-gp-text` è la stessa prosa della colonna del giornale:
+         il Markdown reso qui deve leggersi come si legge là. -#}
+      <div class="au-pezzo-testo au-gp-text">{{ content | safe }}</div>
+
+      {%- if gruppoUrl %}
+      <p class="au-pezzo-fuori">
+        <a class="au-link" href="{{ gruppoUrl }}" target="_blank" rel="noopener">
+          {{ gruppoLinkTesto or 'Il testo completo →' }}
+        </a>
+      </p>
+      {%- endif %}
+    </article>
+
+    <p class="au-pezzo-coda">
+      <a class="au-link" href="{{ site.url }}/#{{ sezione }}">← Tutti i pezzi in «{{ sez.titolo or sez.etichetta }}»</a>
+    </p>
+
+  </div>
+</div>

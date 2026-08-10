@@ -2,9 +2,39 @@
 permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
 ---
+{#- La mappa per i motori di ricerca. Prima conteneva un indirizzo
+   solo, perché il sito era un indirizzo solo: diciotto scritti dentro
+   una pagina, che a un motore appaiono come un documento unico che
+   parla di tutto. Ora ogni pezzo che ha una pagina propria compare
+   qui, e può essere trovato per quello che dice.
+
+   Le poesie restano fuori di proposito: non hanno una pagina propria,
+   perché darne una significherebbe metterne i versi in chiaro, e la
+   lente sui titoli esiste apposta per evitarlo. -#}
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>{{ site.url }}/</loc>
   </url>
+{%- for voce in collections.giornale | cronologia %}
+  <url>
+    <loc>{{ site.url }}{{ voce.url }}</loc>
+    {%- if voce.data.data %}
+    <lastmod>{{ voce.data.data }}</lastmod>
+    {%- endif %}
+  </url>
+{%- endfor %}
+{%- for voce in collections.appunti | cronologia %}
+  <url>
+    <loc>{{ site.url }}{{ voce.url }}</loc>
+    {%- if voce.data.data %}
+    <lastmod>{{ voce.data.data }}</lastmod>
+    {%- endif %}
+  </url>
+{%- endfor %}
+{%- for voce in collections.tesi %}
+  <url>
+    <loc>{{ site.url }}{{ voce.url }}</loc>
+  </url>
+{%- endfor %}
 </urlset>

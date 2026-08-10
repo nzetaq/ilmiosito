@@ -266,7 +266,9 @@ reti: "https://formsubmit.co"
           <span class="au-poem-date">{{ voce.data.data | dataEstesa }}</span>
           {%- endif %}
         </div>
-        <h3 class="au-poem-title">{{ voce.data.titolo }}</h3>
+        <h3 class="au-poem-title">
+          <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
+        </h3>
         <div class="au-poem-excerpt">{{ voce.templateContent | safe }}</div>
         {%- if voce.data.url %}
         <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
@@ -278,10 +280,15 @@ reti: "https://formsubmit.co"
 
     <!-- ═══ GIORNALE ═══ -->
     <section class="au-section" id="sec-giornale" aria-label="Il Diavolo veste Pravda">
+      {#- Il titolo porta alla pagina propria del pezzo. Il testo resta
+         qui per intero: la sezione si legge come si è sempre letta, e
+         l'indirizzo serve a chi vuole mandarlo a qualcuno. -#}
       {%- for voce in giornale %}
       <article class="au-giornale-entry">
         <p class="au-giornale-entry-date">{{ voce.data.data | dataEstesa }}</p>
-        <h2 class="au-giornale-entry-title">{{ voce.data.titolo }}</h2>
+        <h2 class="au-giornale-entry-title">
+          <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
+        </h2>
         <div class="au-giornale-entry-text">{{ voce.templateContent | safe }}</div>
       </article>
       {%- endfor %}
@@ -292,7 +299,9 @@ reti: "https://formsubmit.co"
       {%- for voce in appunti %}
       <article class="au-giornale-entry">
         <p class="au-giornale-entry-date">{{ voce.data.data | dataEstesa }}</p>
-        <h2 class="au-giornale-entry-title">{{ voce.data.titolo }}</h2>
+        <h2 class="au-giornale-entry-title">
+          <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
+        </h2>
         <div class="au-giornale-entry-text">{{ voce.templateContent | safe }}</div>
       </article>
       {%- endfor %}

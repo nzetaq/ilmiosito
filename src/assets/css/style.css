@@ -1614,6 +1614,22 @@ body {
   letter-spacing: -0.015em;
 }
 
+/* Il titolo porta alla pagina propria del pezzo, ma non deve
+   annunciarsi come un collegamento: sottolineato e colorato
+   spezzerebbe la colonna in una fila di richiami. Prende l'inchiostro
+   del titolo e si scopre solo al passaggio del puntatore — chi non usa
+   il puntatore lo trova comunque, perché resta un <a> nel documento. */
+.au-giornale-entry-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--durata-uscita) var(--curva);
+}
+
+.au-giornale-entry-link:hover,
+.au-giornale-entry-link:focus-visible {
+  color: var(--accento);
+}
+
 .au-giornale-entry-text {
   margin-top: 0.9rem;
   font-size: 0.875rem;
@@ -1637,6 +1653,102 @@ body {
 .au-home-desc p:last-child,
 .au-poem-excerpt p:last-child {
   margin-bottom: 0;
+}
+
+/* ── La pagina di un singolo pezzo ──
+   Il contrario della home: nessuna sezione, nessun regolatore, nessun
+   indice. Chi arriva qui ha in mano un indirizzo preciso e vuole
+   leggere una cosa sola. La misura della colonna è quella della prosa
+   del sito, non quella della griglia. */
+.au-pezzo-testata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--filo-forte);
+  margin-bottom: 3rem;
+}
+
+.au-pezzo-marchio {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--titolo);
+  text-decoration: none;
+}
+
+.au-pezzo-ritorno {
+  font-family: var(--font-testo);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--nav);
+  text-decoration: none;
+  transition: color var(--durata-uscita) var(--curva);
+}
+
+.au-pezzo-marchio:hover,
+.au-pezzo-ritorno:hover,
+.au-pezzo-marchio:focus-visible,
+.au-pezzo-ritorno:focus-visible {
+  color: var(--accento);
+}
+
+.au-pezzo {
+  max-width: 42.5rem;
+}
+
+.au-pezzo-data {
+  font-family: var(--font-testo);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fonte);
+  margin-bottom: 0.6rem;
+}
+
+.au-pezzo-titolo {
+  font-family: var(--font-display);
+  /* Più grande del titolo di sezione: qui è l'unica cosa in pagina, e
+     deve reggere da solo il peso che nella home si divide con tutto
+     il resto. */
+  font-size: clamp(1.5rem, calc(3vw * var(--scala)), 2.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--titolo);
+  margin-bottom: 2rem;
+}
+
+.au-pezzo-testo {
+  /* Un corpo più generoso di quello della sezione: là il testo divide
+     lo spazio con una colonna e un indice, qui no. */
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--prosa);
+}
+
+.au-pezzo-fuori {
+  margin-top: 2rem;
+}
+
+.au-pezzo-coda {
+  max-width: 42.5rem;
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--filo);
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 700px) {
+  .au-pezzo-testata { margin-bottom: 2rem; }
+  .au-pezzo-titolo { margin-bottom: 1.5rem; }
+  .au-pezzo-testo { font-size: 0.9375rem; }
 }
 
 /* Ritorno alla home dalla pagina d'errore */

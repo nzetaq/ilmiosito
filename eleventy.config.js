@@ -150,6 +150,14 @@ export default function (eleventyConfig) {
     return fonti;
   });
 
+  // La sezione a cui un pezzo appartiene, cercata per identificativo:
+  // serve alle pagine singole per intitolare il collegamento di
+  // ritorno con il nome giusto — «Il Diavolo veste Pravda» e non
+  // «giornale». Il nome resta scritto in un posto solo, site.json.
+  eleventyConfig.addFilter('trovaSezione', (sezioni, id) => {
+    return (sezioni || []).find((s) => s.id === id) || {};
+  });
+
   // ── Testo di una poesia ──
   // Si legge il Markdown sorgente e non l'HTML reso, perché in una
   // poesia l'andare a capo è parte del testo: il Markdown unirebbe le
