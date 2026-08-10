@@ -306,11 +306,6 @@ reti: "https://formsubmit.co"
     <!-- ═══ CONTATTI ═══ -->
     <section class="au-section" id="sec-contatti" aria-label="Contatti">
       {%- if site.contatti.formsubmit %}
-      <p class="au-contatti-intro">
-        Per scrivermi. Il messaggio arriva per posta: non resta su questo sito,
-        che non ha un archivio dove metterlo.
-      </p>
-
       {#- L'indirizzo di destinazione non compare da nessuna parte: al suo
          posto c'è un alias di FormSubmit, una stringa casuale che non lo
          rivela. `form-action` nella policy ammette solo questa
@@ -355,11 +350,6 @@ reti: "https://formsubmit.co"
           <p class="au-contatti-esito" id="au-contatti-esito" role="status" aria-live="polite" hidden></p>
         </div>
       </form>
-
-      <p class="au-contatti-nota">
-        Premendo «Invia» il messaggio passa da FormSubmit, che lo inoltra e non
-        lo conserva. Nome, indirizzo e testo sono l'unica cosa che viene mandata.
-      </p>
       {%- else %}
       <p class="au-contatti-intro">
         Questa sezione è pronta ma non ancora attiva: manca l'alias del servizio
