@@ -1,0 +1,31 @@
+{
+  "giorno": "2026-08-10",
+  "visite": 1,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/ · home",
+      "titolo": "NZQ — Home",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "paesi": [
+    {
+      "nome": "Italy",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "provenienze": [
+    {
+      "nome": "",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "browser": [],
+  "sistemi": []
+}
