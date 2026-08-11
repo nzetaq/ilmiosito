@@ -632,6 +632,13 @@ export function avviaScrivi() {
      salvataggio — una bozza pubblicata sparisce, un pezzo pubblicato
      si sovrascrive dov'è. */
   async function apriElenco(pubblicati) {
+    // Senza chiave non c'è nulla da elencare. Il modulo è nascosto
+    // finché non si entra, quindi non dovrebbe accadere — ma un errore
+    // grezzo del motore, se accadesse, non direbbe niente a nessuno.
+    if (!sportello) {
+      annuncia('Serve la chiave.', 'guaio');
+      return;
+    }
     const g = gruppo();
     const elenco = el('au-bozze-voci');
     elenco.textContent = '';

@@ -288,26 +288,60 @@
 }
 
 .au-scrivi-elenco {
+  /* `margin: auto` è ciò con cui il browser centra un dialogo modale.
+     L'azzeramento in cima al foglio principale — `* { margin: 0 }` —
+     lo cancellava, e la finestra finiva nell'angolo in alto a sinistra.
+     Rimetterlo qui la riporta al centro, in orizzontale e in verticale. */
+  margin: auto;
+  width: min(34rem, calc(100vw - 3rem));
+  /* Un elenco lungo non deve allungare la finestra oltre lo schermo:
+     cresce fino a qui, poi scorre al proprio interno. */
+  max-height: min(70vh, 34rem);
   background: var(--bg);
   color: var(--testo);
-  border: 1px solid var(--accento);
-  padding: 1.5rem;
-  max-width: 90vw;
+  border: 2px solid var(--accento);
+  /* L'ombra stacca la finestra dal fondo velato. */
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  padding: 1.75rem;
 }
 
+.au-scrivi-elenco[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Una velatura e non una copertura: `--overlay` sta al 96% ed è fatto
+   per nascondere del tutto la pagina dietro la citazione a sorpresa.
+   Qui invece si sta scegliendo un file, e vedere in trasparenza da
+   dove si è venuti aiuta. Nero e non il colore del tema: un velo è
+   un'ombra, e le ombre sono scure in tutte le vesti. */
 .au-scrivi-elenco::backdrop {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.55);
 }
 
 .au-scrivi-bozze {
   list-style: none;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
+  overflow-y: auto;
+  /* Senza, in colonna flessibile la lista si rifiuta di scendere sotto
+     la propria altezza naturale e lo scorrimento non parte mai. */
+  min-height: 0;
+  flex: 1 1 auto;
 }
 
 .au-scrivi-bozze li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   font-size: 0.8125rem;
   color: var(--bio);
+}
+
+/* Ogni file è una riga intera da toccare, non un bottoncino: i nomi
+   sono lunghi e si somigliano, e mirare al bersaglio giusto in un
+   elenco di venti è metà del lavoro. */
+.au-scrivi-bozze .au-scrivi-bottone {
+  display: block;
+  width: 100%;
+  text-align: left;
 }
 
 @media (max-width: 700px) {
