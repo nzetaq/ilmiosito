@@ -52,6 +52,7 @@ modulo: "scrivi"
         {%- endif %}{% endfor %}
       </select>
       <button class="au-scrivi-bottone au-scrivi-bottone--muto" id="au-bozze" type="button">Riprendi una bozza</button>
+      <button class="au-scrivi-bottone au-scrivi-bottone--muto" id="au-pubblicati" type="button">Modifica un pezzo pubblicato</button>
     </div>
 
     {#- Un gruppo di campi per sezione, generati dallo schema in
@@ -105,6 +106,17 @@ modulo: "scrivi"
       <button class="au-scrivi-bottone au-scrivi-bottone--muto" id="au-nuovo" type="button" hidden>Comincia un altro</button>
     </div>
 
+    {#- Compare solo riaprendo un pezzo pubblicato, e solo se il titolo
+       è cambiato al punto da cambiarne l'indirizzo. Spuntarla sposta
+       il file; lasciarla ferma tiene l'indirizzo di prima, che è la
+       cosa che i collegamenti altrui si aspettano di trovare. -#}
+    <div class="au-scrivi-sposta" id="au-sposta-riga" hidden>
+      <label class="au-scrivi-sposta-etichetta">
+        <input type="checkbox" id="au-sposta">
+        <span id="au-sposta-testo"></span>
+      </label>
+    </div>
+
     {#- L'esito sta qui e non in cima alla pagina. Ci stava, e non si
        vedeva: fra la riga di stato e questi pulsanti ci sono più di
        mille pixel, quindi la conferma arrivava fuori dallo schermo di
@@ -119,8 +131,11 @@ modulo: "scrivi"
     <div class="au-scrivi-resa" id="au-anteprima"></div>
   </section>
 
+  {#- Un solo elenco per due usi — le bozze e i pezzi pubblicati —
+     perché sono lo stesso gesto: scegliere un file e riaprirlo. Cambia
+     il titolo, cambia la cartella da cui si legge. -#}
   <dialog class="au-scrivi-elenco" id="au-elenco-bozze">
-    <h2 class="au-scrivi-sezione-titolo">Bozze</h2>
+    <h2 class="au-scrivi-sezione-titolo" id="au-elenco-titolo">Bozze</h2>
     <ul class="au-scrivi-bozze" id="au-bozze-voci"></ul>
     <button class="au-scrivi-bottone au-scrivi-bottone--muto" id="au-chiudi-bozze" type="button">Chiudi</button>
   </dialog>

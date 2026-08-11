@@ -255,6 +255,19 @@ la pagina scrive i file da sé e l'azione di pubblicazione fa il resto.
 - **Salva come bozza** scrive in `bozze/<sezione>/`, che Eleventy non legge:
   resta nel repository senza andare in linea. «Riprendi una bozza» la
   ricarica nel modulo, e pubblicandola la bozza viene rimossa.
+- **«Modifica un pezzo pubblicato»** riapre nel modulo un pezzo già in linea.
+  Il pulsante diventa «Aggiorna il pezzo» e il file viene sovrascritto
+  **dov'è**: l'indirizzo pubblico non cambia neanche cambiando il titolo,
+  perché è quello che i collegamenti altrui si aspettano di trovare. Se il
+  titolo cambia al punto da cambiare l'indirizzo, compare una casella che
+  permette di spostarlo davvero — scritto per esteso cosa comporta.
+
+  Riaprendo un file, i campi del front matter che il modulo non mostra
+  vengono messi da parte e riscritti tali e quali. Serve soprattutto a
+  `istante`: senza, correggere una virgola a un pezzo di mesi fa lo
+  rimetterebbe in cima. L'unica eccezione è l'istante stesso quando la data
+  cambia — allora viene rifatto, perché è l'istante a sciogliere i pari
+  merito fra pezzi dello stesso giorno.
 
 A deposito riuscito il pulsante **si spegne** e cambia etichetta in
 «Pubblicato ✓» o «Bozza salvata ✓», e la conferma compare **accanto ai

@@ -306,7 +306,15 @@ export function avviaScrivi() {
   if (!modulo || !scelta) return;
 
   let sportello = null;
-  let bozzaAperta = null;   // { percorso, sha } quando si sta riprendendo una bozza
+  /* Il file che si sta riprendendo, se ce n'è uno. Due specie, e la
+     differenza conta:
+       una BOZZA, pubblicandola, va rimossa — resterebbe un doppione;
+       un PUBBLICATO, risalvandolo, va sovrascritto dov'è.
+     `extra` porta i campi del front matter che il modulo non mostra —
+     `istante` sopra tutti. Senza, riaprire un pezzo del giornale e
+     risalvarlo gli darebbe l'ora di adesso, e il pezzo salterebbe in
+     cima all'elenco come se fosse appena uscito. */
+  let aperto = null;   // { percorso, sha, pubblicato, extra }
 
   function annuncia(testo, tipo = '') {
     stato.textContent = testo;
@@ -354,7 +362,10 @@ export function avviaScrivi() {
       ingresso.value = ingresso.dataset.predefinito || '';
       delete ingresso.dataset.toccato;
     }
-    bozzaAperta = null;
+    aperto = null;
+    el('au-sposta-riga').hidden = true;
+    el('au-sposta').checked = false;
+    el('au-pubblica').textContent = 'Pubblica';
     riabilita();
     preimposta(g);
     aggiornaPercorso();
@@ -472,7 +483,9 @@ export function avviaScrivi() {
     for (const g of document.querySelectorAll('.au-scrivi-gruppo')) {
       g.hidden = g.dataset.sez !== scelta.value;
     }
-    bozzaAperta = null;
+    aperto = null;
+    el('au-sposta-riga').hidden = true;
+    el('au-sposta').checked = false;
     el('au-pubblica').textContent = 'Pubblica';
     el('au-bozza').textContent = 'Salva come bozza';
     riabilita();
@@ -513,6 +526,25 @@ export function avviaScrivi() {
     }
 
     const { campi, corpo } = raccogli(g);
+
+    /* I campi che il modulo non mostra tornano nel file come erano.
+       Vale soprattutto per `istante`: riscriverlo a ogni salvataggio
+       farebbe risalire in cima all'elenco un pezzo di mesi fa, appena
+       gli si corregge una virgola.
+
+       Con un'eccezione: l'istante deve seguire la data. Se qualcuno
+       ridata un pezzo, tenergli l'istante vecchio lo farebbe finire
+       sotto a tutti quelli del giorno nuovo — perché è proprio
+       l'istante a sciogliere i pari merito. */
+    if (aperto && aperto.extra) {
+      const giorno = (campi.find((c) => c[0] === 'data') || [, ''])[1];
+      for (const [nome, valore] of Object.entries(aperto.extra)) {
+        if (campi.some((c) => c[0] === nome)) continue;
+        if (nome === 'istante' && giorno && !String(valore).startsWith(giorno)) continue;
+        campi.push([nome, valore, 'testo']);
+      }
+    }
+
     // Nelle sezioni ordinate per data si annota anche l'istante: è
     // l'unica cosa che distingue due pezzi dello stesso giorno.
     if (g.dataset.cronologico === '1' && !campi.some((c) => c[0] === 'istante')) {
@@ -525,7 +557,16 @@ export function avviaScrivi() {
       return;
     }
 
-    const percorso = percorsoDi(g, dentroBozze);
+    /* Dove va a finire. Un pezzo già pubblicato resta al proprio
+       indirizzo anche se il titolo è cambiato: quell'indirizzo è ciò
+       che i collegamenti altrui si aspettano di trovare, e cambiarlo
+       di nascosto li romperebbe tutti. Si sposta solo su richiesta
+       esplicita, con la casella qui sotto ai pulsanti. */
+    const calcolato = percorsoDi(g, dentroBozze);
+    const sposta = el('au-sposta').checked;
+    const percorso = (aperto && aperto.pubblicato && !dentroBozze && !sposta)
+      ? aperto.percorso
+      : calcolato;
     annuncia('Deposito…');
 
     const pulsante = el(dentroBozze ? 'au-bozza' : 'au-pubblica');
@@ -548,9 +589,20 @@ export function avviaScrivi() {
 
       // Pubblicando una bozza, la bozza sparisce: altrimenti resterebbe
       // un doppione che invecchia.
-      if (!dentroBozze && bozzaAperta) {
-        await sportello.cancella(bozzaAperta.percorso, bozzaAperta.sha, 'Bozza pubblicata');
-        bozzaAperta = null;
+      if (!dentroBozze && aperto && !aperto.pubblicato) {
+        await sportello.cancella(aperto.percorso, aperto.sha, 'Bozza pubblicata');
+        aperto = null;
+      } else if (!dentroBozze && aperto && aperto.pubblicato && percorso !== aperto.percorso) {
+        // Spostato per scelta: il file vecchio va tolto, altrimenti il
+        // pezzo comparirebbe due volte nel sito.
+        await sportello.cancella(aperto.percorso, aperto.sha, 'Spostato in ' + percorso);
+        aperto = { ...aperto, percorso, sha: (scritto && scritto.content && scritto.content.sha) || null };
+        el('au-sposta').checked = false;
+        el('au-sposta-riga').hidden = true;
+      } else if (!dentroBozze && aperto && aperto.pubblicato) {
+        // Risalvato dov'era: serve il nuovo sha per un eventuale
+        // salvataggio successivo senza ricaricare la pagina.
+        aperto = { ...aperto, sha: (scritto && scritto.content && scritto.content.sha) || null };
       }
 
       const dove = scritto && scritto.content && scritto.content.html_url;
@@ -573,22 +625,37 @@ export function avviaScrivi() {
     }
   }
 
-  /* ── Bozze ── */
-  async function apriBozze() {
+  /* ── Riaprire ──
+     Le bozze e i pezzi pubblicati si riaprono con lo stesso gesto: si
+     sceglie un file da un elenco e i suoi campi tornano nel modulo.
+     Cambia la cartella da cui si legge, e cambia cosa succede al
+     salvataggio — una bozza pubblicata sparisce, un pezzo pubblicato
+     si sovrascrive dov'è. */
+  async function apriElenco(pubblicati) {
     const g = gruppo();
     const elenco = el('au-bozze-voci');
     elenco.textContent = '';
+    el('au-elenco-titolo').textContent = pubblicati ? 'Pezzi pubblicati' : 'Bozze';
+
+    const radice = pubblicati ? RADICE_CONTENUTI : RADICE_BOZZE;
     let voci = null;
     try {
-      voci = await sportello.elenca(`${RADICE_BOZZE}/${g.dataset.cartella}`);
+      voci = await sportello.elenca(`${radice}/${g.dataset.cartella}`);
     } catch (e) {
       annuncia(e.message, 'guaio');
       return;
     }
+
     const file = Array.isArray(voci) ? voci.filter((v) => v.name.endsWith('.md')) : [];
+    // Dal più recente: nelle sezioni datate il nome del file comincia
+    // con la data, e ciò che si vuole ritoccare è quasi sempre l'ultimo.
+    file.sort((a, b) => b.name.localeCompare(a.name));
+
     if (!file.length) {
       const vuoto = document.createElement('li');
-      vuoto.textContent = 'Nessuna bozza in questa sezione.';
+      vuoto.textContent = pubblicati
+        ? 'Nessun pezzo pubblicato in questa sezione.'
+        : 'Nessuna bozza in questa sezione.';
       elenco.appendChild(vuoto);
     }
     for (const v of file) {
@@ -597,28 +664,65 @@ export function avviaScrivi() {
       b.type = 'button';
       b.className = 'au-scrivi-bottone au-scrivi-bottone--muto';
       b.textContent = v.name;
-      b.addEventListener('click', () => caricaBozza(v.path));
+      b.addEventListener('click', () => carica(v.path, pubblicati));
       riga.appendChild(b);
       elenco.appendChild(riga);
     }
     el('au-elenco-bozze').showModal();
   }
 
-  async function caricaBozza(percorso) {
+  /* Quando il titolo di un pezzo pubblicato cambia al punto da
+     cambiarne l'indirizzo, non si decide da soli: si mostra la casella
+     e si dice cosa comporta spuntarla. */
+  function controllaIndirizzo() {
+    const riga = el('au-sposta-riga');
+    if (!aperto || !aperto.pubblicato) {
+      riga.hidden = true;
+      return;
+    }
+    const calcolato = percorsoDi(gruppo(), false);
+    if (!calcolato || calcolato === aperto.percorso) {
+      riga.hidden = true;
+      el('au-sposta').checked = false;
+      return;
+    }
+    el('au-sposta-testo').textContent =
+      `Sposta anche il file: da ${aperto.percorso} a ${calcolato}. ` +
+      'L\'indirizzo pubblico del pezzo cambia, e i collegamenti al vecchio si rompono.';
+    riga.hidden = false;
+  }
+
+  async function carica(percorso, pubblicato) {
     try {
       const file = await sportello.leggi(percorso);
       const pezzi = scomponiFile(daBase64(file.content));
-      if (!pezzi) throw new Error('La bozza non ha un front matter leggibile.');
+      if (!pezzi) throw new Error('Il file non ha un front matter leggibile.');
+
       const g = gruppo();
+      const mostrati = new Set(campiDi(g).map((i) => i.dataset.campo));
       for (const ingresso of campiDi(g)) {
         const nome = ingresso.dataset.campo;
         ingresso.value = nome === 'corpo' ? pezzi.corpo : (pezzi.valori[nome] || '');
+        delete ingresso.dataset.automatico;
       }
-      bozzaAperta = { percorso, sha: file.sha };
+
+      // Tutto ciò che il modulo non sa mostrare viene messo da parte e
+      // riscritto tale e quale al salvataggio.
+      const extra = {};
+      for (const [nome, valore] of Object.entries(pezzi.valori)) {
+        if (!mostrati.has(nome)) extra[nome] = valore;
+      }
+
+      aperto = { percorso, sha: file.sha, pubblicato, extra };
       el('au-elenco-bozze').close();
+      el('au-pubblica').textContent = pubblicato ? 'Aggiorna il pezzo' : 'Pubblica';
+      riabilita();
       aggiornaPercorso();
       aggiornaAnteprima();
-      annuncia(`Bozza ripresa da ${percorso}. Pubblicandola, la bozza viene rimossa.`);
+      controllaIndirizzo();
+      annuncia(pubblicato
+        ? `Pezzo ripreso da ${percorso}. Salvando, si sovrascrive lì: l'indirizzo pubblico non cambia.`
+        : `Bozza ripresa da ${percorso}. Pubblicandola, la bozza viene rimossa.`);
     } catch (e) {
       annuncia(e.message, 'guaio');
     }
@@ -658,8 +762,9 @@ export function avviaScrivi() {
 
   scelta.addEventListener('change', mostraGruppo);
   el('au-pubblica').addEventListener('click', () => deposita(false));
+  el('au-pubblicati').addEventListener('click', () => apriElenco(true));
   el('au-bozza').addEventListener('click', () => deposita(true));
-  el('au-bozze').addEventListener('click', apriBozze);
+  el('au-bozze').addEventListener('click', () => apriElenco(false));
   el('au-chiudi-bozze').addEventListener('click', () => el('au-elenco-bozze').close());
 
   el('au-nuovo').addEventListener('click', () => {
@@ -674,7 +779,8 @@ export function avviaScrivi() {
 
     // Prima modifica dopo un deposito: i pulsanti tornano validi.
     if (el('au-pubblica').disabled || el('au-bozza').disabled) {
-      el('au-pubblica').textContent = 'Pubblica';
+      el('au-pubblica').textContent =
+        aperto && aperto.pubblicato ? 'Aggiorna il pezzo' : 'Pubblica';
       el('au-bozza').textContent = 'Salva come bozza';
       riabilita();
     }
@@ -686,7 +792,12 @@ export function avviaScrivi() {
         altro.value = inSegnatura(ingresso.value);
       }
     }
-    if (ingresso.dataset.derivaDa === undefined && ingresso.dataset.campo !== 'corpo') aggiornaPercorso();
+    if (ingresso.dataset.derivaDa === undefined && ingresso.dataset.campo !== 'corpo') {
+      aggiornaPercorso();
+      // Il titolo può aver cambiato l'indirizzo che il pezzo avrebbe:
+      // la casella per spostarlo compare o sparisce di conseguenza.
+      controllaIndirizzo();
+    }
     if (ingresso.dataset.campo === 'corpo') aggiornaAnteprima();
     if (ingresso.dataset.derivaDa) ingresso.dataset.toccato = '1';
     delete ingresso.dataset.automatico;
