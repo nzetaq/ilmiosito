@@ -1,59 +1,75 @@
-const CHIAVE = 'au-tema';
-// La chiave di quando i temi erano due e si diceva «chiaro» o «scuro».
-// Chi l'ha lasciata nel proprio browser non deve ritrovarsi il sito
-// cambiato sotto gli occhi al primo ritorno.
-const CHIAVE_VECCHIA = 'au-theme';
-const PREDEFINITO = 'notte';
-
 /**
- * La scelta del tema, fra tre.
+ * La veste: lo stile e il modo.
  *
- * Il tema è già applicato a <html> dallo script del <head>, prima del
- * primo disegno: qui si allineano i pulsanti e si registra la scelta.
+ * Due scelte indipendenti — quali inchiostri, quanta luce — che il
+ * foglio di stile combina in nove tavolozze. Qui si registrano su
+ * <html> e nella memoria del browser; il resto lo fa il CSS.
  *
- * Tre e non un interruttore che gira in tondo: con tre stati, premere
- * per vedere cosa capita è un modo di scegliere che si stanca presto.
+ * Sono già applicate dallo script del <head>, prima del primo disegno:
+ * questo modulo allinea i pulsanti e raccoglie i clic.
  */
-export function avviaTema() {
-  const gruppo = document.querySelector('.au-temi');
-  if (!gruppo) return;
 
-  const radice = document.documentElement;
-  const pulsanti = [...gruppo.querySelectorAll('.au-tema')];
-  const validi = pulsanti.map((p) => p.dataset.tema);
+const ASSI = [
+  { chiave: 'au-stile', attributo: 'data-stile', gruppo: '.au-stili', voce: '.au-stile' },
+  { chiave: 'au-tema', attributo: 'data-tema', gruppo: '.au-temi', voce: '.au-tema' }
+];
+
+/* La barra del browser sul telefono prende il colore del fondo. Non è
+   scritto in nessuna tabella: si chiede al foglio di stile quale fondo
+   sia in vigore, così nove combinazioni non diventano nove valori da
+   tenere allineati a mano. */
+function tingiLaBarra() {
   const barra = document.getElementById('au-colore-barra');
+  if (!barra) return;
+  const fondo = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+  if (fondo) barra.setAttribute('content', fondo);
+}
 
-  const allinea = () => {
-    const corrente = radice.getAttribute('data-tema') || PREDEFINITO;
-    for (const p of pulsanti) {
-      p.setAttribute('aria-pressed', String(p.dataset.tema === corrente));
-    }
-    // La barra del browser sul telefono prende il colore del fondo:
-    // senza, resterebbe quella del tema di partenza sopra un sito che
-    // nel frattempo è diventato un altro.
-    const scelto = pulsanti.find((p) => p.dataset.tema === corrente);
-    if (barra && scelto && scelto.dataset.barra) barra.setAttribute('content', scelto.dataset.barra);
-  };
+export function avviaTema() {
+  const radice = document.documentElement;
+  let trovato = false;
 
-  allinea();
+  for (const asse of ASSI) {
+    const gruppo = document.querySelector(asse.gruppo);
+    if (!gruppo) continue;
+    trovato = true;
 
-  gruppo.addEventListener('click', (evento) => {
-    const pulsante = evento.target.closest('.au-tema');
-    if (!pulsante) return;
-    const scelto = pulsante.dataset.tema;
-    if (validi.indexOf(scelto) === -1) return;
+    const pulsanti = [...gruppo.querySelectorAll(asse.voce)];
+    const validi = pulsanti.map((p) => p.dataset.valore);
 
-    radice.setAttribute('data-tema', scelto);
+    const allinea = () => {
+      const corrente = radice.getAttribute(asse.attributo);
+      for (const p of pulsanti) {
+        p.setAttribute('aria-pressed', String(p.dataset.valore === corrente));
+      }
+    };
+
     allinea();
 
-    try {
-      localStorage.setItem(CHIAVE, scelto);
-      // La vecchia chiave non serve più e resterebbe a contraddire la
-      // nuova al prossimo caricamento.
-      localStorage.removeItem(CHIAVE_VECCHIA);
-    } catch (e) {
-      // Archiviazione non disponibile: la scelta vale per questa
-      // sessione e non viene ricordata.
-    }
-  });
+    gruppo.addEventListener('click', (evento) => {
+      const pulsante = evento.target.closest(asse.voce);
+      if (!pulsante) return;
+      const scelto = pulsante.dataset.valore;
+      if (validi.indexOf(scelto) === -1) return;
+
+      radice.setAttribute(asse.attributo, scelto);
+      allinea();
+      tingiLaBarra();
+
+      try {
+        localStorage.setItem(asse.chiave, scelto);
+        // La chiave di quando i temi erano due non serve più e
+        // resterebbe a contraddire la nuova al prossimo caricamento.
+        localStorage.removeItem('au-theme');
+      } catch (e) {
+        // Archiviazione non disponibile: la scelta vale per questa
+        // sessione e non viene ricordata.
+      }
+    });
+  }
+
+  // Lo script del <head> gira prima che il foglio di stile sia
+  // applicato, e là il colore del fondo non si può ancora leggere:
+  // il primo colore giusto della barra si mette qui.
+  if (trovato) tingiLaBarra();
 }

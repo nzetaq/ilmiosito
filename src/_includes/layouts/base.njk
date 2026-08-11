@@ -12,24 +12,35 @@
     (function () {
       var radice = document.documentElement;
 
-      // Il tema, scritto su <html> prima del primo disegno: arrivando
+      // La veste, scritta su <html> prima del primo disegno: arrivando
       // col resto del JavaScript si vedrebbe la pagina cambiare colore
       // sotto gli occhi.
-      var temi = [{% for t in site.temi %}'{{ t.id }}'{% if not loop.last %}, {% endif %}{% endfor %}];
-      var barre = { {% for t in site.temi %}'{{ t.id }}': '{{ t.barra }}'{% if not loop.last %}, {% endif %}{% endfor %} };
-      var tema = '{{ site.temi[0].id }}';
+      //
+      // Le vecchie chiavi vanno tradotte, non ignorate: chi torna dopo
+      // mesi non deve ritrovarsi il sito cambiato. 'light' era il
+      // chiaro di quando i temi erano due; 'carta' era il fondo caldo,
+      // che oggi non c'è più e il cui parente prossimo è Giorno.
+      var scegli = function (chiave, ammessi, ripiego, traduci) {
+        try {
+          var v = localStorage.getItem(chiave);
+          if (traduci && traduci[v]) v = traduci[v];
+          if (ammessi.indexOf(v) !== -1) return v;
+        } catch (e) {}
+        return ripiego;
+      };
+      radice.setAttribute('data-stile', scegli(
+        'au-stile',
+        [{% for s in site.stili %}'{{ s.id }}'{% if not loop.last %}, {% endif %}{% endfor %}],
+        '{{ site.stili[0].id }}'));
+      radice.setAttribute('data-tema', scegli(
+        'au-tema',
+        [{% for t in site.temi %}'{{ t.id }}'{% if not loop.last %}, {% endif %}{% endfor %}],
+        '{{ site.temi[0].id }}',
+        { carta: 'giorno' }));
       try {
-        var salvato = localStorage.getItem('au-tema');
-        // Quando i temi erano due si scriveva 'light' o 'dark': chi ha
-        // quella chiave nel proprio browser non deve ritrovarsi il
-        // sito cambiato al primo ritorno.
-        if (!salvato && localStorage.getItem('au-theme') === 'light') salvato = 'giorno';
-        if (temi.indexOf(salvato) !== -1) tema = salvato;
-      } catch (e) {}
-      radice.setAttribute('data-tema', tema);
-      try {
-        var barra = document.getElementById('au-colore-barra');
-        if (barra && barre[tema]) barra.setAttribute('content', barre[tema]);
+        if (!localStorage.getItem('au-tema') && localStorage.getItem('au-theme') === 'light') {
+          radice.setAttribute('data-tema', 'giorno');
+        }
       } catch (e) {}
 
       // Le regolazioni della veste, applicate prima del primo disegno:
@@ -179,7 +190,7 @@
      non saprebbero quale annunciare: una sola, che lo script qui sotto
      mette in accordo col tema scelto. Deve stare prima di quello
      script, che la cerca per nome. -#}
-  <meta name="theme-color" id="au-colore-barra" content="{{ site.temi[0].barra }}">
+  <meta name="theme-color" id="au-colore-barra" content="#151d33">
   <link rel="icon" href="{{ base }}assets/img/favicon.svg" type="image/svg+xml">
 
   {%- if site.analisi.goatcounter %}

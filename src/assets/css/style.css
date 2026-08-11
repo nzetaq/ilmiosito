@@ -59,6 +59,50 @@
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../font/space-mono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../font/space-mono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../font/space-mono-700-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../font/space-mono-700-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 /* ── Gli inchiostri, uguali per entrambi i temi ── */
 :root {
   --blu: 21, 29, 51;         /* #151d33 — inchiostro di fondo */
@@ -210,230 +254,399 @@ a[href],
   transition: none !important;
 }
 
-/* ── Tavolozza: tema scuro, inchiostro blu come fondo ── */
+/* ══ LE TAVOLOZZE ══
+   Nove: tre stili per tre modi. Scriverle nove volte per esteso
+   sarebbe il modo più sicuro di farne divergere una — e la promessa
+   era che tutte reggessero lo stesso standard.
+
+   Perciò la tavolozza risponde a due domande separate:
+
+     lo STILE sceglie *quali inchiostri*  — le tinte, i caratteri, i filetti
+     il MODO  sceglie *quanta luce*       — con che opacità l'inchiostro tocca il fondo
+
+   I quaranta gettoni veri e propri sono scritti una volta sola, qui
+   sotto, come combinazione delle due risposte. Nessuna combinazione
+   può dimenticarne uno, perché nessuna li elenca: elenca solo i
+   propri inchiostri.
+
+   Il ripiego senza attributi è Officina · Notte. Se il JavaScript non
+   gira, `data-stile` e `data-tema` non compaiono, e il sito resta
+   quello di sempre invece di restare senza colori. */
+
+/* ── I gettoni, derivati ── */
 :root {
-  color-scheme: dark;
+  --bg: rgb(var(--fondo));
+  --testo: rgba(var(--inchiostro), var(--a-testo));
 
-  --bg: #151d33;
-  --testo: rgba(var(--carta), 0.86);
+  --titolo-forte: rgb(var(--inchiostro));
+  --titolo-em: rgb(var(--tinta));
+  --titolo: rgba(var(--inchiostro), var(--a-titolo));
+  --titolo-voce: rgba(var(--inchiostro), var(--a-titolo-voce));
 
-  --titolo-forte: rgb(var(--carta));
-  --titolo-em: rgb(var(--arancio));
-  --titolo: rgba(var(--carta), 0.96);
-  --titolo-voce: rgba(var(--carta), 0.92);
+  --bio: rgba(var(--inchiostro), var(--a-bio));
+  --descrizione: rgba(var(--inchiostro), var(--a-bio));
+  --estratto: rgba(var(--inchiostro), var(--a-estratto));
+  --meta: rgba(var(--inchiostro), var(--a-meta));
+  --gp-meta: rgba(var(--inchiostro), var(--a-gp-meta));
+  --prosa: rgba(var(--inchiostro), var(--a-prosa));
+  --prosa-voce: rgba(var(--inchiostro), var(--a-prosa-voce));
 
-  --bio: rgba(var(--carta), 0.6);
-  --descrizione: rgba(var(--carta), 0.6);
-  --estratto: rgba(var(--carta), 0.62);
-  --meta: rgba(var(--carta), 0.5);
-  --gp-meta: rgba(var(--carta), 0.52);
-  --prosa: rgba(var(--carta), 0.74);
-  --prosa-voce: rgba(var(--carta), 0.72);
+  --etichetta: rgb(var(--tinta));
+  --accento: rgb(var(--tinta));
+  --fonte: rgb(var(--tinta));
+  --link: rgb(var(--tinta));
+  --link-hover: rgb(var(--tinta-passaggio));
 
-  --etichetta: rgb(var(--arancio));
-  --accento: rgb(var(--arancio));
-  --fonte: rgb(var(--arancio));
-  --link: rgb(var(--arancio));
-  --link-hover: rgb(var(--giallo));
+  --viola: rgb(var(--tinta-3));
+  --viola-link: rgb(var(--tinta-3));
+  --viola-link-hover: rgb(var(--tinta-passaggio));
+  --anno: rgb(var(--tinta-2));
 
-  --viola: rgb(255, 111, 181);
-  --viola-link: rgb(255, 111, 181);
-  --viola-link-hover: rgb(var(--giallo));
-  --anno: rgb(var(--giallo));
+  --nav: rgba(var(--inchiostro), var(--a-nav));
+  --nav-hover: rgb(var(--inchiostro));
+  --nav-attivo-sfondo: rgb(var(--tinta-piena));
+  --nav-attivo-testo: rgb(var(--contro));
 
-  --nav: rgba(var(--carta), 0.55);
-  --nav-hover: rgb(var(--carta));
-  --nav-attivo-sfondo: rgb(var(--arancio));
-  --nav-attivo-testo: #151d33;
-
-  --filtro: rgba(var(--carta), 0.75);
-  --filtro-hover: rgb(var(--carta));
+  --filtro: rgba(var(--inchiostro), var(--a-filtro));
+  --filtro-hover: rgb(var(--inchiostro));
   --filtro-sfondo: transparent;
-  --filtro-bordo: rgba(var(--carta), 0.38);
-  --filtro-bordo-hover: rgb(var(--arancio));
-  --filtro-attivo-sfondo: rgb(var(--arancio));
-  --filtro-attivo-testo: #151d33;
+  --filtro-bordo: rgba(var(--inchiostro), var(--a-filtro-bordo));
+  --filtro-bordo-hover: rgb(var(--tinta));
+  --filtro-attivo-sfondo: rgb(var(--tinta-piena));
+  --filtro-attivo-testo: rgb(var(--contro));
 
-  --scheda-sfondo: rgba(var(--carta), 0.04);
-  --scheda-bordo: rgba(var(--carta), 0.9);
-  --scheda-ombra: rgb(var(--arancio));
+  --scheda-sfondo: rgba(var(--velo), var(--a-scheda-sfondo));
+  --scheda-bordo: rgba(var(--inchiostro), var(--a-scheda-bordo));
+  --scheda-ombra: rgb(var(--tinta-piena));
 
-  --filo: rgba(var(--carta), 0.18);
-  --filo-sezione: rgba(var(--carta), 0.24);
-  --filo-forte: rgba(var(--carta), 0.32);
+  --filo: rgba(var(--inchiostro), var(--a-filo));
+  --filo-sezione: rgba(var(--inchiostro), var(--a-filo-sezione));
+  --filo-forte: rgba(var(--inchiostro), var(--a-filo-forte));
 
-  --toggle: rgba(var(--carta), 0.8);
-  --toggle-hover: #151d33;
-  --toggle-bordo: rgba(var(--carta), 0.45);
-  --toggle-sfondo-hover: rgb(var(--arancio));
+  --toggle: rgba(var(--inchiostro), var(--a-toggle));
+  --toggle-hover: rgb(var(--contro));
+  --toggle-bordo: rgba(var(--inchiostro), var(--a-toggle-bordo));
+  --toggle-sfondo-hover: rgb(var(--tinta-piena));
 
-  --overlay: rgba(var(--blu), 0.95);
-  --citazione: rgb(var(--carta));
-  --citazione-attr: rgb(var(--arancio));
-  --citazione-chiudi: rgba(var(--carta), 0.42);
+  --overlay: rgba(var(--fondo), 0.96);
+  --citazione: rgb(var(--inchiostro));
+  --citazione-attr: rgb(var(--tinta));
+  --citazione-chiudi: rgba(var(--inchiostro), var(--a-citazione-chiudi));
 
   /* Sfondo: retino a mezzatinta e due campiture fuori registro */
-  --retino: rgba(var(--carta), 0.1);
+  --retino: rgba(var(--inchiostro), var(--a-retino));
   --macchia-1: radial-gradient(ellipse 26% 17% at 94% -7%,
-    rgba(var(--arancio), 0.16) 0 99.5%, transparent 100%);
+    rgba(var(--macchia-a), var(--a-macchia-1)) 0 99.5%, transparent 100%);
   --macchia-2: radial-gradient(ellipse 20% 13% at 2% 104%,
-    rgba(var(--rosa), 0.13) 0 99.5%, transparent 100%);
+    rgba(var(--macchia-b), var(--a-macchia-2)) 0 99.5%, transparent 100%);
 }
 
-/* ── Tavolozza: Giorno ──
-   Non una carta diversa: è l'inchiostro di fondo di Notte portato dal
-   14% al 94% di luce, alla stessa tinta esatta — 224° in entrambi. I
-   due sono la stessa immagine, con la luce accesa e spenta.
+/* ── I modi: quanta luce ──
+   Le opacità non dipendono dallo stile ma da quanta distanza c'è fra
+   inchiostro e fondo. Su fondo scuro un grigio al 50% si legge; su
+   fondo chiaro no, e va portato al 65%. Contrasto le alza tutte e
+   spegne gli ornamenti, che sono rumore per chi fatica a leggere. */
+:root,
+:root[data-tema='notte'] {
+  color-scheme: dark;
+  --a-testo: 0.86;
+  --a-titolo: 0.96;
+  --a-titolo-voce: 0.92;
+  --a-bio: 0.6;
+  --a-estratto: 0.62;
+  --a-meta: 0.5;
+  --a-gp-meta: 0.52;
+  --a-prosa: 0.74;
+  --a-prosa-voce: 0.72;
+  --a-nav: 0.55;
+  --a-filtro: 0.75;
+  --a-filtro-bordo: 0.38;
+  --a-scheda-bordo: 0.9;
+  --a-filo: 0.18;
+  --a-filo-sezione: 0.24;
+  --a-filo-forte: 0.32;
+  --a-toggle: 0.8;
+  --a-toggle-bordo: 0.45;
+  --a-citazione-chiudi: 0.42;
+  --a-retino: 0.1;
+  --a-macchia-1: 0.16;
+  --a-macchia-2: 0.13;
+  /* Il velo delle schede: sul fondo scuro è un filo d'inchiostro
+     schiarito, sul chiaro un velo di bianco. */
+  --velo: var(--inchiostro);
+  --a-scheda-sfondo: 0.04;
+}
 
-   I due inchiostri più tenui stanno a 0.64 e non a 0.62: questo fondo
-   è di un gradino più scuro del crema, e col vecchio valore
-   scendevano a 4.43:1, mancando la soglia per un soffio. */
 :root[data-tema='giorno'] {
   color-scheme: light;
-
-  --bg: #eaedf5;
-  --testo: rgba(var(--blu), 0.88);
-
-  --titolo-forte: rgb(var(--blu));
-  --titolo-em: rgb(var(--arancio-cupo));
-  --titolo: rgb(var(--blu));
-  --titolo-voce: rgba(var(--blu), 0.92);
-
-  /* 0.64 e non 0.62: sul fondo azzurro, un gradino più scuro del
-     crema, il vecchio valore scendeva a 4.43:1 e mancava la soglia
-     per un soffio. Adesso è 4.75:1. */
-  --bio: rgba(var(--blu), 0.64);
-  --descrizione: rgba(var(--blu), 0.64);
-  --estratto: rgba(var(--blu), 0.64);
-  --meta: rgba(var(--blu), 0.65);
-  --gp-meta: rgba(var(--blu), 0.65);
-  --prosa: rgba(var(--blu), 0.76);
-  --prosa-voce: rgba(var(--blu), 0.74);
-
-  --etichetta: rgb(var(--arancio-cupo));
-  --accento: rgb(var(--arancio-cupo));
-  --fonte: rgb(var(--arancio-cupo));
-  --link: rgb(var(--arancio-cupo));
-  --link-hover: rgb(var(--blu));
-
-  --viola: rgb(var(--rosa-cupo));
-  --viola-link: rgb(var(--rosa-cupo));
-  --viola-link-hover: rgb(var(--blu));
-  --anno: rgb(var(--blu-vivo));
-
-  --nav: rgba(var(--blu), 0.65);
-  --nav-hover: rgb(var(--blu));
-  --nav-attivo-sfondo: rgb(var(--arancio));
-  --nav-attivo-testo: #151d33;
-
-  --filtro: rgba(var(--blu), 0.75);
-  --filtro-hover: rgb(var(--blu));
-  --filtro-sfondo: transparent;
-  --filtro-bordo: rgba(var(--blu), 0.35);
-  --filtro-bordo-hover: rgb(var(--arancio-cupo));
-  --filtro-attivo-sfondo: rgb(var(--arancio));
-  --filtro-attivo-testo: #151d33;
-
-  --scheda-sfondo: rgba(255, 255, 255, 0.42);
-  --scheda-bordo: rgb(var(--blu));
-  --scheda-ombra: rgb(var(--arancio));
-
-  --filo: rgba(var(--blu), 0.18);
-  --filo-sezione: rgba(var(--blu), 0.24);
-  --filo-forte: rgba(var(--blu), 0.32);
-
-  --toggle: rgb(var(--blu));
-  --toggle-hover: #151d33;
-  --toggle-bordo: rgba(var(--blu), 0.4);
-  --toggle-sfondo-hover: rgb(var(--arancio));
-
-  --overlay: rgba(234, 237, 245, 0.96);
-  --citazione: rgb(var(--blu));
-  --citazione-attr: rgb(var(--arancio-cupo));
-  --citazione-chiudi: rgba(var(--blu), 0.45);
-
-  --retino: rgba(var(--blu), 0.11);
-  --macchia-1: radial-gradient(ellipse 26% 17% at 94% -7%,
-    rgba(var(--arancio), 0.24) 0 99.5%, transparent 100%);
-  --macchia-2: radial-gradient(ellipse 20% 13% at 2% 104%,
-    rgba(var(--rosa), 0.16) 0 99.5%, transparent 100%);
+  --a-testo: 0.88;
+  --a-titolo: 1;
+  --a-titolo-voce: 0.92;
+  --a-bio: 0.64;
+  --a-estratto: 0.64;
+  --a-meta: 0.65;
+  --a-gp-meta: 0.65;
+  --a-prosa: 0.76;
+  --a-prosa-voce: 0.74;
+  --a-nav: 0.65;
+  --a-filtro: 0.75;
+  --a-filtro-bordo: 0.35;
+  --a-scheda-bordo: 1;
+  --a-filo: 0.18;
+  --a-filo-sezione: 0.24;
+  --a-filo-forte: 0.32;
+  --a-toggle: 1;
+  --a-toggle-bordo: 0.4;
+  --a-citazione-chiudi: 0.45;
+  --a-retino: 0.11;
+  --a-macchia-1: 0.24;
+  --a-macchia-2: 0.16;
+  --velo: 255, 255, 255;
+  --a-scheda-sfondo: 0.42;
 }
 
-/* ── Tavolozza: Carta ──
-   Il fondo caldo che il sito ha avuto per primo. Non è un tema chiaro
-   in più: è un'altra materia. Il crema tiene meno di uno schermo e più
-   di una pagina stampata, e sui testi lunghi molti lo preferiscono
-   perché la luce che rimanda è meno azzurra.
-
-   Resta qui perché era già misurata e passata: tutti i suoi inchiostri
-   stanno sopra 4.5:1 su questo fondo. Buttarla per sostituirla sarebbe
-   stato perdere un lavoro fatto. */
-:root[data-tema='carta'] {
+/* Contrasto non è un terzo chiaro: è la stessa veste con tutto il
+   rumore tolto. Retino e campiture a zero, filetti al doppio, testo
+   pieno. Il legame più stretto delle tre combinazioni sta sopra 7:1,
+   che è la soglia AAA e non più solo AA. */
+:root[data-tema='contrasto'] {
   color-scheme: light;
+  --a-testo: 1;
+  --a-titolo: 1;
+  --a-titolo-voce: 1;
+  --a-bio: 0.85;
+  --a-estratto: 0.85;
+  --a-meta: 0.85;
+  --a-gp-meta: 0.85;
+  --a-prosa: 0.96;
+  --a-prosa-voce: 0.96;
+  --a-nav: 0.85;
+  --a-filtro: 0.9;
+  --a-filtro-bordo: 0.6;
+  --a-scheda-bordo: 1;
+  --a-filo: 0.35;
+  --a-filo-sezione: 0.45;
+  --a-filo-forte: 0.6;
+  --a-toggle: 1;
+  --a-toggle-bordo: 0.65;
+  --a-citazione-chiudi: 0.7;
+  --a-retino: 0;
+  --a-macchia-1: 0;
+  --a-macchia-2: 0;
+  --velo: 255, 255, 255;
+  --a-scheda-sfondo: 0;
+}
 
-  --bg: #f6f2e7;
-  --testo: rgba(var(--blu), 0.88);
+/* ── Gli stili: quali inchiostri ──
+   Ogni combinazione dichiara nove valori e nient'altro. `--contro` è
+   il colore che si scrive *sopra* la campitura piena, e va verificato
+   contro quella e non contro il fondo. */
 
-  --titolo-forte: rgb(var(--blu));
-  --titolo-em: rgb(var(--arancio-cupo));
-  --titolo: rgb(var(--blu));
-  --titolo-voce: rgba(var(--blu), 0.92);
+/* Officina · l'originale. Grotesque geometrico, arancio fluorescente,
+   ombre piene senza sfocatura: la grafica del manifesto stampato. */
+:root,
+:root[data-stile='officina'][data-tema='notte'] {
+  --fondo: 21, 29, 51;
+  --inchiostro: 244, 240, 230;
+  --tinta: 255, 90, 54;
+  --tinta-piena: 255, 90, 54;
+  --contro: 21, 29, 51;
+  --tinta-2: 255, 210, 63;
+  --tinta-3: 255, 111, 181;
+  --tinta-passaggio: 255, 210, 63;
+  --macchia-a: 255, 90, 54;
+  --macchia-b: 255, 72, 176;
+}
 
-  --bio: rgba(var(--blu), 0.62);
-  --descrizione: rgba(var(--blu), 0.62);
-  --estratto: rgba(var(--blu), 0.64);
-  --meta: rgba(var(--blu), 0.65);
-  --gp-meta: rgba(var(--blu), 0.65);
-  --prosa: rgba(var(--blu), 0.76);
-  --prosa-voce: rgba(var(--blu), 0.74);
+:root[data-stile='officina'][data-tema='giorno'] {
+  --fondo: 234, 237, 245;
+  --inchiostro: 21, 29, 51;
+  /* Due aranci e non uno: il fluorescente non regge come testo su
+     fondo chiaro, ma è perfetto come campitura con sopra l'inchiostro. */
+  --tinta: 203, 48, 12;
+  --tinta-piena: 255, 90, 54;
+  --contro: 21, 29, 51;
+  --tinta-2: 43, 62, 168;
+  --tinta-3: 193, 24, 126;
+  --tinta-passaggio: 21, 29, 51;
+  --macchia-a: 255, 90, 54;
+  --macchia-b: 255, 72, 176;
+}
 
-  --etichetta: rgb(var(--arancio-cupo));
-  --accento: rgb(var(--arancio-cupo));
-  --fonte: rgb(var(--arancio-cupo));
-  --link: rgb(var(--arancio-cupo));
-  --link-hover: rgb(var(--blu));
+:root[data-stile='officina'][data-tema='contrasto'] {
+  --fondo: 255, 255, 255;
+  --inchiostro: 10, 12, 20;
+  --tinta: 165, 36, 0;
+  --tinta-piena: 165, 36, 0;
+  --contro: 255, 255, 255;
+  --tinta-2: 26, 43, 140;
+  --tinta-3: 140, 10, 90;
+  --tinta-passaggio: 10, 12, 20;
+  --macchia-a: 165, 36, 0;
+  --macchia-b: 140, 10, 90;
+}
 
-  --viola: rgb(var(--rosa-cupo));
-  --viola-link: rgb(var(--rosa-cupo));
-  --viola-link-hover: rgb(var(--blu));
-  --anno: rgb(var(--blu-vivo));
+/* Manifesto · vermiglio e nero sull'avorio. Una sola tinta per
+   tutto, come nei manifesti da cui viene: dove Officina ha giallo e
+   rosa, qui c'è ancora rosso. Il colore non decora, indica. */
+:root[data-stile='manifesto'][data-tema='notte'] {
+  --fondo: 20, 17, 15;
+  --inchiostro: 242, 236, 225;
+  --tinta: 240, 69, 42;
+  --tinta-piena: 240, 69, 42;
+  --contro: 20, 17, 15;
+  --tinta-2: 240, 69, 42;
+  --tinta-3: 240, 69, 42;
+  --tinta-passaggio: 242, 236, 225;
+  --macchia-a: 240, 69, 42;
+  --macchia-b: 242, 236, 225;
+}
 
-  --nav: rgba(var(--blu), 0.65);
-  --nav-hover: rgb(var(--blu));
-  --nav-attivo-sfondo: rgb(var(--arancio));
-  --nav-attivo-testo: #151d33;
+:root[data-stile='manifesto'][data-tema='giorno'] {
+  --fondo: 242, 236, 225;
+  --inchiostro: 20, 17, 15;
+  --tinta: 195, 31, 8;
+  /* La campitura si scurisce rispetto alla tinta del testo: sopra ci
+     va l'avorio, e sul vermiglio acceso non avrebbe retto. */
+  --tinta-piena: 184, 26, 6;
+  --contro: 242, 236, 225;
+  --tinta-2: 195, 31, 8;
+  --tinta-3: 195, 31, 8;
+  --tinta-passaggio: 20, 17, 15;
+  --macchia-a: 195, 31, 8;
+  --macchia-b: 20, 17, 15;
+}
 
-  --filtro: rgba(var(--blu), 0.75);
-  --filtro-hover: rgb(var(--blu));
-  --filtro-sfondo: transparent;
-  --filtro-bordo: rgba(var(--blu), 0.35);
-  --filtro-bordo-hover: rgb(var(--arancio-cupo));
-  --filtro-attivo-sfondo: rgb(var(--arancio));
-  --filtro-attivo-testo: #151d33;
+:root[data-stile='manifesto'][data-tema='contrasto'] {
+  --fondo: 255, 255, 255;
+  --inchiostro: 0, 0, 0;
+  --tinta: 168, 20, 0;
+  --tinta-piena: 168, 20, 0;
+  --contro: 255, 255, 255;
+  --tinta-2: 168, 20, 0;
+  --tinta-3: 168, 20, 0;
+  --tinta-passaggio: 0, 0, 0;
+  --macchia-a: 168, 20, 0;
+  --macchia-b: 0, 0, 0;
+}
 
-  --scheda-sfondo: rgba(255, 255, 255, 0.42);
-  --scheda-bordo: rgb(var(--blu));
-  --scheda-ombra: rgb(var(--arancio));
+/* Macchina · lo schedario. Monospazio, fosforo su nero, ambra e ciano
+   per le due tinte minori: i colori di un terminale, che è la forma
+   che prende un archivio quando lo si interroga. */
+:root[data-stile='macchina'][data-tema='notte'] {
+  --fondo: 11, 15, 13;
+  --inchiostro: 224, 234, 228;
+  --tinta: 61, 214, 120;
+  --tinta-piena: 61, 214, 120;
+  --contro: 11, 15, 13;
+  --tinta-2: 226, 178, 74;
+  --tinta-3: 108, 196, 214;
+  --tinta-passaggio: 226, 178, 74;
+  --macchia-a: 61, 214, 120;
+  --macchia-b: 108, 196, 214;
+}
 
-  --filo: rgba(var(--blu), 0.18);
-  --filo-sezione: rgba(var(--blu), 0.24);
-  --filo-forte: rgba(var(--blu), 0.32);
+:root[data-stile='macchina'][data-tema='giorno'] {
+  --fondo: 238, 241, 238;
+  --inchiostro: 18, 26, 22;
+  --tinta: 10, 110, 60;
+  --tinta-piena: 10, 110, 60;
+  --contro: 255, 255, 255;
+  --tinta-2: 138, 90, 0;
+  --tinta-3: 13, 95, 112;
+  --tinta-passaggio: 18, 26, 22;
+  --macchia-a: 10, 110, 60;
+  --macchia-b: 13, 95, 112;
+}
 
-  --toggle: rgb(var(--blu));
-  --toggle-hover: #151d33;
-  --toggle-bordo: rgba(var(--blu), 0.4);
-  --toggle-sfondo-hover: rgb(var(--arancio));
+:root[data-stile='macchina'][data-tema='contrasto'] {
+  --fondo: 255, 255, 255;
+  --inchiostro: 0, 0, 0;
+  --tinta: 0, 90, 45;
+  --tinta-piena: 0, 90, 45;
+  --contro: 255, 255, 255;
+  --tinta-2: 107, 68, 0;
+  --tinta-3: 0, 74, 88;
+  --tinta-passaggio: 0, 0, 0;
+  --macchia-a: 0, 90, 45;
+  --macchia-b: 0, 74, 88;
+}
 
-  --overlay: rgba(246, 242, 231, 0.96);
-  --citazione: rgb(var(--blu));
-  --citazione-attr: rgb(var(--arancio-cupo));
-  --citazione-chiudi: rgba(var(--blu), 0.45);
+/* ══ GLI STILI: CARATTERI E CONDOTTA ══
+   La tavolozza è solo metà di uno stile. Qui c'è l'altra: quali
+   caratteri, quanto spazio fra le lettere, quanto pesano i filetti,
+   se un'ombra c'è o non c'è. Sono le cose che si riconoscono a colpo
+   d'occhio, prima ancora del colore. */
 
-  --retino: rgba(var(--blu), 0.11);
-  --macchia-1: radial-gradient(ellipse 26% 17% at 94% -7%,
-    rgba(var(--arancio), 0.24) 0 99.5%, transparent 100%);
-  --macchia-2: radial-gradient(ellipse 20% 13% at 2% 104%,
-    rgba(var(--rosa), 0.16) 0 99.5%, transparent 100%);
+/* ── Manifesto ──
+   Un solo carattere per tutto, e in maiuscolo dove Officina alterna:
+   il manifesto non ha titoli e sottotitoli, ha proclami. L'ombra
+   cresce e si sposta in diagonale, come una lastra fuori registro. */
+:root[data-stile='manifesto'] {
+  --font-display: 'Archivo', sans-serif;
+  --font-testo: 'Archivo', sans-serif;
+  --scarto: 9px;
+}
+
+:root[data-stile='manifesto'] .au-name,
+:root[data-stile='manifesto'] .au-titolo-sezione,
+:root[data-stile='manifesto'] .au-year,
+:root[data-stile='manifesto'] .au-pezzo-titolo {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* I titoli delle voci restano in tondo — un elenco tutto maiuscolo
+   non è più un elenco, è un muro — ma prendono peso. */
+:root[data-stile='manifesto'] .au-article-title,
+:root[data-stile='manifesto'] .au-giornale-entry-title,
+:root[data-stile='manifesto'] .au-poem-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ── Macchina ──
+   Monospazio dappertutto. Il monospazio è largo: a parità di corpo
+   una riga ci sta meno, e i titoli grandi sfondavano lo schermo di un
+   telefono. Perciò il display scende di un gradino e le spaziature
+   delle etichette si stringono, perché il carattere ne porta già di
+   suo. L'ombra sparisce: una macchina non proietta ombre. */
+:root[data-stile='macchina'] {
+  --font-display: 'Space Mono', ui-monospace, monospace;
+  --font-testo: 'Space Mono', ui-monospace, monospace;
+  --scarto: 0px;
+}
+
+:root[data-stile='macchina'] .au-name {
+  font-size: clamp(2.4rem, calc(6vw * var(--scala)), 5rem);
+  letter-spacing: -0.04em;
+}
+
+:root[data-stile='macchina'] .au-titolo-sezione {
+  font-size: clamp(1.4rem, calc(3.4vw * var(--scala)), 2.6rem);
+  letter-spacing: -0.03em;
+}
+
+:root[data-stile='macchina'] .au-pezzo-titolo {
+  font-size: clamp(1.2rem, calc(2.4vw * var(--scala)), 1.8rem);
+}
+
+/* Le etichette in maiuscoletto spaziato: il monospazio ha già la
+   propria spaziatura incorporata, e sommarne un'altra le sfilaccia. */
+:root[data-stile='macchina'] .au-label,
+:root[data-stile='macchina'] .au-nav-btn,
+:root[data-stile='macchina'] .au-regolatore-etichetta,
+:root[data-stile='macchina'] .au-comando,
+:root[data-stile='macchina'] .au-source,
+:root[data-stile='macchina'] .au-tema,
+:root[data-stile='macchina'] .au-stile {
+  letter-spacing: 0.06em;
+}
+
+/* Senza ombra il contorno deve reggere da solo. */
+:root[data-stile='macchina'] .au-article,
+:root[data-stile='macchina'] .au-contatti-form {
+  border-width: 2px;
 }
 
 /* ── Azzeramento ── */
@@ -755,28 +968,36 @@ body {
   border-color: var(--toggle-sfondo-hover);
 }
 
-/* I tre temi condividono la forma dei pulsanti di scala, ma portano
-   parole invece di segni: corpo più piccolo, maiuscoletto spaziato
-   come tutte le etichette del sito, e larghezze uguali perché nessuno
-   dei tre sembri il principale. */
-.au-tema {
+/* Le sei voci della veste condividono la forma dei pulsanti di scala,
+   ma portano parole invece di segni: corpo più piccolo, maiuscoletto
+   e larghezze uguali perché nessuna sembri la principale.
+
+   La spaziatura è più stretta di quella delle altre etichette del
+   sito: «Contrasto» è la parola più lunga che debba entrare, e a
+   0.14em veniva tagliata proprio sulle finestre larghe — dove la
+   colonna dei comandi è più stretta, perché il motto le sta accanto
+   invece che sopra. */
+.au-tema,
+.au-stile {
   font-size: 0.5625rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   flex: 1 1 0;
   min-width: 0;
-  padding: 0.35rem 0.2rem;
+  padding: 0.35rem 0.1rem;
 }
 
-/* Il tema in vigore è una campitura piena, la stessa della sezione
+/* La voce in vigore è una campitura piena, la stessa della sezione
    corrente nella barra: chi guarda la pagina sa già cosa vuol dire. */
-.au-tema[aria-pressed='true'] {
+.au-tema[aria-pressed='true'],
+.au-stile[aria-pressed='true'] {
   color: var(--nav-attivo-testo);
   background: var(--nav-attivo-sfondo);
   border-color: var(--nav-attivo-sfondo);
 }
 
-.au-tema[aria-pressed='true']:hover {
+.au-tema[aria-pressed='true']:hover,
+.au-stile[aria-pressed='true']:hover {
   color: var(--nav-attivo-testo);
 }
 

@@ -77,17 +77,31 @@ reti: "https://formsubmit.co"
         <button class="au-comando au-cerca-apri" id="au-cerca-apri" type="button"
                 aria-haspopup="dialog">Cerca</button>
 
-        {#- Tre temi, e si vedono tutti e tre: un interruttore che gira
-           in tondo nasconde le scelte a chi non lo preme abbastanza
-           volte. `aria-pressed` dice quale è in vigore, così anche chi
-           non vede la campitura piena sa dove si trova. -#}
+        {#- La veste, in due scelte separate: quali inchiostri e quanta
+           luce. Tenerle distinte fa nove combinazioni con sei
+           pulsanti, invece di nove pulsanti — e nessuno deve ricordare
+           che «Officina chiaro» e «Macchina chiaro» sono lo stesso
+           gesto.
+           Tutte le voci si vedono: un interruttore che gira in tondo
+           nasconde le scelte a chi non lo preme abbastanza volte.
+           `aria-pressed` dice quale è in vigore, così anche chi non
+           vede la campitura piena sa dove si trova. -#}
         <div class="au-regolatore">
-          <span class="au-regolatore-etichetta">Tema</span>
-          <div class="au-passi au-temi" role="group" aria-label="Tema del sito">
+          <span class="au-regolatore-etichetta">Stile</span>
+          <div class="au-passi au-stili" role="group" aria-label="Stile del sito">
+            {%- for s in site.stili %}
+            <button class="au-passo au-stile" type="button"
+                    data-valore="{{ s.id }}" aria-pressed="false">{{ s.etichetta }}</button>
+            {%- endfor %}
+          </div>
+        </div>
+
+        <div class="au-regolatore">
+          <span class="au-regolatore-etichetta">Luce</span>
+          <div class="au-passi au-temi" role="group" aria-label="Quanta luce">
             {%- for t in site.temi %}
             <button class="au-passo au-tema" type="button"
-                    data-tema="{{ t.id }}" data-barra="{{ t.barra }}"
-                    aria-pressed="false">{{ t.etichetta }}</button>
+                    data-valore="{{ t.id }}" aria-pressed="false">{{ t.etichetta }}</button>
             {%- endfor %}
           </div>
         </div>

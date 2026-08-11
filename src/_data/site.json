@@ -47,21 +47,32 @@
       "etichetta": "Contatti"
     }
   ],
+  "stili": [
+    {
+      "id": "officina",
+      "etichetta": "Officina"
+    },
+    {
+      "id": "manifesto",
+      "etichetta": "Manifesto"
+    },
+    {
+      "id": "macchina",
+      "etichetta": "Macchina"
+    }
+  ],
   "temi": [
     {
       "id": "notte",
-      "etichetta": "Notte",
-      "barra": "#151d33"
+      "etichetta": "Notte"
     },
     {
       "id": "giorno",
-      "etichetta": "Giorno",
-      "barra": "#eaedf5"
+      "etichetta": "Giorno"
     },
     {
-      "id": "carta",
-      "etichetta": "Carta",
-      "barra": "#f6f2e7"
+      "id": "contrasto",
+      "etichetta": "Contrasto"
     }
   ],
   "contatti": {
