@@ -64,8 +64,17 @@ reti: "https://formsubmit.co"
 
   <!-- ═══ INTESTAZIONE ═══ -->
   <header class="au-header">
-    <div class="au-label-row">
-      <p class="au-label">{{ site.motto }}</p>
+    {#- Il nome e i comandi affiancati, non incolonnati. Prima i
+       comandi stavano in una riga tutta loro, col motto centrato
+       verticalmente dentro: alto quanto i comandi, quel centro
+       lasciava un vuoto di due dita fra il motto e N·Z·Q senza che
+       nulla lo giustificasse. -#}
+    <div class="au-testata">
+      <div class="au-testata-nome">
+        <p class="au-label">{{ site.motto }}</p>
+        <h1 class="au-name">{{ site.nome }}</h1>
+        <p class="au-bio">{{ site.bio }}</p>
+      </div>
       {#- I comandi della veste. Senza JavaScript non fanno nulla e non
          compaiono: li nasconde il blocco <noscript>. -#}
       <div class="au-comandi">
@@ -145,8 +154,6 @@ reti: "https://formsubmit.co"
         </div>
       </div>
     </div>
-    <h1 class="au-name">{{ site.nome }}</h1>
-    <p class="au-bio">{{ site.bio }}</p>
 
     {#- Intestazioni alternative: le sezioni che in site.json dichiarano
        un `titolo` mettono quello al posto del nome e della biografia.

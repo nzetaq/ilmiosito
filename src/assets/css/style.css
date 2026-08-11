@@ -999,11 +999,24 @@ body {
   margin-bottom: 4rem;
 }
 
-.au-label-row {
+/* Il nome a sinistra, i comandi a destra, allineati in cima.
+   Prima i comandi occupavano una riga tutta loro e il motto vi stava
+   centrato verticalmente: alto quanto la colonna dei comandi, quel
+   centro cadeva a metà strada e apriva fra il motto e N·Z·Q un vuoto
+   che nessuna misura chiedeva. Ora il motto è la prima riga del
+   gruppo del nome, e da lì dista quel che deve. */
+.au-testata {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.25rem;
+  gap: 2rem 3rem;
+}
+
+.au-testata-nome {
+  /* Comprimibile: senza, la biografia terrebbe larga la colonna e
+     spingerebbe i comandi fuori dal bordo. */
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .au-label {
@@ -1012,6 +1025,8 @@ body {
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--etichetta);
+  /* Sopra il nome, e vicino: è la sua didascalia, non un elemento a sé. */
+  margin-bottom: 0.75rem;
 }
 
 .au-name {
@@ -1056,8 +1071,12 @@ body {
      scorrere in orizzontale. `min-width: 0` è ciò che glielo permette,
      perché di suo un elemento flessibile non scende sotto il proprio
      contenuto. */
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   min-width: 0;
+  /* Larghi quanto serve ai sei pulsanti, non di più: sono comandi, e
+     non devono competere col nome per l'attenzione. */
+  width: 14.5rem;
+  max-width: 100%;
 }
 
 /* ── Quanto movimento ──
@@ -2878,14 +2897,19 @@ body {
     padding-top: 1.5rem;
   }
 
-  /* Il motto in alto va a capo su due righe: senza questo l'interruttore
-     del tema gli finisce addosso. */
-  .au-label-row {
-    align-items: flex-start;
-    gap: 1rem;
-    /* Sotto una certa larghezza i comandi scendono sotto il motto
-       invece di schiacciarlo. */
-    flex-wrap: wrap;
+  /* Su schermo stretto le due colonne si incolonnano, e i comandi
+     restano in cima come sono sempre stati: `column-reverse` li mette
+     davanti senza spostarli nel documento, dove è giusto che vengano
+     dopo il nome — un lettore di schermo deve sapere prima dove si
+     trova, poi come cambiarne la veste. */
+  .au-testata {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 1.75rem;
+  }
+
+  .au-comandi {
+    width: auto;
   }
 
   .au-label {
