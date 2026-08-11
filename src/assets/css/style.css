@@ -1859,9 +1859,12 @@ body {
    da [data-sez], che lo script del <head> scrive prima del primo
    disegno: non c'è un istante in cui si veda l'intestazione sbagliata.
    La riga in alto con l'interruttore del tema resta, perché serve. */
+/* Allineata a sinistra come il nome che sostituisce: è al suo posto
+   nella colonna, e deve cadere dove cadeva lui. Centrata, si staccava
+   dal resto della pagina — che è tutta allineata a sinistra — e
+   sembrava appartenere a un altro disegno. */
 .au-header-sezione {
   display: none;
-  text-align: center;
 }
 
 /* Le sezioni che in site.json dichiarano un `titolo`. Il CSS non sa
@@ -1902,7 +1905,6 @@ body {
   /* Largo quanto la frase più lunga delle tre, non quanto vorrebbe un
      paragrafo di prosa: qui l'unità di lettura è la riga, non il capoverso. */
   max-width: 64ch;
-  margin: 0 auto;
 }
 
 .au-frase-sezione {

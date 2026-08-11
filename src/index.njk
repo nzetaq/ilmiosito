@@ -74,6 +74,33 @@ reti: "https://formsubmit.co"
         <p class="au-label">{{ site.motto }}</p>
         <h1 class="au-name">{{ site.nome }}</h1>
         <p class="au-bio">{{ site.bio }}</p>
+
+        {#- Intestazioni alternative: le sezioni che in site.json
+           dichiarano un `titolo` mettono quello al posto del nome e
+           della biografia. Stanno nella stessa colonna del nome, e ne
+           prendono il bordo sinistro: sono ciò che sostituiscono, e
+           devono cadere dove cadeva lui. Il ricambio lo governa il CSS
+           a partire da [data-sez], che lo script del <head> scrive
+           prima del primo disegno: non c'è un istante in cui si veda
+           l'intestazione sbagliata. #}
+        {%- for s in site.sezioni %}
+        {%- if s.titolo %}
+        <div class="au-header-sezione" data-sez="{{ s.id }}">
+          <h1 class="au-titolo-sezione">{{ s.titolo }}</h1>
+          {%- if s.sottotitolo %}
+          {#- Una frase per riga: sono dichiarazioni distinte, non un
+             paragrafo. Blocchi e non <br>, così su schermo stretto
+             ognuna va a capo per conto suo senza trascinarsi dietro la
+             seguente. #}
+          <p class="au-sottotitolo-sezione">
+            {%- for frase in s.sottotitolo %}
+            <span class="au-frase-sezione">{{ frase }}</span>
+            {%- endfor %}
+          </p>
+          {%- endif %}
+        </div>
+        {%- endif %}
+        {%- endfor %}
       </div>
       {#- I comandi della veste. Senza JavaScript non fanno nulla e non
          compaiono: li nasconde il blocco <noscript>. -#}
@@ -155,28 +182,6 @@ reti: "https://formsubmit.co"
       </div>
     </div>
 
-    {#- Intestazioni alternative: le sezioni che in site.json dichiarano
-       un `titolo` mettono quello al posto del nome e della biografia.
-       Il ricambio lo governa il CSS a partire da [data-sez], che lo
-       script del <head> scrive prima del primo disegno: non c'è un
-       istante in cui si veda l'intestazione sbagliata. #}
-    {%- for s in site.sezioni %}
-    {%- if s.titolo %}
-    <div class="au-header-sezione" data-sez="{{ s.id }}">
-      <h1 class="au-titolo-sezione">{{ s.titolo }}</h1>
-      {%- if s.sottotitolo %}
-      {#- Una frase per riga: sono dichiarazioni distinte, non un
-         paragrafo. Blocchi e non <br>, così su schermo stretto ognuna
-         va a capo per conto suo senza trascinarsi dietro la seguente. #}
-      <p class="au-sottotitolo-sezione">
-        {%- for frase in s.sottotitolo %}
-        <span class="au-frase-sezione">{{ frase }}</span>
-        {%- endfor %}
-      </p>
-      {%- endif %}
-    </div>
-    {%- endif %}
-    {%- endfor %}
   </header>
 
   <!-- ═══ NAVIGAZIONE SEZIONI ═══ -->
