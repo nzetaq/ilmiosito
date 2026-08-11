@@ -52,7 +52,17 @@ export function avviaTema() {
       const scelto = pulsante.dataset.valore;
       if (validi.indexOf(scelto) === -1) return;
 
+      /* Il cambio va fatto a transizioni spente. Una proprietà in
+         transizione non si accorge che è cambiata la variabile che la
+         alimenta, e resta al valore vecchio: senza questo, dopo un
+         cambio di veste le linguette e i collegamenti conservavano
+         l'inchiostro del tema precedente. Il ricalcolo forzato in
+         mezzo è ciò che rende il rimedio effettivo. */
+      radice.setAttribute('data-vestendo', '');
       radice.setAttribute(asse.attributo, scelto);
+      void radice.offsetHeight;
+      radice.removeAttribute('data-vestendo');
+
       allinea();
       tingiLaBarra();
 

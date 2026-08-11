@@ -53,12 +53,12 @@
       "etichetta": "Officina"
     },
     {
-      "id": "manifesto",
-      "etichetta": "Manifesto"
+      "id": "saggio",
+      "etichetta": "Saggio"
     },
     {
-      "id": "macchina",
-      "etichetta": "Macchina"
+      "id": "insegna",
+      "etichetta": "Insegna"
     }
   ],
   "temi": [

@@ -59,45 +59,73 @@
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
+/* Crimson Text: il serif da libro dello stile Saggio. Tre tagli e
+   non uno — tondo, semigrassetto e corsivo vero — perché su un sito
+   di filosofia il corsivo non è un vezzo: separa Geistswissenschaften
+   dal resto della frase, e un corsivo finto lo fa inclinando le
+   lettere invece di ridisegnarle. Cinquantun kilobyte in tutto, e
+   solo per chi sceglie quello stile. */
 @font-face {
-  font-family: 'Space Mono';
+  font-family: 'Crimson Text';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('../font/space-mono-latin.woff2') format('woff2');
+  src: url('../font/crimson-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'Space Mono';
+  font-family: 'Crimson Text';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('../font/space-mono-latin-ext.woff2') format('woff2');
+  src: url('../font/crimson-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
     U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
-  font-family: 'Space Mono';
+  font-family: 'Crimson Text';
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   font-display: swap;
-  src: url('../font/space-mono-700-latin.woff2') format('woff2');
+  src: url('../font/crimson-600-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'Space Mono';
+  font-family: 'Crimson Text';
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   font-display: swap;
-  src: url('../font/space-mono-700-latin-ext.woff2') format('woff2');
+  src: url('../font/crimson-600-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Crimson Text';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../font/crimson-corsivo-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Crimson Text';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../font/crimson-corsivo-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
     U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
@@ -250,9 +278,29 @@ a[href],
    ricalcola e resta. */
 :root[data-scalando] *,
 :root[data-scalando] *::before,
-:root[data-scalando] *::after {
+:root[data-scalando] *::after,
+:root[data-vestendo] *,
+:root[data-vestendo] *::before,
+:root[data-vestendo] *::after {
   transition: none !important;
 }
+
+/* `data-vestendo` è il gemello di `data-scalando`, e nasce dallo
+   stesso difetto — che questa volta però non era solo un fastidio.
+
+   Una proprietà in transizione resta congelata quando cambia la
+   variabile che la alimenta: il motore aggiorna il valore di `--nav`,
+   ma il colore già dichiarato in transizione su quell'elemento non
+   viene ricalcolato, e ci resta. Non per un istante: per sempre.
+   Cambiando veste, le linguette e i collegamenti restavano
+   dell'inchiostro del tema precedente — misurati a quattro secondi e
+   mezzo, ancora sbagliati.
+
+   Spegnere le transizioni per il tempo di un ricalcolo forzato
+   risolve, al prezzo della dissolvenza: la veste cambia di scatto
+   invece che sfumando. È il prezzo giusto — una dissolvenza di tutti
+   i colori insieme era comunque molto movimento per chi non ne
+   vuole. */
 
 /* ══ LE TAVOLOZZE ══
    Nove: tre stili per tre modi. Scriverle nove volte per esteso
@@ -275,6 +323,9 @@ a[href],
 
 /* ── I gettoni, derivati ── */
 :root {
+  /* Officina porta i propri ornamenti; gli altri due li spengono. */
+  --ornamento: 1;
+  --tinta-testo: rgb(var(--tinta));
   --bg: rgb(var(--fondo));
   --testo: rgba(var(--inchiostro), var(--a-testo));
 
@@ -334,11 +385,11 @@ a[href],
   --citazione-chiudi: rgba(var(--inchiostro), var(--a-citazione-chiudi));
 
   /* Sfondo: retino a mezzatinta e due campiture fuori registro */
-  --retino: rgba(var(--inchiostro), var(--a-retino));
+  --retino: rgba(var(--inchiostro), calc(var(--a-retino) * var(--ornamento)));
   --macchia-1: radial-gradient(ellipse 26% 17% at 94% -7%,
-    rgba(var(--macchia-a), var(--a-macchia-1)) 0 99.5%, transparent 100%);
+    rgba(var(--macchia-a), calc(var(--a-macchia-1) * var(--ornamento))) 0 99.5%, transparent 100%);
   --macchia-2: radial-gradient(ellipse 20% 13% at 2% 104%,
-    rgba(var(--macchia-b), var(--a-macchia-2)) 0 99.5%, transparent 100%);
+    rgba(var(--macchia-b), calc(var(--a-macchia-2) * var(--ornamento))) 0 99.5%, transparent 100%);
 }
 
 /* ── I modi: quanta luce ──
@@ -486,167 +537,292 @@ a[href],
   --macchia-b: 140, 10, 90;
 }
 
-/* Manifesto · vermiglio e nero sull'avorio. Una sola tinta per
-   tutto, come nei manifesti da cui viene: dove Officina ha giallo e
-   rosa, qui c'è ancora rosso. Il colore non decora, indica. */
-:root[data-stile='manifesto'][data-tema='notte'] {
-  --fondo: 20, 17, 15;
-  --inchiostro: 242, 236, 225;
-  --tinta: 240, 69, 42;
-  --tinta-piena: 240, 69, 42;
-  --contro: 20, 17, 15;
-  --tinta-2: 240, 69, 42;
-  --tinta-3: 240, 69, 42;
-  --tinta-passaggio: 242, 236, 225;
-  --macchia-a: 240, 69, 42;
-  --macchia-b: 242, 236, 225;
+/* Saggio · la pagina di una rivista. Bruno caldo e carta avorio, con
+   un'ambra sola al posto delle tre tinte di Officina: qui il colore
+   non deve chiamare, deve solo distinguere una nota da un titolo. */
+:root[data-stile='saggio'][data-tema='notte'] {
+  --fondo: 25, 23, 20;
+  --inchiostro: 242, 237, 228;
+  --tinta: 217, 160, 102;
+  --tinta-piena: 217, 160, 102;
+  --contro: 25, 23, 20;
+  --tinta-2: 200, 180, 148;
+  --tinta-3: 201, 154, 154;
+  --tinta-passaggio: 242, 237, 228;
+  --macchia-a: 217, 160, 102;
+  --macchia-b: 201, 154, 154;
 }
 
-:root[data-stile='manifesto'][data-tema='giorno'] {
-  --fondo: 242, 236, 225;
-  --inchiostro: 20, 17, 15;
-  --tinta: 195, 31, 8;
-  /* La campitura si scurisce rispetto alla tinta del testo: sopra ci
-     va l'avorio, e sul vermiglio acceso non avrebbe retto. */
-  --tinta-piena: 184, 26, 6;
-  --contro: 242, 236, 225;
-  --tinta-2: 195, 31, 8;
-  --tinta-3: 195, 31, 8;
-  --tinta-passaggio: 20, 17, 15;
-  --macchia-a: 195, 31, 8;
-  --macchia-b: 20, 17, 15;
+:root[data-stile='saggio'][data-tema='giorno'] {
+  --fondo: 247, 244, 238;
+  --inchiostro: 26, 24, 20;
+  --tinta: 140, 47, 29;
+  --tinta-piena: 140, 47, 29;
+  --contro: 247, 244, 238;
+  --tinta-2: 90, 80, 60;
+  --tinta-3: 122, 60, 80;
+  --tinta-passaggio: 26, 24, 20;
+  --macchia-a: 140, 47, 29;
+  --macchia-b: 122, 60, 80;
 }
 
-:root[data-stile='manifesto'][data-tema='contrasto'] {
+:root[data-stile='saggio'][data-tema='contrasto'] {
   --fondo: 255, 255, 255;
   --inchiostro: 0, 0, 0;
-  --tinta: 168, 20, 0;
-  --tinta-piena: 168, 20, 0;
+  --tinta: 122, 36, 18;
+  --tinta-piena: 122, 36, 18;
   --contro: 255, 255, 255;
-  --tinta-2: 168, 20, 0;
-  --tinta-3: 168, 20, 0;
+  --tinta-2: 70, 60, 40;
+  --tinta-3: 100, 40, 60;
   --tinta-passaggio: 0, 0, 0;
-  --macchia-a: 168, 20, 0;
-  --macchia-b: 0, 0, 0;
+  --macchia-a: 122, 36, 18;
+  --macchia-b: 100, 40, 60;
 }
 
-/* Macchina · lo schedario. Monospazio, fosforo su nero, ambra e ciano
-   per le due tinte minori: i colori di un terminale, che è la forma
-   che prende un archivio quando lo si interroga. */
-:root[data-stile='macchina'][data-tema='notte'] {
-  --fondo: 11, 15, 13;
-  --inchiostro: 224, 234, 228;
-  --tinta: 61, 214, 120;
-  --tinta-piena: 61, 214, 120;
-  --contro: 11, 15, 13;
-  --tinta-2: 226, 178, 74;
-  --tinta-3: 108, 196, 214;
-  --tinta-passaggio: 226, 178, 74;
-  --macchia-a: 61, 214, 120;
-  --macchia-b: 108, 196, 214;
+/* Insegna · il cartellone. Giallo di segnaletica, ciano e arancio: i
+   colori che si leggono da lontano. La campitura gialla porta sempre
+   l'inchiostro sopra, mai il contrario. */
+:root[data-stile='insegna'][data-tema='notte'] {
+  --fondo: 16, 16, 16;
+  --inchiostro: 245, 243, 238;
+  --tinta: 255, 214, 0;
+  --tinta-piena: 255, 214, 0;
+  --contro: 16, 16, 16;
+  --tinta-2: 0, 163, 255;
+  --tinta-3: 255, 90, 43;
+  --tinta-passaggio: 0, 163, 255;
+  --macchia-a: 255, 214, 0;
+  --macchia-b: 0, 163, 255;
 }
 
-:root[data-stile='macchina'][data-tema='giorno'] {
-  --fondo: 238, 241, 238;
-  --inchiostro: 18, 26, 22;
-  --tinta: 10, 110, 60;
-  --tinta-piena: 10, 110, 60;
-  --contro: 255, 255, 255;
-  --tinta-2: 138, 90, 0;
-  --tinta-3: 13, 95, 112;
-  --tinta-passaggio: 18, 26, 22;
-  --macchia-a: 10, 110, 60;
-  --macchia-b: 13, 95, 112;
+:root[data-stile='insegna'][data-tema='giorno'] {
+  --fondo: 244, 241, 232;
+  --inchiostro: 16, 16, 16;
+  /* Il blu scrive, il giallo campisce: sul giallo il blu non si
+     leggerebbe, e l'inchiostro sì. */
+  --tinta: 0, 60, 200;
+  --tinta-piena: 255, 214, 0;
+  --contro: 16, 16, 16;
+  --tinta-2: 200, 40, 0;
+  --tinta-3: 0, 110, 90;
+  --tinta-passaggio: 16, 16, 16;
+  --macchia-a: 255, 214, 0;
+  --macchia-b: 0, 60, 200;
 }
 
-:root[data-stile='macchina'][data-tema='contrasto'] {
+:root[data-stile='insegna'][data-tema='contrasto'] {
   --fondo: 255, 255, 255;
   --inchiostro: 0, 0, 0;
-  --tinta: 0, 90, 45;
-  --tinta-piena: 0, 90, 45;
-  --contro: 255, 255, 255;
-  --tinta-2: 107, 68, 0;
-  --tinta-3: 0, 74, 88;
+  --tinta: 0, 45, 160;
+  --tinta-piena: 255, 214, 0;
+  --contro: 0, 0, 0;
+  --tinta-2: 160, 30, 0;
+  --tinta-3: 0, 80, 70;
   --tinta-passaggio: 0, 0, 0;
-  --macchia-a: 0, 90, 45;
-  --macchia-b: 0, 74, 88;
+  --macchia-a: 255, 214, 0;
+  --macchia-b: 0, 45, 160;
 }
 
-/* ══ GLI STILI: CARATTERI E CONDOTTA ══
-   La tavolozza è solo metà di uno stile. Qui c'è l'altra: quali
-   caratteri, quanto spazio fra le lettere, quanto pesano i filetti,
-   se un'ombra c'è o non c'è. Sono le cose che si riconoscono a colpo
-   d'occhio, prima ancora del colore. */
+/* ══ GLI STILI: IMPIANTO ══
+   La tavolozza è la parte che si nota per ultima. Quel che distingue
+   davvero una veste da un'altra è la struttura: quanto pesano i
+   filetti, se un'ombra c'è, quanto respira il testo, se la sezione
+   corrente è una campitura piena o una riga sottolineata.
 
-/* ── Manifesto ──
-   Un solo carattere per tutto, e in maiuscolo dove Officina alterna:
-   il manifesto non ha titoli e sottotitoli, ha proclami. L'ombra
-   cresce e si sposta in diagonale, come una lastra fuori registro. */
-:root[data-stile='manifesto'] {
-  --font-display: 'Archivo', sans-serif;
-  --font-testo: 'Archivo', sans-serif;
-  --scarto: 9px;
-}
+   Officina — l'impianto originale — non ha bisogno di regole: è quello
+   che il foglio descrive dovunque. Gli altri due lo smontano. */
 
-:root[data-stile='manifesto'] .au-name,
-:root[data-stile='manifesto'] .au-titolo-sezione,
-:root[data-stile='manifesto'] .au-year,
-:root[data-stile='manifesto'] .au-pezzo-titolo {
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-/* I titoli delle voci restano in tondo — un elenco tutto maiuscolo
-   non è più un elenco, è un muro — ma prendono peso. */
-:root[data-stile='manifesto'] .au-article-title,
-:root[data-stile='manifesto'] .au-giornale-entry-title,
-:root[data-stile='manifesto'] .au-poem-title {
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-/* ── Macchina ──
-   Monospazio dappertutto. Il monospazio è largo: a parità di corpo
-   una riga ci sta meno, e i titoli grandi sfondavano lo schermo di un
-   telefono. Perciò il display scende di un gradino e le spaziature
-   delle etichette si stringono, perché il carattere ne porta già di
-   suo. L'ombra sparisce: una macchina non proietta ombre. */
-:root[data-stile='macchina'] {
-  --font-display: 'Space Mono', ui-monospace, monospace;
-  --font-testo: 'Space Mono', ui-monospace, monospace;
+/* ── Saggio ──
+   La pagina di una rivista. Serif per tutto ciò che si legge, e il
+   grotesque solo per le etichette in maiuscoletto, che in un serif
+   diventerebbero fiacche. Niente retino, niente campiture di sfondo,
+   niente ombre: la carta è carta. I filetti scendono da due punti a
+   uno, il testo cresce e respira, la colonna si stringe — perché la
+   riga giusta per leggere è più corta di quella che ci starebbe. */
+:root[data-stile='saggio'] {
+  --font-display: 'Crimson Text', Georgia, serif;
+  --font-testo: 'Crimson Text', Georgia, serif;
+  --ornamento: 0;
   --scarto: 0px;
 }
 
-:root[data-stile='macchina'] .au-name {
-  font-size: clamp(2.4rem, calc(6vw * var(--scala)), 5rem);
+/* Le etichette minute tornano al grotesque: un maiuscoletto spaziato
+   in serif perde il proprio disegno e sembra solo piccolo. */
+:root[data-stile='saggio'] .au-label,
+:root[data-stile='saggio'] .au-nav-btn,
+:root[data-stile='saggio'] .au-regolatore-etichetta,
+:root[data-stile='saggio'] .au-comando,
+:root[data-stile='saggio'] .au-passo,
+:root[data-stile='saggio'] .au-source,
+:root[data-stile='saggio'] .au-date,
+:root[data-stile='saggio'] .au-year,
+:root[data-stile='saggio'] .au-gp-label,
+:root[data-stile='saggio'] .au-gp-date,
+:root[data-stile='saggio'] .au-poem-type,
+:root[data-stile='saggio'] .au-poem-date,
+:root[data-stile='saggio'] .au-giornale-entry-date,
+:root[data-stile='saggio'] .au-pezzo-data,
+:root[data-stile='saggio'] .au-pezzo-ritorno,
+:root[data-stile='saggio'] .au-filter-btn,
+:root[data-stile='saggio'] .au-contatti-etichetta,
+:root[data-stile='saggio'] .au-cerca-etichetta {
+  font-family: 'Archivo', sans-serif;
+}
+
+/* Il nome perde il maiuscolo e prende le proporzioni di un frontespizio. */
+:root[data-stile='saggio'] .au-name {
+  text-transform: none;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: clamp(2.5rem, calc(7.4vw * var(--scala)), 4rem);
+}
+
+:root[data-stile='saggio'] .au-titolo-sezione,
+:root[data-stile='saggio'] .au-pezzo-titolo {
+  text-transform: none;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+/* Filetti a un punto: due sono un segno tipografico, uno è una regola
+   di stampa. */
+:root[data-stile='saggio'] .au-nav,
+:root[data-stile='saggio'] .au-year,
+:root[data-stile='saggio'] .au-piede,
+:root[data-stile='saggio'] .au-pezzo-testata,
+:root[data-stile='saggio'] .au-giornale-col {
+  border-width: 1px;
+}
+
+:root[data-stile='saggio'] .au-nav-btn {
+  border-bottom-width: 1px;
+  margin-bottom: -1px;
+}
+
+:root[data-stile='saggio'] .au-comando,
+:root[data-stile='saggio'] .au-passo,
+:root[data-stile='saggio'] .au-filter-btn,
+:root[data-stile='saggio'] .au-contatti-campo,
+:root[data-stile='saggio'] .au-cerca-pannello,
+:root[data-stile='saggio'] .au-home-card,
+:root[data-stile='saggio'] .au-contatti-invio {
+  border-width: 1px;
+}
+
+/* La sezione corrente non è una campitura ma una riga: in una rivista
+   il segno di dove si è non è un blocco di colore, è un filo. */
+:root[data-stile='saggio'] .au-nav-btn[aria-current],
+:root[data-stile='saggio'][data-sez='home'] .au-nav-btn[data-sez='home'],
+:root[data-stile='saggio'][data-sez='artificiosa'] .au-nav-btn[data-sez='artificiosa'],
+:root[data-stile='saggio'][data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
+:root[data-stile='saggio'][data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
+:root[data-stile='saggio'][data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
+:root[data-stile='saggio'][data-sez='giornale'] .au-nav-btn[data-sez='giornale'],
+:root[data-stile='saggio'][data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
+:root[data-stile='saggio'][data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
+  color: var(--tinta-testo);
+  background: none;
+  border-bottom-color: currentColor;
+  border-bottom-width: 3px;
+}
+
+/* Il testo respira: corpo più grande, interlinea più larga, colonna
+   più corta. Sono le tre misure che decidono se un saggio si legge
+   fino in fondo. */
+:root[data-stile='saggio'] .au-gp-text,
+:root[data-stile='saggio'] .au-giornale-entry-text {
+  font-size: 0.9375rem;
+  line-height: 1.95;
+}
+
+:root[data-stile='saggio'] .au-pezzo-testo {
+  font-size: 1.0625rem;
+  line-height: 2;
+}
+
+:root[data-stile='saggio'] .au-pezzo,
+:root[data-stile='saggio'] .au-pezzo-coda {
+  max-width: 36rem;
+}
+
+:root[data-stile='saggio'] .au-bio {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* ── Insegna ──
+   Il cartellone. Tutto il contrario del saggio: il nome riempie la
+   riga, le linguette diventano blocchi staccati, le schede perdono
+   l'ombra e prendono un bordo spesso e un fondo pieno. Le due
+   campiture di sfondo si allargano fino a diventare campi di colore
+   invece di aloni. */
+:root[data-stile='insegna'] {
+  --font-display: 'Archivo', sans-serif;
+  --font-testo: 'Archivo', sans-serif;
+  --ornamento: 0;
+  --scarto: 0px;
+  /* Non più aloni negli angoli ma due campi che tagliano la pagina. */
+  --macchia-1: radial-gradient(circle 46% at 100% 0%,
+    rgba(var(--macchia-a), 0.9) 0 99.5%, transparent 100%);
+  --macchia-2: radial-gradient(circle 34% at 0% 100%,
+    rgba(var(--macchia-b), 0.85) 0 99.5%, transparent 100%);
+}
+
+:root[data-stile='insegna'] .au-name {
+  font-size: clamp(3rem, calc(11vw * var(--scala)), 7rem);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+}
+
+:root[data-stile='insegna'] .au-titolo-sezione {
+  font-weight: 700;
   letter-spacing: -0.04em;
+  text-transform: uppercase;
 }
 
-:root[data-stile='macchina'] .au-titolo-sezione {
-  font-size: clamp(1.4rem, calc(3.4vw * var(--scala)), 2.6rem);
-  letter-spacing: -0.03em;
+/* Le linguette si staccano e diventano blocchi. */
+:root[data-stile='insegna'] .au-nav {
+  border-bottom: none;
+  gap: 0.3rem;
 }
 
-:root[data-stile='macchina'] .au-pezzo-titolo {
-  font-size: clamp(1.2rem, calc(2.4vw * var(--scala)), 1.8rem);
+:root[data-stile='insegna'] .au-nav-btn {
+  border: 3px solid var(--filo-forte);
+  margin-bottom: 0;
+  padding: 0.55rem 0.9rem;
 }
 
-/* Le etichette in maiuscoletto spaziato: il monospazio ha già la
-   propria spaziatura incorporata, e sommarne un'altra le sfilaccia. */
-:root[data-stile='macchina'] .au-label,
-:root[data-stile='macchina'] .au-nav-btn,
-:root[data-stile='macchina'] .au-regolatore-etichetta,
-:root[data-stile='macchina'] .au-comando,
-:root[data-stile='macchina'] .au-source,
-:root[data-stile='macchina'] .au-tema,
-:root[data-stile='macchina'] .au-stile {
-  letter-spacing: 0.06em;
+/* Le schede: via l'ombra, dentro il bordo spesso e il fondo pieno. */
+:root[data-stile='insegna'] .au-home-card {
+  border-width: 3px;
+  background: rgba(var(--tinta-piena), 0.14);
 }
 
-/* Senza ombra il contorno deve reggere da solo. */
-:root[data-stile='macchina'] .au-article,
-:root[data-stile='macchina'] .au-contatti-form {
-  border-width: 2px;
+:root[data-stile='insegna'] .au-comando,
+:root[data-stile='insegna'] .au-filter-btn,
+:root[data-stile='insegna'] .au-contatti-invio,
+:root[data-stile='insegna'] .au-cerca-pannello {
+  border-width: 3px;
+}
+
+:root[data-stile='insegna'] .au-piede,
+:root[data-stile='insegna'] .au-year,
+:root[data-stile='insegna'] .au-pezzo-testata {
+  border-width: 4px;
+}
+
+/* Il testo si compatta: un cartellone non ha interlinea da libro. */
+:root[data-stile='insegna'] .au-gp-text,
+:root[data-stile='insegna'] .au-giornale-entry-text {
+  line-height: 1.62;
+}
+
+:root[data-stile='insegna'] .au-article-title,
+:root[data-stile='insegna'] .au-giornale-entry-title,
+:root[data-stile='insegna'] .au-home-card-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 /* ── Azzeramento ── */
@@ -866,6 +1042,14 @@ body {
 /* I cursori: affiancati dove c'è spazio, incolonnati quando non ce n'è.
    Uno sotto l'altro farebbe crescere l'intestazione di ottanta pixel su
    ogni pagina, e l'intestazione è già la parte che costa di più. */
+/* In colonna, `flex: 1 1 6.5rem` del regolatore diventerebbe
+   un'altezza: i due blocchi della veste si gonfiavano da 40 a 104px
+   ciascuno, e fra Luce e Scala si apriva un vuoto di un centimetro.
+   Qui la base torna a essere il contenuto. */
+.au-comandi > .au-regolatore {
+  flex: 0 0 auto;
+}
+
 .au-regolatori {
   display: flex;
   flex-wrap: nowrap;
