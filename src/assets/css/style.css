@@ -280,16 +280,15 @@ a[href],
     rgba(var(--rosa), 0.13) 0 99.5%, transparent 100%);
 }
 
-/* ── Tavolozza: tema chiaro, lo stesso fondo alzato di luce ──
-   Non è una carta diversa: è l'inchiostro di fondo del tema scuro
-   portato dal 14% al 94% di luce, alla stessa tinta esatta — 224° in
-   entrambi. Da qui i due temi sono la stessa immagine con la luce
-   accesa e spenta, e non due mondi con due temperature.
+/* ── Tavolozza: Giorno ──
+   Non una carta diversa: è l'inchiostro di fondo di Notte portato dal
+   14% al 94% di luce, alla stessa tinta esatta — 224° in entrambi. I
+   due sono la stessa immagine, con la luce accesa e spenta.
 
-   Il fondo caldo di prima costava una cosa che qui si guadagna: sul
-   crema il testo blu prendeva una sfumatura d'ambra che non era di
-   nessuno dei due. -- */
-.theme-light {
+   I due inchiostri più tenui stanno a 0.64 e non a 0.62: questo fondo
+   è di un gradino più scuro del crema, e col vecchio valore
+   scendevano a 4.43:1, mancando la soglia per un soffio. */
+:root[data-tema='giorno'] {
   color-scheme: light;
 
   --bg: #eaedf5;
@@ -349,6 +348,83 @@ a[href],
   --toggle-sfondo-hover: rgb(var(--arancio));
 
   --overlay: rgba(234, 237, 245, 0.96);
+  --citazione: rgb(var(--blu));
+  --citazione-attr: rgb(var(--arancio-cupo));
+  --citazione-chiudi: rgba(var(--blu), 0.45);
+
+  --retino: rgba(var(--blu), 0.11);
+  --macchia-1: radial-gradient(ellipse 26% 17% at 94% -7%,
+    rgba(var(--arancio), 0.24) 0 99.5%, transparent 100%);
+  --macchia-2: radial-gradient(ellipse 20% 13% at 2% 104%,
+    rgba(var(--rosa), 0.16) 0 99.5%, transparent 100%);
+}
+
+/* ── Tavolozza: Carta ──
+   Il fondo caldo che il sito ha avuto per primo. Non è un tema chiaro
+   in più: è un'altra materia. Il crema tiene meno di uno schermo e più
+   di una pagina stampata, e sui testi lunghi molti lo preferiscono
+   perché la luce che rimanda è meno azzurra.
+
+   Resta qui perché era già misurata e passata: tutti i suoi inchiostri
+   stanno sopra 4.5:1 su questo fondo. Buttarla per sostituirla sarebbe
+   stato perdere un lavoro fatto. */
+:root[data-tema='carta'] {
+  color-scheme: light;
+
+  --bg: #f6f2e7;
+  --testo: rgba(var(--blu), 0.88);
+
+  --titolo-forte: rgb(var(--blu));
+  --titolo-em: rgb(var(--arancio-cupo));
+  --titolo: rgb(var(--blu));
+  --titolo-voce: rgba(var(--blu), 0.92);
+
+  --bio: rgba(var(--blu), 0.62);
+  --descrizione: rgba(var(--blu), 0.62);
+  --estratto: rgba(var(--blu), 0.64);
+  --meta: rgba(var(--blu), 0.65);
+  --gp-meta: rgba(var(--blu), 0.65);
+  --prosa: rgba(var(--blu), 0.76);
+  --prosa-voce: rgba(var(--blu), 0.74);
+
+  --etichetta: rgb(var(--arancio-cupo));
+  --accento: rgb(var(--arancio-cupo));
+  --fonte: rgb(var(--arancio-cupo));
+  --link: rgb(var(--arancio-cupo));
+  --link-hover: rgb(var(--blu));
+
+  --viola: rgb(var(--rosa-cupo));
+  --viola-link: rgb(var(--rosa-cupo));
+  --viola-link-hover: rgb(var(--blu));
+  --anno: rgb(var(--blu-vivo));
+
+  --nav: rgba(var(--blu), 0.65);
+  --nav-hover: rgb(var(--blu));
+  --nav-attivo-sfondo: rgb(var(--arancio));
+  --nav-attivo-testo: #151d33;
+
+  --filtro: rgba(var(--blu), 0.75);
+  --filtro-hover: rgb(var(--blu));
+  --filtro-sfondo: transparent;
+  --filtro-bordo: rgba(var(--blu), 0.35);
+  --filtro-bordo-hover: rgb(var(--arancio-cupo));
+  --filtro-attivo-sfondo: rgb(var(--arancio));
+  --filtro-attivo-testo: #151d33;
+
+  --scheda-sfondo: rgba(255, 255, 255, 0.42);
+  --scheda-bordo: rgb(var(--blu));
+  --scheda-ombra: rgb(var(--arancio));
+
+  --filo: rgba(var(--blu), 0.18);
+  --filo-sezione: rgba(var(--blu), 0.24);
+  --filo-forte: rgba(var(--blu), 0.32);
+
+  --toggle: rgb(var(--blu));
+  --toggle-hover: #151d33;
+  --toggle-bordo: rgba(var(--blu), 0.4);
+  --toggle-sfondo-hover: rgb(var(--arancio));
+
+  --overlay: rgba(246, 242, 231, 0.96);
   --citazione: rgb(var(--blu));
   --citazione-attr: rgb(var(--arancio-cupo));
   --citazione-chiudi: rgba(var(--blu), 0.45);
@@ -569,23 +645,6 @@ body {
   min-width: 0;
 }
 
-/* I due pulsanti che aprono qualcosa — la ricerca e il tema — stanno
-   sulla stessa riga: incolonnati peserebbero il doppio in un angolo
-   che deve restare secondario rispetto al nome. Si dividono lo spazio
-   in parti uguali, così nessuno dei due comanda sull'altro. */
-.au-comandi-riga {
-  display: flex;
-  gap: 0.5rem;
-  min-width: 0;
-}
-
-.au-comandi-riga > .au-theme-toggle {
-  flex: 1 1 0;
-  min-width: 0;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
 /* ── Quanto movimento ──
    La percentuale è la durata: 100% è la misura piena, 0% ferma tutto.
    Il cursore è disegnato da zero perché quello di sistema porta con sé
@@ -696,6 +755,31 @@ body {
   border-color: var(--toggle-sfondo-hover);
 }
 
+/* I tre temi condividono la forma dei pulsanti di scala, ma portano
+   parole invece di segni: corpo più piccolo, maiuscoletto spaziato
+   come tutte le etichette del sito, e larghezze uguali perché nessuno
+   dei tre sembri il principale. */
+.au-tema {
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.35rem 0.2rem;
+}
+
+/* Il tema in vigore è una campitura piena, la stessa della sezione
+   corrente nella barra: chi guarda la pagina sa già cosa vuol dire. */
+.au-tema[aria-pressed='true'] {
+  color: var(--nav-attivo-testo);
+  background: var(--nav-attivo-sfondo);
+  border-color: var(--nav-attivo-sfondo);
+}
+
+.au-tema[aria-pressed='true']:hover {
+  color: var(--nav-attivo-testo);
+}
+
 .au-passo:disabled {
   opacity: 0.35;
   cursor: var(--cursore-base);
@@ -722,7 +806,7 @@ body {
   cursor: not-allowed;
 }
 
-.au-theme-toggle {
+.au-comando {
   font-family: var(--font-testo);
   font-size: 0.625rem;
   font-weight: 700;
@@ -736,7 +820,7 @@ body {
   transition: color 0.12s, border-color 0.12s, background-color 0.12s;
 }
 
-.au-theme-toggle:hover {
+.au-comando:hover {
   color: var(--toggle-hover);
   background: var(--toggle-sfondo-hover);
   border-color: var(--toggle-sfondo-hover);
@@ -2397,7 +2481,7 @@ body {
     flex-wrap: wrap;
   }
 
-  .au-theme-toggle {
+  .au-comando {
     flex: none;
     padding: 0.55rem 0.9rem;
   }

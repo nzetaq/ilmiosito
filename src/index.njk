@@ -74,10 +74,22 @@ reti: "https://formsubmit.co"
            che si apre sopra la pagina e si richiude senza lasciare
            traccia — chi cerca vuole tornare dov'era, non trovarsi
            altrove. Si apre anche col tasto «/». -#}
-        <div class="au-comandi-riga">
-          <button class="au-theme-toggle au-cerca-apri" id="au-cerca-apri" type="button"
-                  aria-haspopup="dialog">Cerca</button>
-          <button class="au-theme-toggle" id="au-theme-toggle" type="button">Chiaro</button>
+        <button class="au-comando au-cerca-apri" id="au-cerca-apri" type="button"
+                aria-haspopup="dialog">Cerca</button>
+
+        {#- Tre temi, e si vedono tutti e tre: un interruttore che gira
+           in tondo nasconde le scelte a chi non lo preme abbastanza
+           volte. `aria-pressed` dice quale è in vigore, così anche chi
+           non vede la campitura piena sa dove si trova. -#}
+        <div class="au-regolatore">
+          <span class="au-regolatore-etichetta">Tema</span>
+          <div class="au-passi au-temi" role="group" aria-label="Tema del sito">
+            {%- for t in site.temi %}
+            <button class="au-passo au-tema" type="button"
+                    data-tema="{{ t.id }}" data-barra="{{ t.barra }}"
+                    aria-pressed="false">{{ t.etichetta }}</button>
+            {%- endfor %}
+          </div>
         </div>
         <div class="au-regolatori">
           {#- Quanto è grande il sito. Il 100% è il disegno originale;

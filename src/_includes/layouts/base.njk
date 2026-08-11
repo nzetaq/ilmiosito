@@ -12,10 +12,24 @@
     (function () {
       var radice = document.documentElement;
 
+      // Il tema, scritto su <html> prima del primo disegno: arrivando
+      // col resto del JavaScript si vedrebbe la pagina cambiare colore
+      // sotto gli occhi.
+      var temi = [{% for t in site.temi %}'{{ t.id }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+      var barre = { {% for t in site.temi %}'{{ t.id }}': '{{ t.barra }}'{% if not loop.last %}, {% endif %}{% endfor %} };
+      var tema = '{{ site.temi[0].id }}';
       try {
-        if (localStorage.getItem('au-theme') === 'light') {
-          radice.classList.add('theme-light');
-        }
+        var salvato = localStorage.getItem('au-tema');
+        // Quando i temi erano due si scriveva 'light' o 'dark': chi ha
+        // quella chiave nel proprio browser non deve ritrovarsi il
+        // sito cambiato al primo ritorno.
+        if (!salvato && localStorage.getItem('au-theme') === 'light') salvato = 'giorno';
+        if (temi.indexOf(salvato) !== -1) tema = salvato;
+      } catch (e) {}
+      radice.setAttribute('data-tema', tema);
+      try {
+        var barra = document.getElementById('au-colore-barra');
+        if (barra && barre[tema]) barra.setAttribute('content', barre[tema]);
       } catch (e) {}
 
       // Le regolazioni della veste, applicate prima del primo disegno:
@@ -60,8 +74,10 @@
       /* Il pulsante del menù aprirebbe un elenco che qui non c'è: le
          sezioni sono già tutte in pagina, una dopo l'altra. */
       :root .au-nav-apri { display: none; }
-      /* Senza JavaScript i cursori non fanno nulla: ingannerebbero. */
-      :root .au-regolatori { display: none; }
+      /* Senza JavaScript nessuno di questi comandi fa qualcosa: né i
+         cursori, né la scelta del tema, né la ricerca. Mostrarli
+         sarebbe promettere ciò che non si può mantenere. */
+      :root .au-comandi { display: none; }
 {%- endset -%}
 <!DOCTYPE html>
 <html lang="{{ site.lingua }}">
@@ -158,8 +174,12 @@
         title="{{ site.titolo }} — Il Diavolo veste Pravda e articoli"
         href="{{ site.url }}/feed.xml">
 
-  <meta name="theme-color" content="#151d33" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#eaedf5" media="(prefers-color-scheme: light)">
+  {#- Il colore della barra del browser sul telefono. Non più due
+     dichiarazioni legate alle preferenze di sistema, che con tre temi
+     non saprebbero quale annunciare: una sola, che lo script qui sotto
+     mette in accordo col tema scelto. Deve stare prima di quello
+     script, che la cerca per nome. -#}
+  <meta name="theme-color" id="au-colore-barra" content="{{ site.temi[0].barra }}">
   <link rel="icon" href="{{ base }}assets/img/favicon.svg" type="image/svg+xml">
 
   {%- if site.analisi.goatcounter %}
