@@ -325,6 +325,11 @@ a[href],
 :root {
   /* Officina porta i propri ornamenti; gli altri due li spengono. */
   --ornamento: 1;
+  /* Quanto corpo può permettersi la barra delle sezioni per stare in
+     una riga sola. Dipende da quanto è larga una linguetta a parità di
+     corpo, e quindi dallo stile: chi mette bordi e distanze fra una
+     voce e l'altra ne consuma di più e deve accontentarsi di meno. */
+  --nav-capienza: 1.24cqw;
   --tinta-testo: rgb(var(--tinta));
   --bg: rgb(var(--fondo));
   --testo: rgba(var(--inchiostro), var(--a-testo));
@@ -761,6 +766,12 @@ a[href],
   --font-testo: 'Archivo', sans-serif;
   --ornamento: 0;
   --scarto: 0px;
+  /* Misurata a misure proporzionali: una barra intera costa 78.5
+     volte il corpo, contro le 77.8 di Officina — i bordi e le
+     distanze fra i blocchi si pagano quasi per intero col respiro
+     tolto ai fianchi. La capienza esatta sarebbe 1.274cqw; qui c'è
+     col margine di sicurezza. */
+  --nav-capienza: 1.23cqw;
   /* Non più aloni negli angoli ma due campi che tagliano la pagina. */
   --macchia-1: radial-gradient(circle 46% at 100% 0%,
     rgba(var(--macchia-a), 0.9) 0 99.5%, transparent 100%);
@@ -781,16 +792,31 @@ a[href],
   text-transform: uppercase;
 }
 
-/* Le linguette si staccano e diventano blocchi. */
+/* Le linguette si staccano e diventano blocchi.
+
+   Tutto in `em` e non in `rem`: bordi, fianchi e distanza fra un
+   blocco e l'altro seguono il corpo del carattere invece di restare
+   fissi mentre quello si stringe. Con le misure fisse la barra
+   chiedeva 81 volte il corpo a schermo largo e 87 a schermo stretto —
+   e la formula che la tiene in una riga, che ne conosce una sola,
+   sbagliava: la voce «Contatti» finiva su una seconda riga.
+
+   La distanza è un margine e non un `gap` perché il `gap` sta sulla
+   barra, dove `em` misurerebbe il corpo della barra e non quello
+   delle linguette. */
 :root[data-stile='insegna'] .au-nav {
   border-bottom: none;
-  gap: 0.3rem;
+  gap: 0;
 }
 
 :root[data-stile='insegna'] .au-nav-btn {
-  border: 3px solid var(--filo-forte);
-  margin-bottom: 0;
-  padding: 0.55rem 0.9rem;
+  border: 0.26em solid var(--filo-forte);
+  margin: 0 0.3em 0 0;
+  padding: 0.55em 1.25em;
+}
+
+:root[data-stile='insegna'] .au-nav-btn:last-child {
+  margin-right: 0;
 }
 
 /* Le schede: via l'ombra, dentro il bordo spesso e il fondo pieno. */
@@ -1290,7 +1316,7 @@ body {
      Se un giorno le etichette cambiassero molto di lunghezza, il
      numero da rivedere è quel 1.24 — e nel frattempo il difetto non
      sarebbe un debordamento ma una seconda riga, che è innocua. */
-  font-size: clamp(0.5625rem, 1.24cqw, 0.6875rem);
+  font-size: clamp(0.5625rem, var(--nav-capienza), 0.6875rem);
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
