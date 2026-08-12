@@ -86,26 +86,40 @@ export function avviaMenu() {
       return;
     }
 
-    /* Tre gradini, e si scende solo quando serve. Il CSS non sa
-       confrontare la lunghezza di un testo con quella del suo
-       riquadro; il browser sì, ma solo dopo averlo scritto. Quindi si
-       scrive, si guarda, e semmai si passa al gradino dopo.
+    /* Una scala di ripieghi, e si scende un gradino per volta solo
+       finché il nome non ci sta. Il CSS non sa confrontare la
+       lunghezza di un testo con quella del suo riquadro; il browser
+       sì, ma solo dopo averlo scritto. Quindi si scrive, si guarda, e
+       semmai si scende.
 
          1. nome per esteso, fascia in due metà uguali;
-         2. se ha sfondato, la veste si ritira in un quadrato e cede
-            all'hamburger i punti della propria parola;
-         3. se ha sfondato anche così, si ripiega sul nome breve.
+         2. `larga`   — la veste si ritira in un quadrato e cede
+                        all'hamburger i punti della propria parola;
+         3. `stretta` — si toglie spaziatura al maiuscoletto;
+         4. `minuta`  — si scende anche di corpo;
+         5. e solo qui, se ancora non basta, il nome breve.
 
-       Per sei sezioni su otto ci si ferma al primo gradino. */
+       Il nome per esteso vale i primi quattro gradini: è la sezione in
+       cui ci si trova, e una sigla non la dice. Per sei sezioni su
+       otto ci si ferma comunque al primo. */
     const sfora = () => voce.scrollWidth > voce.clientWidth + 1;
 
-    radice.removeAttribute('data-fascia');
-    voce.textContent = corrente.textContent.trim();
-
-    if (sfora()) radice.setAttribute('data-fascia', 'larga');
+    /* Scrive un nome e scende i gradini che servono a farlo entrare,
+       partendo sempre dal primo: chiamandola col nome breve dopo
+       averla chiamata con quello intero, la fascia si rilassa invece
+       di restare stretta attorno a una parola corta. */
+    const adatta = (testo) => {
+      radice.removeAttribute('data-fascia');
+      voce.textContent = testo;
+      for (const gradino of ['larga', 'stretta', 'minuta']) {
+        if (!sfora()) return true;
+        radice.setAttribute('data-fascia', gradino);
+      }
+      return !sfora();
+    };
 
     const breve = corrente.dataset.breve;
-    if (breve && sfora()) voce.textContent = breve;
+    if (!adatta(corrente.textContent.trim()) && breve) adatta(breve);
   };
 
   const disponi = (apri) => {

@@ -2978,7 +2978,7 @@ body {
      A deciderlo è il JavaScript, perché è una misura: scrive il nome,
      guarda se ha sfondato, e semmai allarga. Il CSS da solo non sa
      confrontare la lunghezza di un testo con quella del suo riquadro. */
-  :root[data-fascia='larga'] .au-veste-apri {
+  :root[data-fascia] .au-veste-apri {
     flex: 0 0 auto;
     width: var(--fascia-alta);
     padding: 0;
@@ -2987,13 +2987,32 @@ body {
 
   /* La parola sparisce alla vista ma non a chi ascolta: il pulsante
      continua a chiamarsi «Veste». */
-  :root[data-fascia='larga'] .au-veste-voce {
+  :root[data-fascia] .au-veste-voce {
     position: absolute;
     width: 1px;
     height: 1px;
     overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
+  }
+
+  /* Quando nemmeno la fascia allargata basta, si stringe il carattere
+     invece di accorciare il nome: «Il Diavolo veste Pravda» chiede 191
+     punti a spaziatura piena, 165 a 0.06em, 141 a corpo dieci — e in
+     mezza fascia di un telefono da 360 ce ne sono 146.
+
+     Prima si toglie la spaziatura, che in un maiuscoletto è generosa e
+     si può ridurre senza che la parola si guasti; solo dopo si scende
+     di corpo. Il nome per esteso vale il sacrificio: è la sezione in
+     cui ci si trova, e una sigla non la dice. */
+  :root[data-fascia='stretta'] .au-nav-apri-voce,
+  :root[data-fascia='minuta'] .au-nav-apri-voce {
+    letter-spacing: 0.06em;
+  }
+
+  :root[data-fascia='minuta'] .au-nav-apri-voce {
+    font-size: 0.625rem;
+    letter-spacing: 0.02em;
   }
 
   /* La lente: un quadrato, senza parola. Fra due menù che portano un
