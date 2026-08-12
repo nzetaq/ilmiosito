@@ -86,14 +86,26 @@ export function avviaMenu() {
       return;
     }
 
-    /* Prima il nome per esteso; la forma breve solo se non ci sta.
-       Su un telefono da 430 punti «Il Diavolo veste Pravda» entra
-       intero, su uno da 360 no — e la misura la sa solo il browser,
-       dopo aver messo il testo dentro il riquadro. Perciò si prova, si
-       guarda se ha sfondato, e semmai si ripiega. */
+    /* Tre gradini, e si scende solo quando serve. Il CSS non sa
+       confrontare la lunghezza di un testo con quella del suo
+       riquadro; il browser sì, ma solo dopo averlo scritto. Quindi si
+       scrive, si guarda, e semmai si passa al gradino dopo.
+
+         1. nome per esteso, fascia in due metà uguali;
+         2. se ha sfondato, la veste si ritira in un quadrato e cede
+            all'hamburger i punti della propria parola;
+         3. se ha sfondato anche così, si ripiega sul nome breve.
+
+       Per sei sezioni su otto ci si ferma al primo gradino. */
+    const sfora = () => voce.scrollWidth > voce.clientWidth + 1;
+
+    radice.removeAttribute('data-fascia');
     voce.textContent = corrente.textContent.trim();
+
+    if (sfora()) radice.setAttribute('data-fascia', 'larga');
+
     const breve = corrente.dataset.breve;
-    if (breve && voce.scrollWidth > voce.clientWidth + 1) voce.textContent = breve;
+    if (breve && sfora()) voce.textContent = breve;
   };
 
   const disponi = (apri) => {

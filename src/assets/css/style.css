@@ -2940,22 +2940,17 @@ body {
     --fascia-alta: 2.875rem;
   }
 
-  /* L'hamburger si prende tutto ciò che resta, perché è l'unico che
-     porta un testo di lunghezza variabile: il nome della sezione in
-     cui ci si trova. Gli altri due sono quadrati di misura fissa.
+  /* Di regola i due menù sono due metà uguali: nessuno dei due è il
+     principale, e una riga simmetrica è più quieta di una sbilanciata.
+     Si sbilancia solo quando serve — vedi [data-fascia] più sotto.
 
-     Misurato: «Il Diavolo veste Pravda» chiede 191 punti di testo, e
-     con la veste ridotta a quadrato ne restano 176 su un telefono da
-     390 e 216 su uno da 430. Sopra i 410 il nome entra intero; sotto,
-     il JavaScript ripiega sulla forma breve. Con la parola «Veste» al
-     posto del quadrato ne sarebbero rimasti 108, e non sarebbe bastato
-     su nessun telefono. */
-  .au-nav-apri {
-    /* Base zero, non `auto`. Con base `auto` la misura di partenza è
-       quella del testo dentro — 266 punti col nome più lungo — e una
-       riga flessibile decide dove andare a capo *prima* di stringere:
-       la veste finiva su una seconda riga invece che accanto. Con base
-       zero il pulsante parte da nulla e cresce con ciò che avanza. */
+     Base zero e non `auto`: con base `auto` la misura di partenza è
+     quella del testo dentro, e una riga flessibile decide dove andare
+     a capo *prima* di stringere — la veste finiva su una seconda riga
+     invece che accanto. Con base zero i pulsanti partono da nulla e
+     si dividono ciò che avanza. */
+  .au-nav-apri,
+  .au-veste-apri {
     flex: 1 1 0;
     width: auto;
     min-width: 0;
@@ -2970,18 +2965,29 @@ body {
     min-width: 0;
   }
 
-  /* La veste diventa un quadrato come la lente: la parola costava
-     sessantotto punti di larghezza, che erano esattamente quelli che
-     mancavano al nome della sezione. Resta per chi non vede l'icona. */
   .au-veste-apri {
+    position: relative;
+  }
+
+  /* La fascia sbilanciata: la veste si ritira in un quadrato come la
+     lente e cede all'hamburger i sessantotto punti della propria
+     parola. Succede solo quando il nome della sezione non entrerebbe
+     — «Poesie & Testi» ne chiede 112, e in mezza fascia ce ne stanno
+     78. Per gli altri sei nomi la riga resta simmetrica.
+
+     A deciderlo è il JavaScript, perché è una misura: scrive il nome,
+     guarda se ha sfondato, e semmai allarga. Il CSS da solo non sa
+     confrontare la lunghezza di un testo con quella del suo riquadro. */
+  :root[data-fascia='larga'] .au-veste-apri {
     flex: 0 0 auto;
     width: var(--fascia-alta);
     padding: 0;
     gap: 0;
-    position: relative;
   }
 
-  .au-veste-voce {
+  /* La parola sparisce alla vista ma non a chi ascolta: il pulsante
+     continua a chiamarsi «Veste». */
+  :root[data-fascia='larga'] .au-veste-voce {
     position: absolute;
     width: 1px;
     height: 1px;
