@@ -999,24 +999,23 @@ body {
   margin-bottom: 4rem;
 }
 
-/* Il nome a sinistra, i comandi a destra, allineati in cima.
-   Prima i comandi occupavano una riga tutta loro e il motto vi stava
-   centrato verticalmente: alto quanto la colonna dei comandi, quel
-   centro cadeva a metà strada e apriva fra il motto e N·Z·Q un vuoto
-   che nessuna misura chiedeva. Ora il motto è la prima riga del
-   gruppo del nome, e da lì dista quel che deve. */
-.au-testata {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 2rem 3rem;
+/* I comandi in alto a destra, il nome sotto di loro a sinistra.
+
+   Sono fuori dal flusso e non accanto al nome dentro una riga: nel
+   documento devono stare vicino alla barra delle sezioni, perché su
+   schermo stretto diventano il pannello del pulsante che vi sta
+   dentro. Un elemento non può stare in due posti; qui sta dove serve
+   al telefono, e lo schermo largo se lo riprende con la posizione.
+
+   Lo spazio glielo riserva l'intestazione con un margine a destra: se
+   fossero solo sovrapposti, un titolo lungo o una scala alzata ci
+   finirebbero sotto. */
+.au-center {
+  position: relative;
 }
 
-.au-testata-nome {
-  /* Comprimibile: senza, la biografia terrebbe larga la colonna e
-     spingerebbe i comandi fuori dal bordo. */
-  flex: 1 1 auto;
-  min-width: 0;
+.au-header {
+  padding-right: 17.5rem;
 }
 
 .au-label {
@@ -1071,12 +1070,20 @@ body {
      scorrere in orizzontale. `min-width: 0` è ciò che glielo permette,
      perché di suo un elemento flessibile non scende sotto il proprio
      contenuto. */
-  flex: 0 0 auto;
   min-width: 0;
   /* Larghi quanto serve ai sei pulsanti, non di più: sono comandi, e
      non devono competere col nome per l'attenzione. */
   width: 14.5rem;
   max-width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* Il pulsante che apre la veste esiste solo sotto i 700px, come il
+   suo gemello che apre le sezioni. */
+.au-veste-apri {
+  display: none;
 }
 
 /* ── Quanto movimento ──
@@ -2899,19 +2906,91 @@ body {
     padding-top: 1.5rem;
   }
 
-  /* Su schermo stretto le due colonne si incolonnano, e i comandi
-     restano in cima come sono sempre stati: `column-reverse` li mette
-     davanti senza spostarli nel documento, dove è giusto che vengano
-     dopo il nome — un lettore di schermo deve sapere prima dove si
-     trova, poi come cambiarne la veste. */
-  .au-testata {
-    flex-direction: column-reverse;
-    align-items: stretch;
-    gap: 1.75rem;
+  /* Su schermo stretto i comandi non stanno in cima alla pagina: sono
+     cinque righe che si mettono davanti a quel che si è venuti a
+     leggere. Diventano il pannello di un pulsante gemello
+     dell'hamburger, e finché nessuno lo preme non occupano nulla. */
+  .au-header {
+    padding-right: 0;
   }
 
-  .au-comandi {
+  .au-nav-fascia {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .au-nav-apri,
+  .au-veste-apri {
+    /* Metà per uno: due bersagli uguali, nessuno dei due principale. */
+    flex: 1 1 0;
     width: auto;
+    min-width: 0;
+  }
+
+  .au-veste-apri {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-family: var(--font-testo);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--nav);
+    background: none;
+    border: 2px solid var(--filo-forte);
+    padding: 0.8rem 1rem;
+    min-height: 2.75rem;
+    cursor: var(--cursore-mano);
+    transition: color 0.12s, border-color 0.12s;
+  }
+
+  .au-veste-apri[aria-expanded='true'] {
+    color: var(--nav-hover);
+    border-color: var(--nav-attivo-sfondo);
+  }
+
+  /* Un quadrato con dentro un quadrato: il segno della veste, che non
+     ha un'icona d'uso comune come le tre barrette. Aperto, il pieno
+     interno si allarga fino a riempire il contorno. */
+  .au-veste-segno {
+    position: relative;
+    display: block;
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+  }
+
+  .au-veste-segno::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: currentColor;
+    transform: scale(0.45);
+    transition: transform var(--durata-uscita) var(--curva);
+  }
+
+  :root[data-veste='aperta'] .au-veste-segno::after {
+    transform: scale(1);
+  }
+
+  /* Il pannello sta nel flusso, sotto la fascia: aprendolo il
+     contenuto scende, e non si perde di vista quel che c'era. */
+  .au-comandi {
+    position: static;
+    width: auto;
+    display: none;
+    border: 2px solid var(--filo-forte);
+    border-top: none;
+    padding: 1.25rem;
+    gap: 1.25rem;
+  }
+
+  :root[data-veste='aperta'] .au-comandi {
+    display: flex;
   }
 
   .au-label {

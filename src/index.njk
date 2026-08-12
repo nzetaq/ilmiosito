@@ -64,123 +64,36 @@ reti: "https://formsubmit.co"
 
   <!-- ═══ INTESTAZIONE ═══ -->
   <header class="au-header">
-    {#- Il nome e i comandi affiancati, non incolonnati. Prima i
-       comandi stavano in una riga tutta loro, col motto centrato
-       verticalmente dentro: alto quanto i comandi, quel centro
-       lasciava un vuoto di due dita fra il motto e N·Z·Q senza che
-       nulla lo giustificasse. -#}
-    <div class="au-testata">
-      <div class="au-testata-nome">
-        <p class="au-label">{{ site.motto }}</p>
-        <h1 class="au-name">{{ site.nome }}</h1>
-        <p class="au-bio">{{ site.bio }}</p>
+    <p class="au-label">{{ site.motto }}</p>
+    <h1 class="au-name">{{ site.nome }}</h1>
+    <p class="au-bio">{{ site.bio }}</p>
 
-        {#- Intestazioni alternative: le sezioni che in site.json
-           dichiarano un `titolo` mettono quello al posto del nome e
-           della biografia. Stanno nella stessa colonna del nome, e ne
-           prendono il bordo sinistro: sono ciò che sostituiscono, e
-           devono cadere dove cadeva lui. Il ricambio lo governa il CSS
-           a partire da [data-sez], che lo script del <head> scrive
-           prima del primo disegno: non c'è un istante in cui si veda
-           l'intestazione sbagliata. #}
-        {%- for s in site.sezioni %}
-        {%- if s.titolo %}
-        <div class="au-header-sezione" data-sez="{{ s.id }}">
-          <h1 class="au-titolo-sezione">{{ s.titolo }}</h1>
-          {%- if s.sottotitolo %}
-          {#- Una frase per riga: sono dichiarazioni distinte, non un
-             paragrafo. Blocchi e non <br>, così su schermo stretto
-             ognuna va a capo per conto suo senza trascinarsi dietro la
-             seguente. #}
-          <p class="au-sottotitolo-sezione">
-            {%- for frase in s.sottotitolo %}
-            <span class="au-frase-sezione">{{ frase }}</span>
-            {%- endfor %}
-          </p>
-          {%- endif %}
-        </div>
-        {%- endif %}
+    {#- Intestazioni alternative: le sezioni che in site.json
+       dichiarano un `titolo` mettono quello al posto del nome e
+       della biografia. Stanno nella stessa colonna del nome, e ne
+       prendono il bordo sinistro: sono ciò che sostituiscono, e
+       devono cadere dove cadeva lui. Il ricambio lo governa il CSS
+       a partire da [data-sez], che lo script del <head> scrive
+       prima del primo disegno: non c'è un istante in cui si veda
+       l'intestazione sbagliata. #}
+    {%- for s in site.sezioni %}
+    {%- if s.titolo %}
+    <div class="au-header-sezione" data-sez="{{ s.id }}">
+      <h1 class="au-titolo-sezione">{{ s.titolo }}</h1>
+      {%- if s.sottotitolo %}
+      {#- Una frase per riga: sono dichiarazioni distinte, non un
+         paragrafo. Blocchi e non <br>, così su schermo stretto
+         ognuna va a capo per conto suo senza trascinarsi dietro la
+         seguente. #}
+      <p class="au-sottotitolo-sezione">
+        {%- for frase in s.sottotitolo %}
+        <span class="au-frase-sezione">{{ frase }}</span>
         {%- endfor %}
-      </div>
-      {#- I comandi della veste. Senza JavaScript non fanno nulla e non
-         compaiono: li nasconde il blocco <noscript>. -#}
-      <div class="au-comandi">
-        {#- La ricerca non è una sezione e non prende una linguetta: la
-           barra ne ha già otto, e la nona la spezzerebbe. È un pannello
-           che si apre sopra la pagina e si richiude senza lasciare
-           traccia — chi cerca vuole tornare dov'era, non trovarsi
-           altrove. Si apre anche col tasto «/». -#}
-        <button class="au-comando au-cerca-apri" id="au-cerca-apri" type="button"
-                aria-haspopup="dialog">Cerca</button>
-
-        {#- La veste, in due scelte separate: quali inchiostri e quanta
-           luce. Tenerle distinte fa nove combinazioni con sei
-           pulsanti, invece di nove pulsanti — e nessuno deve ricordare
-           che «Officina chiaro» e «Macchina chiaro» sono lo stesso
-           gesto.
-           Tutte le voci si vedono: un interruttore che gira in tondo
-           nasconde le scelte a chi non lo preme abbastanza volte.
-           `aria-pressed` dice quale è in vigore, così anche chi non
-           vede la campitura piena sa dove si trova. -#}
-        <div class="au-regolatore">
-          <span class="au-regolatore-etichetta">Stile</span>
-          <div class="au-passi au-stili" role="group" aria-label="Stile del sito">
-            {%- for s in site.stili %}
-            <button class="au-passo au-stile" type="button"
-                    data-valore="{{ s.id }}" aria-pressed="false">{{ s.etichetta }}</button>
-            {%- endfor %}
-          </div>
-        </div>
-
-        <div class="au-regolatore">
-          <span class="au-regolatore-etichetta">Luce</span>
-          <div class="au-passi au-temi" role="group" aria-label="Quanta luce">
-            {%- for t in site.temi %}
-            <button class="au-passo au-tema" type="button"
-                    data-valore="{{ t.id }}" aria-pressed="false">{{ t.etichetta }}</button>
-            {%- endfor %}
-          </div>
-        </div>
-        <div class="au-regolatori">
-          {#- Quanto è grande il sito. Il 100% è il disegno originale;
-             salendo cresce tutto insieme — corpi, spaziature, larghezza
-             della colonna — perché il foglio è scritto in rem e questo
-             ne muove il perno. Serve a riempire uno schermo grande, e
-             a chi ha poca vista: moltiplica il corpo che il browser
-             considera predefinito invece di sostituirlo. -#}
-          {#- Due pulsanti e non un cursore, per una ragione che si
-             scopre solo usandolo: la pagina cresce mentre si trascina,
-             e il pollice del cursore scappa da sotto il puntatore.
-             Un clic invece è istantaneo. -#}
-          <div class="au-regolatore">
-            <span class="au-regolatore-etichetta">
-              Scala
-              <span class="au-regolatore-valore" id="au-scala-valore"
-                    role="status" aria-live="polite">100%</span>
-            </span>
-            <div class="au-passi" role="group" aria-label="Scala del sito">
-              <button class="au-passo" id="au-scala-meno" type="button"
-                      aria-label="Riduci la scala del cinque per cento">&minus;</button>
-              <button class="au-passo" id="au-scala-piu" type="button"
-                      aria-label="Aumenta la scala del cinque per cento">+</button>
-            </div>
-          </div>
-
-          {#- La velocità del passaggio fra una sezione e l'altra. Il 100%
-             — il valore di partenza — è quella tarata a mano, di sempre;
-             scendendo il passaggio rallenta nella stessa proporzione. Lo
-             0% è a parte: nessun movimento, cambio netto.
-             Cinque scatti: `step` di 25 su una scala di 100. -#}
-          <div class="au-regolatore">
-            <label class="au-regolatore-etichetta" for="au-moto">
-              Moto <span class="au-regolatore-valore" id="au-moto-valore">100%</span>
-            </label>
-            <input class="au-regolatore-cursore" id="au-moto" type="range"
-                   min="0" max="100" step="25" value="100">
-          </div>
-        </div>
-      </div>
+      </p>
+      {%- endif %}
     </div>
+    {%- endif %}
+    {%- endfor %}
 
   </header>
 
@@ -199,12 +112,101 @@ reti: "https://formsubmit.co"
       <span class="au-nav-apri-voce" id="au-nav-apri-voce">Sezioni</span>
     </button>
 
+    {#- Il gemello dell'hamburger: là le sezioni, qui la veste. Su
+       schermo stretto i comandi non stanno in cima alla pagina — sono
+       cinque righe che si mettono davanti a quel che si è venuti a
+       leggere — e diventano un pannello che si apre come l'altro. -#}
+    <button class="au-veste-apri" id="au-veste-apri" type="button"
+            aria-expanded="false" aria-controls="au-comandi">
+      <span class="au-veste-segno" aria-hidden="true"></span>
+      <span class="au-veste-voce">Veste</span>
+    </button>
+
     <nav class="au-nav" id="au-nav" aria-label="Sezioni del sito">
       {%- for sezione in site.sezioni %}
       <a class="au-nav-btn" href="#{{ sezione.id }}" data-sez="{{ sezione.id }}">{{ sezione.etichetta }}</a>
       {%- endfor %}
     </nav>
   </div>
+
+    {#- I comandi della veste. Senza JavaScript non fanno nulla e non
+       compaiono: li nasconde il blocco <noscript>. -#}
+  <div class="au-comandi" id="au-comandi">
+      {#- La ricerca non è una sezione e non prende una linguetta: la
+         barra ne ha già otto, e la nona la spezzerebbe. È un pannello
+         che si apre sopra la pagina e si richiude senza lasciare
+         traccia — chi cerca vuole tornare dov'era, non trovarsi
+         altrove. Si apre anche col tasto «/». -#}
+      <button class="au-comando au-cerca-apri" id="au-cerca-apri" type="button"
+              aria-haspopup="dialog">Cerca</button>
+
+      {#- La veste, in due scelte separate: quali inchiostri e quanta
+         luce. Tenerle distinte fa nove combinazioni con sei
+         pulsanti, invece di nove pulsanti — e nessuno deve ricordare
+         che «Officina chiaro» e «Macchina chiaro» sono lo stesso
+         gesto.
+         Tutte le voci si vedono: un interruttore che gira in tondo
+         nasconde le scelte a chi non lo preme abbastanza volte.
+         `aria-pressed` dice quale è in vigore, così anche chi non
+         vede la campitura piena sa dove si trova. -#}
+      <div class="au-regolatore">
+        <span class="au-regolatore-etichetta">Stile</span>
+        <div class="au-passi au-stili" role="group" aria-label="Stile del sito">
+          {%- for s in site.stili %}
+          <button class="au-passo au-stile" type="button"
+                  data-valore="{{ s.id }}" aria-pressed="false">{{ s.etichetta }}</button>
+          {%- endfor %}
+    </div>
+      </div>
+
+      <div class="au-regolatore">
+        <span class="au-regolatore-etichetta">Luce</span>
+        <div class="au-passi au-temi" role="group" aria-label="Quanta luce">
+          {%- for t in site.temi %}
+          <button class="au-passo au-tema" type="button"
+                  data-valore="{{ t.id }}" aria-pressed="false">{{ t.etichetta }}</button>
+          {%- endfor %}
+    </div>
+      </div>
+      <div class="au-regolatori">
+        {#- Quanto è grande il sito. Il 100% è il disegno originale;
+           salendo cresce tutto insieme — corpi, spaziature, larghezza
+           della colonna — perché il foglio è scritto in rem e questo
+           ne muove il perno. Serve a riempire uno schermo grande, e
+           a chi ha poca vista: moltiplica il corpo che il browser
+           considera predefinito invece di sostituirlo. -#}
+        {#- Due pulsanti e non un cursore, per una ragione che si
+           scopre solo usandolo: la pagina cresce mentre si trascina,
+           e il pollice del cursore scappa da sotto il puntatore.
+           Un clic invece è istantaneo. -#}
+        <div class="au-regolatore">
+          <span class="au-regolatore-etichetta">
+            Scala
+            <span class="au-regolatore-valore" id="au-scala-valore"
+                  role="status" aria-live="polite">100%</span>
+          </span>
+          <div class="au-passi" role="group" aria-label="Scala del sito">
+            <button class="au-passo" id="au-scala-meno" type="button"
+                    aria-label="Riduci la scala del cinque per cento">&minus;</button>
+            <button class="au-passo" id="au-scala-piu" type="button"
+                    aria-label="Aumenta la scala del cinque per cento">+</button>
+          </div>
+    </div>
+
+        {#- La velocità del passaggio fra una sezione e l'altra. Il 100%
+           — il valore di partenza — è quella tarata a mano, di sempre;
+           scendendo il passaggio rallenta nella stessa proporzione. Lo
+           0% è a parte: nessun movimento, cambio netto.
+           Cinque scatti: `step` di 25 su una scala di 100. -#}
+        <div class="au-regolatore">
+          <label class="au-regolatore-etichetta" for="au-moto">
+            Moto <span class="au-regolatore-valore" id="au-moto-valore">100%</span>
+          </label>
+          <input class="au-regolatore-cursore" id="au-moto" type="range"
+                 min="0" max="100" step="25" value="100">
+    </div>
+      </div>
+    </div>
 
 <div class="au-layout" id="au-layout">
 
@@ -230,7 +232,7 @@ reti: "https://formsubmit.co"
           <h2 class="au-home-title">{{ voce.data.titolo }}</h2>
           {%- if voce.templateContent | trim %}
           <div class="au-home-desc">{{ voce.templateContent | safe }}</div>
-          {%- endif %}
+      {%- endif %}
           <p class="au-home-date">{{ voce.data.data | mese }} {{ voce.data.data | anno }}</p>
           <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener">Leggi →</a>
           {%- else %}
@@ -238,11 +240,11 @@ reti: "https://formsubmit.co"
           <h2 class="au-home-title">{{ voce.data.titolo }}</h2>
           {%- if voce.templateContent | trim %}
           <div class="au-home-desc">{{ voce.templateContent | safe }}</div>
-          {%- endif %}
+      {%- endif %}
           {%- if voce.data.url %}
           <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
-          {%- endif %}
-          {%- endif %}
+      {%- endif %}
+      {%- endif %}
         </article>
         {%- endfor %}
       </div>
@@ -290,8 +292,8 @@ reti: "https://formsubmit.co"
           <span class="au-poem-type">{{ voce.data.tipo }}</span>
           {%- if voce.data.data %}
           <span class="au-poem-date">{{ voce.data.data | dataEstesa }}</span>
-          {%- endif %}
-        </div>
+      {%- endif %}
+    </div>
         {#- I versi stanno nel corpo del file. Quando ci sono, il titolo
             diventa una lente: al passaggio del puntatore si apre una
             finestra che li mostra. Quando il corpo è vuoto il titolo
@@ -306,13 +308,13 @@ reti: "https://formsubmit.co"
         <div class="au-poem-versi" id="{{ idVersi }}" hidden>{{ versi }}</div>
         {%- else %}
         <h3 class="au-poem-title">{{ voce.data.titolo }}</h3>
-        {%- endif %}
+    {%- endif %}
         {%- if voce.data.nota %}
         <div class="au-poem-excerpt"><p>{{ voce.data.nota }}</p></div>
-        {%- endif %}
+    {%- endif %}
         {%- if voce.data.url %}
         <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
-        {%- endif %}
+    {%- endif %}
       </article>
       {%- endfor %}
       {%- endfor %}
@@ -329,15 +331,15 @@ reti: "https://formsubmit.co"
           <span class="au-poem-type">{{ voce.data.tipo }}</span>
           {%- if voce.data.data %}
           <span class="au-poem-date">{{ voce.data.data | dataEstesa }}</span>
-          {%- endif %}
-        </div>
+      {%- endif %}
+    </div>
         <h3 class="au-poem-title">
           <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
         </h3>
         <div class="au-poem-excerpt">{{ voce.templateContent | safe }}</div>
         {%- if voce.data.url %}
         <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
-        {%- endif %}
+    {%- endif %}
       </article>
       {%- endfor %}
       {%- endfor %}
@@ -404,19 +406,19 @@ reti: "https://formsubmit.co"
           <label class="au-contatti-etichetta" for="au-contatti-nome">Nome</label>
           <input class="au-contatti-campo" id="au-contatti-nome" type="text"
                  name="nome" required autocomplete="name" maxlength="80">
-        </div>
+    </div>
 
         <div class="au-contatti-voce">
           <label class="au-contatti-etichetta" for="au-contatti-email">Indirizzo a cui rispondere</label>
           <input class="au-contatti-campo" id="au-contatti-email" type="email"
                  name="email" required autocomplete="email" maxlength="120">
-        </div>
+    </div>
 
         <div class="au-contatti-voce">
           <label class="au-contatti-etichetta" for="au-contatti-messaggio">Messaggio</label>
           <textarea class="au-contatti-campo au-contatti-area" id="au-contatti-messaggio"
                     name="messaggio" required rows="8" maxlength="4000"></textarea>
-        </div>
+    </div>
 
         {#- Il campo esca: invisibile a chi legge, irresistibile per un
            riempitore automatico. Se arriva compilato, FormSubmit butta via
@@ -437,7 +439,7 @@ reti: "https://formsubmit.co"
         <div class="au-contatti-coda">
           <button class="au-contatti-invio" type="submit">Invia</button>
           <p class="au-contatti-esito" id="au-contatti-esito" role="status" aria-live="polite" hidden></p>
-        </div>
+    </div>
       </form>
       {%- else %}
       <p class="au-contatti-intro">
