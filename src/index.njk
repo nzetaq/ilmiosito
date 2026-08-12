@@ -144,7 +144,13 @@ reti: "https://formsubmit.co"
 
     <nav class="au-nav" id="au-nav" aria-label="Sezioni del sito">
       {%- for sezione in site.sezioni %}
-      <a class="au-nav-btn" href="#{{ sezione.id }}" data-sez="{{ sezione.id }}">{{ sezione.etichetta }}</a>
+      {#- `data-breve`, dove c'è, è il nome da usare sul pulsante del
+         menù quando quello per esteso non ci sta: il pulsante porta il
+         nome della sezione corrente, e su un telefono stretto «Il
+         Diavolo veste Pravda» andrebbe a capo dentro il proprio
+         riquadro. Nella barra il nome resta sempre intero. -#}
+      <a class="au-nav-btn" href="#{{ sezione.id }}" data-sez="{{ sezione.id }}"
+         {%- if sezione.breve %} data-breve="{{ sezione.breve }}"{% endif %}>{{ sezione.etichetta }}</a>
       {%- endfor %}
     </nav>
   </div>

@@ -24,7 +24,8 @@
     {
       "id": "giornale",
       "etichetta": "Il Diavolo veste Pravda",
-      "titolo": "Il Diavolo veste Pravda"
+      "titolo": "Il Diavolo veste Pravda",
+      "breve": "Il DvP"
     },
     {
       "id": "articoli",

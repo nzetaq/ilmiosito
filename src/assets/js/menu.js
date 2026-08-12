@@ -81,7 +81,19 @@ export function avviaMenu() {
     const corrente = pannello.querySelector(
       '.au-nav-btn[data-sez="' + (radice.getAttribute('data-sez') || 'home') + '"]'
     );
-    voce.textContent = corrente ? corrente.textContent.trim() : 'Sezioni';
+    if (!corrente) {
+      voce.textContent = 'Sezioni';
+      return;
+    }
+
+    /* Prima il nome per esteso; la forma breve solo se non ci sta.
+       Su un telefono da 430 punti «Il Diavolo veste Pravda» entra
+       intero, su uno da 360 no — e la misura la sa solo il browser,
+       dopo aver messo il testo dentro il riquadro. Perciò si prova, si
+       guarda se ha sfondato, e semmai si ripiega. */
+    voce.textContent = corrente.textContent.trim();
+    const breve = corrente.dataset.breve;
+    if (breve && voce.scrollWidth > voce.clientWidth + 1) voce.textContent = breve;
   };
 
   const disponi = (apri) => {
