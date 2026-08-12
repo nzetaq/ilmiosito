@@ -1080,9 +1080,10 @@ body {
   right: 0;
 }
 
-/* Il pulsante che apre la veste esiste solo sotto i 700px, come il
-   suo gemello che apre le sezioni. */
-.au-veste-apri {
+/* I due pulsanti della fascia — la lente e la veste — esistono solo
+   sotto i 700px, come l'hamburger che apre le sezioni. */
+.au-veste-apri,
+.au-cerca-tondo {
   display: none;
 }
 
@@ -2922,10 +2923,48 @@ body {
 
   .au-nav-apri,
   .au-veste-apri {
-    /* Metà per uno: due bersagli uguali, nessuno dei due principale. */
+    /* I due menù si dividono ciò che resta: bersagli uguali, nessuno
+       dei due principale. La lente in mezzo ha misura fissa. */
     flex: 1 1 0;
     width: auto;
     min-width: 0;
+  }
+
+  /* La lente: un quadrato, senza parola. Fra due menù che portano un
+     nome, una terza parola avrebbe stretto gli altri due e reso la
+     riga un elenco invece che una barra. */
+  .au-cerca-tondo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    color: var(--nav);
+    background: none;
+    border: 2px solid var(--filo-forte);
+    cursor: var(--cursore-mano);
+    transition: color 0.12s, border-color 0.12s;
+  }
+
+  .au-cerca-tondo:hover,
+  .au-cerca-tondo:focus-visible {
+    color: var(--nav-hover);
+    border-color: var(--nav-attivo-sfondo);
+  }
+
+  .au-lente {
+    width: 1.125rem;
+    height: 1.125rem;
+    display: block;
+  }
+
+  /* Dentro il pannello la parola non serve più: il gesto ha già il suo
+     bersaglio nella fascia, e ripeterlo sarebbe offrire due porte per
+     la stessa stanza a un palmo l'una dall'altra. */
+  .au-comandi .au-comando.au-cerca-apri {
+    display: none;
   }
 
   .au-veste-apri {

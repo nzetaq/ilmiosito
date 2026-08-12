@@ -112,6 +112,26 @@ reti: "https://formsubmit.co"
       <span class="au-nav-apri-voce" id="au-nav-apri-voce">Sezioni</span>
     </button>
 
+    {#- La lente, solo sul telefono. Su schermo largo «Cerca» è una
+       parola dentro il blocco dei comandi; qui è un quadrato fra i due
+       menù, perché una parola in più su quella riga toglierebbe spazio
+       ai nomi delle sezioni.
+
+       Sono due inneschi per lo stesso gesto, e nel documento stanno in
+       due posti diversi perché è in due posti diversi che devono
+       comparire. Il doppione qui non costa: un pulsante non ha
+       contenuto da tenere allineato — al contrario dell'elenco delle
+       sezioni, che infatti è rimasto uno solo. -#}
+    <button class="au-cerca-tondo au-cerca-apri" type="button"
+            aria-haspopup="dialog" aria-label="Cerca fra gli scritti">
+      <svg class="au-lente" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="10.5" cy="10.5" r="6.4" fill="none"
+                stroke="currentColor" stroke-width="2.2"/>
+        <path d="M15.3 15.3 L20.6 20.6" fill="none"
+              stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
     {#- Il gemello dell'hamburger: là le sezioni, qui la veste. Su
        schermo stretto i comandi non stanno in cima alla pagina — sono
        cinque righe che si mettono davanti a quel che si è venuti a

@@ -19,9 +19,12 @@ const QUANTI = 8;
 const ATTESA = 160;
 
 export function avviaCerca() {
-  const apri = document.getElementById('au-cerca-apri');
+  /* Due inneschi, uno per larghezza di schermo: la parola dentro i
+     comandi e la lente nella fascia. Aprono la stessa cosa, quindi si
+     legano tutti insieme invece di cercarne uno per identificativo. */
+  const inneschi = [...document.querySelectorAll('.au-cerca-apri')];
   const scena = document.getElementById('au-cerca-scena');
-  if (!apri || !scena || typeof scena.showModal !== 'function') return;
+  if (!inneschi.length || !scena || typeof scena.showModal !== 'function') return;
 
   const campo = document.getElementById('au-cerca-campo');
   const esiti = document.getElementById('au-cerca-esiti');
@@ -122,7 +125,7 @@ export function avviaCerca() {
     }
   };
 
-  apri.addEventListener('click', apriPannello);
+  for (const innesco of inneschi) innesco.addEventListener('click', apriPannello);
 
   // Il tasto «/» apre la ricerca, come in mezzo mondo — ma non mentre
   // si sta scrivendo da qualche altra parte, dove una barra è una barra.
