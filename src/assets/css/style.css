@@ -2809,7 +2809,7 @@ body {
        un minimo dichiarato, non il risultato di una somma di margini
        che cambierebbe al primo ritocco del corpo. */
     padding: 0.8rem 1rem;
-    min-height: 2.75rem;
+    min-height: var(--fascia-alta);
     cursor: var(--cursore-mano);
     transition: color 0.12s, border-color 0.12s;
   }
@@ -2855,8 +2855,14 @@ body {
 
   /* Il pannello è chiuso finché non lo si apre. Sta nel flusso e non
      sopra la pagina: aprendolo il contenuto scende, e non c'è modo di
-     perdere di vista quel che stava sotto. */
+     perdere di vista quel che stava sotto.
+
+     `flex: 1 0 100%` è ciò che gli dà una riga tutta sua: da quando la
+     fascia è diventata una riga di tre pulsanti, il pannello ne era
+     diventato il quarto, e si apriva *accanto* a loro — quattro punti
+     di larghezza, le otto sezioni ridotte a una colonna di lettere. */
   .au-nav {
+    flex: 1 0 100%;
     display: none;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -2918,7 +2924,20 @@ body {
   .au-nav-fascia {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    /* I pulsanti tengono la propria altezza. Senza, quando il pannello
+       delle sezioni si apre dentro questa stessa riga, gli altri due
+       si allungano fino a pareggiarlo: da 46 punti a quattrocento. */
+    align-items: flex-start;
+    /* Spazio fra i pulsanti, nessuno fra loro e il pannello che si
+       apre sotto: quel pannello deve attaccarsi alla riga, come fa il
+       suo gemello della veste. */
+    gap: 0 0.5rem;
+    /* L'altezza dei tre pulsanti, dichiarata invece che risultante.
+       Finché si allungavano tutti insieme la differenza non si vedeva;
+       smesso di allungarsi, l'hamburger misurava 44 e la veste 46,
+       perché il secondo ha dentro un disegno e il primo tre righe.
+       44 è anche il minimo sotto cui un dito sbaglia bersaglio. */
+    --fascia-alta: 2.875rem;
   }
 
   .au-nav-apri,
@@ -2938,8 +2957,8 @@ body {
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: var(--fascia-alta);
+    height: var(--fascia-alta);
     padding: 0;
     color: var(--nav);
     background: none;
@@ -2981,7 +3000,7 @@ body {
     background: none;
     border: 2px solid var(--filo-forte);
     padding: 0.8rem 1rem;
-    min-height: 2.75rem;
+    min-height: var(--fascia-alta);
     cursor: var(--cursore-mano);
     transition: color 0.12s, border-color 0.12s;
   }
