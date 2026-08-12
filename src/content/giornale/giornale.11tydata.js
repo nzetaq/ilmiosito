@@ -25,7 +25,7 @@ import { sintesi } from '../../../strumenti/sintesi.mjs';
 export default {
   tags: 'giornale',
   layout: 'layouts/pezzo.njk',
-  sezione: 'giornale',
+  sezione: 'il-diavolo-veste-pravda',
   radice: '/',
   permalink: (data) => `/giornale/${data.page.fileSlug}/index.html`,
   tipoOg: 'article',

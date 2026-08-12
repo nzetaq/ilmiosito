@@ -22,10 +22,11 @@
       ]
     },
     {
-      "id": "giornale",
+      "id": "il-diavolo-veste-pravda",
       "etichetta": "Il Diavolo veste Pravda",
       "titolo": "Il Diavolo veste Pravda",
-      "breve": "Il DvP"
+      "breve": "Il DvP",
+      "era": "giornale"
     },
     {
       "id": "articoli",

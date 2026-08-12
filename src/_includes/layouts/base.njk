@@ -66,10 +66,22 @@
       // La sezione da mostrare è scritta nell'indirizzo. Va letta qui,
       // prima che il corpo della pagina sia disegnato: il router più
       // avanti si limiterà a subentrare.
+      //
+      // `rinominate` traduce gli identificativi di ieri in quelli di
+      // oggi: un indirizzo già mandato a qualcuno, o messo fra i
+      // segnalibri, deve continuare a portare dove portava. La barra
+      // dell'indirizzo si aggiorna senza aggiungere un passo alla
+      // cronologia, così il tasto indietro non rimbalza fra le due
+      // forme dello stesso posto.
       var valide = [{% for s in site.sezioni %}'{{ s.id }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+      var rinominate = { {% for s in site.sezioni %}{% if s.era %}'{{ s.era }}': '{{ s.id }}'{% if not loop.last %}, {% endif %}{% endif %}{% endfor %} };
       var sezione = 'home';
       try {
         var id = decodeURIComponent(location.hash.replace(/^#/, ''));
+        if (rinominate[id]) {
+          id = rinominate[id];
+          if (history.replaceState) history.replaceState(null, '', '#' + id);
+        }
         if (valide.indexOf(id) !== -1) sezione = id;
       } catch (e) {}
       radice.setAttribute('data-sez', sezione);

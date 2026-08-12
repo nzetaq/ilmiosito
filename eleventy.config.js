@@ -216,7 +216,7 @@ export default function (eleventyConfig) {
     // la finestra che li mostra solo al passaggio del puntatore.
     { tag: 'scritti', sezione: 'scritti', etichetta: 'Poesie & Testi', riservato: true },
     { tag: 'tesi', sezione: 'tesi', etichetta: 'Tesi' },
-    { tag: 'giornale', sezione: 'giornale', etichetta: 'Il Diavolo veste Pravda' },
+    { tag: 'giornale', sezione: 'il-diavolo-veste-pravda', etichetta: 'Il Diavolo veste Pravda' },
     { tag: 'appunti', sezione: 'appunti', etichetta: 'Appunti' }
   ];
 

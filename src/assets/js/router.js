@@ -44,12 +44,22 @@ export function avviaRouter() {
 
   const sezione = (id) => (id ? document.getElementById(`sec-${id}`) : null);
 
+  /* Gli identificativi di ieri, tradotti in quelli di oggi. Lo script
+     del <head> fa lo stesso al primo disegno; questo serve a chi
+     arriva qui dopo — un collegamento vecchio premuto dentro la
+     pagina, o il tasto indietro su una cronologia che li contiene. */
+  const RINOMINATE = { giornale: 'il-diavolo-veste-pravda' };
+
   function daIndirizzo() {
     let id = '';
     try {
       id = decodeURIComponent(location.hash.replace(/^#/, ''));
     } catch (e) {
       // Indirizzo malformato: si ricade sulla home.
+    }
+    if (RINOMINATE[id]) {
+      id = RINOMINATE[id];
+      if (history.replaceState) history.replaceState(null, '', '#' + id);
     }
     return sezione(id) ? id : 'home';
   }

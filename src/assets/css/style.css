@@ -722,7 +722,7 @@ a[href],
 :root[data-stile='saggio'][data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
 :root[data-stile='saggio'][data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
 :root[data-stile='saggio'][data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
-:root[data-stile='saggio'][data-sez='giornale'] .au-nav-btn[data-sez='giornale'],
+:root[data-stile='saggio'][data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
 :root[data-stile='saggio'][data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
 :root[data-stile='saggio'][data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
   color: var(--tinta-testo);
@@ -1379,7 +1379,7 @@ body {
 :root[data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
 :root[data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
 :root[data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
-:root[data-sez='giornale'] .au-nav-btn[data-sez='giornale'],
+:root[data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
 :root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
 :root[data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
   color: var(--nav-attivo-testo);
@@ -1402,7 +1402,7 @@ body {
 :root[data-sez='articoli'] #sec-articoli,
 :root[data-sez='scritti'] #sec-scritti,
 :root[data-sez='tesi'] #sec-tesi,
-:root[data-sez='giornale'] #sec-giornale,
+:root[data-sez='il-diavolo-veste-pravda'] #sec-il-diavolo-veste-pravda,
 :root[data-sez='appunti'] #sec-appunti,
 :root[data-sez='contatti'] #sec-contatti {
   display: block;
@@ -1881,13 +1881,13 @@ body {
    ciascuna: aggiungerne una terza costa due righe qui. */
 :root[data-sez='artificiosa'] .au-name,
 :root[data-sez='artificiosa'] .au-bio,
-:root[data-sez='giornale'] .au-name,
-:root[data-sez='giornale'] .au-bio {
+:root[data-sez='il-diavolo-veste-pravda'] .au-name,
+:root[data-sez='il-diavolo-veste-pravda'] .au-bio {
   display: none;
 }
 
 :root[data-sez='artificiosa'] .au-header-sezione[data-sez='artificiosa'],
-:root[data-sez='giornale'] .au-header-sezione[data-sez='giornale'] {
+:root[data-sez='il-diavolo-veste-pravda'] .au-header-sezione[data-sez='il-diavolo-veste-pravda'] {
   display: block;
 }
 
