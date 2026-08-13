@@ -965,7 +965,13 @@ body {
 .au-center {
   max-width: 68.75rem;
   margin: 0 auto;
-  transition: max-width var(--durata-impaginazione) var(--curva);
+  /* Nessuna transizione sulla larghezza massima. Su Chromium restava
+     appesa: passando a una sezione la regola diceva 860 punti e il
+     contenitore ne teneva 1100, anche dopo sei secondi di quiete.
+     Stessa sorte dei binari della griglia poco più sotto — le
+     proprietà d'impaginazione, animate, in quel motore non arrivano a
+     destinazione. Il passaggio fra sezioni ha già la sua dissolvenza e
+     la sua composizione a scalare: quelle bastano. */
 
   /* Una griglia di due colonne per la prima riga, una sola per le
      altre: a sinistra il nome, a destra i comandi, e sotto la barra
@@ -1015,21 +1021,55 @@ body {
   gap: 3rem;
   align-items: start;
   margin-top: 2rem;
-  transition:
-    grid-template-columns var(--durata-impaginazione) var(--curva),
-    gap var(--durata-impaginazione) var(--curva),
-    max-width var(--durata-impaginazione) var(--curva);
+  /* Si anima la larghezza massima e nient'altro.
+
+     I binari della griglia erano in transizione anch'essi, ed è stato
+     un errore: su Chromium quell'animazione resta appesa e non arriva
+     mai a destinazione. I binari si fermano a metà — `316px 316px`
+     invece di `0px 680px` — e la colonna del giornale, che fuori dalla
+     home dovrebbe richiudersi, si tiene metà dello spazio. Il testo di
+     ogni sezione finiva a 316 punti invece che a 680: la metà.
+     Riproducibile, e stabile anche dopo cinque secondi di quiete.
+
+     Animare i binari di una griglia è una cerimonia costosa e mal
+     sostenuta, e il suo modo di fallire è il contenuto a metà
+     larghezza. Ora la colonna si richiude subito e la larghezza
+     massima accompagna il passaggio: la cerimonia resta, il rischio
+     no. */
+  transition: max-width var(--durata-impaginazione) var(--curva);
 }
 
-/* Uscendo dalla home la colonna del giornale non sparisce di colpo:
-   la sua traccia della griglia si richiude fino a larghezza zero,
-   e il contenuto principale si allarga per accompagnarla. */
+/* Uscendo dalla home la colonna del giornale se ne va e il contenuto
+   prende tutta la larghezza.
+
+   Prima la si faceva richiudere assegnandole un binario `0fr`. Non
+   funziona: su Chromium un binario `0fr` non scende a zero, si ferma
+   alla misura minima del proprio contenuto — 34 punti nel caso
+   migliore, molti di più in certe sezioni — e quel che resta lo divide
+   con l'altro. Il testo finiva a 341 punti invece che a 680: la metà.
+   In WebKit collassava, e per questo non lo avevo visto.
+
+   Una colonna sola, e la colonna del giornale tolta dal flusso: non
+   c'è più un binario da richiudere, quindi non c'è più niente che
+   possa richiudersi a metà. */
 :root[data-sez]:not([data-sez='home']) .au-layout {
-  grid-template-columns: 0fr 1fr;
+  grid-template-columns: 1fr;
   gap: 0;
   max-width: 42.5rem;
+  /* `width: 100%` non è pleonastico. Da quando il contenitore centrale
+     è una griglia, questo è un suo elemento; e un elemento di griglia
+     con i margini automatici non si allarga per riempire l'area — si
+     dimensiona sul proprio contenuto, e i margini si prendono il
+     resto. Nelle sezioni dal contenuto largo non si notava; in
+     «Poesie & Testi», dove i titoli sono corti, la colonna di lettura
+     scendeva da 680 punti a 341. */
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+:root[data-sez]:not([data-sez='home']) .au-giornale-col {
+  display: none;
 }
 
 .au-main {
