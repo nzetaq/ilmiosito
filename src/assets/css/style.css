@@ -966,6 +966,43 @@ body {
   max-width: 68.75rem;
   margin: 0 auto;
   transition: max-width var(--durata-impaginazione) var(--curva);
+
+  /* Una griglia di due colonne per la prima riga, una sola per le
+     altre: a sinistra il nome, a destra i comandi, e sotto la barra
+     delle sezioni a tutta larghezza.
+
+     Prima i comandi stavano fuori dal flusso, appoggiati in alto a
+     destra. Finché l'intestazione era più alta di loro non si notava;
+     ma «Il Diavolo veste Pravda» ha un titolo e nessun sottotitolo,
+     quindi lì l'intestazione è corta — e la barra risaliva fin sotto
+     i comandi, addosso. Una riga di griglia invece è alta quanto il
+     più alto dei due, e il caso non può ripresentarsi con la prossima
+     sezione dal titolo breve. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.au-center > .au-header {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.au-center > .au-comandi {
+  grid-column: 2;
+  grid-row: 1;
+  /* Lo stesso stacco dell'intestazione, così la barra sta sotto alla
+     stessa distanza qualunque dei due sia il più alto. */
+  margin-bottom: 4rem;
+}
+
+.au-center > .au-nav-fascia {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.au-center > .au-layout {
+  grid-column: 1 / -1;
+  grid-row: 3;
 }
 
 :root[data-sez]:not([data-sez='home']) .au-center {
@@ -1016,13 +1053,7 @@ body {
    Lo spazio glielo riserva l'intestazione con un margine a destra: se
    fossero solo sovrapposti, un titolo lungo o una scala alzata ci
    finirebbero sotto. */
-.au-center {
-  position: relative;
-}
 
-.au-header {
-  padding-right: 17.5rem;
-}
 
 .au-label {
   font-size: 0.6875rem;
@@ -1081,9 +1112,6 @@ body {
      non devono competere col nome per l'attenzione. */
   width: 14.5rem;
   max-width: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
 }
 
 /* I due pulsanti della fascia — la lente e la veste — esistono solo
@@ -2936,8 +2964,14 @@ body {
      cinque righe che si mettono davanti a quel che si è venuti a
      leggere. Diventano il pannello di un pulsante gemello
      dell'hamburger, e finché nessuno lo preme non occupano nulla. */
-  .au-header {
-    padding-right: 0;
+  /* Sciolta la griglia, i quattro blocchi tornano in colonna
+     nell'ordine del documento: nome, barra, comandi, contenuto. */
+  .au-center {
+    display: block;
+  }
+
+  .au-center > .au-comandi {
+    margin-bottom: 0;
   }
 
   .au-nav-fascia {
