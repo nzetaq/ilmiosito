@@ -329,7 +329,7 @@ a[href],
      una riga sola. Dipende da quanto è larga una linguetta a parità di
      corpo, e quindi dallo stile: chi mette bordi e distanze fra una
      voce e l'altra ne consuma di più e deve accontentarsi di meno. */
-  --nav-capienza: 1.24cqw;
+  --nav-capienza: 1.34cqw;
   --tinta-testo: rgb(var(--tinta));
   --bg: rgb(var(--fondo));
   --testo: rgba(var(--inchiostro), var(--a-testo));
@@ -811,8 +811,14 @@ a[href],
 
 :root[data-stile='insegna'] .au-nav-btn {
   border: 0.26em solid var(--filo-forte);
-  margin: 0 0.3em 0 0;
-  padding: 0.55em 1.25em;
+  /* Fianchi e distanze elastici come nel foglio di base: qui la regola
+     dello stile sovrascriveva quella generale, e i blocchi restavano
+     larghi mentre il corpo si stringeva — sotto i 760 punti la barra
+     andava a capo anche dove le altre due vesti reggevano. I bordi
+     invece restano fissi: sono la firma di questa veste, e un bordo
+     che assottiglia non è più un bordo. */
+  margin: 0 clamp(0.16em, 0.3cqw, 0.3em) 0 0;
+  padding: 0.55em clamp(0.72em, 1.3cqw, 1.25em);
 }
 
 :root[data-stile='insegna'] .au-nav-btn:last-child {
@@ -1345,14 +1351,27 @@ body {
      sarebbe un debordamento ma una seconda riga, che è innocua. */
   font-size: clamp(0.5625rem, var(--nav-capienza), 0.6875rem);
   font-weight: 600;
-  letter-spacing: 0.15em;
+  /* Anche la spaziatura si stringe con la barra, non solo il corpo.
+     Finché la barra è larga vale 0.15em, come sempre; quando si
+     restringe scende fino a 0.09em, che in un maiuscoletto è ancora
+     spaziatura. Il termine centrale è in cqw perché la barra è il
+     proprio contenitore: 0.16cqw vale 1.65px su una barra da 1036,
+     cioè esattamente lo 0.15em di prima. */
+  letter-spacing: clamp(0.09em, 0.16cqw, 0.15em);
   text-transform: uppercase;
   color: var(--nav);
   text-decoration: none;
   border-bottom: 2px solid transparent;
   /* L'altezza resta in rem: la fascia non si abbassa quando il corpo
-     si stringe, e le linguette non ballano. */
-  padding: 0.5rem 1.55em 0.6rem;
+     si stringe, e le linguette non ballano.
+
+     I fianchi invece seguono la barra come la spaziatura. Sotto gli
+     ottocento punti di finestra il corpo aveva già toccato il proprio
+     pavimento, e la barra andava a capo con l'ultima voce: se solo il
+     testo si stringe e la cornice no, arriva un punto in cui non c'è
+     più niente da stringere. Ora la linguetta si restringe tutta
+     insieme, e la riga regge. */
+  padding: 0.5rem clamp(1.05em, 1.65cqw, 1.55em) 0.6rem;
   margin-bottom: -2px;
   cursor: var(--cursore-mano);
   /* L'etichetta non va mai spezzata: «Poesie & Testi» andando a capo
