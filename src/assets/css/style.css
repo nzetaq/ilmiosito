@@ -2148,8 +2148,14 @@ body {
   margin-bottom: 2rem;
 }
 
+/* Il modulo prende tutta la colonna di lettura.
+
+   Aveva un tetto di 34rem dentro una colonna da 42.5: partiva dal
+   bordo sinistro e lasciava centotrentasei punti vuoti a destra, e
+   quello sbilanciamento si vedeva. Senza tetto i due margini sono
+   quelli della colonna, uguali per costruzione. */
 .au-contatti-form {
-  max-width: 34rem;
+  max-width: 100%;
 }
 
 .au-contatti-voce {
