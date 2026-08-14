@@ -45,6 +45,10 @@
       "etichetta": "Appunti"
     },
     {
+      "id": "galleria",
+      "etichetta": "Galleria"
+    },
+    {
       "id": "contatti",
       "etichetta": "Contatti"
     }

@@ -724,6 +724,7 @@ a[href],
 :root[data-stile='saggio'][data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
 :root[data-stile='saggio'][data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
 :root[data-stile='saggio'][data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
+:root[data-stile='saggio'][data-sez='galleria'] .au-nav-btn[data-sez='galleria'],
 :root[data-stile='saggio'][data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
   color: var(--tinta-testo);
   background: none;
@@ -810,15 +811,15 @@ a[href],
 }
 
 :root[data-stile='insegna'] .au-nav-btn {
-  border: 0.26em solid var(--filo-forte);
+  border: clamp(0.16em, 0.22cqw, 0.26em) solid var(--filo-forte);
   /* Fianchi e distanze elastici come nel foglio di base: qui la regola
      dello stile sovrascriveva quella generale, e i blocchi restavano
      larghi mentre il corpo si stringeva — sotto i 760 punti la barra
      andava a capo anche dove le altre due vesti reggevano. I bordi
      invece restano fissi: sono la firma di questa veste, e un bordo
      che assottiglia non è più un bordo. */
-  margin: 0 clamp(0.16em, 0.3cqw, 0.3em) 0 0;
-  padding: 0.55em clamp(0.72em, 1.3cqw, 1.25em);
+  margin: 0 clamp(0.12em, 0.26cqw, 0.26em) 0 0;
+  padding: 0.55em clamp(0.5em, 0.9cqw, 1em);
 }
 
 :root[data-stile='insegna'] .au-nav-btn:last-child {
@@ -1425,7 +1426,7 @@ body {
      spaziatura. Il termine centrale è in cqw perché la barra è il
      proprio contenitore: 0.16cqw vale 1.65px su una barra da 1036,
      cioè esattamente lo 0.15em di prima. */
-  letter-spacing: clamp(0.09em, 0.16cqw, 0.15em);
+  letter-spacing: clamp(0.07em, 0.115cqw, 0.12em);
   text-transform: uppercase;
   color: var(--nav);
   text-decoration: none;
@@ -1439,7 +1440,7 @@ body {
      testo si stringe e la cornice no, arriva un punto in cui non c'è
      più niente da stringere. Ora la linguetta si restringe tutta
      insieme, e la riga regge. */
-  padding: 0.5rem clamp(1.05em, 1.65cqw, 1.55em) 0.6rem;
+  padding: 0.5rem clamp(0.72em, 1.15cqw, 1.2em) 0.6rem;
   margin-bottom: -2px;
   cursor: var(--cursore-mano);
   /* L'etichetta non va mai spezzata: «Poesie & Testi» andando a capo
@@ -1468,6 +1469,7 @@ body {
 :root[data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
 :root[data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
 :root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
+:root[data-sez='galleria'] .au-nav-btn[data-sez='galleria'],
 :root[data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
   color: var(--nav-attivo-testo);
   background: var(--nav-attivo-sfondo);
@@ -1491,6 +1493,7 @@ body {
 :root[data-sez='tesi'] #sec-tesi,
 :root[data-sez='il-diavolo-veste-pravda'] #sec-il-diavolo-veste-pravda,
 :root[data-sez='appunti'] #sec-appunti,
+:root[data-sez='galleria'] #sec-galleria,
 :root[data-sez='contatti'] #sec-contatti {
   display: block;
   opacity: 1;
@@ -2651,6 +2654,158 @@ body {
   /* Sedici pixel: sotto quella misura iOS ingrandisce la pagina da sé
      appena il campo prende il fuoco, e non la rimpicciolisce più. */
   .au-cerca-campo { font-size: 1rem; }
+}
+
+/* ══ LA GALLERIA ══
+   Una griglia che si conta da sé: le colonne nascono quando c'è
+   spazio per una larga almeno 14rem, e nessuno deve dichiarare
+   quante sono. Con tre foto o con trenta, la regola è la stessa. */
+.au-galleria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1.25rem;
+}
+
+.au-foto {
+  margin: 0;
+}
+
+/* Il ritaglio è quadrato: fotografie di proporzioni diverse, messe
+   una accanto all'altra alla loro altezza, farebbero una griglia
+   sconnessa. `object-fit: cover` riempie il quadrato prendendo il
+   centro — e la foto intera si vede aprendola. */
+.au-foto-apri {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid var(--filo-forte);
+  background: none;
+  cursor: var(--cursore-mano);
+  overflow: hidden;
+  transition: border-color var(--durata-uscita) var(--curva);
+}
+
+.au-foto-apri:hover,
+.au-foto-apri:focus-visible {
+  border-color: var(--accento);
+}
+
+.au-foto-immagine {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Un filo di ingrandimento al passaggio: la foto si muove dentro la
+     propria cornice, che resta ferma. */
+  transition: transform var(--durata-impaginazione) var(--curva);
+}
+
+.au-foto-apri:hover .au-foto-immagine,
+.au-foto-apri:focus-visible .au-foto-immagine {
+  transform: scale(1.04);
+}
+
+.au-foto-didascalia {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--bio);
+}
+
+.au-galleria-vuota {
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: var(--bio);
+  max-width: 34rem;
+}
+
+.au-galleria-vuota code {
+  font-family: var(--font-testo);
+  color: var(--accento);
+}
+
+/* ── La lente della galleria ── */
+.au-foto-scena {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  border: none;
+  padding: 2rem;
+  color: inherit;
+  background: rgba(0, 0, 0, 0.88);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  opacity: 0;
+  transition:
+    opacity 0.18s linear,
+    display 0.18s linear allow-discrete,
+    overlay 0.18s linear allow-discrete;
+}
+
+.au-foto-scena[open] {
+  display: flex;
+  opacity: 1;
+}
+
+@starting-style {
+  .au-foto-scena[open] { opacity: 0; }
+}
+
+.au-foto-grande {
+  margin: 0;
+  /* Non deve mai eccedere lo schermo: una fotografia che si guarda
+     scorrendo non si guarda. */
+  max-width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.au-foto-grande img {
+  display: block;
+  max-width: 100%;
+  max-height: 78vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.au-foto-grande-didascalia {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  text-align: center;
+  max-width: 42rem;
+}
+
+.au-foto-grande-didascalia:empty {
+  display: none;
+}
+
+.au-foto-chiudi {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 700px) {
+  .au-galleria {
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: 0.75rem;
+  }
+
+  .au-foto-scena { padding: 1rem; }
+  .au-foto-grande img { max-height: 70vh; }
 }
 
 /* ── Il piede ──

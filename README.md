@@ -37,6 +37,8 @@ src/
     ├── tesi/
     ├── giornale/
     └── appunti/
+
+foto/                         le fotografie della galleria, fuori da src/
 ```
 
 ## Aggiungere un contenuto
@@ -309,6 +311,54 @@ sezione.
 
 Si descrive in `src/_data/redazione.json` e basta: il template genera i
 campi, e `scrivi.js` li legge dal documento invece di ripeterne lo schema.
+
+## Galleria — `#galleria`
+
+Le fotografie stanno in **`foto/`**, fuori da `src/`: Eleventy tratta come
+modello ogni file che trova nella cartella d'ingresso, e un JPEG non è un
+modello. Basta metterci i file — compaiono in ordine di nome. Un prefisso
+numerico decide l'ordine senza rinominare altro.
+
+Le didascalie sono facoltative, in `foto/didascalie.json`, con il nome del
+file come chiave:
+
+```json
+{ "01-bologna-portico.jpg": "Sotto i portici, verso sera" }
+```
+
+**Al momento della compilazione i dati nascosti vengono tolti.** Una
+fotografia scattata col telefono dichiara il luogo, l'ora esatta e il numero
+di serie dell'apparecchio; pubblicarla così com'è significa pubblicare anche
+quelli — la posizione di casa propria è a due clic per chiunque scarichi il
+file. Quei dati stanno in segmenti a parte del JPEG e si rimuovono
+riscrivendo il file senza di essi: **nessuna ricompressione, i pixel restano
+identici**. La compilazione dice quante ne ha ripulite.
+
+Le misure di ogni immagine si leggono dall'intestazione del file e finiscono
+in `width`/`height`: senza, il browser non sa quanto spazio riservare e la
+pagina sobbalza mentre le foto arrivano.
+
+**Il peso invece non viene toccato**: non c'è nessuno strumento che
+rimpicciolisca le immagini, e un file da otto megabyte viene servito da otto
+megabyte. La compilazione avverte quando ne trova uno oltre il mezzo
+megabyte. Conviene ridimensionarle prima — 1600 punti sul lato lungo bastano
+per uno schermo.
+
+### Se le fotografie stanno in una repository privata
+
+Il flusso di pubblicazione le preleva da lì e le posa in `foto/` prima di
+compilare. Serve, nelle impostazioni del repository:
+
+- una **variabile** `FOTO_REPO` col nome della repository privata, per esempio
+  `nzetaq/fotografie`;
+- un **segreto** `FOTO_CHIAVE`, un token a grana fine con *Contents: Read* su
+  quella sola.
+
+Senza quelle due impostazioni il passo non fa nulla e valgono le foto presenti
+qui. Vale la pena ricordare che **le foto pubblicate sono pubbliche
+comunque**: la repository privata protegge gli originali — quelli grandi,
+quelli scartati, quelli col luogo dentro — non le copie che finiscono in
+linea.
 
 ## Contatti — `#contatti`
 

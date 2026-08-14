@@ -47,6 +47,18 @@ reti: "https://formsubmit.co"
   </div>
 </dialog>
 
+<!-- ═══ LENTE DELLA GALLERIA ═══ -->
+{#- Una fotografia in una griglia si guarda; per vederla ci vuole lo
+   schermo intero. Stessa grammatica della ricerca: un dialogo che si
+   apre sopra la pagina e si chiude con Esc o con un tocco fuori. -#}
+<dialog class="au-foto-scena" id="au-foto-scena" aria-label="Fotografia">
+  <figure class="au-foto-grande">
+    <img id="au-foto-grande-immagine" alt="">
+    <figcaption class="au-foto-grande-didascalia" id="au-foto-grande-didascalia"></figcaption>
+  </figure>
+  <p class="au-foto-chiudi">— Esc per chiudere —</p>
+</dialog>
+
 <!-- ═══ OROLOGIO DA TASCHINO ═══ -->
 <div class="au-corner-trigger" aria-hidden="true">
   <img class="au-pocket-watch" src="assets/img/orologio.svg" alt="" width="160" height="160">
@@ -419,6 +431,45 @@ reti: "https://formsubmit.co"
       </noscript>
     </section>
 
+
+    <!-- ═══ GALLERIA ═══ -->
+    {#- Le fotografie vengono dalla cartella `foto/`, fuori da `src/`:
+       Eleventy tratta come modello ogni file che trova nella cartella
+       d'ingresso, e un JPEG non è un modello. L'elenco lo prepara
+       `_data/galleria.js`; i file li copia la configurazione, che nel
+       frattempo li ripulisce dei dati nascosti.
+
+       `width` e `height` sono le misure vere, lette dal file: senza,
+       il browser non sa quanto spazio riservare e la pagina sobbalza
+       mentre le foto arrivano. `loading="lazy"` le fa scaricare solo
+       quando stanno per servire. -#}
+    <section class="au-section" id="sec-galleria" aria-label="Galleria">
+      {%- if galleria.length %}
+      <div class="au-galleria">
+        {%- for foto in galleria %}
+        <figure class="au-foto">
+          <button class="au-foto-apri" type="button"
+                  data-foto="{{ base }}assets/foto/{{ foto.file }}"
+                  data-didascalia="{{ foto.didascalia }}"
+                  aria-label="Ingrandisci{% if foto.didascalia %}: {{ foto.didascalia }}{% endif %}">
+            <img class="au-foto-immagine" src="{{ base }}assets/foto/{{ foto.file }}"
+                 alt="{{ foto.didascalia }}" loading="lazy" decoding="async"
+                 {%- if foto.larghezza %} width="{{ foto.larghezza }}" height="{{ foto.altezza }}"{% endif %}>
+          </button>
+          {%- if foto.didascalia %}
+          <figcaption class="au-foto-didascalia">{{ foto.didascalia }}</figcaption>
+          {%- endif %}
+        </figure>
+        {%- endfor %}
+      </div>
+      {%- else %}
+      <p class="au-galleria-vuota">
+        Non c'è ancora niente da vedere. Le fotografie si aggiungono
+        mettendo i file nella cartella <code>foto/</code> del
+        repository: compaiono qui in ordine di nome.
+      </p>
+      {%- endif %}
+    </section>
 
     <!-- ═══ CONTATTI ═══ -->
     <section class="au-section" id="sec-contatti" aria-label="Contatti">

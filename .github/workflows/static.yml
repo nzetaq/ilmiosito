@@ -44,6 +44,43 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Le fotografie possono stare in una repository privata invece che
+      # in questa. Questo passo le preleva da lì e le posa in `foto/`
+      # prima di compilare; se le due impostazioni non ci sono, non fa
+      # nulla e valgono le foto presenti nel repository.
+      #
+      # Serve:
+      #   · una variabile  FOTO_REPO    p.es. nzetaq/fotografie
+      #   · un segreto     FOTO_CHIAVE  un token a grana fine con
+      #                                 «Contents: Read» su quella sola
+      #
+      # Vale la pena ricordare che le foto pubblicate sono pubbliche
+      # comunque: la repository privata protegge gli originali — quelli
+      # grandi, quelli scartati, quelli col luogo dentro — non le copie
+      # che finiscono in linea.
+      - name: Preleva le fotografie dalla repository privata
+        if: ${{ vars.FOTO_REPO != '' }}
+        env:
+          CHIAVE: ${{ secrets.FOTO_CHIAVE }}
+          REPO: ${{ vars.FOTO_REPO }}
+        run: |
+          if [ -z "$CHIAVE" ]; then
+            echo "::warning::FOTO_REPO è impostata ma FOTO_CHIAVE manca: uso le foto già nel repository."
+            exit 0
+          fi
+          # In una cartella a parte, e non direttamente in foto/: così
+          # un prelievo a metà non lascia il sito con mezze fotografie.
+          git clone --depth 1 --quiet \
+            "https://x-access-token:$CHIAVE@github.com/$REPO.git" /tmp/fotografie
+          mkdir -p foto
+          # Si copiano le immagini e le didascalie, non la cronologia
+          # né altro che stia in quella repository.
+          find /tmp/fotografie -maxdepth 2 -type f \
+            \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) \
+            -exec cp {} foto/ \;
+          [ -f /tmp/fotografie/didascalie.json ] && cp /tmp/fotografie/didascalie.json foto/
+          echo "Prelevate $(ls -1 foto/ | grep -icE '\.(jpg|jpeg|png|webp)$') fotografie da $REPO."
+
       - name: Build
         run: npm run build
 
