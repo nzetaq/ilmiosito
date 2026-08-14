@@ -1,0 +1,91 @@
+{
+  "giorno": "2026-08-13",
+  "visite": 28,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/il-diavolo-veste-pravda",
+      "titolo": "NZQ — Il Diavolo veste Pravda",
+      "visite": 5,
+      "unici": 0
+    },
+    {
+      "nome": "/articoli",
+      "titolo": "NZQ — Articoli",
+      "visite": 5,
+      "unici": 0
+    },
+    {
+      "nome": "/contatti",
+      "titolo": "NZQ — Contatti",
+      "visite": 3,
+      "unici": 0
+    },
+    {
+      "nome": "/artificiosa",
+      "titolo": "NZQ — I.A.",
+      "visite": 3,
+      "unici": 0
+    },
+    {
+      "nome": "/appunti",
+      "titolo": "NZQ — Appunti",
+      "visite": 3,
+      "unici": 0
+    },
+    {
+      "nome": "/tesi",
+      "titolo": "NZQ — Tesi",
+      "visite": 3,
+      "unici": 0
+    },
+    {
+      "nome": "/scritti",
+      "titolo": "NZQ — Poesie & Testi",
+      "visite": 3,
+      "unici": 0
+    },
+    {
+      "nome": "/ · home",
+      "titolo": "NZQ — Home",
+      "visite": 3,
+      "unici": 0
+    }
+  ],
+  "paesi": [],
+  "provenienze": [],
+  "browser": [
+    {
+      "nome": "Safari",
+      "titolo": "",
+      "visite": 17,
+      "unici": 0
+    },
+    {
+      "nome": "Chrome",
+      "titolo": "",
+      "visite": 11,
+      "unici": 0
+    }
+  ],
+  "sistemi": [
+    {
+      "nome": "macOS",
+      "titolo": "",
+      "visite": 17,
+      "unici": 0
+    },
+    {
+      "nome": "Android",
+      "titolo": "",
+      "visite": 8,
+      "unici": 0
+    },
+    {
+      "nome": "Linux",
+      "titolo": "",
+      "visite": 3,
+      "unici": 0
+    }
+  ]
+}
