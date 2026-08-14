@@ -1,8 +1,6 @@
 import { createHash } from 'node:crypto';
-import { readFileSync, readdirSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
-import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import { sintesi } from './strumenti/sintesi.mjs';
-import { senzaExif } from './strumenti/foto.mjs';
 
 const MESI = [
   'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
@@ -41,50 +39,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addWatchTarget('src/assets/');
   eleventyConfig.addWatchTarget('foto/');
 
-  /* ── Le fotografie ──
-     Non passano dalla copia diretta come gli altri file statici,
-     perché fra il prendere e il posare c'è da fare una cosa: togliere
-     i dati che si portano dietro. Una fotografia scattata col
-     telefono dichiara il luogo, l'ora e l'apparecchio, e pubblicarla
-     così com'è significa pubblicare anche quelli.
-
-     La rimozione non ricomprime nulla: quei dati stanno in segmenti a
-     parte del file, e si riscrive saltandoli. I pixel restano
-     identici. */
-  const SOGLIA_PESO = 512 * 1024;
-
-  eleventyConfig.on('eleventy.after', ({ dir }) => {
-    const origine = path.join(process.cwd(), 'foto');
-    if (!existsSync(origine)) return;
-
-    const destinazione = path.join(dir.output, 'assets', 'foto');
-    const estensioni = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif']);
-    let copiate = 0;
-    let alleggerite = 0;
-    const pesanti = [];
-
-    for (const nome of readdirSync(origine)) {
-      if (!estensioni.has(path.extname(nome).toLowerCase())) continue;
-      const dati = readFileSync(path.join(origine, nome));
-      const esito = senzaExif(dati);
-      const puliti = esito.dati || dati;
-
-      mkdirSync(destinazione, { recursive: true });
-      writeFileSync(path.join(destinazione, nome), puliti);
-      copiate++;
-      if (esito.tolti) alleggerite++;
-      if (puliti.length > SOGLIA_PESO) {
-        pesanti.push(`${nome} (${Math.round(puliti.length / 1024)} KB)`);
-      }
-    }
-
-    if (copiate) {
-      console.log(`[galleria] ${copiate} fotografie copiate, ${alleggerite} ripulite dei dati nascosti`);
-    }
-    for (const p of pesanti) {
-      console.warn(`[galleria] pesante: ${p} — ridimensionala prima di pubblicarla`);
-    }
-  });
+  /* Le fotografie non passano di qui: le prepara `_data/galleria.js`,
+     perché la pagina deve conoscerne nomi e misure mentre si scrive.
+     Vedi `strumenti/foto.mjs`. */
 
   // ── Impronta per la Content Security Policy ──
   // I due blocchi inline della pagina — lo script che decide tema e

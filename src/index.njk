@@ -435,24 +435,29 @@ reti: "https://formsubmit.co"
     <!-- ═══ GALLERIA ═══ -->
     {#- Le fotografie vengono dalla cartella `foto/`, fuori da `src/`:
        Eleventy tratta come modello ogni file che trova nella cartella
-       d'ingresso, e un JPEG non è un modello. L'elenco lo prepara
-       `_data/galleria.js`; i file li copia la configurazione, che nel
-       frattempo li ripulisce dei dati nascosti.
+       d'ingresso, e un JPEG non è un modello. Gli originali non
+       arrivano mai in linea: `_data/galleria.js` ne prepara due copie
+       ridotte e spoglie, una per il riquadro e una per quando si apre.
 
-       `width` e `height` sono le misure vere, lette dal file: senza,
-       il browser non sa quanto spazio riservare e la pagina sobbalza
-       mentre le foto arrivano. `loading="lazy"` le fa scaricare solo
-       quando stanno per servire. -#}
+       Nel riquadro va la piccola, che pesa qualche decina di kilobyte;
+       la grande si scarica solo se qualcuno tocca quella foto. Gli
+       originali insieme facevano ventotto megabyte.
+
+       `width` e `height` sono le misure della copia piccola, già
+       raddrizzate: senza, il browser non sa quanto spazio riservare e
+       la pagina sobbalza mentre le immagini arrivano.
+       `loading="lazy"` le fa scaricare solo quando stanno per
+       servire. -#}
     <section class="au-section" id="sec-galleria" aria-label="Galleria">
       {%- if galleria.length %}
       <div class="au-galleria">
         {%- for foto in galleria %}
         <figure class="au-foto">
           <button class="au-foto-apri" type="button"
-                  data-foto="{{ base }}assets/foto/{{ foto.file }}"
+                  data-foto="{{ base }}assets/foto/{{ foto.grande }}"
                   data-didascalia="{{ foto.didascalia }}"
                   aria-label="Ingrandisci{% if foto.didascalia %}: {{ foto.didascalia }}{% endif %}">
-            <img class="au-foto-immagine" src="{{ base }}assets/foto/{{ foto.file }}"
+            <img class="au-foto-immagine" src="{{ base }}assets/foto/{{ foto.piccola }}"
                  alt="{{ foto.didascalia }}" loading="lazy" decoding="async"
                  {%- if foto.larghezza %} width="{{ foto.larghezza }}" height="{{ foto.altezza }}"{% endif %}>
           </button>

@@ -1,14 +1,21 @@
 import path from 'node:path';
-import { raccogli } from '../../strumenti/foto.mjs';
+import { prepara } from '../../strumenti/foto.mjs';
 
 /**
- * L'elenco delle fotografie, letto dalla cartella `foto/`.
+ * L'elenco delle fotografie, e le copie da servire.
  *
- * Sta fuori da `src/` di proposito: Eleventy tratta come modello ogni
- * file che trova nella cartella d'ingresso, e un JPEG non è un
- * modello. Da qui viene solo l'elenco; a copiare i file ci pensa la
- * configurazione, che nel frattempo li ripulisce.
+ * Gli originali stanno in `foto/`, fuori da `src/`: Eleventy tratta
+ * come modello ogni file che trova nella cartella d'ingresso, e un
+ * JPEG non è un modello.
+ *
+ * Le copie si preparano qui e non in un passo successivo, perché la
+ * pagina deve conoscerne i nomi e le misure mentre si scrive. Gli
+ * originali non vengono mai copiati: restano nel repository, e in
+ * linea vanno solo le copie ridotte e spogliate.
  */
-export default function () {
-  return raccogli(path.join(process.cwd(), 'foto'));
+export default async function () {
+  return prepara(
+    path.join(process.cwd(), 'foto'),
+    path.join(process.cwd(), 'dist', 'assets', 'foto')
+  );
 }

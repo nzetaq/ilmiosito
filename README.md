@@ -326,23 +326,37 @@ file come chiave:
 { "01-bologna-portico.jpg": "Sotto i portici, verso sera" }
 ```
 
-**Al momento della compilazione i dati nascosti vengono tolti.** Una
-fotografia scattata col telefono dichiara il luogo, l'ora esatta e il numero
-di serie dell'apparecchio; pubblicarla così com'è significa pubblicare anche
-quelli — la posizione di casa propria è a due clic per chiunque scarichi il
-file. Quei dati stanno in segmenti a parte del JPEG e si rimuovono
-riscrivendo il file senza di essi: **nessuna ricompressione, i pixel restano
-identici**. La compilazione dice quante ne ha ripulite.
+**Gli originali non arrivano mai in linea.** Alla compilazione, `sharp`
+prepara di ciascuno due copie in WebP e serve quelle: una da 700 punti per il
+riquadro nella griglia, una da 1600 per quando la foto si apre. Gli originali
+restano nel repository.
 
-Le misure di ogni immagine si leggono dall'intestazione del file e finiscono
-in `width`/`height`: senza, il browser non sa quanto spazio riservare e la
-pagina sobbalza mentre le foto arrivano.
+Nel passaggio succedono tre cose:
 
-**Il peso invece non viene toccato**: non c'è nessuno strumento che
-rimpicciolisca le immagini, e un file da otto megabyte viene servito da otto
-megabyte. La compilazione avverte quando ne trova uno oltre il mezzo
-megabyte. Conviene ridimensionarle prima — 1600 punti sul lato lungo bastano
-per uno schermo.
+- **si raddrizzano.** Una foto scattata tenendo il telefono di traverso non
+  viene ruotata: i pixel restano come sono usciti dal sensore e nel file si
+  scrive da che parte sta l'alto. La rotazione viene applicata ai pixel, e
+  dopo la foto è dritta davvero;
+- **si spogliano.** Luogo, ora, apparecchio e numero di serie restano
+  nell'originale e non arrivano in linea. Pubblicare una foto così com'è
+  significa mettere la posizione di casa propria a due clic da chiunque
+  scarichi il file;
+- **si rimpiccioliscono.** È la ragione per cui tutto questo esiste: tredici
+  fotografie a piena misura facevano trenta megabyte.
+
+```
+originali    13 file   29.6 MB   restano qui
+copie 700    13 file      491 KB  la griglia intera, scorsa fino in fondo
+copie 1600   13 file     2212 KB  una sola per volta, 170 KB in media
+```
+
+Le misure della copia piccola finiscono in `width`/`height`: senza, il browser
+non sa quanto spazio riservare e la pagina sobbalza mentre le immagini
+arrivano.
+
+Solo WebP, senza ripiego in JPEG: il sito usa già le *container query* per la
+barra delle sezioni, che chiedono Safari 16, e WebP è sostenuto da Safari 14.
+Il ripiego avrebbe protetto da nulla, raddoppiando i file.
 
 ### Se le fotografie stanno in una repository privata
 
