@@ -2857,60 +2857,6 @@ body {
   margin-top: 2rem;
 }
 
-/* ── Orologio da taschino ── */
-/* L'orologio sta nell'angolo in alto a sinistra, e non a destra come
-   prima: da quel lato il suo riquadro d'innesco — 185×185 fissi,
-   z-index 999 — copriva il bordo destro dell'interruttore del tema e ne
-   intercettava il clic. Non era una svista di poco: il contenitore è
-   largo al massimo 1100px ed è centrato, quindi i due si sovrapponevano
-   a ogni finestra sotto i 1470px, cioè quasi sempre.
-   A sinistra l'unica cosa che incontra è il motto, che è testo e non
-   risponde al clic; e resta un angolo dove il puntatore passa, che è
-   ciò che serve a una sorpresa per essere trovata. */
-/* `absolute` e non `fixed`: l'angolo è quello della **pagina**, non
-   quello della finestra. Con `fixed` l'innesco restava incollato al
-   vetro dello schermo e rispondeva anche a metà lettura, in un punto
-   dove non c'è nessun angolo — una sorpresa che si trova ovunque non è
-   una sorpresa. Così invece scorre via col resto: bisogna essere in
-   cima alla pagina, dove l'angolo esiste davvero. */
-.au-corner-trigger {
-  position: absolute;
-  top: 0;
-  left: 0;
-  /* In pixel, e non in rem come tutto il resto: è l'unica misura del
-     foglio che non deve scalare. Crescendo con la scala, a 300% questo
-     quadrato arrivava a 555px e copriva N·Z·Q, rubandogli il doppio
-     clic della citazione — e il titolo non può difendersi, perché
-     .au-wrap apre un contesto di impilamento che tiene i suoi
-     discendenti sotto a questo innesco.
-     Del resto è un'area sensibile, non un contenuto: sta in un angolo,
-     e a un angolo ci si va o non ci si va. */
-  width: 185px;
-  height: 185px;
-  z-index: 999;
-}
-
-.au-pocket-watch {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  /* Anche l'orologio resta della sua misura: è un ornamento del
-     margine, non qualcosa da leggere, e ingrandito coprirebbe il
-     titolo invece di affiancarlo. */
-  width: 160px;
-  height: auto;
-  opacity: 0;
-  transform: scale(0.7) rotate(-14deg);
-  transition: opacity 0.18s ease, transform 0.18s ease;
-  pointer-events: none;
-  filter: drop-shadow(4px 4px 0 rgba(var(--arancio), 0.85));
-}
-
-.au-corner-trigger:hover .au-pocket-watch {
-  opacity: 1;
-  transform: scale(1) rotate(4deg);
-}
-
 /* ── Citazione del filosofo ── */
 .au-filosofo-overlay {
   position: fixed;
@@ -3403,24 +3349,11 @@ body {
   /* Il pulsante dell'oracolo a tutta larghezza: accanto al campo, su
      uno schermo stretto, resterebbe un francobollo. */
   .au-ia-invio { flex: 1 0 100%; padding: 0.7rem 1.4rem; }
-
-  /* Su schermo stretto l'orologio non ha dove comparire senza coprire
-     l'intestazione, e su un telefono non comparirebbe comunque: si
-     rivela al passaggio del puntatore, che lì non esiste. */
-  .au-corner-trigger { display: none; }
 }
 
 @media (max-width: 520px) {
   .au-home-grid { grid-template-columns: 1fr; }
   .au-home-card:first-child { grid-column: auto; }
-}
-
-/* L'orologio da taschino compare al passaggio del puntatore, cosa che
-   su uno schermo tattile non accade mai. Lì il suo riquadro d'innesco
-   — 185×185 fissi, z-index 999 — resterebbe solo a intercettare i
-   tocchi diretti all'interruttore del tema, che gli sta sotto. */
-@media (hover: none) {
-  .au-corner-trigger { display: none; }
 }
 
 /* ── Rispetto della preferenza per il movimento ridotto ── */
