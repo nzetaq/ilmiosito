@@ -303,7 +303,7 @@ a[href],
    vuole. */
 
 /* ══ LE TAVOLOZZE ══
-   Quindici: cinque stili per tre modi. Scriverle dodici volte per
+   Diciotto: sei stili per tre modi. Scriverle dodici volte per
    esteso sarebbe il modo più sicuro di farne divergere una — e la
    promessa era che tutte reggessero lo stesso standard.
 
@@ -685,7 +685,50 @@ a[href],
   --macchia-b: 16, 74, 74;
 }
 
-/* Terminale · lo schermo, non la carta. Le altre quattro vesti
+/* Atlante · un tavolo da cartografo. Blu profondo, ottone e acqua:
+   non una mappa da decorazione, ma una griglia che aiuta a prendere
+   posizione fra i testi. Le tinte secondarie distinguono coordinate e
+   percorsi senza mai sottrarre spazio alla lettura. */
+:root[data-stile='atlante'][data-tema='notte'] {
+  --fondo: 15, 34, 49;
+  --inchiostro: 232, 235, 224;
+  --tinta: 225, 174, 74;
+  --tinta-piena: 225, 174, 74;
+  --contro: 15, 34, 49;
+  --tinta-2: 107, 193, 196;
+  --tinta-3: 205, 111, 85;
+  --tinta-passaggio: 232, 235, 224;
+  --macchia-a: 225, 174, 74;
+  --macchia-b: 57, 137, 157;
+}
+
+:root[data-stile='atlante'][data-tema='giorno'] {
+  --fondo: 238, 235, 218;
+  --inchiostro: 20, 43, 55;
+  --tinta: 137, 84, 15;
+  --tinta-piena: 137, 84, 15;
+  --contro: 238, 235, 218;
+  --tinta-2: 0, 101, 112;
+  --tinta-3: 153, 61, 39;
+  --tinta-passaggio: 20, 43, 55;
+  --macchia-a: 190, 139, 53;
+  --macchia-b: 0, 101, 112;
+}
+
+:root[data-stile='atlante'][data-tema='contrasto'] {
+  --fondo: 255, 255, 255;
+  --inchiostro: 0, 0, 0;
+  --tinta: 104, 60, 0;
+  --tinta-piena: 104, 60, 0;
+  --contro: 255, 255, 255;
+  --tinta-2: 0, 72, 82;
+  --tinta-3: 125, 42, 25;
+  --tinta-passaggio: 0, 0, 0;
+  --macchia-a: 104, 60, 0;
+  --macchia-b: 0, 72, 82;
+}
+
+/* Terminale · lo schermo, non la carta. Le altre cinque vesti
    vengono tutte dalla stampa — il manifesto, la rivista, il
    cartellone, il cartone animato — e per quanto diversi siano i loro
    inchiostri restano parenti: campiture, filetti, schede. Questa
@@ -744,7 +787,7 @@ a[href],
    corrente è una campitura piena o una riga sottolineata.
 
    Officina — l'impianto originale — non ha bisogno di regole: è quello
-   che il foglio descrive dovunque. Gli altri quattro lo smontano, e
+   che il foglio descrive dovunque. Gli altri cinque lo smontano, e
    Terminale arriva a rifare la disposizione delle parti. */
 
 /* ── Saggio ──
@@ -1146,8 +1189,103 @@ a[href],
   line-height: 1.9;
 }
 
+/* ── Atlante ──
+   Una carta nautica contemporanea: la griglia non incornicia il
+   contenuto, gli dà un orientamento. I filetti sono sottili come
+   coordinate, le schede sono fogli sovrapposti e il percorso corrente
+   è segnato da una linea d'acqua, non da un blocco di colore. */
+:root[data-stile='atlante'] {
+  --ornamento: 1;
+  --scarto: 0px;
+  --nav-capienza: 1.28cqw;
+  --retino: rgba(var(--inchiostro), calc(var(--a-retino) * var(--ornamento) * 0.72));
+  --macchia-1: linear-gradient(118deg,
+    transparent 0 72%, rgba(var(--macchia-a), calc(var(--a-macchia-1) * 0.8)) 72.1% 72.45%, transparent 72.55%);
+  --macchia-2: linear-gradient(22deg,
+    transparent 0 83%, rgba(var(--macchia-b), calc(var(--a-macchia-2) * 0.9)) 83.1% 83.45%, transparent 83.55%);
+}
+
+:root[data-stile='atlante'] .au-stars {
+  background-image:
+    linear-gradient(to right, var(--retino) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--retino) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+}
+
+:root[data-stile='atlante'] .au-name {
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  font-size: clamp(1.9rem, calc(5.8vw * var(--scala)), 3rem);
+}
+
+:root[data-stile='atlante'] .au-titolo-sezione,
+:root[data-stile='atlante'] .au-pezzo-titolo {
+  font-weight: 500;
+  letter-spacing: 0.035em;
+}
+
+:root[data-stile='atlante'] .au-nav,
+:root[data-stile='atlante'] .au-year,
+:root[data-stile='atlante'] .au-piede,
+:root[data-stile='atlante'] .au-pezzo-testata,
+:root[data-stile='atlante'] .au-giornale-col {
+  border-width: 1px;
+}
+
+:root[data-stile='atlante'] .au-nav-btn {
+  border-bottom-width: 1px;
+  margin-bottom: -1px;
+  padding-left: clamp(0.25rem, 0.65cqw, 0.65rem);
+  padding-right: clamp(0.25rem, 0.65cqw, 0.65rem);
+}
+
+:root[data-stile='atlante'] .au-nav-btn[aria-current],
+:root[data-stile='atlante'][data-sez='home'] .au-nav-btn[data-sez='home'],
+:root[data-stile='atlante'][data-sez='artificiosa'] .au-nav-btn[data-sez='artificiosa'],
+:root[data-stile='atlante'][data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
+:root[data-stile='atlante'][data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
+:root[data-stile='atlante'][data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
+:root[data-stile='atlante'][data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
+:root[data-stile='atlante'][data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
+:root[data-stile='atlante'][data-sez='galleria'] .au-nav-btn[data-sez='galleria'],
+:root[data-stile='atlante'][data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
+  color: var(--tinta-testo);
+  background: none;
+  border-bottom-color: currentColor;
+}
+
+:root[data-stile='atlante'] .au-home-card {
+  border-width: 1px;
+  border-radius: 0;
+  background: rgba(var(--velo), calc(var(--a-scheda-sfondo) * 0.55));
+  box-shadow: 0.35rem 0.35rem 0 rgba(var(--tinta-piena), 0.18);
+}
+
+:root[data-stile='atlante'] .au-home-card:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 0.15rem 0.15rem 0 rgba(var(--tinta-piena), 0.3);
+}
+
+:root[data-stile='atlante'][data-tema='contrasto'] .au-home-card {
+  background: none;
+  box-shadow: none;
+  border-width: 2px;
+}
+
+:root[data-stile='atlante'] .au-passo,
+:root[data-stile='atlante'] .au-comando,
+:root[data-stile='atlante'] .au-filter-btn,
+:root[data-stile='atlante'] .au-contatti-campo,
+:root[data-stile='atlante'] .au-contatti-invio,
+:root[data-stile='atlante'] .au-cerca-pannello,
+:root[data-stile='atlante'] .au-ia-campo,
+:root[data-stile='atlante'] .au-foto-apri {
+  border-width: 1px;
+  border-radius: 0;
+}
+
 /* ── Terminale ──
-   Lo schermo, non la carta. Le altre quattro vesti vengono tutte dalla
+   Lo schermo, non la carta. Le altre cinque vesti vengono tutte dalla
    stampa, e per quanto diversi siano i loro inchiostri restano
    parenti: campiture, filetti, schede, una testata in cima e la barra
    delle sezioni sotto. Questa viene da un'altra parte, e per prima
@@ -1164,7 +1302,7 @@ a[href],
    non si scarica niente, e non è un ripiego ma il punto — una console
    non ha un carattere proprio, ha quello della macchina. Leggere una
    tesi in monospazio è una scelta forte, ed è per questo che le altre
-   quattro vesti restano dove sono.
+   cinque vesti restano dove sono.
 
    Sotto gli 860 punti la colonna laterale non ci sta, e la veste
    torna all'impianto impilato di sempre: i colori, il carattere e le
@@ -1952,7 +2090,8 @@ body {
    tornano esatte alla larghezza del gruppo. Gli stili oggi sono
    cinque: il quinto va a capo da sé, e l'ultima voce spaiata si
    prende tutta la riga invece di restare mezza vuota — regola che
-   vale per qualunque numero dispari, oggi e domani. */
+   vale per qualunque numero dispari, oggi e domani. Con sei voci si
+   formano semplicemente tre coppie. */
 .au-stili {
   flex-wrap: wrap;
 }

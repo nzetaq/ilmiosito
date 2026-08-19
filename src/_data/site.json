@@ -73,6 +73,10 @@
     {
       "id": "terminale",
       "etichetta": "Terminale"
+    },
+    {
+      "id": "atlante",
+      "etichetta": "Atlante"
     }
   ],
   "temi": [
