@@ -303,9 +303,9 @@ a[href],
    vuole. */
 
 /* ══ LE TAVOLOZZE ══
-   Nove: tre stili per tre modi. Scriverle nove volte per esteso
-   sarebbe il modo più sicuro di farne divergere una — e la promessa
-   era che tutte reggessero lo stesso standard.
+   Dodici: quattro stili per tre modi. Scriverle dodici volte per
+   esteso sarebbe il modo più sicuro di farne divergere una — e la
+   promessa era che tutte reggessero lo stesso standard.
 
    Perciò la tavolozza risponde a due domande separate:
 
@@ -315,7 +315,8 @@ a[href],
    I quaranta gettoni veri e propri sono scritti una volta sola, qui
    sotto, come combinazione delle due risposte. Nessuna combinazione
    può dimenticarne uno, perché nessuna li elenca: elenca solo i
-   propri inchiostri.
+   propri inchiostri. Aggiungere uno stile costa dunque tre righe di
+   dati e nove valori per modo, non una tavolozza intera.
 
    Il ripiego senza attributi è Officina · Notte. Se il JavaScript non
    gira, `data-stile` e `data-tema` non compaiono, e il sito resta
@@ -628,6 +629,62 @@ a[href],
   --macchia-b: 0, 45, 160;
 }
 
+/* Cartone · il cartone animato di mezzo secolo fa — la grafica della
+   United Productions of America, quella di Gerald McBoing-Boing e del
+   signor Magoo. Non tre inchiostri squillanti come Officina né uno
+   solo come Saggio: quattro tinte terrose e piatte — mattone, senape,
+   verderame — stese come campiture di cartoncino ritagliato, su una
+   carta calda che non è mai bianca. Il colore non serve a chiamare né
+   a distinguere: è la figura stessa. */
+:root[data-stile='cartone'][data-tema='notte'] {
+  /* Il fondo notturno non è nero ma un petrolio molto scuro: nei
+     fondali dello studio l'ombra era sempre una tinta, mai l'assenza
+     di tutte. */
+  --fondo: 26, 38, 40;
+  --inchiostro: 242, 234, 216;
+  --tinta: 234, 122, 84;
+  --tinta-piena: 234, 122, 84;
+  --contro: 26, 38, 40;
+  --tinta-2: 232, 186, 78;
+  --tinta-3: 108, 196, 186;
+  --tinta-passaggio: 232, 186, 78;
+  --macchia-a: 234, 122, 84;
+  --macchia-b: 46, 122, 118;
+}
+
+:root[data-stile='cartone'][data-tema='giorno'] {
+  /* Il modo di riposo di questa veste: il cartoncino avorio è il
+     supporto per cui i colori sono stati scelti. */
+  --fondo: 240, 232, 214;
+  --inchiostro: 38, 34, 30;
+  /* Il mattone è la tinta che scrive e insieme quella che campisce:
+     su carta calda regge 5,2:1 come testo, e sopra la campitura ci va
+     la carta stessa, che regge lo stesso legame al rovescio. */
+  --tinta: 168, 58, 34;
+  --tinta-piena: 168, 58, 34;
+  --contro: 240, 232, 214;
+  --tinta-2: 30, 102, 102;
+  --tinta-3: 122, 92, 14;
+  --tinta-passaggio: 38, 34, 30;
+  /* Le due campiture restano quelle vive — senape e verderame — che
+     come sfondo non devono leggersi ma vedersi. */
+  --macchia-a: 226, 178, 66;
+  --macchia-b: 74, 150, 140;
+}
+
+:root[data-stile='cartone'][data-tema='contrasto'] {
+  --fondo: 255, 255, 255;
+  --inchiostro: 0, 0, 0;
+  --tinta: 150, 45, 20;
+  --tinta-piena: 150, 45, 20;
+  --contro: 255, 255, 255;
+  --tinta-2: 16, 74, 74;
+  --tinta-3: 105, 72, 0;
+  --tinta-passaggio: 0, 0, 0;
+  --macchia-a: 150, 45, 20;
+  --macchia-b: 16, 74, 74;
+}
+
 /* ══ GLI STILI: IMPIANTO ══
    La tavolozza è la parte che si nota per ultima. Quel che distingue
    davvero una veste da un'altra è la struttura: quanto pesano i
@@ -635,7 +692,7 @@ a[href],
    corrente è una campitura piena o una riga sottolineata.
 
    Officina — l'impianto originale — non ha bisogno di regole: è quello
-   che il foglio descrive dovunque. Gli altri due lo smontano. */
+   che il foglio descrive dovunque. Gli altri tre lo smontano. */
 
 /* ── Saggio ──
    La pagina di una rivista. Serif per tutto ciò che si legge, e il
@@ -856,6 +913,184 @@ a[href],
 :root[data-stile='insegna'] .au-home-card-title {
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+/* ── Cartone ──
+   Il cartone animato di mezzo secolo fa. Dove Officina stampa e Saggio
+   compone, questa veste *ritaglia*: le figure sono campiture piene dal
+   bordo netto, gli angoli si arrotondano da un lato solo — la curva
+   tracciata a mano non torna mai uguale dall'altra parte — e l'ombra
+   se ne va, perché un ritaglio non sta sopra la carta: ci sta dentro.
+
+   È l'unica veste che dà lo stesso carattere ai titoli e al testo, e
+   il carattere è Space Grotesk: le sue lettere geometriche con gli
+   innesti tagliati storti sono, fra i tre del sito, la cosa più vicina
+   alle scritte tracciate a mano dei titoli di testa. Il taglio parte
+   da 500 e non da 400, perché il file variabile non scende più giù —
+   e va bene così: l'inchiostro di quelle stampe non era mai sottile.
+   Il testo però ha bisogno d'aria per reggere quel mezzo grado di
+   peso, e più sotto la riceve. */
+:root[data-stile='cartone'] {
+  --font-display: 'Space Grotesk', 'Archivo', sans-serif;
+  --font-testo: 'Space Grotesk', 'Archivo', sans-serif;
+  /* Gli ornamenti restano — è l'unica veste oltre a Officina a
+     tenerli — ma cambiano natura: non più un retino da riproduzione
+     e due aloni negli angoli, bensì la grana del cartoncino e due
+     ritagli di colore. */
+  --ornamento: 1;
+  /* Niente secondo passaggio d'inchiostro: le schede non hanno ombra. */
+  --scarto: 0px;
+  /* Le linguette diventano pastiglie staccate l'una dall'altra: la
+     distanza costa circa un'em e mezza su tutta la barra, e la
+     capienza scende nella stessa proporzione (1.34 → 1.30). */
+  --nav-capienza: 1.30cqw;
+
+  /* La grana del cartoncino al posto del retino da stampa: punti più
+     fitti e più pallidi — da lontano è una superficie, non una trama.
+     Il fattore del modo resta al suo posto, quindi in Contrasto la
+     grana sparisce come tutto il resto. */
+  --retino: rgba(var(--inchiostro), calc(var(--a-retino) * var(--ornamento) * 0.55));
+
+  /* Due ritagli di cartoncino invece di due aloni: bordo netto, tinta
+     piatta, posati fuori squadra negli angoli opposti. L'alfa è quella
+     del modo per una volta e mezza — decisa, ma pur sempre governata
+     dal modo, e in Contrasto vale zero. */
+  --macchia-1: radial-gradient(ellipse 30% 26% at 88% 6%,
+    rgba(var(--macchia-a), calc(var(--a-macchia-1) * 1.5)) 0 99.5%, transparent 100%);
+  --macchia-2: radial-gradient(ellipse 24% 30% at 4% 92%,
+    rgba(var(--macchia-b), calc(var(--a-macchia-2) * 1.5)) 0 99.5%, transparent 100%);
+}
+
+:root[data-stile='cartone'] .au-stars {
+  background-image: radial-gradient(circle at center, var(--retino) 0.6px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* Il nome non si stringe: si allarga. Le maiuscole restano, ma il
+   peso scende dal grassetto al medio e le lettere si distanziano —
+   è la scritta di un titolo di testa, non l'intestazione di un
+   manifesto. */
+:root[data-stile='cartone'] .au-name {
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  font-size: clamp(2rem, calc(6.2vw * var(--scala)), 3.25rem);
+}
+
+:root[data-stile='cartone'] .au-titolo-sezione {
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+:root[data-stile='cartone'] .au-article-title,
+:root[data-stile='cartone'] .au-giornale-entry-title,
+:root[data-stile='cartone'] .au-home-title,
+:root[data-stile='cartone'] .au-pezzo-titolo {
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* I filetti si assottigliano: in un disegno di forme piatte la linea
+   non è una struttura, è un contorno. */
+:root[data-stile='cartone'] .au-nav,
+:root[data-stile='cartone'] .au-year,
+:root[data-stile='cartone'] .au-piede,
+:root[data-stile='cartone'] .au-pezzo-testata,
+:root[data-stile='cartone'] .au-giornale-col {
+  border-width: 1px;
+}
+
+/* Le linguette diventano pastiglie e si staccano dal filetto, che non
+   le regge più: la sezione corrente è una pastiglia piena.
+
+   Come in Insegna, fianchi e distanze sono in `em` e non in `rem`, per
+   seguire il corpo del carattere quando la barra si stringe; la
+   distanza è un margine e non un `gap`, perché il `gap` sta sulla
+   barra e là `em` misurerebbe il corpo sbagliato. */
+:root[data-stile='cartone'] .au-nav-btn {
+  border-bottom-color: transparent;
+  border-radius: 999px;
+  margin: 0 0.22em 0.3rem 0;
+  padding: 0.5em clamp(0.72em, 1.15cqw, 1.2em);
+}
+
+:root[data-stile='cartone'] .au-nav-btn:last-child {
+  margin-right: 0;
+}
+
+/* Le schede: via il bordo e via l'ombra, dentro una campitura piatta.
+   Gli angoli sono arrotondati a coppie opposte — larghi in alto a
+   sinistra e in basso a destra, quasi vivi sugli altri due — che è la
+   forma del cartoncino ritagliato con le forbici e non con la squadra. */
+:root[data-stile='cartone'] .au-home-card {
+  border: none;
+  border-radius: 1.4rem 0.3rem 1.4rem 0.3rem;
+  background: rgba(var(--tinta-piena), 0.14);
+  box-shadow: none;
+  /* La scheda non si sposta più al passaggio — non c'è ombra da cui
+     scostarsi — quindi la risposta al puntatore è la campitura che si
+     scurisce, e va dichiarata qui perché la transizione del foglio
+     parla solo di posizione e ombra. */
+  transition: background-color 0.12s;
+}
+
+:root[data-stile='cartone'] .au-home-card:hover {
+  transform: none;
+  box-shadow: none;
+  background: rgba(var(--tinta-piena), 0.24);
+}
+
+/* Contrasto toglie il rumore anche qui: la campitura sotto il testo
+   se ne va, e la scheda torna a essere un bordo. */
+:root[data-stile='cartone'][data-tema='contrasto'] .au-home-card {
+  border: 2px solid var(--scheda-bordo);
+  background: none;
+}
+
+/* Tutto ciò che si preme prende la forma della pastiglia; tutto ciò
+   che contiene, quella del ritaglio. */
+:root[data-stile='cartone'] .au-passo,
+:root[data-stile='cartone'] .au-comando,
+:root[data-stile='cartone'] .au-filter-btn,
+:root[data-stile='cartone'] .au-contatti-invio,
+:root[data-stile='cartone'] .au-ia-invio {
+  border-radius: 999px;
+}
+
+:root[data-stile='cartone'] .au-contatti-campo,
+:root[data-stile='cartone'] .au-ia-campo,
+:root[data-stile='cartone'] .au-cerca-campo {
+  border-radius: 0.9rem;
+}
+
+:root[data-stile='cartone'] .au-cerca-pannello {
+  border-radius: 1.4rem 0.3rem 1.4rem 0.3rem;
+}
+
+:root[data-stile='cartone'] .au-comando,
+:root[data-stile='cartone'] .au-filter-btn,
+:root[data-stile='cartone'] .au-contatti-campo,
+:root[data-stile='cartone'] .au-contatti-invio,
+:root[data-stile='cartone'] .au-cerca-pannello {
+  border-width: 1px;
+}
+
+/* Anche le fotografie sono ritagli: stesso angolo delle schede, e la
+   cornice si assottiglia per non contendere all'immagine. */
+:root[data-stile='cartone'] .au-foto-apri {
+  border-width: 1px;
+  border-radius: 1.2rem 0.25rem 1.2rem 0.25rem;
+}
+
+/* L'aria che il mezzo grado di peso in più si è preso, restituita
+   all'interlinea: il testo si legge come prima, ma l'inchiostro è
+   quello pieno delle stampe piatte. */
+:root[data-stile='cartone'] .au-gp-text,
+:root[data-stile='cartone'] .au-giornale-entry-text {
+  line-height: 1.85;
+}
+
+:root[data-stile='cartone'] .au-pezzo-testo {
+  line-height: 1.9;
 }
 
 /* ── Azzeramento ── */
@@ -1149,8 +1384,8 @@ body {
      perché di suo un elemento flessibile non scende sotto il proprio
      contenuto. */
   min-width: 0;
-  /* Larghi quanto serve ai sei pulsanti, non di più: sono comandi, e
-     non devono competere col nome per l'attenzione. */
+  /* Larghi quanto serve ai sette pulsanti, non di più: sono comandi,
+     e non devono competere col nome per l'attenzione. */
   width: 14.5rem;
   max-width: 100%;
 }
@@ -1311,6 +1546,21 @@ body {
 .au-tema[aria-pressed='true']:hover,
 .au-stile[aria-pressed='true']:hover {
   color: var(--nav-attivo-testo);
+}
+
+/* Gli stili sono quattro e le luci tre: in una riga sola da 14,5rem
+   una voce su quattro starebbe in poco più di cinquanta punti, e
+   «Officina» verrebbe tagliato. Le voci dello stile vanno dunque a
+   due a due, e la colonna dei comandi cresce di una riga soltanto.
+   La base è metà riga meno metà della distanza, così le due coppie
+   tornano esatte alla larghezza del gruppo — e se un giorno gli stili
+   diventassero cinque, il quinto andrebbe a capo da sé. */
+.au-stili {
+  flex-wrap: wrap;
+}
+
+.au-stile {
+  flex: 1 1 calc(50% - 0.125rem);
 }
 
 .au-passo:disabled {
