@@ -303,7 +303,7 @@ a[href],
    vuole. */
 
 /* ══ LE TAVOLOZZE ══
-   Dodici: quattro stili per tre modi. Scriverle dodici volte per
+   Quindici: cinque stili per tre modi. Scriverle dodici volte per
    esteso sarebbe il modo più sicuro di farne divergere una — e la
    promessa era che tutte reggessero lo stesso standard.
 
@@ -685,6 +685,58 @@ a[href],
   --macchia-b: 16, 74, 74;
 }
 
+/* Terminale · lo schermo, non la carta. Le altre quattro vesti
+   vengono tutte dalla stampa — il manifesto, la rivista, il
+   cartellone, il cartone animato — e per quanto diversi siano i loro
+   inchiostri restano parenti: campiture, filetti, schede. Questa
+   viene da un'altra parte: è la console, dove il colore non è
+   inchiostro steso ma fosforo acceso, e dove non c'è nessuna carta
+   sotto. Le tre tinte sono quelle che i terminali hanno sempre avuto:
+   verde, ambra, ciano. */
+:root[data-stile='terminale'][data-tema='notte'] {
+  --fondo: 12, 15, 18;
+  --inchiostro: 218, 226, 222;
+  --tinta: 92, 224, 148;
+  --tinta-piena: 92, 224, 148;
+  --contro: 12, 15, 18;
+  --tinta-2: 232, 190, 96;
+  --tinta-3: 122, 200, 240;
+  --tinta-passaggio: 232, 190, 96;
+  --macchia-a: 92, 224, 148;
+  --macchia-b: 122, 200, 240;
+}
+
+/* Di giorno il fosforo non regge: un verde acceso su fondo chiaro non
+   arriva a 4,5:1 nemmeno spingendolo. Le tre tinte scendono dunque ai
+   loro tagli cupi, che è quel che fa anche Officina passando alla
+   carta — e la veste resta la stessa perché a definirla non sono i
+   colori ma l'impianto. */
+:root[data-stile='terminale'][data-tema='giorno'] {
+  --fondo: 246, 246, 243;
+  --inchiostro: 26, 28, 30;
+  --tinta: 22, 105, 66;
+  --tinta-piena: 22, 105, 66;
+  --contro: 246, 246, 243;
+  --tinta-2: 141, 88, 12;
+  --tinta-3: 22, 88, 150;
+  --tinta-passaggio: 26, 28, 30;
+  --macchia-a: 22, 105, 66;
+  --macchia-b: 22, 88, 150;
+}
+
+:root[data-stile='terminale'][data-tema='contrasto'] {
+  --fondo: 255, 255, 255;
+  --inchiostro: 0, 0, 0;
+  --tinta: 0, 90, 55;
+  --tinta-piena: 0, 90, 55;
+  --contro: 255, 255, 255;
+  --tinta-2: 110, 66, 0;
+  --tinta-3: 0, 70, 140;
+  --tinta-passaggio: 0, 0, 0;
+  --macchia-a: 0, 90, 55;
+  --macchia-b: 0, 70, 140;
+}
+
 /* ══ GLI STILI: IMPIANTO ══
    La tavolozza è la parte che si nota per ultima. Quel che distingue
    davvero una veste da un'altra è la struttura: quanto pesano i
@@ -692,7 +744,8 @@ a[href],
    corrente è una campitura piena o una riga sottolineata.
 
    Officina — l'impianto originale — non ha bisogno di regole: è quello
-   che il foglio descrive dovunque. Gli altri tre lo smontano. */
+   che il foglio descrive dovunque. Gli altri quattro lo smontano, e
+   Terminale arriva a rifare la disposizione delle parti. */
 
 /* ── Saggio ──
    La pagina di una rivista. Serif per tutto ciò che si legge, e il
@@ -1093,6 +1146,349 @@ a[href],
   line-height: 1.9;
 }
 
+/* ── Terminale ──
+   Lo schermo, non la carta. Le altre quattro vesti vengono tutte dalla
+   stampa, e per quanto diversi siano i loro inchiostri restano
+   parenti: campiture, filetti, schede, una testata in cima e la barra
+   delle sezioni sotto. Questa viene da un'altra parte, e per prima
+   cosa smonta la disposizione.
+
+   Le parti non si impilano più: la pagina si divide in due colonne per
+   il lungo. A sinistra una colonna stretta — il nome, i comandi,
+   l'indice delle sezioni — che *resta ferma mentre il testo scorre*;
+   a destra il contenuto, tutto lo spazio che serve. L'indice è
+   numerato, e la sezione in cui si è non è una campitura piena ma una
+   riga marcata a sinistra, come il cursore di un elenco.
+
+   Il carattere è quello a larghezza fissa del computer di chi legge:
+   non si scarica niente, e non è un ripiego ma il punto — una console
+   non ha un carattere proprio, ha quello della macchina. Leggere una
+   tesi in monospazio è una scelta forte, ed è per questo che le altre
+   quattro vesti restano dove sono.
+
+   Sotto gli 860 punti la colonna laterale non ci sta, e la veste
+   torna all'impianto impilato di sempre: i colori, il carattere e le
+   righe restano, la disposizione no. È la stessa soglia oltre la
+   quale anche la home rinuncia alle sue due colonne. */
+:root[data-stile='terminale'] {
+  --font-display: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+  --font-testo: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+  --ornamento: 1;
+  --scarto: 0px;
+  /* Il monospazio è più largo a parità di corpo: le stesse nove voci
+     costano circa un decimo in più, e la capienza scende in
+     proporzione. Vale solo nella fascia fra 700 e 860 punti, dove
+     l'indice torna orizzontale. */
+  --nav-capienza: 1.12cqw;
+  /* Nessuna campitura di fondo: su uno schermo il colore è luce
+     accesa, e le due macchie d'inchiostro fuori registro non hanno
+     senso. Resta la sola trama, che diventa un'altra cosa. */
+  --macchia-1: none;
+  --macchia-2: none;
+  --retino: rgba(var(--inchiostro), calc(var(--a-retino) * var(--ornamento) * 0.7));
+}
+
+/* Il retino non è più una trama di punti da riproduzione a stampa ma
+   le righe orizzontali di un tubo catodico: una accesa e due spente.
+   In Contrasto spariscono da sé, perché l'alfa è quella del modo. */
+:root[data-stile='terminale'] .au-stars {
+  background-image: repeating-linear-gradient(to bottom,
+    var(--retino) 0 1px, transparent 1px 3px);
+  background-size: auto;
+}
+
+/* Il nome, e dopo il nome il cursore fermo che aspetta.
+
+   È un riquadro vuoto e non un carattere: `content: ''` con un fondo
+   pieno non viene letto ad alta voce, mentre un trattino basso o un
+   blocco pieno sarebbero finiti nella voce del lettore di schermo
+   insieme al nome. E resta fermo: un cursore che lampeggia è
+   movimento che nessuno ha chiesto. */
+:root[data-stile='terminale'] .au-name {
+  font-size: clamp(1.4rem, calc(3.2vw * var(--scala)), 2rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  /* Il nome e il cursore sono una cosa sola: nella colonna stretta il
+     riquadro finiva a capo, sotto la Q, e sembrava un quadrato
+     smarrito invece del segno che aspetta. */
+  white-space: nowrap;
+}
+
+:root[data-stile='terminale'] .au-name::after {
+  content: '';
+  display: inline-block;
+  width: 0.55em;
+  height: 0.95em;
+  margin-left: 0.35em;
+  vertical-align: -0.12em;
+  background: var(--tinta-testo);
+}
+
+/* I titoli scendono di corpo: in monospazio una riga di maiuscole
+   grandi occupa il doppio, e un titolo di console è una riga di
+   intestazione, non un'insegna. */
+:root[data-stile='terminale'] .au-titolo-sezione,
+:root[data-stile='terminale'] .au-pezzo-titolo {
+  font-size: clamp(1.1rem, calc(2.8vw * var(--scala)), 1.7rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* Tutti i filetti a un punto: qui la linea è un separatore, non un
+   segno grafico. */
+:root[data-stile='terminale'] .au-nav,
+:root[data-stile='terminale'] .au-year,
+:root[data-stile='terminale'] .au-piede,
+:root[data-stile='terminale'] .au-pezzo-testata,
+:root[data-stile='terminale'] .au-giornale-col,
+:root[data-stile='terminale'] .au-comando,
+:root[data-stile='terminale'] .au-filter-btn,
+:root[data-stile='terminale'] .au-contatti-campo,
+:root[data-stile='terminale'] .au-contatti-invio,
+:root[data-stile='terminale'] .au-cerca-pannello,
+:root[data-stile='terminale'] .au-ia-campo,
+:root[data-stile='terminale'] .au-foto-apri {
+  border-width: 1px;
+}
+
+/* Il monospazio ha bisogno di più interlinea: le lettere sono tutte
+   della stessa larghezza, e senza aria le righe si somigliano troppo
+   per ritrovare la successiva. */
+:root[data-stile='terminale'] .au-pezzo-testo,
+:root[data-stile='terminale'] .au-gp-text,
+:root[data-stile='terminale'] .au-giornale-entry-text {
+  line-height: 1.85;
+}
+
+/* Le schede della home diventano voci di un elenco: via il bordo, via
+   il fondo, via l'ombra, e una riga sopra a separarle. Un terminale
+   non ha schede — ha righe. */
+:root[data-stile='terminale'] .au-home-grid {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+:root[data-stile='terminale'] .au-home-card {
+  border: none;
+  border-top: 1px solid var(--filo);
+  background: none;
+  box-shadow: none;
+  padding: 1.4rem 0;
+  transition: border-top-color 0.12s;
+}
+
+:root[data-stile='terminale'] .au-home-card:hover {
+  transform: none;
+  box-shadow: none;
+  border-top-color: var(--tinta-testo);
+}
+
+/* ── Terminale: la colonna laterale ──
+   Vale solo dove c'è larghezza per due colonne. Sotto, la veste torna
+   all'impianto di sempre senza che nulla vada rimesso a posto: tutte
+   le regole della disposizione stanno qui dentro. */
+@media (min-width: 861px) {
+  :root[data-stile='terminale'] .au-center {
+    /* Tre righe e due colonne. A sinistra, in fila: il nome, i
+       comandi, l'indice. A destra il contenuto, che attraversa tutte
+       e tre le righe — ed è lui a dare l'altezza alla griglia.
+
+       La terza riga vale `1fr`, cioè tutto quello che avanza: è la
+       condizione perché l'indice possa restare fermo mentre il testo
+       scorre. Un elemento appiccicoso si muove dentro la propria area
+       di griglia, e in un'area alta quanto sé stesso non avrebbe dove
+       muoversi. */
+    grid-template-columns: 15.5rem minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: 3rem;
+    max-width: 72rem;
+  }
+
+  /* Fuori dalla home il contenitore si stringe, per tutte le vesti.
+     Qui no: stringendolo, a perdere larghezza sarebbe il testo, e la
+     colonna laterale resterebbe della stessa misura — la pagina
+     sembrerebbe sbilanciarsi a ogni cambio di sezione. La misura di
+     lettura la governa già `.au-layout`, che non si tocca. */
+  :root[data-stile='terminale'][data-sez]:not([data-sez='home']) .au-center {
+    max-width: 72rem;
+  }
+
+  :root[data-stile='terminale'] .au-center > .au-header {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  :root[data-stile='terminale'] .au-center > .au-comandi {
+    grid-column: 1;
+    grid-row: 2;
+    margin-bottom: 2rem;
+  }
+
+  /* Il motto sta in una colonna da quindici rem e non più in mezza
+     pagina: a corpo pieno prendeva quattro righe e spingeva l'indice
+     sotto la piega. */
+  :root[data-stile='terminale'] .au-bio {
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
+
+  /* Anche lo stacco fra il nome e i comandi si accorcia: in colonna
+     quello di prima era pensato per una testata larga. */
+  :root[data-stile='terminale'] .au-header {
+    margin-bottom: 2rem;
+  }
+
+  /* L'indice resta fermo mentre il testo scorre.
+
+     `align-self: start` non è un dettaglio di allineamento: senza,
+     l'elemento si stirerebbe per tutta l'area e non avrebbe più
+     margine di manovra dentro cui restare appiccicato. */
+  :root[data-stile='terminale'] .au-center > .au-nav-fascia {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+    position: sticky;
+    top: 2rem;
+  }
+
+  :root[data-stile='terminale'] .au-center > .au-layout {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    margin-top: 0;
+  }
+
+  /* Fuori dalla home la colonna di lettura si centra nello spazio che
+     ha. Con la colonna laterale accanto, centrare significa staccarla
+     da quella e lasciare un vuoto in mezzo: qui il testo parte dal
+     bordo, allineato all'indice, e il margine resta tutto a destra.
+
+     Il selettore ripete `[data-sez]:not(...)` della regola che deve
+     scavalcare: senza, i due pesi sarebbero pari e vincerebbe l'altra
+     per il solo fatto di stare più avanti nel foglio. */
+  :root[data-stile='terminale'][data-sez]:not([data-sez='home']) .au-layout {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* La pagina di un singolo pezzo usa lo stesso contenitore ma non ha
+     né indice né comandi: solo la testata, il pezzo e la coda. Senza
+     dir loro dove andare finirebbero a riempire la griglia da sé — la
+     coda nella colonna stretta, il testo largo il doppio del giusto.
+     Qui la testata prende il posto dell'indice, e il pezzo quello del
+     contenuto: la colonna laterale resta anche dove non c'è nulla da
+     navigare. */
+  :root[data-stile='terminale'] .au-center > .au-pezzo-testata {
+    grid-column: 1;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    /* Le stesse due condizioni dell'indice: si stringe sul proprio
+       contenuto — altrimenti si stira per tutta l'altezza del pezzo, e
+       lo `space-between` che l'affiancava in orizzontale manda il
+       ritorno in fondo alla pagina — e resta ferma mentre si legge. */
+    align-self: start;
+    position: sticky;
+    top: 2rem;
+  }
+
+  :root[data-stile='terminale'] .au-center > .au-pezzo {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  :root[data-stile='terminale'] .au-center > .au-pezzo-coda {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  /* L'indice: una voce per riga, numerata.
+
+     I numeri sono un contatore del foglio di stile e non un pezzo di
+     documento: le sezioni sono già elencate una volta sola nei dati, e
+     una seconda numerazione da tenere allineata a mano sarebbe una
+     promessa di divergere. Si parte da -1 perché il primo incremento
+     porta a zero, e la prima voce è `00`. */
+  :root[data-stile='terminale'] .au-nav {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0;
+    border-bottom: none;
+    counter-reset: voce -1;
+    /* La barra smette di essere il metro di sé stessa. Serviva alle
+       misure in `cqw`, che qui sono tutte sostituite da misure fisse;
+       e `container-type` porta con sé il contenimento di stile, che
+       isola i contatori: con quello acceso ogni voce ripartiva da capo
+       e l'indice diceva nove volte «01». */
+    container-type: normal;
+  }
+
+  :root[data-stile='terminale'] .au-nav-btn {
+    /* Il corpo torna fisso: le formule in `cqw` misurano la barra, e
+       una barra alta e stretta le porterebbe tutte al proprio minimo
+       — nove voci da nove punti in colonna. */
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-align: left;
+    padding: 0.5rem 0 0.5rem 0.8rem;
+    border-bottom: none;
+    border-left: 2px solid transparent;
+    margin-bottom: 0;
+    white-space: normal;
+  }
+
+  :root[data-stile='terminale'] .au-nav-btn::before {
+    counter-increment: voce;
+    content: counter(voce, decimal-leading-zero);
+    margin-right: 0.8em;
+    opacity: 0.55;
+  }
+
+  /* La sezione corrente non è una campitura piena ma una riga marcata
+     a sinistra: in un elenco di console il posto in cui si è si segna
+     col cursore, non colorando la voce. */
+:root[data-stile='terminale'] .au-nav-btn[aria-current],
+:root[data-stile='terminale'][data-sez='home'] .au-nav-btn[data-sez='home'],
+:root[data-stile='terminale'][data-sez='artificiosa'] .au-nav-btn[data-sez='artificiosa'],
+:root[data-stile='terminale'][data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
+:root[data-stile='terminale'][data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
+:root[data-stile='terminale'][data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
+:root[data-stile='terminale'][data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
+:root[data-stile='terminale'][data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
+:root[data-stile='terminale'][data-sez='galleria'] .au-nav-btn[data-sez='galleria'],
+:root[data-stile='terminale'][data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
+    color: var(--tinta-testo);
+    background: none;
+    border-left-color: currentColor;
+  }
+}
+
+/* La colonna laterale si prende quindici rem e mezza, e quel che
+   resta al testo va misurato di nuovo. La home terrebbe due colonne
+   fin dagli 861 punti, ma a quella larghezza, tolta la colonna
+   laterale, ne verrebbero due da ventotto caratteri l'una — e in
+   monospazio ventotto caratteri sono una strofa, non una prosa.
+   Fino ai 1200 punti la home resta dunque a una colonna sola, che è
+   quel che il foglio fa già da sé sotto gli 861. */
+@media (min-width: 861px) and (max-width: 1200px) {
+  :root[data-stile='terminale'] .au-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  :root[data-stile='terminale'] .au-giornale-col {
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--filo-sezione);
+    padding-right: 0;
+    padding-bottom: 3rem;
+    margin-bottom: 3rem;
+  }
+}
+
 /* ── Azzeramento ── */
 *,
 *::before,
@@ -1384,7 +1780,7 @@ body {
      perché di suo un elemento flessibile non scende sotto il proprio
      contenuto. */
   min-width: 0;
-  /* Larghi quanto serve ai sette pulsanti, non di più: sono comandi,
+  /* Larghi quanto serve agli otto pulsanti, non di più: sono comandi,
      e non devono competere col nome per l'attenzione. */
   width: 14.5rem;
   max-width: 100%;
@@ -1553,14 +1949,20 @@ body {
    «Officina» verrebbe tagliato. Le voci dello stile vanno dunque a
    due a due, e la colonna dei comandi cresce di una riga soltanto.
    La base è metà riga meno metà della distanza, così le due coppie
-   tornano esatte alla larghezza del gruppo — e se un giorno gli stili
-   diventassero cinque, il quinto andrebbe a capo da sé. */
+   tornano esatte alla larghezza del gruppo. Gli stili oggi sono
+   cinque: il quinto va a capo da sé, e l'ultima voce spaiata si
+   prende tutta la riga invece di restare mezza vuota — regola che
+   vale per qualunque numero dispari, oggi e domani. */
 .au-stili {
   flex-wrap: wrap;
 }
 
 .au-stile {
   flex: 1 1 calc(50% - 0.125rem);
+}
+
+.au-stile:last-child:nth-child(odd) {
+  flex-basis: 100%;
 }
 
 .au-passo:disabled {

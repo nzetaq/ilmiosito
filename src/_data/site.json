@@ -69,6 +69,10 @@
     {
       "id": "cartone",
       "etichetta": "Cartone"
+    },
+    {
+      "id": "terminale",
+      "etichetta": "Terminale"
     }
   ],
   "temi": [

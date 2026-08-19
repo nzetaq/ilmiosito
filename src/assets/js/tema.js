@@ -2,7 +2,7 @@
  * La veste: lo stile e il modo.
  *
  * Due scelte indipendenti — quali inchiostri, quanta luce — che il
- * foglio di stile combina in dodici tavolozze. Qui si registrano su
+ * foglio di stile combina in quindici tavolozze. Qui si registrano su
  * <html> e nella memoria del browser; il resto lo fa il CSS.
  *
  * Sono già applicate dallo script del <head>, prima del primo disegno:
@@ -16,7 +16,7 @@ const ASSI = [
 
 /* La barra del browser sul telefono prende il colore del fondo. Non è
    scritto in nessuna tabella: si chiede al foglio di stile quale fondo
-   sia in vigore, così dodici combinazioni non diventano dodici
+   sia in vigore, così quindici combinazioni non diventano quindici
    valori da tenere allineati a mano. */
 function tingiLaBarra() {
   const barra = document.getElementById('au-colore-barra');
