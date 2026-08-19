@@ -3281,6 +3281,47 @@ body {
   font-size: 0.8125rem;
 }
 
+/* La pagina che si manda a qualcuno non è una sezione della home.
+   `.au-center` è normalmente una griglia a due colonne — intestazione
+   a sinistra, comandi a destra — e senza questo segno i tre figli di
+   un permalink venivano disposti dalla griglia uno accanto all'altro:
+   testata a sinistra, testo a destra, coda di nuovo sotto la testata.
+
+   Qui c'è invece una colonna di lettura autonoma, centrata in ogni
+   veste. Le vesti che chiedono una misura più corta (Saggio) la
+   conservano: i margini automatici centrano anche quella dentro la
+   colonna comune. */
+.au-center.au-pezzo-pagina {
+  display: block;
+  max-width: 42.5rem;
+}
+
+.au-pezzo-pagina > .au-pezzo,
+.au-pezzo-pagina > .au-pezzo-coda {
+  margin-inline: auto;
+}
+
+/* Terminale, sui monitor larghi, trasforma di proposito il sito in
+   due colonne e rendeva appiccicata la testata del permalink. La
+   pagina individuale resta però una lettura singola come in ogni altro
+   stile: annulliamo solo quella disposizione, non l'impianto della
+   home o delle sezioni. */
+@media (min-width: 861px) {
+  :root[data-stile='terminale'] .au-center.au-pezzo-pagina {
+    display: block;
+    max-width: 42.5rem;
+  }
+
+  :root[data-stile='terminale'] .au-center.au-pezzo-pagina > .au-pezzo-testata {
+    position: static;
+    top: auto;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+  }
+}
+
 @media (max-width: 700px) {
   .au-pezzo-testata { margin-bottom: 2rem; }
   .au-pezzo-titolo { margin-bottom: 1.5rem; }
