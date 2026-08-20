@@ -2222,6 +2222,27 @@ body {
   container-type: inline-size;
 }
 
+/* ── I nomi, alla distanza che la barra consente ──
+   Le linguette non riempivano mai la barra: restava un avanzo in coda
+   — duecentocinquanta punti sulla home a schermo largo — e i nomi
+   sembravano ammassati a sinistra contro un vuoto. Quell'avanzo viene
+   distribuito fra una voce e l'altra invece di restare tutto in fondo.
+
+   `space-between` divide *lo spazio che avanza*, e questo è ciò che lo
+   rende sicuro: non può far traboccare la riga, perché non aggiunge
+   niente che non ci sia già. Dove l'avanzo è grande i nomi si
+   distanziano molto; dove è piccolo — nelle sezioni, dove la colonna
+   si stringe, e sotto gli ottocento punti, dove il corpo è già al
+   minimo — restano come sono sempre stati. La barra si comporta come
+   il resto del foglio: prende la misura da quel che ha.
+
+   Terminale è escluso: là la barra è una colonna incolonnata a
+   sinistra, e distribuire l'avanzo in verticale allontanerebbe le voci
+   dal nome invece che l'una dall'altra. */
+:root:not([data-stile='terminale']) .au-nav {
+  justify-content: space-between;
+}
+
 .au-nav-btn {
   display: inline-block;
   font-family: var(--font-testo);
