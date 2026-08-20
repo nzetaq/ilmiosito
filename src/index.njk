@@ -156,6 +156,16 @@ reti: "https://formsubmit.co"
          nome della sezione corrente, e su un telefono stretto «Il
          Diavolo veste Pravda» andrebbe a capo dentro il proprio
          riquadro. Nella barra il nome resta sempre intero. -#}
+      {%- if not loop.first %}
+      {#- Il punto fra un nome e l'altro. Sta nel documento e non in un
+         `::before` della linguetta perché così è una voce della fila
+         come le altre, e lo spazio che avanza si divide anche attorno
+         a lui: il punto cade al centro esatto fra due nomi a ogni
+         larghezza, senza che il foglio di stile debba conoscere una
+         distanza che decide il motore. È una decorazione, quindi non
+         si legge ad alta voce. -#}
+      <span class="au-nav-punto" aria-hidden="true">·</span>
+      {%- endif %}
       <a class="au-nav-btn" href="#{{ sezione.id }}" data-sez="{{ sezione.id }}"
          {%- if sezione.breve %} data-breve="{{ sezione.breve }}"{% endif %}>{{ sezione.etichetta }}</a>
       {%- endfor %}

@@ -2243,6 +2243,45 @@ body {
   justify-content: space-between;
 }
 
+/* Un punto fra un nome e l'altro.
+
+   È un elemento del documento e non un `::before` delle linguette per
+   una questione di misure. Dentro la linguetta il punto starebbe a
+   ridosso del nome che segue e lontano da quello che precede, perché
+   fra i due c'è anche lo spazio che `space-between` distribuisce — e
+   quanto sia quello spazio il foglio di stile non lo sa. Come voce a
+   sé il punto entra nella fila insieme alle altre: gli intervalli
+   diventano sedici invece di otto, e il punto si trova al centro
+   esatto fra due nomi a ogni larghezza, senza che nessuno calcoli
+   niente.
+
+   Le distanze restano quelle di prima: la barra è larga uguale e i
+   suoi estremi non si muovono, quindi fra un nome e l'altro c'è ancora
+   lo stesso spazio — due mezzi intervalli e il punto in mezzo, invece
+   di un intervallo intero e vuoto.
+
+   Il corpo è quello delle linguette, con la stessa formula: il punto
+   si stringe con loro invece di restare grande mentre i nomi calano. */
+.au-nav-punto {
+  align-self: center;
+  font-family: var(--font-testo);
+  font-size: clamp(0.5625rem, var(--nav-capienza), 0.6875rem);
+  line-height: 1;
+  /* Lo stesso inchiostro dei nomi che separa, non quello dei filetti:
+     è un segno tipografico dentro una riga di testo, e alla sua misura
+     un grigio da filetto sparirebbe. */
+  color: var(--nav);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Terminale ne fa a meno: là la barra è una colonna, e un punto fra
+   una riga e l'altra non separerebbe due nomi — sarebbe un elenco
+   puntato messo di traverso. */
+:root[data-stile='terminale'] .au-nav-punto {
+  display: none;
+}
+
 .au-nav-btn {
   display: inline-block;
   font-family: var(--font-testo);
@@ -3972,6 +4011,12 @@ body {
 
   .au-nav-btn:first-child {
     border-top: none;
+  }
+
+  /* Nel menù i nomi stanno uno per riga, separati da un filo: un punto
+     fra una riga e l'altra non separerebbe niente. */
+  .au-nav-punto {
+    display: none;
   }
 
   /* Margini di pagina più stretti: a 390px di schermo i 32px per lato
