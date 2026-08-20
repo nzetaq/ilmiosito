@@ -497,37 +497,20 @@ a[href],
 /* ── Gli stili: quali inchiostri ──
    Ogni combinazione dichiara nove valori e nient'altro. `--contro` è
    il colore che si scrive *sopra* la campitura piena, e va verificato
-   contro quella e non contro il fondo.
-
-   I cinque inchiostri della notte stanno un gradino più in alto —
-   `--notte-fondo` e compagni, dichiarati sullo stile e non sulla
-   combinazione — e il modo Notte non fa che riprenderli. Non è un
-   vezzo: il salvaschermo li accende anche per chi legge di giorno,
-   perché uno schermo che riposa si spegne invece di illuminarsi, e
-   una seconda tavolozza scritta in JavaScript sarebbe un secondo
-   elenco da tenere allineato al primo. Vedi `salvaschermo.js`. */
+   contro quella e non contro il fondo. */
 
 /* Officina · l'originale. Grotesque geometrico, arancio fluorescente,
    ombre piene senza sfocatura: la grafica del manifesto stampato. */
 :root,
-:root[data-stile='officina'] {
-  --notte-fondo: 21, 29, 51;
-  --notte-inchiostro: 244, 240, 230;
-  --notte-tinta: 255, 90, 54;
-  --notte-tinta-2: 255, 210, 63;
-  --notte-tinta-3: 255, 111, 181;
-}
-
-:root,
 :root[data-stile='officina'][data-tema='notte'] {
-  --fondo: var(--notte-fondo);
-  --inchiostro: var(--notte-inchiostro);
-  --tinta: var(--notte-tinta);
-  --tinta-piena: var(--notte-tinta);
-  --contro: var(--notte-fondo);
-  --tinta-2: var(--notte-tinta-2);
-  --tinta-3: var(--notte-tinta-3);
-  --tinta-passaggio: var(--notte-tinta-2);
+  --fondo: 21, 29, 51;
+  --inchiostro: 244, 240, 230;
+  --tinta: 255, 90, 54;
+  --tinta-piena: 255, 90, 54;
+  --contro: 21, 29, 51;
+  --tinta-2: 255, 210, 63;
+  --tinta-3: 255, 111, 181;
+  --tinta-passaggio: 255, 210, 63;
   --macchia-a: 255, 90, 54;
   --macchia-b: 255, 72, 176;
 }
@@ -563,23 +546,15 @@ a[href],
 /* Saggio · la pagina di una rivista. Bruno caldo e carta avorio, con
    un'ambra sola al posto delle tre tinte di Officina: qui il colore
    non deve chiamare, deve solo distinguere una nota da un titolo. */
-:root[data-stile='saggio'] {
-  --notte-fondo: 25, 23, 20;
-  --notte-inchiostro: 242, 237, 228;
-  --notte-tinta: 217, 160, 102;
-  --notte-tinta-2: 200, 180, 148;
-  --notte-tinta-3: 201, 154, 154;
-}
-
 :root[data-stile='saggio'][data-tema='notte'] {
-  --fondo: var(--notte-fondo);
-  --inchiostro: var(--notte-inchiostro);
-  --tinta: var(--notte-tinta);
-  --tinta-piena: var(--notte-tinta);
-  --contro: var(--notte-fondo);
-  --tinta-2: var(--notte-tinta-2);
-  --tinta-3: var(--notte-tinta-3);
-  --tinta-passaggio: var(--notte-inchiostro);
+  --fondo: 25, 23, 20;
+  --inchiostro: 242, 237, 228;
+  --tinta: 217, 160, 102;
+  --tinta-piena: 217, 160, 102;
+  --contro: 25, 23, 20;
+  --tinta-2: 200, 180, 148;
+  --tinta-3: 201, 154, 154;
+  --tinta-passaggio: 242, 237, 228;
   --macchia-a: 217, 160, 102;
   --macchia-b: 201, 154, 154;
 }
@@ -613,23 +588,15 @@ a[href],
 /* Insegna · il cartellone. Giallo di segnaletica, ciano e arancio: i
    colori che si leggono da lontano. La campitura gialla porta sempre
    l'inchiostro sopra, mai il contrario. */
-:root[data-stile='insegna'] {
-  --notte-fondo: 16, 16, 16;
-  --notte-inchiostro: 245, 243, 238;
-  --notte-tinta: 255, 214, 0;
-  --notte-tinta-2: 0, 163, 255;
-  --notte-tinta-3: 255, 90, 43;
-}
-
 :root[data-stile='insegna'][data-tema='notte'] {
-  --fondo: var(--notte-fondo);
-  --inchiostro: var(--notte-inchiostro);
-  --tinta: var(--notte-tinta);
-  --tinta-piena: var(--notte-tinta);
-  --contro: var(--notte-fondo);
-  --tinta-2: var(--notte-tinta-2);
-  --tinta-3: var(--notte-tinta-3);
-  --tinta-passaggio: var(--notte-tinta-2);
+  --fondo: 16, 16, 16;
+  --inchiostro: 245, 243, 238;
+  --tinta: 255, 214, 0;
+  --tinta-piena: 255, 214, 0;
+  --contro: 16, 16, 16;
+  --tinta-2: 0, 163, 255;
+  --tinta-3: 255, 90, 43;
+  --tinta-passaggio: 0, 163, 255;
   --macchia-a: 255, 214, 0;
   --macchia-b: 0, 163, 255;
 }
@@ -669,26 +636,18 @@ a[href],
    verderame — stese come campiture di cartoncino ritagliato, su una
    carta calda che non è mai bianca. Il colore non serve a chiamare né
    a distinguere: è la figura stessa. */
-:root[data-stile='cartone'] {
+:root[data-stile='cartone'][data-tema='notte'] {
   /* Il fondo notturno non è nero ma un petrolio molto scuro: nei
      fondali dello studio l'ombra era sempre una tinta, mai l'assenza
      di tutte. */
-  --notte-fondo: 26, 38, 40;
-  --notte-inchiostro: 242, 234, 216;
-  --notte-tinta: 234, 122, 84;
-  --notte-tinta-2: 232, 186, 78;
-  --notte-tinta-3: 108, 196, 186;
-}
-
-:root[data-stile='cartone'][data-tema='notte'] {
-  --fondo: var(--notte-fondo);
-  --inchiostro: var(--notte-inchiostro);
-  --tinta: var(--notte-tinta);
-  --tinta-piena: var(--notte-tinta);
-  --contro: var(--notte-fondo);
-  --tinta-2: var(--notte-tinta-2);
-  --tinta-3: var(--notte-tinta-3);
-  --tinta-passaggio: var(--notte-tinta-2);
+  --fondo: 26, 38, 40;
+  --inchiostro: 242, 234, 216;
+  --tinta: 234, 122, 84;
+  --tinta-piena: 234, 122, 84;
+  --contro: 26, 38, 40;
+  --tinta-2: 232, 186, 78;
+  --tinta-3: 108, 196, 186;
+  --tinta-passaggio: 232, 186, 78;
   --macchia-a: 234, 122, 84;
   --macchia-b: 46, 122, 118;
 }
@@ -730,23 +689,15 @@ a[href],
    non una mappa da decorazione, ma una griglia che aiuta a prendere
    posizione fra i testi. Le tinte secondarie distinguono coordinate e
    percorsi senza mai sottrarre spazio alla lettura. */
-:root[data-stile='atlante'] {
-  --notte-fondo: 15, 34, 49;
-  --notte-inchiostro: 232, 235, 224;
-  --notte-tinta: 225, 174, 74;
-  --notte-tinta-2: 107, 193, 196;
-  --notte-tinta-3: 205, 111, 85;
-}
-
 :root[data-stile='atlante'][data-tema='notte'] {
-  --fondo: var(--notte-fondo);
-  --inchiostro: var(--notte-inchiostro);
-  --tinta: var(--notte-tinta);
-  --tinta-piena: var(--notte-tinta);
-  --contro: var(--notte-fondo);
-  --tinta-2: var(--notte-tinta-2);
-  --tinta-3: var(--notte-tinta-3);
-  --tinta-passaggio: var(--notte-inchiostro);
+  --fondo: 15, 34, 49;
+  --inchiostro: 232, 235, 224;
+  --tinta: 225, 174, 74;
+  --tinta-piena: 225, 174, 74;
+  --contro: 15, 34, 49;
+  --tinta-2: 107, 193, 196;
+  --tinta-3: 205, 111, 85;
+  --tinta-passaggio: 232, 235, 224;
   --macchia-a: 225, 174, 74;
   --macchia-b: 57, 137, 157;
 }
@@ -785,23 +736,15 @@ a[href],
    inchiostro steso ma fosforo acceso, e dove non c'è nessuna carta
    sotto. Le tre tinte sono quelle che i terminali hanno sempre avuto:
    verde, ambra, ciano. */
-:root[data-stile='terminale'] {
-  --notte-fondo: 12, 15, 18;
-  --notte-inchiostro: 218, 226, 222;
-  --notte-tinta: 92, 224, 148;
-  --notte-tinta-2: 232, 190, 96;
-  --notte-tinta-3: 122, 200, 240;
-}
-
 :root[data-stile='terminale'][data-tema='notte'] {
-  --fondo: var(--notte-fondo);
-  --inchiostro: var(--notte-inchiostro);
-  --tinta: var(--notte-tinta);
-  --tinta-piena: var(--notte-tinta);
-  --contro: var(--notte-fondo);
-  --tinta-2: var(--notte-tinta-2);
-  --tinta-3: var(--notte-tinta-3);
-  --tinta-passaggio: var(--notte-tinta-2);
+  --fondo: 12, 15, 18;
+  --inchiostro: 218, 226, 222;
+  --tinta: 92, 224, 148;
+  --tinta-piena: 92, 224, 148;
+  --contro: 12, 15, 18;
+  --tinta-2: 232, 190, 96;
+  --tinta-3: 122, 200, 240;
+  --tinta-passaggio: 232, 190, 96;
   --macchia-a: 92, 224, 148;
   --macchia-b: 122, 200, 240;
 }
@@ -3937,78 +3880,6 @@ body {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--citazione-chiudi);
-}
-
-/* ── Il salvaschermo ──
-   Dopo qualche minuto di quiete una tela copre lo schermo e disegna la
-   figura della veste — una per stile, in `figure.js` — finché non si
-   muove qualcosa. Qui c'è solo la tenda: la figura è WebGL, e il
-   documento non ne sa niente.
-
-   I colori sono quelli della notte anche di giorno, presi dai
-   `--notte-*` dichiarati fra le tavolozze: uno schermo che riposa si
-   spegne, non si illumina. */
-.au-salvaschermo {
-  position: fixed;
-  inset: 0;
-  /* Sopra ogni cosa che abbia un ordine di impilamento — il massimo
-     del foglio è 2000, la finestra dei versi. Restano fuori le
-     finestre di dialogo, che il browser tiene in un piano tutto suo:
-     per quelle non c'è z-index che basti, e infatti il salvaschermo
-     non si accende mentre una è aperta. */
-  z-index: 3000;
-  /* Sotto la tela, il fondo notturno della veste: è quel che si vede
-     mentre la tenda si apre, prima che la figura abbia colore. */
-  background: rgb(var(--notte-fondo));
-  /* Il puntatore qui non ha nulla da fare, e muoverlo fa sparire
-     tutto: mostrarlo sarebbe indicare un comando che non c'è. */
-  cursor: none;
-  opacity: 0;
-  /* L'uscita. La durata è scritta qui e in nessun altro posto:
-     salvaschermo.js toglie la classe, rilegge questo valore e sa fra
-     quanto può smontare la tela senza tagliare la dissolvenza. */
-  transition: opacity 0.4s linear;
-}
-
-/* L'entrata dura il quadruplo dell'uscita. Sono due gesti opposti:
-   comparire non deve accorgersene nessuno, sparire dev'essere
-   immediato — chi ha appena mosso il mouse rivuole la sua pagina. */
-.au-salvaschermo.is-acceso {
-  opacity: 1;
-  transition: opacity 1.6s linear;
-}
-
-.au-salvaschermo canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* La riga in fondo dice l'unica cosa che ci sia da sapere, e se ne va:
-   una scritta ferma per ore sopra una figura che si muove è
-   esattamente ciò che un salvaschermo non deve avere. */
-.au-salvaschermo-nota {
-  position: absolute;
-  left: 50%;
-  bottom: 2.5rem;
-  transform: translateX(-50%);
-  font-family: var(--font-display);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: rgba(var(--notte-inchiostro), 0.55);
-  text-shadow: 0 1px 12px rgb(var(--notte-fondo));
-  opacity: 0;
-  animation: au-nota-salvaschermo 12s linear forwards;
-}
-
-@keyframes au-nota-salvaschermo {
-  0% { opacity: 0; }
-  12% { opacity: 1; }
-  70% { opacity: 1; }
-  100% { opacity: 0; }
 }
 
 /* ── Adattamento agli schermi stretti ── */
