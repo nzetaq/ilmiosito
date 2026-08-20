@@ -2273,6 +2273,17 @@ body {
   color: var(--nav);
   user-select: none;
   -webkit-user-select: none;
+  /* Il segno cresce, la sua scatola no.
+
+     Ingrandirlo col corpo del carattere lo avrebbe fatto occupare più
+     posto, e il posto in questa barra è tutto quello che c'è: alle
+     larghezze strette gli otto punti stanno dentro l'avanzo per il
+     rotto della cuffia, e un punto più largo avrebbe mandato la riga a
+     capo. Una scala non cambia l'impaginazione — si applica dopo, sul
+     disegno — quindi le distanze restano quelle di ieri fino al
+     centesimo, e il punto cresce dentro il vuoto che ha attorno.
+     Cresce dal proprio centro, che è già il centro fra due nomi. */
+  transform: scale(1.9);
 }
 
 /* Terminale ne fa a meno: là la barra è una colonna, e un punto fra
