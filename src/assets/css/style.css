@@ -1939,13 +1939,6 @@ body {
 /* I cursori: affiancati dove c'è spazio, incolonnati quando non ce n'è.
    Uno sotto l'altro farebbe crescere l'intestazione di ottanta pixel su
    ogni pagina, e l'intestazione è già la parte che costa di più. */
-/* In colonna, `flex: 1 1 6.5rem` del regolatore diventerebbe
-   un'altezza: i due blocchi della veste si gonfiavano da 40 a 104px
-   ciascuno, e fra Luce e Scala si apriva un vuoto di un centimetro.
-   Qui la base torna a essere il contenuto. */
-.au-comandi > .au-regolatore {
-  flex: 0 0 auto;
-}
 
 .au-regolatori {
   display: flex;
@@ -2049,23 +2042,21 @@ body {
   border-color: var(--toggle-sfondo-hover);
 }
 
-/* Le sei voci della veste condividono la forma dei pulsanti di scala,
-   ma portano parole invece di segni: corpo più piccolo, maiuscoletto
-   e larghezze uguali perché nessuna sembri la principale.
-
-   La spaziatura è più stretta di quella delle altre etichette del
-   sito: «Contrasto» è la parola più lunga che debba entrare, e a
-   0.14em veniva tagliata proprio sulle finestre larghe — dove la
-   colonna dei comandi è più stretta, perché il motto le sta accanto
-   invece che sopra. */
+/* Le voci della veste condividono la forma dei pulsanti di scala, ma
+   portano parole invece di segni. Ora che stanno in un elenco che si
+   apre e non più in una griglia da incastrare nella colonna, hanno
+   la larghezza intera e possono tornare a un corpo leggibile: prima
+   erano a 0.5625rem perché «Contrasto» dovesse entrare in un terzo di
+   riga, e quella misura era il limite sotto cui un maiuscoletto
+   spaziato smette di essere una parola e diventa una texture. */
 .au-tema,
 .au-stile {
-  font-size: 0.5625rem;
-  letter-spacing: 0.06em;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  flex: 1 1 0;
+  text-align: left;
   min-width: 0;
-  padding: 0.35rem 0.1rem;
+  padding: 0.4rem 0.7rem;
 }
 
 /* La voce in vigore è una campitura piena, la stessa della sezione
@@ -2080,28 +2071,6 @@ body {
 .au-tema[aria-pressed='true']:hover,
 .au-stile[aria-pressed='true']:hover {
   color: var(--nav-attivo-testo);
-}
-
-/* Gli stili sono quattro e le luci tre: in una riga sola da 14,5rem
-   una voce su quattro starebbe in poco più di cinquanta punti, e
-   «Officina» verrebbe tagliato. Le voci dello stile vanno dunque a
-   due a due, e la colonna dei comandi cresce di una riga soltanto.
-   La base è metà riga meno metà della distanza, così le due coppie
-   tornano esatte alla larghezza del gruppo. Gli stili oggi sono
-   cinque: il quinto va a capo da sé, e l'ultima voce spaiata si
-   prende tutta la riga invece di restare mezza vuota — regola che
-   vale per qualunque numero dispari, oggi e domani. Con sei voci si
-   formano semplicemente tre coppie. */
-.au-stili {
-  flex-wrap: wrap;
-}
-
-.au-stile {
-  flex: 1 1 calc(50% - 0.125rem);
-}
-
-.au-stile:last-child:nth-child(odd) {
-  flex-basis: 100%;
 }
 
 .au-passo:disabled {
@@ -2128,6 +2097,70 @@ body {
 
 .au-regolatore.is-imposto .au-regolatore-cursore {
   cursor: not-allowed;
+}
+
+/* ── Le due scelte della veste ──
+   Stile e Luce sono pulsanti grandi come quello della ricerca, e le
+   voci stanno sotto, nascoste finché non si chiede di vederle. Il
+   pannello sta nel flusso e non appoggiato sopra la pagina: aprendolo
+   la barra delle sezioni scende di un dito e si vede da dove viene
+   quel che è comparso, mentre un pannello sovrapposto avrebbe dovuto
+   trovarsi un posto anche dentro il pannello della veste, che sugli
+   schermi stretti è a sua volta una cosa che si apre. Aperti, i due
+   elenchi occupano quanto occupavano prima le due griglie sempre in
+   vista: il guadagno è tutto nel tempo in cui restano chiusi. */
+.au-scelta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* Il pulsante porta due cose: come si chiama la scelta e quale voce è
+   in vigore. La seconda è in colore d'accento e con una spaziatura più
+   stretta — «Terminale» e «Contrasto» sono lunghe, e il maiuscoletto
+   spaziato del comando le porterebbe a filo del bordo. */
+.au-scelta-apri {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  text-align: left;
+}
+
+.au-scelta-valore {
+  letter-spacing: 0.1em;
+  color: var(--accento);
+}
+
+/* Il segno che c'è dell'altro sotto: un quadretto vuoto che si riempie
+   quando l'elenco si vede. È lo stesso quadretto pieno con cui il sito
+   segna dappertutto la voce in vigore, e non una freccia — che qui
+   sarebbe l'unica curva di tutta la pagina. */
+.au-scelta-apri::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 0.5em;
+  height: 0.5em;
+  border: 1px solid currentColor;
+}
+
+.au-scelta-apri[aria-expanded='true']::after {
+  background: currentColor;
+}
+
+.au-scelta-voci {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* `hidden` è un attributo, e la regola con cui il browser lo fa
+   sparire pesa meno di una classe: senza questa riga l'elenco
+   resterebbe in vista, chiuso solo per chi legge il documento. Il
+   sito lo dichiara ogni volta che si serve di `hidden` — le poesie e
+   i gruppi d'annata fanno lo stesso. */
+.au-scelta-voci[hidden] {
+  display: none;
 }
 
 .au-comando {
@@ -4163,6 +4196,13 @@ body {
 
   .au-passo {
     padding: 0.5rem 0;
+  }
+
+  /* Le voci della veste sono parole allineate a sinistra, non segni
+     centrati: il dito ha bisogno di altezza, la parola di un margine
+     da cui partire. */
+  .au-scelta-voci .au-passo {
+    padding: 0.6rem 0.7rem;
   }
 
   /* Su schermo stretto i due cursori vanno a capo. Affiancati stanno

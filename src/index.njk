@@ -174,32 +174,52 @@ reti: "https://formsubmit.co"
               aria-haspopup="dialog">Cerca</button>
 
       {#- La veste, in due scelte separate: quali inchiostri e quanta
-         luce. Tenerle distinte fa quindici combinazioni con otto
-         pulsanti, invece di quindici pulsanti — e nessuno deve ricordare
-         che «Officina chiaro» e «Macchina chiaro» sono lo stesso
-         gesto.
-         Tutte le voci si vedono: un interruttore che gira in tondo
-         nasconde le scelte a chi non lo preme abbastanza volte.
-         `aria-pressed` dice quale è in vigore, così anche chi non
-         vede la campitura piena sa dove si trova. -#}
-      <div class="au-regolatore">
-        <span class="au-regolatore-etichetta">Stile</span>
-        <div class="au-passi au-stili" role="group" aria-label="Stile del sito">
+         luce. Tenerle distinte fa diciotto combinazioni con due
+         pulsanti, invece di diciotto pulsanti — e nessuno deve
+         ricordare che «Officina chiaro» e «Macchina chiaro» sono lo
+         stesso gesto.
+
+         Ognuna è un pulsante come quello della ricerca, che apre le
+         proprie voci sotto di sé. Prima stavano tutte in vista: erano
+         sei e tre, e due griglie di parole minute occupavano metà
+         della colonna dei comandi facendo concorrenza al nome. Il
+         pulsante chiuso dice comunque quale voce è in vigore — la
+         scelta non si nasconde, si riassume — e chi la vuole cambiare
+         la trova a un clic.
+
+         `aria-expanded` dice se le voci si vedono, `aria-controls`
+         quali sono, e `aria-pressed` quale è in vigore: chi non vede
+         la campitura piena sa lo stesso dove si trova. Il valore nel
+         pulsante lo scrive il JavaScript, che è anche l'unico a
+         sapere quale veste sia stata ricordata: scriverlo qui
+         significherebbe stampare «Officina» e correggerlo un istante
+         dopo. -#}
+      <div class="au-scelta">
+        <button class="au-comando au-scelta-apri" id="au-stile-apri" type="button"
+                aria-expanded="false" aria-controls="au-stili">
+          Stile <span class="au-scelta-valore" id="au-stile-valore"></span>
+        </button>
+        <div class="au-scelta-voci au-stili" id="au-stili" role="group"
+             aria-label="Stile del sito" hidden>
           {%- for s in site.stili %}
           <button class="au-passo au-stile" type="button"
                   data-valore="{{ s.id }}" aria-pressed="false">{{ s.etichetta }}</button>
           {%- endfor %}
-    </div>
+        </div>
       </div>
 
-      <div class="au-regolatore">
-        <span class="au-regolatore-etichetta">Luce</span>
-        <div class="au-passi au-temi" role="group" aria-label="Quanta luce">
+      <div class="au-scelta">
+        <button class="au-comando au-scelta-apri" id="au-tema-apri" type="button"
+                aria-expanded="false" aria-controls="au-temi">
+          Luce <span class="au-scelta-valore" id="au-tema-valore"></span>
+        </button>
+        <div class="au-scelta-voci au-temi" id="au-temi" role="group"
+             aria-label="Quanta luce" hidden>
           {%- for t in site.temi %}
           <button class="au-passo au-tema" type="button"
                   data-valore="{{ t.id }}" aria-pressed="false">{{ t.etichetta }}</button>
           {%- endfor %}
-    </div>
+        </div>
       </div>
       <div class="au-regolatori">
         {#- Quanto è grande il sito. Il 100% è il disegno originale;
