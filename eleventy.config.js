@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { sintesi } from './strumenti/sintesi.mjs';
 
 const MESI = [
@@ -25,6 +26,64 @@ function scomponi(data) {
 function esteso(data) {
   const { anno, mese, giorno } = scomponi(data);
   return giorno ? `${giorno} ${mese} ${anno}` : `${mese} ${anno}`;
+}
+
+/* ── L'impronta dei moduli ──
+   Il JavaScript del sito non è un file solo: è un modulo d'ingresso
+   che ne importa una dozzina. L'impronta nell'indirizzo protegge
+   l'ingresso — cambia lui, cambia il suo indirizzo — ma gli `import`
+   scritti dentro di lui puntano a file senza impronta, e su GitHub
+   Pages quei file restano in cache dieci minuti.
+
+   È bastato per far comparire il difetto che l'impronta doveva
+   impedire, e in una forma peggiore: cambiando `tema.js` senza toccare
+   `main.js`, l'indirizzo dell'ingresso *non cambiava*, e un browser
+   poteva servirsi dell'intero giro dalla propria cache — pagina nuova,
+   moduli vecchi. I pulsanti della veste erano lì, disegnati dal foglio
+   nuovo, e non rispondevano, perché il modulo che li anima era quello
+   di prima.
+
+   Il rimedio è trattare i moduli come un pezzo solo: una sola impronta
+   per tutti, calcolata su tutti, e scritta sia nell'indirizzo
+   dell'ingresso sia in ogni `import` che compare nei file pubblicati.
+   Se cambia un modulo qualunque cambia l'indirizzo di tutti, e nessuna
+   copia vecchia può rispondere per la nuova. Ricaricare l'intero giro
+   per una virgola in un modulo costa poche decine di kilobyte, una
+   volta per pubblicazione: è il prezzo giusto per non avere mai più
+   una pagina che si contraddice.
+
+   `join` e non una stringa: il percorso lo compone il sistema. */
+const MODULI = 'src/assets/js';
+
+function improntaModuli() {
+  const somma = createHash('sha256');
+  // In ordine, sempre: la stessa cartella deve dare la stessa impronta
+  // a ogni compilazione, e l'ordine con cui il sistema elenca i file
+  // non è una garanzia.
+  for (const nome of readdirSync(MODULI).filter((n) => n.endsWith('.js')).sort()) {
+    somma.update(nome).update(readFileSync(join(MODULI, nome)));
+  }
+  return somma.digest('hex').slice(0, 8);
+}
+
+/* Gli `import` dei file pubblicati, riscritti con l'impronta del giro.
+   Si tocca solo ciò che è davvero un modulo — quel che segue `from`,
+   `import` o `import(` ed è un percorso relativo a un `.js` — e mai
+   due volte lo stesso, perché un indirizzo che porta già un'impronta
+   viene lasciato stare. */
+const SPECIFICATORE = /\b(from|import)(\s*\(\s*|\s+)(['"])(\.[^'"?]+\.js)\3/g;
+
+function firmaGliImport(cartella, impronta) {
+  for (const nome of readdirSync(cartella).filter((n) => n.endsWith('.js'))) {
+    const percorso = join(cartella, nome);
+    const testo = readFileSync(percorso, 'utf8');
+    const firmato = testo.replace(
+      SPECIFICATORE,
+      (intero, parola, mezzo, virgoletta, percorsoModulo) =>
+        `${parola}${mezzo}${virgoletta}${percorsoModulo}?v=${impronta}${virgoletta}`
+    );
+    if (firmato !== testo) writeFileSync(percorso, firmato);
+  }
 }
 
 export default function (eleventyConfig) {
@@ -74,6 +133,16 @@ export default function (eleventyConfig) {
     // meglio che la compilazione si fermi, invece di pubblicare pagine
     // che tornano silenziosamente a essere fragili.
     return createHash('sha256').update(readFileSync(percorso)).digest('hex').slice(0, 8);
+  });
+
+  // L'ingresso del JavaScript porta l'impronta di tutti i moduli e non
+  // solo la propria: vedi `improntaModuli` in cima al file.
+  eleventyConfig.addFilter('versioneModuli', () => improntaModuli());
+
+  // Gli `import` dentro i file pubblicati vanno firmati dopo che la
+  // copia diretta li ha messi al loro posto — prima non esistono.
+  eleventyConfig.on('eleventy.after', ({ dir }) => {
+    firmaGliImport(join(dir.output, 'assets', 'js'), improntaModuli());
   });
 
   // ── Filtri per le date ──

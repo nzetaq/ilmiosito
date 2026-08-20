@@ -236,7 +236,13 @@
   <link rel="stylesheet" href="{{ base }}assets/css/{{ foglioExtra }}.css?v={{ ('src/assets/css/' + foglioExtra + '.css') | versione }}">
   {%- endif %}
   {%- set entrata = modulo | default('main', true) %}
-  <script type="module" src="{{ base }}assets/js/{{ entrata }}.js?v={{ ('src/assets/js/' + entrata + '.js') | versione }}"></script>
+  {#- L'impronta qui non è quella del solo file d'ingresso ma quella di
+     tutti i moduli insieme: l'ingresso ne importa una dozzina, e
+     cambiandone uno senza toccare lui il suo indirizzo resterebbe lo
+     stesso — con la pagina nuova e il giro di moduli vecchio ancora in
+     cache. Gli `import` dentro i file pubblicati portano la stessa
+     impronta; li firma la compilazione. -#}
+  <script type="module" src="{{ base }}assets/js/{{ entrata }}.js?v={{ null | versioneModuli }}"></script>
 
   {#- Senza JavaScript il router non può nascondere nulla: si mostra
      tutto, così la pagina resta leggibile e navigabile per intero. #}
