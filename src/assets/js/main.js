@@ -10,6 +10,7 @@ import { avviaContatti } from './contatti.js';
 import { avviaMenu } from './menu.js';
 import { avviaCerca } from './cerca.js';
 import { avviaGalleria } from './galleria.js';
+import { avviaSalvaschermo } from './salvaschermo.js';
 
 // I moduli sono differiti per natura: il documento è già completo.
 // L'analisi si iscrive per prima, così non perde il primo annuncio.
@@ -25,3 +26,6 @@ avviaPoesie();
 avviaContatti();
 avviaCerca();
 avviaGalleria();
+// Per ultimo: non disegna niente finché non smette di succedere
+// qualcos'altro.
+avviaSalvaschermo();

@@ -28,7 +28,7 @@ src/
 ├── _includes/layouts/        impalcatura HTML condivisa
 ├── assets/
 │   ├── css/style.css         foglio di stile unico
-│   ├── js/                   moduli ES: router, tema, filtri, citazioni, oracolo
+│   ├── js/                   moduli ES: router, tema, filtri, citazioni, oracolo, salvaschermo
 │   ├── font/                 Archivo e Space Grotesk, ospitati qui
 │   └── img/                  illustrazioni e favicon
 └── content/                  i contenuti, un file Markdown per voce
@@ -703,6 +703,43 @@ Due limiti da conoscere:
   tutto fermo per via di `prefers-reduced-motion`, che vince con
   `!important` su qualunque valore: in quel caso il cursore si spegne e lo
   dichiara, invece di fingere di funzionare.
+- **Il salvaschermo**: dopo **quattro minuti** senza un gesto — puntatore
+  fermo, pagina ferma, tastiera ferma — una tela WebGL copre lo schermo e
+  disegna una figura che si muove piano; il primo gesto qualunque la fa
+  sparire e il conto riparte. La meccanica sta in `salvaschermo.js`
+  (l'attesa è la costante `ATTESA` in cima al file), i disegni in
+  `figure.js`.
+
+  **Una figura per veste.** Officina ha le sei di `psichedelia.html`, un
+  esperimento a sé che sta fuori da questa repository e da cui viene
+  l'idea: plasma, caleidoscopio, tunnel, frattale,
+  liquido, spirale — che si danno il cambio ogni ventisei secondi con una
+  dissolvenza di due. Le altre cinque ne hanno una ciascuna, e disegnano
+  quello che la loro veste dichiara altrove: la carta marmorizzata di una
+  legatura per Saggio, il cartellone che gira per Insegna, i cartoncini
+  ritagliati fuori registro per Cartone, una carta topografica con le
+  isoipse per Atlante, il fosforo di un oscilloscopio per Terminale.
+  I tasti dell'originale non ci sono più: un salvaschermo si spegne al
+  primo gesto, quindi non c'è modo di comandarlo senza farlo sparire.
+
+  **I colori sono quelli della notte anche di giorno**, perché uno schermo
+  che riposa si spegne invece di illuminarsi. Per non tenere una seconda
+  tavolozza in JavaScript, i cinque inchiostri notturni di ogni veste sono
+  dichiarati nel foglio di stile un gradino più in alto delle diciotto
+  combinazioni — `--notte-fondo`, `--notte-inchiostro`, `--notte-tinta`,
+  `--notte-tinta-2`, `--notte-tinta-3`, sullo stile e non sul modo — e il
+  modo Notte non fa che riprenderli. Il colore del sito resta scritto in
+  un posto solo.
+
+  **Quando non si accende affatto:** con `prefers-reduced-motion` o col
+  cursore del moto a zero (è la cosa più in movimento del sito); nel modo
+  Contrasto, che esiste per togliere rumore; dove il puntatore non è fine,
+  perché sul telefono lo schermo lo spegne il telefono e una tela animata
+  consumerebbe solo batteria; mentre è aperta una finestra di dialogo, che
+  il browser tiene in un piano sopra ogni `z-index`; a scheda nascosta; e
+  dove WebGL non c'è. Per il resto la figura segue il cursore del moto come
+  ogni altro movimento: a metà velocità si muove per metà.
+
 - **Impronta negli indirizzi**: il foglio di stile e `main.js` sono chiesti
   con `?v=` seguito dall'impronta del loro contenuto (filtro `versione` in
   `eleventy.config.js`). GitHub Pages dichiara `max-age=600` e non permette
