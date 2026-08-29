@@ -3,10 +3,11 @@
 Rapporti generati una volta al giorno da GitHub Actions, a partire
 dai dati di GoatCounter. Un file per giornata; qui il riepilogo.
 
-**Ultimi 7 giorni:** 67 visite complessive, media di 10 al giorno.
+**Ultimi 8 giorni:** 67 visite complessive, media di 8 al giorno.
 
 | Giorno | Visite | Sezione più letta |
 | --- | ---: | --- |
+| [2026-08-28](2026-08-28.md) | 0 | — |
 | [2026-08-24](2026-08-24.md) | 0 | — |
 | [2026-08-21](2026-08-21.md) | 1 | / · home |
 | [2026-08-19](2026-08-19.md) | 4 | /il-diavolo-veste-pravda |
