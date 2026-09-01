@@ -1,0 +1,49 @@
+{
+  "giorno": "2026-08-31",
+  "visite": 2,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/articoli",
+      "titolo": "NZQ — Articoli",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/ · home",
+      "titolo": "NZQ — Home",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "paesi": [],
+  "provenienze": [],
+  "browser": [
+    {
+      "nome": "Safari",
+      "titolo": "",
+      "visite": 2,
+      "unici": 0
+    },
+    {
+      "nome": "Chrome",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "sistemi": [
+    {
+      "nome": "macOS",
+      "titolo": "",
+      "visite": 2,
+      "unici": 0
+    },
+    {
+      "nome": "Android",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ]
+}
