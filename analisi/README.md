@@ -3,10 +3,11 @@
 Rapporti generati una volta al giorno da GitHub Actions, a partire
 dai dati di GoatCounter. Un file per giornata; qui il riepilogo.
 
-**Ultimi 9 giorni:** 69 visite complessive, media di 8 al giorno.
+**Ultimi 10 giorni:** 69 visite complessive, media di 7 al giorno.
 
 | Giorno | Visite | Sezione più letta |
 | --- | ---: | --- |
+| [2026-09-03](2026-09-03.md) | 0 | — |
 | [2026-08-31](2026-08-31.md) | 2 | /articoli |
 | [2026-08-28](2026-08-28.md) | 0 | — |
 | [2026-08-24](2026-08-24.md) | 0 | — |
