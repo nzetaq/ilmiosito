@@ -4,7 +4,7 @@
     qualsiasi profondità, ha invece bisogno di percorsi assoluti. -#}
 {%- set base = radice | default('', true) -%}
 
-{#- I due blocchi inline della pagina sono catturati qui, prima di
+{#- I blocchi inline della pagina sono catturati qui, prima di
     essere stampati più sotto: dalla stessa variabile si ricava
     l'impronta da dichiarare nella policy di sicurezza, e questo
     garantisce che impronta e codice non possano divergere. -#}
@@ -42,6 +42,19 @@
           radice.setAttribute('data-tema', 'giorno');
         }
       } catch (e) {}
+
+      // La lingua dell'impalcatura. Qui si decide soltanto quale sia:
+      // le parole le cambia lo script in fondo al corpo, che è il
+      // primo momento in cui la pagina esiste abbastanza per essere
+      // tradotta. `lang` segue la scelta perché è l'attributo su cui
+      // un lettore di schermo decide come pronunciare — e i testi,
+      // che restano italiani, portano il proprio `lang` addosso.
+      var lingua = scegli(
+        'au-lingua',
+        [{% for l in site.lingue %}'{{ l.id }}'{% if not loop.last %}, {% endif %}{% endfor %}],
+        '{{ site.lingua }}');
+      radice.setAttribute('data-lingua', lingua);
+      radice.setAttribute('lang', lingua);
 
       // Le regolazioni della veste, applicate prima del primo disegno:
       // arrivando col resto del JavaScript, la pagina apparirebbe alla
@@ -88,6 +101,71 @@
     })();
 {%- endset -%}
 
+{#- La traduzione dell'impalcatura. Sta in fondo al corpo, e non
+    fra gli altri due blocchi in cima, per una ragione sola: qui si
+    cambia il testo dei nodi, e i nodi in cima alla pagina non esistono
+    ancora. Messo in fondo gira a documento composto e prima del primo
+    disegno — chi ha scelto l'inglese non vede mai comparire l'italiano
+    per poi correggersi sotto gli occhi.
+
+    L'inglese non sta in una tabella a parte: sta accanto all'italiano,
+    nell'attributo `data-en` del nodo che traduce. Un elenco separato
+    andrebbe tenuto allineato a mano, e una voce dimenticata si
+    scoprirebbe solo leggendo la pagina nell'altra lingua.
+
+    L'italiano non viene mai riletto dal documento dopo il primo
+    passaggio: si prende nota qui delle due forme, e da lì in poi si
+    alterna fra quelle. Rileggerlo significherebbe, alla seconda
+    andata e ritorno, prendere per italiano l'inglese appena scritto. -#}
+{%- set traduzione -%}
+    (function () {
+      var radice = document.documentElement;
+      var voci = [];
+
+      // Tre modi di dire la stessa cosa, secondo dove il testo abita:
+      // dentro il nodo, nel segnaposto di un campo, o nell'etichetta
+      // che sentono i lettori di schermo.
+      var raccogli = function (attributo, leggi, scrivi) {
+        var nodi = document.querySelectorAll('[' + attributo + ']');
+        for (var i = 0; i < nodi.length; i++) {
+          voci.push({
+            nodo: nodi[i],
+            it: leggi(nodi[i]),
+            en: nodi[i].getAttribute(attributo),
+            scrivi: scrivi
+          });
+        }
+      };
+
+      raccogli(
+        'data-en',
+        function (n) { return n.textContent; },
+        function (n, v) { n.textContent = v; });
+      raccogli(
+        'data-en-segnaposto',
+        function (n) { return n.getAttribute('placeholder'); },
+        function (n, v) { n.setAttribute('placeholder', v); });
+      raccogli(
+        'data-en-etichetta',
+        function (n) { return n.getAttribute('aria-label'); },
+        function (n, v) { n.setAttribute('aria-label', v); });
+
+      // L'unica cosa che questo blocco lascia in eredità ai moduli:
+      // cambiare lingua è rifare questo giro, e rifarlo altrove
+      // significherebbe scrivere due volte lo stesso passaggio.
+      window.nzqTraduci = function (lingua) {
+        var inglese = lingua === 'en';
+        for (var i = 0; i < voci.length; i++) {
+          voci[i].scrivi(voci[i].nodo, inglese ? voci[i].en : voci[i].it);
+        }
+        radice.setAttribute('data-lingua', inglese ? 'en' : 'it');
+        radice.setAttribute('lang', inglese ? 'en' : 'it');
+      };
+
+      if (radice.getAttribute('data-lingua') === 'en') window.nzqTraduci('en');
+    })();
+{%- endset -%}
+
 {%- set stileSenzaJs -%}
       /* Il selettore è volutamente più specifico di quello del foglio
          principale: così queste regole vincono per specificità e non
@@ -111,7 +189,7 @@
   {#- Content Security Policy. Il sito non ha moduli, né login, né
      contenuti scritti da altri: la policy non ripara una falla
      esistente, ma limita il danno se un giorno finisse nella pagina
-     del codice non voluto. Tutto viene da qui ('self'), i due blocchi
+     del codice non voluto. Tutto viene da qui ('self'), i blocchi
      inline sono ammessi per impronta, e l'unica destinazione esterna
      consentita è il conteggio delle visite.
      Va dichiarata in un meta perché GitHub Pages non permette di
@@ -135,7 +213,7 @@
     img-src 'self';
     font-src 'self';
     style-src 'self' {{ stileSenzaJs | impronta | safe }};
-    script-src 'self' {{ avvio | impronta | safe }};
+    script-src 'self' {{ avvio | impronta | safe }} {{ traduzione | impronta | safe }};
     {#- 'self' serve all'Intelligenza Artificiosa, che alla prima
         domanda scarica l'indice dei testi del sito. È il permesso più
         stretto possibile: nessun'altra origine è raggiungibile.
@@ -213,8 +291,9 @@
 
   {#- Stato deciso prima del primo disegno, così la pagina non appare
      mai in una veste che va poi corretta sotto gli occhi di chi legge:
-     né il tema sbagliato, né la sezione sbagliata. Il codice è quello
-     catturato in cima al file, di cui la policy dichiara l'impronta. #}
+     né il tema sbagliato, né la sezione sbagliata, né la lingua
+     sbagliata. Il codice è quello catturato in cima al file, di cui la
+     policy dichiara l'impronta. #}
   <script>{{ avvio | safe }}</script>
 
   {#- I caratteri stanno in assets/font/ e sono dichiarati in cima al
@@ -260,22 +339,34 @@
    appiglio se qualcuno ripubblica. -#}
 <footer class="au-piede">
   <div class="au-piede-dentro">
+    {#- La prosa sta in un <span> e il collegamento fuori: la
+       traduzione riscrive il contenuto del nodo che marca, e su tutto
+       il paragrafo si porterebbe via il collegamento che c'è dentro.
+       Il nome della licenza non si traduce — è una sigla, ed è quella
+       che vale se qualcuno ripubblica. -#}
     {%- if site.licenza %}
     <p class="au-piede-riga">
-      I testi di questo sito sono di {{ site.nome }} e si possono
+      <span data-en="The texts on this site are by {{ site.nome }} and may be reshared in full, crediting the author, for non-commercial purposes and without changes:">I
+      testi di questo sito sono di {{ site.nome }} e si possono
       ricondividere per intero, citando l'autore, senza scopo di lucro e
-      senza modifiche:
+      senza modifiche:</span>
       <a class="au-piede-link" href="{{ site.licenza.url }}"
          rel="license noopener" target="_blank">{{ site.licenza.nome }}</a>.
     </p>
     {%- endif %}
     <p class="au-piede-riga">
       <a class="au-piede-link" href="{{ site.url }}/feed.xml">Feed RSS</a>
-      — per seguire Il Diavolo veste Pravda e gli articoli dal proprio
-      lettore, senza lasciare un indirizzo a nessuno.
+      <span data-en="— to follow Il Diavolo veste Pravda and the articles from your own reader, without leaving an address with anyone.">—
+      per seguire Il Diavolo veste Pravda e gli articoli dal proprio
+      lettore, senza lasciare un indirizzo a nessuno.</span>
     </p>
   </div>
 </footer>
 {%- endif %}
+
+{#- Qui, e non in cima: traduce i nodi, e in cima i nodi non ci sono
+   ancora. Il codice è quello catturato in testa al file, di cui la
+   policy dichiara l'impronta. #}
+<script>{{ traduzione | safe }}</script>
 </body>
 </html>

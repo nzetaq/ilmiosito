@@ -17,11 +17,15 @@ eleventyExcludeFromCollections: true
 <div class="au-wrap">
   <div class="au-center">
     <main class="au-header">
-      <p class="au-label">Errore 404</p>
-      <h1 class="au-name">Pagina<br><em>non trovata</em></h1>
-      <p class="au-bio">Questo indirizzo non corrisponde ad alcuna pagina del sito.</p>
+      {#- Il titolo è spezzato in due nodi dal <br> e dal corsivo: la
+         traduzione riscrive il contenuto del nodo che marca, e sul
+         titolo intero si porterebbe via entrambi. Ogni pezzo porta
+         quindi il proprio inglese. -#}
+      <p class="au-label" data-en="Error 404">Errore 404</p>
+      <h1 class="au-name"><span data-en="Page">Pagina</span><br><em data-en="not found">non trovata</em></h1>
+      <p class="au-bio" data-en="This address matches no page of the site.">Questo indirizzo non corrisponde ad alcuna pagina del sito.</p>
       <p class="au-ritorno">
-        <a href="/" class="au-link">Torna alla home →</a>
+        <a href="/" class="au-link" data-en="Back to the home page →">Torna alla home →</a>
       </p>
     </main>
   </div>

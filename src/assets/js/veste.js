@@ -1,3 +1,5 @@
+import { t, alCambioLingua } from './lingua.js';
+
 /**
  * I regolatori della veste: quanto è grande il sito, e quanto si muove.
  *
@@ -43,7 +45,9 @@ const MOTO = {
   // zero è a parte — velocità nulla varrebbe durata infinita — e vale
   // «nessun movimento».
   valore: (p) => (p > 0 ? 100 / p : 0),
-  voce: (p) => (p === 0 ? 'nessun movimento, passaggi netti' : 'velocità al ' + p + ' per cento')
+  // La voce da leggere ad alta voce sta con le altre parole che il
+  // JavaScript scrive da sé, in lingua.js: qui resta il rimando.
+  voce: (p) => t('motoVoce', p)
 };
 
 const radice = () => document.documentElement;
@@ -143,8 +147,8 @@ function avviaMoto() {
     cursore.disabled = fermo;
     if (scatola) scatola.classList.toggle('is-imposto', fermo);
     if (fermo) {
-      valore.textContent = 'fermo';
-      cursore.title = 'Il movimento è disattivato nelle impostazioni del sistema.';
+      valore.textContent = t('fermo');
+      cursore.title = t('motoImposto');
     } else {
       cursore.removeAttribute('title');
       mostra(Number(cursore.value));
@@ -158,6 +162,10 @@ function avviaMoto() {
 
   cursore.addEventListener('input', () => applica(Number(cursore.value), true));
   ridotto.addEventListener('change', adeguaAllaPreferenza);
+
+  // «fermo», e la frase che spiega perché, sono scritte qui e non nel
+  // documento: la traduzione della pagina non le raggiungerebbe.
+  alCambioLingua(adeguaAllaPreferenza);
 }
 
 export function avviaVeste() {

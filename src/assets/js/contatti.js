@@ -1,3 +1,5 @@
+import { t } from './lingua.js';
+
 /**
  * Il modulo dei contatti, spedito senza lasciare la pagina.
  *
@@ -26,7 +28,6 @@ export function avviaContatti() {
 
   const esito = document.getElementById('au-contatti-esito');
   const invio = modulo.querySelector('.au-contatti-invio');
-  const parola = invio ? invio.textContent : 'Invia';
   let inVolo = false;
 
   const dire = (testo, tipo = '') => {
@@ -56,9 +57,14 @@ export function avviaContatti() {
     });
 
     inVolo = true;
+    /* La parola sul pulsante si legge adesso e non all'avvio: fra
+       l'una e l'altra visita di questa riga può essere cambiata la
+       lingua, e rimetterci quella di prima significherebbe lasciare
+       «Invia» in mezzo a una pagina inglese. */
+    const parola = invio ? invio.textContent : '';
     if (invio) {
       invio.disabled = true;
-      invio.textContent = 'Invio…';
+      invio.textContent = t('inVolo');
     }
     dire('');
 
@@ -79,22 +85,18 @@ export function avviaContatti() {
       // `success` arriva come stringa «true», non come booleano.
       const andata = risposta.ok && (!corpo || String(corpo.success) !== 'false');
       if (!andata) {
-        throw new Error((corpo && corpo.message) || 'Il servizio ha rifiutato il messaggio.');
+        throw new Error((corpo && corpo.message) || t('rifiutato'));
       }
 
       // Solo adesso i campi si svuotano: finché non c'è conferma, quel
       // che è stato scritto resta dov'è.
       modulo.reset();
-      dire('Messaggio inviato. Rispondo appena posso.', 'fatto');
+      dire(t('inviato'), 'fatto');
     } catch (errore) {
       // Il motivo arriva da fuori e a volte porta già il suo punto:
       // toglierlo evita la doppia punteggiatura in mezzo alla frase.
-      const motivo = String(errore.message || 'motivo ignoto').replace(/\.\s*$/, '');
-      dire(
-        'Il messaggio non è partito: ' + motivo +
-          '. Il testo è rimasto qui, si può riprovare.',
-        'guaio'
-      );
+      const motivo = String(errore.message || t('motivoIgnoto')).replace(/\.\s*$/, '');
+      dire(t('nonPartito', motivo), 'guaio');
     } finally {
       inVolo = false;
       if (invio) {

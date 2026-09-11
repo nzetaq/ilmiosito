@@ -1,9 +1,11 @@
 ---
 titolo: "A Bologna"
 tipo: "Poesia"
+tipoEn: "Poem"
 gruppo: "Premio Alberoandronico"
 gruppoUrl: "https://alberoandronico.net/albo-doro/"
 gruppoLinkTesto: "Vai all'Albo d'oro →"
+gruppoLinkTestoEn: "Go to the roll of honour →"
 ordine: 1
 nota: "Selezionata nella XV Edizione del Premio Alberoandronico."
 ---

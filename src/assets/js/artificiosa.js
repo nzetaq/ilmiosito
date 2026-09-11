@@ -1,3 +1,5 @@
+import { t } from './lingua.js';
+
 /**
  * Intelligenza Artificiosa — un oracolo che non capisce la domanda.
  *
@@ -425,6 +427,11 @@ function collegamentoLecito(url) {
 function componiBrano(voce, brano) {
   const blocco = document.createElement('blockquote');
   blocco.className = 'au-ia-brano';
+  // Il brano e la sua provenienza vengono dai testi del sito: restano
+  // italiani anche quando l'impalcatura attorno parla inglese. Il
+  // «Leggi →» qui sotto è l'unica cosa che porta altrove, e infatti è
+  // l'unica che si traduce.
+  blocco.lang = 'it';
 
   if (brano) {
     const testo = document.createElement('p');
@@ -457,7 +464,8 @@ function componiBrano(voce, brano) {
     // Senza questo la pagina aperta potrebbe manovrare quella di
     // partenza attraverso window.opener.
     link.rel = 'noopener noreferrer';
-    link.textContent = 'Leggi →';
+    link.lang = document.documentElement.lang || 'it';
+    link.textContent = t('leggi');
     firma.appendChild(link);
   }
 
@@ -493,7 +501,7 @@ export function avviaArtificiosa() {
 
     const d = document.createElement('p');
     d.className = 'au-ia-domanda';
-    d.textContent = domanda || '(nessuna domanda)';
+    d.textContent = domanda || t('nessunaDomanda');
     scambio.appendChild(d);
 
     const r = document.createElement('p');

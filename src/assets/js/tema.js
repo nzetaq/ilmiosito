@@ -1,9 +1,20 @@
+import { applicaLingua } from './lingua.js';
+
 /**
- * La veste: lo stile e il modo.
+ * La veste — lo stile e il modo — e la lingua dell'impalcatura.
  *
  * Due scelte indipendenti — quali inchiostri, quanta luce — che il
  * foglio di stile combina in diciotto tavolozze. Qui si registrano su
  * <html> e nella memoria del browser; il resto lo fa il CSS.
+ *
+ * La lingua non è una veste, ma si sceglie con lo stesso gesto e dallo
+ * stesso posto: un pulsante che apre le proprie voci sotto di sé.
+ * Viaggia qui, e non in un modulo suo, perché i tre pannelli devono
+ * conoscersi per potersi escludere a vicenda — e perché una terza
+ * grammatica per la terza scelta sarebbe una cosa in più da imparare
+ * per chi legge. Ciò che la distingue dalle altre due sta tutto in
+ * `dopo`: cambiare lingua non è cambiare un attributo, è riscrivere
+ * le parole della pagina.
  *
  * Sono già applicate dallo script del <head>, prima del primo disegno:
  * questo modulo allinea i pulsanti e raccoglie i clic.
@@ -31,6 +42,15 @@ const ASSI = [
     voce: '.au-tema',
     apri: 'au-tema-apri',
     valore: 'au-tema-valore'
+  },
+  {
+    chiave: 'au-lingua',
+    attributo: 'data-lingua',
+    gruppo: '.au-lingue',
+    voce: '.au-lingua',
+    apri: 'au-lingua-apri',
+    valore: 'au-lingua-valore',
+    dopo: applicaLingua
   }
 ];
 
@@ -49,11 +69,17 @@ export function avviaTema() {
   const radice = document.documentElement;
   let trovato = false;
 
-  /* I due pannelli si conoscono per potersi escludere: aperti insieme
-     coprirebbero tutta la colonna dei comandi, e nessuno dei due si
-     consulta mentre si consulta l'altro. È lo stesso patto che hanno
+  /* I pannelli si conoscono per potersi escludere: aperti insieme
+     coprirebbero tutta la colonna dei comandi, e nessuno dei tre si
+     consulta mentre si consulta un altro. È lo stesso patto che hanno
      il menù delle sezioni e la veste sugli schermi stretti. */
   const pannelli = [];
+
+  /* I riassunti che ogni pulsante porta scritto accanto al proprio
+     nome — «Officina», «Notte», «Italiano» — sono parole, e cambiando
+     lingua cambiano anche loro. Vanno riscritti tutti, non solo quello
+     della scelta che si è appena toccata. */
+  const allineamenti = [];
 
   for (const asse of ASSI) {
     const gruppo = document.querySelector(asse.gruppo);
@@ -78,6 +104,7 @@ export function avviaTema() {
     };
 
     allinea();
+    allineamenti.push(allinea);
 
     const pannello = apri && {
       apri,
@@ -114,6 +141,11 @@ export function avviaTema() {
       void radice.offsetHeight;
       radice.removeAttribute('data-vestendo');
 
+      /* Quel che la scelta comporta oltre all'attributo: per la lingua
+         è la pagina intera da riscrivere, e va fatto prima di
+         rileggerne le parole qui sotto. */
+      if (asse.dopo) asse.dopo(scelto);
+
       allinea();
       tingiLaBarra();
 
@@ -136,6 +168,12 @@ export function avviaTema() {
         // Archiviazione non disponibile: la scelta vale per questa
         // sessione e non viene ricordata.
       }
+    });
+  }
+
+  if (allineamenti.length) {
+    document.addEventListener('nzq:lingua', () => {
+      for (const allinea of allineamenti) allinea();
     });
   }
 

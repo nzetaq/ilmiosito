@@ -9,27 +9,40 @@ layout: layouts/base.njk
 <div class="au-wrap">
   <div class="au-center au-pezzo-pagina">
 
-    <nav class="au-pezzo-testata" aria-label="Ritorno al sito">
+    {#- Il nome della sezione ha il proprio inglese in site.json, dove
+       l'ha la barra della home: una sezione si chiama allo stesso modo
+       ovunque la si nomini. Dove non ce l'ha — «Il Diavolo veste
+       Pravda» — è perché è un nome, e i nomi non si traducono. -#}
+    <nav class="au-pezzo-testata" aria-label="Ritorno al sito"
+         data-en-etichetta="Back to the site">
       <a class="au-pezzo-marchio" href="{{ site.url }}/">{{ site.nome }}</a>
-      <a class="au-pezzo-ritorno" href="{{ site.url }}/#{{ sezione }}">{{ sez.titolo or sez.etichetta }} →</a>
+      <a class="au-pezzo-ritorno" href="{{ site.url }}/#{{ sezione }}"
+         {%- if sez.en %} data-en="{{ sez.en.titolo or sez.en.etichetta }} →"{% endif %}>{{ sez.titolo or sez.etichetta }} →</a>
     </nav>
 
+    {#- Il pezzo resta nella sua lingua: qui si traduce la strada, non
+       ciò che sta in fondo. `lang="it"` va sui nodi che portano il
+       testo e non sull'articolo intero, perché dentro c'è anche il
+       collegamento che va fuori — e quello, tradotto, parlerebbe
+       inglese dentro un'isola dichiarata italiana. -#}
     <article class="au-pezzo" id="contenuto">
       {%- if data %}
-      <p class="au-pezzo-data">{{ data | dataEstesa }}</p>
+      <p class="au-pezzo-data" lang="it">{{ data | dataEstesa }}</p>
       {%- elif tipo %}
-      <p class="au-pezzo-data">{{ tipo }}</p>
+      <p class="au-pezzo-data"
+         {%- if tipoEn %} data-en="{{ tipoEn }}"{% else %} lang="it"{% endif %}>{{ tipo }}</p>
       {%- endif %}
 
-      <h1 class="au-pezzo-titolo">{{ titolo }}</h1>
+      <h1 class="au-pezzo-titolo" lang="it">{{ titolo }}</h1>
 
       {#- `au-gp-text` è la stessa prosa della colonna del giornale:
          il Markdown reso qui deve leggersi come si legge là. -#}
-      <div class="au-pezzo-testo au-gp-text">{{ content | safe }}</div>
+      <div class="au-pezzo-testo au-gp-text" lang="it">{{ content | safe }}</div>
 
       {%- if gruppoUrl %}
       <p class="au-pezzo-fuori">
-        <a class="au-link" href="{{ gruppoUrl }}" target="_blank" rel="noopener">
+        <a class="au-link" href="{{ gruppoUrl }}" target="_blank" rel="noopener"
+           data-en="{{ gruppoLinkTestoEn or 'The full text →' }}">
           {{ gruppoLinkTesto or 'Il testo completo →' }}
         </a>
       </p>
@@ -37,7 +50,8 @@ layout: layouts/base.njk
     </article>
 
     <p class="au-pezzo-coda">
-      <a class="au-link" href="{{ site.url }}/#{{ sezione }}">← Tutti i pezzi in «{{ sez.titolo or sez.etichetta }}»</a>
+      <a class="au-link" href="{{ site.url }}/#{{ sezione }}"
+         {%- if sez.en %} data-en="← All the pieces in «{{ sez.en.titolo or sez.en.etichetta }}»"{% endif %}>← Tutti i pezzi in «{{ sez.titolo or sez.etichetta }}»</a>
     </p>
 
   </div>

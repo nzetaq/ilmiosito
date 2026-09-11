@@ -18,14 +18,18 @@ reti: "https://formsubmit.co"
 {%- set appunti = collections.appunti | cronologia -%}
 {%- set ultimaGiornale = giornale | first -%}
 
-<a class="au-salta" href="#contenuto">Salta al contenuto</a>
+<a class="au-salta" href="#contenuto" data-en="Skip to content">Salta al contenuto</a>
 
 <!-- ═══ OVERLAY FILOSOFO ═══ -->
-<dialog class="au-filosofo-overlay" id="au-filosofo-overlay" aria-label="Citazione">
+{#- `lang="it"` sulla citazione: le parole dei filosofi restano le
+   loro, e chi legge con la voce deve sentirle pronunciate come sono
+   state scritte anche quando l'impalcatura attorno parla inglese. -#}
+<dialog class="au-filosofo-overlay" id="au-filosofo-overlay" aria-label="Citazione"
+        data-en-etichetta="Quotation">
   <div class="au-filosofo-card">
-    <p class="au-filosofo-quote" id="au-filosofo-quote"></p>
+    <p class="au-filosofo-quote" id="au-filosofo-quote" lang="it"></p>
     <p class="au-filosofo-attr" id="au-filosofo-attr"></p>
-    <p class="au-filosofo-dismiss">— clicca per chiudere —</p>
+    <p class="au-filosofo-dismiss" data-en="— click to close —">— clicca per chiudere —</p>
   </div>
 </dialog>
 
@@ -33,17 +37,20 @@ reti: "https://formsubmit.co"
 {#- Lo stesso indice e lo stesso ritrovamento dell'Intelligenza
    Artificiosa, che però lo usa per scherzare. Qui risponde sul serio:
    niente oracolo, solo i pezzi che contengono quel che si cerca. -#}
-<dialog class="au-cerca-scena" id="au-cerca-scena" aria-label="Cerca nel sito">
+<dialog class="au-cerca-scena" id="au-cerca-scena" aria-label="Cerca nel sito"
+        data-en-etichetta="Search the site">
   <div class="au-cerca-pannello">
     <form class="au-cerca-riga" id="au-cerca-form" role="search">
-      <label class="au-cerca-etichetta" for="au-cerca-campo">Cerca fra gli scritti</label>
+      <label class="au-cerca-etichetta" for="au-cerca-campo"
+             data-en="Search the writings">Cerca fra gli scritti</label>
       <input class="au-cerca-campo" id="au-cerca-campo" type="search" name="q"
              autocomplete="off" spellcheck="false"
-             placeholder="una parola, un nome, un tema…">
+             placeholder="una parola, un nome, un tema…"
+             data-en-segnaposto="a word, a name, a theme…">
     </form>
     <p class="au-cerca-stato" id="au-cerca-stato" role="status" aria-live="polite"></p>
     <div class="au-cerca-esiti" id="au-cerca-esiti"></div>
-    <p class="au-cerca-chiudi">— Esc per chiudere —</p>
+    <p class="au-cerca-chiudi" data-en="— Esc to close —">— Esc per chiudere —</p>
   </div>
 </dialog>
 
@@ -51,12 +58,14 @@ reti: "https://formsubmit.co"
 {#- Una fotografia in una griglia si guarda; per vederla ci vuole lo
    schermo intero. Stessa grammatica della ricerca: un dialogo che si
    apre sopra la pagina e si chiude con Esc o con un tocco fuori. -#}
-<dialog class="au-foto-scena" id="au-foto-scena" aria-label="Fotografia">
+<dialog class="au-foto-scena" id="au-foto-scena" aria-label="Fotografia"
+        data-en-etichetta="Photograph">
   <figure class="au-foto-grande">
     <img id="au-foto-grande-immagine" alt="">
-    <figcaption class="au-foto-grande-didascalia" id="au-foto-grande-didascalia"></figcaption>
+    <figcaption class="au-foto-grande-didascalia" id="au-foto-grande-didascalia"
+                lang="it"></figcaption>
   </figure>
-  <p class="au-foto-chiudi">— Esc per chiudere —</p>
+  <p class="au-foto-chiudi" data-en="— Esc to close —">— Esc per chiudere —</p>
 </dialog>
 
 <!-- ═══ AURORA DI SFONDO ═══ -->
@@ -71,9 +80,9 @@ reti: "https://formsubmit.co"
 
   <!-- ═══ INTESTAZIONE ═══ -->
   <header class="au-header">
-    <p class="au-label">{{ site.motto }}</p>
+    <p class="au-label" data-en="{{ site.en.motto }}">{{ site.motto }}</p>
     <h1 class="au-name">{{ site.nome }}</h1>
-    <p class="au-bio">{{ site.bio }}</p>
+    <p class="au-bio" data-en="{{ site.en.bio }}">{{ site.bio }}</p>
 
     {#- Intestazioni alternative: le sezioni che in site.json
        dichiarano un `titolo` mettono quello al posto del nome e
@@ -86,7 +95,8 @@ reti: "https://formsubmit.co"
     {%- for s in site.sezioni %}
     {%- if s.titolo %}
     <div class="au-header-sezione" data-sez="{{ s.id }}">
-      <h1 class="au-titolo-sezione">{{ s.titolo }}</h1>
+      <h1 class="au-titolo-sezione"
+          {%- if s.en and s.en.titolo %} data-en="{{ s.en.titolo }}"{% endif %}>{{ s.titolo }}</h1>
       {%- if s.sottotitolo %}
       {#- Una frase per riga: sono dichiarazioni distinte, non un
          paragrafo. Blocchi e non <br>, così su schermo stretto
@@ -94,7 +104,8 @@ reti: "https://formsubmit.co"
          seguente. #}
       <p class="au-sottotitolo-sezione">
         {%- for frase in s.sottotitolo %}
-        <span class="au-frase-sezione">{{ frase }}</span>
+        <span class="au-frase-sezione"
+              {%- if s.en and s.en.sottotitolo %} data-en="{{ s.en.sottotitolo[loop.index0] }}"{% endif %}>{{ frase }}</span>
         {%- endfor %}
       </p>
       {%- endif %}
@@ -116,7 +127,7 @@ reti: "https://formsubmit.co"
     <button class="au-nav-apri" id="au-nav-apri" type="button"
             aria-expanded="false" aria-controls="au-nav">
       <span class="au-nav-tratti" aria-hidden="true"></span>
-      <span class="au-nav-apri-voce" id="au-nav-apri-voce">Sezioni</span>
+      <span class="au-nav-apri-voce" id="au-nav-apri-voce" data-en="Sections">Sezioni</span>
     </button>
 
     {#- La lente, solo sul telefono. Su schermo largo «Cerca» è una
@@ -130,7 +141,8 @@ reti: "https://formsubmit.co"
        contenuto da tenere allineato — al contrario dell'elenco delle
        sezioni, che infatti è rimasto uno solo. -#}
     <button class="au-cerca-tondo au-cerca-apri" type="button"
-            aria-haspopup="dialog" aria-label="Cerca fra gli scritti">
+            aria-haspopup="dialog" aria-label="Cerca fra gli scritti"
+            data-en-etichetta="Search the writings">
       <svg class="au-lente" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <circle cx="10.5" cy="10.5" r="6.4" fill="none"
                 stroke="currentColor" stroke-width="2.2"/>
@@ -146,10 +158,11 @@ reti: "https://formsubmit.co"
     <button class="au-veste-apri" id="au-veste-apri" type="button"
             aria-expanded="false" aria-controls="au-comandi">
       <span class="au-veste-segno" aria-hidden="true"></span>
-      <span class="au-veste-voce">Veste</span>
+      <span class="au-veste-voce" data-en="Look">Veste</span>
     </button>
 
-    <nav class="au-nav" id="au-nav" aria-label="Sezioni del sito">
+    <nav class="au-nav" id="au-nav" aria-label="Sezioni del sito"
+         data-en-etichetta="Sections of the site">
       {%- for sezione in site.sezioni %}
       {#- `data-breve`, dove c'è, è il nome da usare sul pulsante del
          menù quando quello per esteso non ci sta: il pulsante porta il
@@ -166,8 +179,13 @@ reti: "https://formsubmit.co"
          si legge ad alta voce. -#}
       <span class="au-nav-punto" aria-hidden="true">·</span>
       {%- endif %}
+      {#- `data-en` è l'inglese di questa voce, quando ce n'è uno: «Il
+         Diavolo veste Pravda» è un nome e resta com'è. Il nome breve
+         non ha gemello per la stessa ragione — è la sigla di quel
+         nome. -#}
       <a class="au-nav-btn" href="#{{ sezione.id }}" data-sez="{{ sezione.id }}"
-         {%- if sezione.breve %} data-breve="{{ sezione.breve }}"{% endif %}>{{ sezione.etichetta }}</a>
+         {%- if sezione.breve %} data-breve="{{ sezione.breve }}"{% endif %}
+         {%- if sezione.en %} data-en="{{ sezione.en.etichetta }}"{% endif %}>{{ sezione.etichetta }}</a>
       {%- endfor %}
     </nav>
   </div>
@@ -181,7 +199,7 @@ reti: "https://formsubmit.co"
          traccia — chi cerca vuole tornare dov'era, non trovarsi
          altrove. Si apre anche col tasto «/». -#}
       <button class="au-comando au-cerca-apri" id="au-cerca-apri" type="button"
-              aria-haspopup="dialog">Cerca</button>
+              aria-haspopup="dialog" data-en="Search">Cerca</button>
 
       {#- La veste, in due scelte separate: quali inchiostri e quanta
          luce. Tenerle distinte fa diciotto combinazioni con due
@@ -205,15 +223,27 @@ reti: "https://formsubmit.co"
          significherebbe stampare «Officina» e correggerlo un istante
          dopo. -#}
       <div class="au-scelta">
+        {#- Il nome della scelta sta in un <span> suo: la traduzione
+           riscrive il contenuto del nodo che marca, e sul pulsante
+           intero si porterebbe via il riquadro del valore che ha
+           accanto. Due elementi flessibili invece di uno, che è
+           quello che la riga era già. -#}
         <button class="au-comando au-scelta-apri" id="au-stile-apri" type="button"
                 aria-expanded="false" aria-controls="au-stili">
-          Stile <span class="au-scelta-valore" id="au-stile-valore"></span>
+          {#- «Style» e non «Look»: quest'ultimo è già il nome inglese
+             della veste, il pulsante che sugli schermi stretti apre
+             il pannello dov'è questa riga. Due comandi diversi con lo
+             stesso nome sarebbero due comandi che si contendono la
+             stessa parola. -#}
+          <span data-en="Style">Stile</span>
+          <span class="au-scelta-valore" id="au-stile-valore"></span>
         </button>
         <div class="au-scelta-voci au-stili" id="au-stili" role="group"
-             aria-label="Stile del sito" hidden>
+             aria-label="Stile del sito" data-en-etichetta="Style of the site" hidden>
           {%- for s in site.stili %}
           <button class="au-passo au-stile" type="button"
-                  data-valore="{{ s.id }}" aria-pressed="false">{{ s.etichetta }}</button>
+                  data-valore="{{ s.id }}" aria-pressed="false"
+                  {%- if s.en %} data-en="{{ s.en.etichetta }}"{% endif %}>{{ s.etichetta }}</button>
           {%- endfor %}
         </div>
       </div>
@@ -221,13 +251,46 @@ reti: "https://formsubmit.co"
       <div class="au-scelta">
         <button class="au-comando au-scelta-apri" id="au-tema-apri" type="button"
                 aria-expanded="false" aria-controls="au-temi">
-          Luce <span class="au-scelta-valore" id="au-tema-valore"></span>
+          <span data-en="Light">Luce</span>
+          <span class="au-scelta-valore" id="au-tema-valore"></span>
         </button>
         <div class="au-scelta-voci au-temi" id="au-temi" role="group"
-             aria-label="Quanta luce" hidden>
+             aria-label="Quanta luce" data-en-etichetta="How much light" hidden>
           {%- for t in site.temi %}
           <button class="au-passo au-tema" type="button"
-                  data-valore="{{ t.id }}" aria-pressed="false">{{ t.etichetta }}</button>
+                  data-valore="{{ t.id }}" aria-pressed="false"
+                  {%- if t.en %} data-en="{{ t.en.etichetta }}"{% endif %}>{{ t.etichetta }}</button>
+          {%- endfor %}
+        </div>
+      </div>
+
+      {#- La lingua dell'impalcatura: terza scelta accanto alle altre
+         due, e fatta con lo stesso meccanismo — i tre pannelli si
+         conoscono e si escludono a vicenda, e uno di loro fatto
+         altrimenti sarebbe una quarta grammatica da imparare.
+
+         Cambia i nomi delle sezioni, i comandi, le etichette dei
+         moduli: tutto ciò che serve a muoversi. Non tocca i testi —
+         Il Diavolo veste Pravda, gli appunti, le poesie, gli
+         articoli — che restano nella lingua in cui sono stati
+         scritti. Chi arriva da fuori trova la strada; quel che c'è
+         in fondo alla strada è quello che è.
+
+         I nomi delle due lingue non si traducono: «Italiano» e
+         «English» si chiamano così in entrambe, ed è così che li
+         riconosce chi non sta capendo la pagina. -#}
+      <div class="au-scelta">
+        <button class="au-comando au-scelta-apri" id="au-lingua-apri" type="button"
+                aria-expanded="false" aria-controls="au-lingue">
+          <span data-en="Language">Lingua</span>
+          <span class="au-scelta-valore" id="au-lingua-valore"></span>
+        </button>
+        <div class="au-scelta-voci au-lingue" id="au-lingue" role="group"
+             aria-label="Lingua dell'impalcatura"
+             data-en-etichetta="Language of the scaffolding" hidden>
+          {%- for l in site.lingue %}
+          <button class="au-passo au-lingua" type="button" lang="{{ l.id }}"
+                  data-valore="{{ l.id }}" aria-pressed="false">{{ l.etichetta }}</button>
           {%- endfor %}
         </div>
       </div>
@@ -244,15 +307,18 @@ reti: "https://formsubmit.co"
            Un clic invece è istantaneo. -#}
         <div class="au-regolatore">
           <span class="au-regolatore-etichetta">
-            Scala
+            <span data-en="Scale">Scala</span>
             <span class="au-regolatore-valore" id="au-scala-valore"
                   role="status" aria-live="polite">100%</span>
           </span>
-          <div class="au-passi" role="group" aria-label="Scala del sito">
+          <div class="au-passi" role="group" aria-label="Scala del sito"
+               data-en-etichetta="Scale of the site">
             <button class="au-passo" id="au-scala-meno" type="button"
-                    aria-label="Riduci la scala del cinque per cento">&minus;</button>
+                    aria-label="Riduci la scala del cinque per cento"
+                    data-en-etichetta="Reduce the scale by five per cent">&minus;</button>
             <button class="au-passo" id="au-scala-piu" type="button"
-                    aria-label="Aumenta la scala del cinque per cento">+</button>
+                    aria-label="Aumenta la scala del cinque per cento"
+                    data-en-etichetta="Increase the scale by five per cent">+</button>
           </div>
     </div>
 
@@ -263,7 +329,8 @@ reti: "https://formsubmit.co"
            Cinque scatti: `step` di 25 su una scala di 100. -#}
         <div class="au-regolatore">
           <label class="au-regolatore-etichetta" for="au-moto">
-            Moto <span class="au-regolatore-valore" id="au-moto-valore">100%</span>
+            <span data-en="Motion">Moto</span>
+            <span class="au-regolatore-valore" id="au-moto-valore">100%</span>
           </label>
           <input class="au-regolatore-cursore" id="au-moto" type="range"
                  min="0" max="100" step="25" value="100">
@@ -274,11 +341,15 @@ reti: "https://formsubmit.co"
 <div class="au-layout" id="au-layout">
 
   <!-- ═══ COLONNA SINISTRA: ULTIMA PAGINA DI GIORNALE ═══ -->
-  <aside class="au-giornale-col" id="au-giornale-col" aria-label="Ultima pagina de Il Diavolo veste Pravda">
+  <aside class="au-giornale-col" id="au-giornale-col" aria-label="Ultima pagina de Il Diavolo veste Pravda"
+         data-en-etichetta="Latest page of Il Diavolo veste Pravda">
     <p class="au-gp-label">Il Diavolo veste Pravda</p>
     {%- if ultimaGiornale %}
-    <p class="au-gp-date">{{ ultimaGiornale.data.data | dataEstesa }}</p>
-    <div class="au-gp-text">{{ ultimaGiornale.templateContent | safe }}</div>
+    {#- La data e il testo restano italiani: è il pezzo, non la via
+       che ci porta. `lang` lo dichiara, così la voce di sintesi non
+       legge l'italiano con la pronuncia inglese. -#}
+    <p class="au-gp-date" lang="it">{{ ultimaGiornale.data.data | dataEstesa }}</p>
+    <div class="au-gp-text" lang="it">{{ ultimaGiornale.templateContent | safe }}</div>
     {%- endif %}
   </aside>
 
@@ -286,26 +357,34 @@ reti: "https://formsubmit.co"
   <main class="au-main" id="contenuto">
 
     <!-- ═══ HOME ═══ -->
-    <section class="au-section" id="sec-home" aria-label="Home">
+    <section class="au-section" id="sec-home" aria-label="Home" data-en-etichetta="Home">
       <div class="au-home-grid">
         {%- for voce in collections.recenti %}
+        {#- Titoli, descrizioni e date restano nella lingua in cui il
+           pezzo è stato scritto: `lang="it"` lo dichiara a chi legge
+           con la voce. Si traduce solo ciò che porta altrove — il
+           «Leggi →» — e il nome della cosa, quando il pezzo ne dà
+           uno in inglese. -#}
         <article class="au-home-card">
           {%- if voce.data.tipoScheda == 'articolo' %}
-          <p class="au-source">{{ voce.data.fonte }}</p>
-          <h2 class="au-home-title">{{ voce.data.titolo }}</h2>
+          <p class="au-source" lang="it">{{ voce.data.fonte }}</p>
+          <h2 class="au-home-title" lang="it">{{ voce.data.titolo }}</h2>
           {%- if voce.templateContent | trim %}
-          <div class="au-home-desc">{{ voce.templateContent | safe }}</div>
+          <div class="au-home-desc" lang="it">{{ voce.templateContent | safe }}</div>
       {%- endif %}
-          <p class="au-home-date">{{ voce.data.data | mese }} {{ voce.data.data | anno }}</p>
-          <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener">Leggi →</a>
+          <p class="au-home-date" lang="it">{{ voce.data.data | mese }} {{ voce.data.data | anno }}</p>
+          <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener"
+             data-en="Read →">Leggi →</a>
           {%- else %}
-          <p class="au-poem-type">{{ voce.data.tipo }}</p>
-          <h2 class="au-home-title">{{ voce.data.titolo }}</h2>
+          <p class="au-poem-type"
+             {%- if voce.data.tipoEn %} data-en="{{ voce.data.tipoEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.tipo }}</p>
+          <h2 class="au-home-title" lang="it">{{ voce.data.titolo }}</h2>
           {%- if voce.templateContent | trim %}
-          <div class="au-home-desc">{{ voce.templateContent | safe }}</div>
+          <div class="au-home-desc" lang="it">{{ voce.templateContent | safe }}</div>
       {%- endif %}
           {%- if voce.data.url %}
-          <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
+          <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener"
+             data-en="{{ voce.data.linkTestoEn or 'Read →' }}">{{ voce.data.linkTesto or 'Leggi →' }}</a>
       {%- endif %}
       {%- endif %}
         </article>
@@ -314,9 +393,12 @@ reti: "https://formsubmit.co"
     </section>
 
     <!-- ═══ ARTICOLI ═══ -->
-    <section class="au-section" id="sec-articoli" aria-label="Articoli">
-      <div class="au-filters" id="au-filters" role="group" aria-label="Filtra per fonte">
-        <button class="au-filter-btn active" type="button" data-fonte="tutti" aria-pressed="true">Tutti</button>
+    <section class="au-section" id="sec-articoli" aria-label="Articoli" data-en-etichetta="Articles">
+      {#- I nomi delle testate non si traducono: sono di chi le fa. -#}
+      <div class="au-filters" id="au-filters" role="group" aria-label="Filtra per fonte"
+           data-en-etichetta="Filter by source">
+        <button class="au-filter-btn active" type="button" data-fonte="tutti" aria-pressed="true"
+                data-en="All">Tutti</button>
         {%- for fonte in articoli | fonti %}
         <button class="au-filter-btn" type="button" data-fonte="{{ fonte.id }}" aria-pressed="false">{{ fonte.nome }}</button>
         {%- endfor %}
@@ -328,15 +410,16 @@ reti: "https://formsubmit.co"
         {%- for voce in gruppo.voci %}
         <article class="au-article" data-source="{{ voce.data.fonteId }}">
           <div>
-            <p class="au-source">{{ voce.data.fonte }}</p>
-            <h3 class="au-article-title">{{ voce.data.titolo }}</h3>
+            <p class="au-source" lang="it">{{ voce.data.fonte }}</p>
+            <h3 class="au-article-title" lang="it">{{ voce.data.titolo }}</h3>
             {%- if voce.templateContent | trim %}
-            <div class="au-article-desc">{{ voce.templateContent | safe }}</div>
+            <div class="au-article-desc" lang="it">{{ voce.templateContent | safe }}</div>
             {%- endif %}
           </div>
           <div class="au-right">
-            <p class="au-date">{{ voce.data.data | mese }}<br>{{ voce.data.data | anno }}</p>
-            <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener">Leggi →</a>
+            <p class="au-date" lang="it">{{ voce.data.data | mese }}<br>{{ voce.data.data | anno }}</p>
+            <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener"
+               data-en="Read →">Leggi →</a>
           </div>
         </article>
         {%- endfor %}
@@ -345,16 +428,19 @@ reti: "https://formsubmit.co"
     </section>
 
     <!-- ═══ POESIE & TESTI ═══ -->
-    <section class="au-section" id="sec-scritti" aria-label="Poesie e testi">
+    <section class="au-section" id="sec-scritti" aria-label="Poesie e testi" data-en-etichetta="Poems and texts">
       {%- for gruppo in scritti | perGruppo %}
-      <h2 class="au-year">{{ gruppo.nome }}</h2>
-      <a href="{{ gruppo.url }}" class="au-link" target="_blank" rel="noopener">{{ gruppo.linkTesto }}</a>
+      <h2 class="au-year"
+          {%- if gruppo.nomeEn %} data-en="{{ gruppo.nomeEn }}"{% else %} lang="it"{% endif %}>{{ gruppo.nome }}</h2>
+      <a href="{{ gruppo.url }}" class="au-link" target="_blank" rel="noopener"
+         {%- if gruppo.linkTestoEn %} data-en="{{ gruppo.linkTestoEn }}"{% else %} lang="it"{% endif %}>{{ gruppo.linkTesto }}</a>
       {%- for voce in gruppo.voci %}
       <article class="au-poem">
         <div class="au-poem-meta">
-          <span class="au-poem-type">{{ voce.data.tipo }}</span>
+          <span class="au-poem-type"
+                {%- if voce.data.tipoEn %} data-en="{{ voce.data.tipoEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.tipo }}</span>
           {%- if voce.data.data %}
-          <span class="au-poem-date">{{ voce.data.data | dataEstesa }}</span>
+          <span class="au-poem-date" lang="it">{{ voce.data.data | dataEstesa }}</span>
       {%- endif %}
     </div>
         {#- I versi stanno nel corpo del file. Quando ci sono, il titolo
@@ -364,19 +450,20 @@ reti: "https://formsubmit.co"
         {%- set versi = voce | versi %}
         {%- if versi %}
         {%- set idVersi = 'versi-' ~ voce.page.fileSlug %}
-        <h3 class="au-poem-title au-poem-title--lente"
+        <h3 class="au-poem-title au-poem-title--lente" lang="it"
             tabindex="0" aria-describedby="{{ idVersi }}">{{ voce.data.titolo }}</h3>
         {#- La sorgente resta nel documento, nascosta: è quella che legge
             un lettore di schermo, ed è da lì che la finestra copia. -#}
-        <div class="au-poem-versi" id="{{ idVersi }}" hidden>{{ versi }}</div>
+        <div class="au-poem-versi" id="{{ idVersi }}" lang="it" hidden>{{ versi }}</div>
         {%- else %}
-        <h3 class="au-poem-title">{{ voce.data.titolo }}</h3>
+        <h3 class="au-poem-title" lang="it">{{ voce.data.titolo }}</h3>
     {%- endif %}
         {%- if voce.data.nota %}
-        <div class="au-poem-excerpt"><p>{{ voce.data.nota }}</p></div>
+        <div class="au-poem-excerpt" lang="it"><p>{{ voce.data.nota }}</p></div>
     {%- endif %}
         {%- if voce.data.url %}
-        <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
+        <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener"
+           data-en="{{ voce.data.linkTestoEn or 'Read →' }}">{{ voce.data.linkTesto or 'Leggi →' }}</a>
     {%- endif %}
       </article>
       {%- endfor %}
@@ -384,24 +471,28 @@ reti: "https://formsubmit.co"
     </section>
 
     <!-- ═══ TESI ═══ -->
-    <section class="au-section" id="sec-tesi" aria-label="Tesi">
+    <section class="au-section" id="sec-tesi" aria-label="Tesi" data-en-etichetta="Theses">
       {%- for gruppo in tesi | perGruppo %}
-      <h2 class="au-year">{{ gruppo.nome }}</h2>
-      <a href="{{ gruppo.url }}" class="au-link" target="_blank" rel="noopener">{{ gruppo.linkTesto }}</a>
+      <h2 class="au-year"
+          {%- if gruppo.nomeEn %} data-en="{{ gruppo.nomeEn }}"{% else %} lang="it"{% endif %}>{{ gruppo.nome }}</h2>
+      <a href="{{ gruppo.url }}" class="au-link" target="_blank" rel="noopener"
+         {%- if gruppo.linkTestoEn %} data-en="{{ gruppo.linkTestoEn }}"{% else %} lang="it"{% endif %}>{{ gruppo.linkTesto }}</a>
       {%- for voce in gruppo.voci %}
       <article class="au-poem">
         <div class="au-poem-meta">
-          <span class="au-poem-type">{{ voce.data.tipo }}</span>
+          <span class="au-poem-type"
+                {%- if voce.data.tipoEn %} data-en="{{ voce.data.tipoEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.tipo }}</span>
           {%- if voce.data.data %}
-          <span class="au-poem-date">{{ voce.data.data | dataEstesa }}</span>
+          <span class="au-poem-date" lang="it">{{ voce.data.data | dataEstesa }}</span>
       {%- endif %}
     </div>
-        <h3 class="au-poem-title">
+        <h3 class="au-poem-title" lang="it">
           <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
         </h3>
-        <div class="au-poem-excerpt">{{ voce.templateContent | safe }}</div>
+        <div class="au-poem-excerpt" lang="it">{{ voce.templateContent | safe }}</div>
         {%- if voce.data.url %}
-        <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener">{{ voce.data.linkTesto or 'Leggi →' }}</a>
+        <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener"
+           data-en="{{ voce.data.linkTestoEn or 'Read →' }}">{{ voce.data.linkTesto or 'Leggi →' }}</a>
     {%- endif %}
       </article>
       {%- endfor %}
@@ -414,7 +505,10 @@ reti: "https://formsubmit.co"
          qui per intero: la sezione si legge come si è sempre letta, e
          l'indirizzo serve a chi vuole mandarlo a qualcuno. -#}
       {%- for voce in giornale %}
-      <article class="au-giornale-entry">
+      {#- Nessun `data-en` qui dentro, e non è una dimenticanza: i pezzi
+         restano come sono stati scritti. Cambiare lingua cambia la via
+         che ci porta, non ciò che dicono. -#}
+      <article class="au-giornale-entry" lang="it">
         <p class="au-giornale-entry-date">{{ voce.data.data | dataEstesa }}</p>
         <h2 class="au-giornale-entry-title">
           <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
@@ -425,9 +519,12 @@ reti: "https://formsubmit.co"
     </section>
 
     <!-- ═══ APPUNTI ═══ -->
-    <section class="au-section" id="sec-appunti" aria-label="Appunti">
+    <section class="au-section" id="sec-appunti" aria-label="Appunti" data-en-etichetta="Notes">
       {%- for voce in appunti %}
-      <article class="au-giornale-entry">
+      {#- Nessun `data-en` qui dentro, e non è una dimenticanza: i pezzi
+         restano come sono stati scritti. Cambiare lingua cambia la via
+         che ci porta, non ciò che dicono. -#}
+      <article class="au-giornale-entry" lang="it">
         <p class="au-giornale-entry-date">{{ voce.data.data | dataEstesa }}</p>
         <h2 class="au-giornale-entry-title">
           <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
@@ -438,20 +535,26 @@ reti: "https://formsubmit.co"
     </section>
 
     <!-- ═══ INTELLIGENZA ARTIFICIOSA ═══ -->
-    <section class="au-section" id="sec-artificiosa" aria-label="Intelligenza Artificiosa">
+    <section class="au-section" id="sec-artificiosa" aria-label="Intelligenza Artificiosa"
+             data-en-etichetta="Artificious Intelligence">
       <form class="au-ia-form" id="au-ia-form" autocomplete="off">
         <input class="au-ia-campo" id="au-ia-input" type="text" maxlength="240"
-               aria-label="La tua domanda" placeholder="Poni una domanda…">
-        <button class="au-ia-invio" type="submit">Interroga</button>
+               aria-label="La tua domanda" placeholder="Poni una domanda…"
+               data-en-etichetta="Your question" data-en-segnaposto="Ask a question…">
+        <button class="au-ia-invio" type="submit" data-en="Ask">Interroga</button>
       </form>
 
       {#- Le risposte si annunciano da sé alle tecnologie assistive:
          arrivano dopo una pausa, quindi senza aria-live passerebbero
          inosservate a chi non guarda lo schermo. #}
-      <div class="au-ia-registro" id="au-ia-registro" aria-live="polite"></div>
+      {#- L'oracolo risponde in italiano, e continuerà a farlo: le sue
+         risposte sono scritte, non generate, e tradurle sarebbe
+         riscrivere le battute. -#}
+      <div class="au-ia-registro" id="au-ia-registro" lang="it" aria-live="polite"></div>
 
       <noscript>
-        <p class="au-ia-muta">Senza JavaScript l'Intelligenza Artificiosa tace.
+        <p class="au-ia-muta" data-en="Without JavaScript the Artificious Intelligence falls silent. It is its most honest form.">Senza
+        JavaScript l'Intelligenza Artificiosa tace.
         È la sua forma più onesta.</p>
       </noscript>
     </section>
@@ -473,7 +576,7 @@ reti: "https://formsubmit.co"
        la pagina sobbalza mentre le immagini arrivano.
        `loading="lazy"` le fa scaricare solo quando stanno per
        servire. -#}
-    <section class="au-section" id="sec-galleria" aria-label="Galleria">
+    <section class="au-section" id="sec-galleria" aria-label="Galleria" data-en-etichetta="Gallery">
       {%- if galleria.length %}
       <div class="au-galleria">
         {%- for foto in galleria %}
@@ -481,28 +584,35 @@ reti: "https://formsubmit.co"
           <button class="au-foto-apri" type="button"
                   data-foto="{{ base }}assets/foto/{{ foto.grande }}"
                   data-didascalia="{{ foto.didascalia }}"
-                  aria-label="Ingrandisci{% if foto.didascalia %}: {{ foto.didascalia }}{% endif %}">
+                  aria-label="Ingrandisci{% if foto.didascalia %}: {{ foto.didascalia }}{% endif %}"
+                  data-en-etichetta="Enlarge{% if foto.didascalia %}: {{ foto.didascalia }}{% endif %}">
             <img class="au-foto-immagine" src="{{ base }}assets/foto/{{ foto.piccola }}"
                  alt="{{ foto.didascalia }}" loading="lazy" decoding="async"
                  {%- if foto.larghezza %} width="{{ foto.larghezza }}" height="{{ foto.altezza }}"{% endif %}>
           </button>
           {%- if foto.didascalia %}
-          <figcaption class="au-foto-didascalia">{{ foto.didascalia }}</figcaption>
+          <figcaption class="au-foto-didascalia" lang="it">{{ foto.didascalia }}</figcaption>
           {%- endif %}
         </figure>
         {%- endfor %}
       </div>
       {%- else %}
+      {#- La prosa e il nome della cartella stanno in due nodi: la
+         traduzione riscrive il contenuto del nodo che marca, e sul
+         paragrafo intero si porterebbe via il <code> che ha dentro. -#}
       <p class="au-galleria-vuota">
-        Non c'è ancora niente da vedere. Le fotografie si aggiungono
-        mettendo i file nella cartella <code>foto/</code> del
-        repository: compaiono qui in ordine di nome.
+        <span data-en="There is nothing to see yet. Photographs are added by putting the files in the">Non
+        c'è ancora niente da vedere. Le fotografie si aggiungono
+        mettendo i file nella cartella</span>
+        <code>foto/</code>
+        <span data-en="folder of the repository: they appear here in order of name.">del
+        repository: compaiono qui in ordine di nome.</span>
       </p>
       {%- endif %}
     </section>
 
     <!-- ═══ CONTATTI ═══ -->
-    <section class="au-section" id="sec-contatti" aria-label="Contatti">
+    <section class="au-section" id="sec-contatti" aria-label="Contatti" data-en-etichetta="Contact">
       {%- if site.contatti.formsubmit %}
       {#- L'indirizzo di destinazione non compare da nessuna parte: al suo
          posto c'è un alias di FormSubmit, una stringa casuale che non lo
@@ -510,19 +620,21 @@ reti: "https://formsubmit.co"
          destinazione — l'unica del sito, che per il resto è a `none`. -#}
       <form class="au-contatti-form" action="https://formsubmit.co/{{ site.contatti.formsubmit }}" method="POST">
         <div class="au-contatti-voce">
-          <label class="au-contatti-etichetta" for="au-contatti-nome">Nome</label>
+          <label class="au-contatti-etichetta" for="au-contatti-nome" data-en="Name">Nome</label>
           <input class="au-contatti-campo" id="au-contatti-nome" type="text"
                  name="nome" required autocomplete="name" maxlength="80">
     </div>
 
         <div class="au-contatti-voce">
-          <label class="au-contatti-etichetta" for="au-contatti-email">Indirizzo a cui rispondere</label>
+          <label class="au-contatti-etichetta" for="au-contatti-email"
+                 data-en="Address to reply to">Indirizzo a cui rispondere</label>
           <input class="au-contatti-campo" id="au-contatti-email" type="email"
                  name="email" required autocomplete="email" maxlength="120">
     </div>
 
         <div class="au-contatti-voce">
-          <label class="au-contatti-etichetta" for="au-contatti-messaggio">Messaggio</label>
+          <label class="au-contatti-etichetta" for="au-contatti-messaggio"
+                 data-en="Message">Messaggio</label>
           <textarea class="au-contatti-campo au-contatti-area" id="au-contatti-messaggio"
                     name="messaggio" required rows="8" maxlength="4000"></textarea>
     </div>
@@ -544,13 +656,13 @@ reti: "https://formsubmit.co"
            non esserci. `role="status"` la fa leggere ad alta voce da
            chi non la vede, senza interrompere quel che stava facendo. -#}
         <div class="au-contatti-coda">
-          <button class="au-contatti-invio" type="submit">Invia</button>
+          <button class="au-contatti-invio" type="submit" data-en="Send">Invia</button>
           <p class="au-contatti-esito" id="au-contatti-esito" role="status" aria-live="polite" hidden></p>
     </div>
       </form>
       {%- else %}
-      <p class="au-contatti-intro">
-        Questa sezione è pronta ma non ancora attiva: manca l'alias del servizio
+      <p class="au-contatti-intro" data-en="This section is ready but not yet live: the forwarding service alias is missing. Until it is there the form does not appear — better nothing than a form that delivers nothing.">Questa
+        sezione è pronta ma non ancora attiva: manca l'alias del servizio
         di inoltro. Finché non c'è, il modulo non compare — meglio niente che un
         modulo che non recapita.
       </p>

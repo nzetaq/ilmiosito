@@ -28,7 +28,7 @@ src/
 ├── _includes/layouts/        impalcatura HTML condivisa
 ├── assets/
 │   ├── css/style.css         foglio di stile unico
-│   ├── js/                   moduli ES: router, tema, filtri, citazioni, oracolo
+│   ├── js/                   moduli ES: router, tema, lingua, filtri, citazioni, oracolo
 │   ├── font/                 Archivo e Space Grotesk, ospitati qui
 │   └── img/                  illustrazioni e favicon
 └── content/                  i contenuti, un file Markdown per voce
@@ -72,9 +72,11 @@ raggruppano per anno in automatico.
 ---
 titolo: "Titolo"
 tipo: "Poesia"
+tipoEn: "Poem"                              # facoltativa, vedi Le due lingue
 gruppo: "Premio Alberoandronico"            # intestazione del gruppo
 gruppoUrl: "https://…"                      # link accanto all'intestazione
 gruppoLinkTesto: "Vai all'Albo d'oro →"
+gruppoLinkTestoEn: "Go to the roll of honour →"   # facoltativa
 ordine: 4
 nota: "Selezionata nella … Edizione del Premio."
 # data: "2026-03"                           # facoltativa
@@ -195,7 +197,9 @@ Le sezioni non nascono da sole come i contenuti: vanno dichiarate in tre
 punti, che è bene tenere allineati.
 
 1. `src/_data/site.json` — una voce in `sezioni`, che genera il menu.
-2. `src/index.njk` — il blocco `<section class="au-section" id="sec-…">`.
+   Con accanto il suo `en`, se il nome si traduce: vedi *Le due lingue*.
+2. `src/index.njk` — il blocco `<section class="au-section" id="sec-…">`,
+   con `data-en-etichetta` sul suo `aria-label`.
 3. `src/assets/css/style.css` — l'identificativo va aggiunto ai due
    elenchi di selettori che rispondono a `[data-sez]`: quello che rende
    visibile la sezione e quello che accende la linguetta nel menu.
@@ -223,6 +227,75 @@ Il ricambio lo governa il CSS a partire da `[data-sez]`, che lo script del
 l'intestazione sbagliata. Il CSS però non sa confrontare due attributi fra
 loro, quindi la corrispondenza fra la sezione accesa e la sua intestazione
 va scritta a mano — due righe nei selettori di `.au-header-sezione`.
+
+## Le due lingue
+
+Il sito si legge in italiano o in inglese, e la scelta sta fra i comandi
+in alto a destra — accanto allo stile e alla luce, con lo stesso gesto.
+Viene ricordata in `localStorage` alla chiave `au-lingua` e vale per
+tutte le pagine.
+
+**Si traduce solo l'impalcatura.** I nomi delle sezioni, i comandi, le
+etichette dei moduli, le righe del piede: tutto ciò che serve a muoversi.
+I testi — Il Diavolo veste Pravda, gli appunti, gli articoli, le poesie,
+le risposte dell'oracolo — restano nella lingua in cui sono stati
+scritti. Tradurli non sarebbe tradurli: sarebbe riscriverli. I nodi che
+li contengono portano `lang="it"`, così chi legge con una voce di sintesi
+li sente pronunciati come vanno pronunciati anche quando il sito attorno
+parla inglese.
+
+### Come si traduce una parola
+
+L'inglese non sta in una tabella a parte: sta accanto all'italiano, nel
+nodo stesso. Tre attributi, secondo dove il testo abita:
+
+| Attributo | Cosa cambia |
+| --- | --- |
+| `data-en` | il testo dentro il nodo |
+| `data-en-segnaposto` | il `placeholder` di un campo |
+| `data-en-etichetta` | l'`aria-label`, che sentono i lettori di schermo |
+
+```html
+<button data-en="Search">Cerca</button>
+```
+
+Il nodo marcato con `data-en` deve contenere *solo* quel testo: la
+traduzione ne riscrive il contenuto, e un collegamento o un `<span>` lì
+dentro verrebbero portati via. Dove la frase ne contiene uno — il piede,
+la galleria vuota, il titolo della 404 — la prosa sta in un `<span>` suo
+e il resto fuori.
+
+Le parole che vengono da `site.json` — sezioni, stili, temi — hanno il
+proprio inglese accanto, nella stessa voce:
+
+```json
+{ "id": "appunti", "etichetta": "Appunti", "en": { "etichetta": "Notes" } }
+```
+
+Dove manca `en`, resta l'italiano: è così per *Il Diavolo veste Pravda*,
+che è un nome e non si traduce, e per i nomi delle testate e dei premi,
+che sono di chi li porta. Anche i contenuti possono portare
+un'etichetta inglese nel front matter — `tipoEn`, `gruppoEn`,
+`gruppoLinkTestoEn`, `linkTestoEn` — ma solo per le etichette: il titolo,
+la nota e il corpo non hanno gemello e non devono averlo.
+
+Le poche parole che il JavaScript scrive da sé — «tre risultati»,
+«Invio…», il nome della sezione sul pulsante del menu — non stanno nel
+documento e non possono essere marcate. Sono tutte in
+`src/assets/js/lingua.js`, ciascuna accanto alla propria gemella.
+
+### Dove gira
+
+Il cambio a pagina aperta lo fa `window.nzqTraduci`, che è definito in un
+blocco inline in fondo al corpo della pagina — l'unico posto da cui si
+possa vedere il documento intero prima che venga disegnato. Chi torna
+avendo scelto l'inglese non vede mai comparire l'italiano per poi
+correggersi sotto gli occhi. Lo stesso blocco è dichiarato per impronta
+nella Content Security Policy, come quello del `<head>`: l'impronta si
+ricalcola a ogni compilazione, quindi non può divergere dal codice.
+
+La pagina della redazione — `/scrivi/` — resta in italiano: è uno
+strumento di chi scrive il sito, non una via per chi lo legge.
 
 ## La redazione — `/scrivi/`
 
@@ -587,10 +660,11 @@ Nel codice sono state prese queste misure:
   `count.js` sono annotate provenienza, data e impronta dell'originale.
 - **Content Security Policy** dichiarata nel `<meta>` di `base.njk` —
   su GitHub Pages non si possono impostare intestazioni HTTP. Tutto
-  proviene da `'self'`; i due blocchi inline (lo script che decide tema
-  e sezione, lo stile di riserva senza JavaScript) sono ammessi per
-  impronta, ricalcolata a ogni compilazione dal filtro `impronta`, mai
-  con `'unsafe-inline'`. L'unica destinazione esterna consentita è il
+  proviene da `'self'`; i tre blocchi inline (lo script che decide tema,
+  lingua e sezione, quello che traduce l'impalcatura in fondo al corpo,
+  lo stile di riserva senza JavaScript) sono ammessi per impronta,
+  ricalcolata a ogni compilazione dal filtro `impronta`, mai con
+  `'unsafe-inline'`. L'unica destinazione esterna consentita è il
   conteggio delle visite.
 - **Azioni ancorate all'identificativo del commit** invece che a
   un'etichetta come `@v4`, che chi controlla quel repository può

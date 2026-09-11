@@ -1,9 +1,11 @@
 ---
 titolo: "Apollineo e Dionisiaco"
 tipo: "Poesia"
+tipoEn: "Poem"
 gruppo: "Premio Amori sui generis"
 gruppoUrl: "https://letteraturaedintorni.it/i-risultati-ufficiali-del-6-premio-letterario-citta-di-grosseto-amori-sui-generis/"
 gruppoLinkTesto: "Vai ai risultati della VI Edizione →"
+gruppoLinkTestoEn: "Go to the results of the VI Edition →"
 ordine: 3
 nota: "Selezionata nella VI Edizione del Premio Amori sui generis"
 ---

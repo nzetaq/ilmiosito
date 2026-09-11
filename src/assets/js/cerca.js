@@ -1,4 +1,5 @@
 import { caricaIndice, interroga, passo } from './ricerca.js';
+import { t } from './lingua.js';
 
 /**
  * La ricerca per chi legge.
@@ -45,6 +46,18 @@ export function avviaCerca() {
     return n;
   };
 
+  const italiano = (n) => {
+    n.lang = 'it';
+    return n;
+  };
+
+  /* Come si chiama una sezione, adesso: la barra la nomina già nella
+     lingua scelta, ed è l'unico posto dove quel nome è scritto. */
+  const sezione = (id, ripiego) => {
+    const linguetta = id && document.querySelector('.au-nav-btn[data-sez="' + id + '"]');
+    return linguetta ? linguetta.textContent.trim() : (ripiego || '');
+  };
+
   /* Una voce trovata. Si costruisce a nodi e mai da stringa di HTML:
      il testo viene dall'indice, e l'indice viene dai file — ma la
      regola del sito è che nessun testo diventi mai marcatura. */
@@ -64,16 +77,22 @@ export function avviaCerca() {
       a.rel = 'noopener';
     }
 
+    /* Il nome della sezione si chiede alla barra, che lo porta già
+       nella lingua in vigore: l'indice ne conserva uno solo — pesa su
+       ogni voce, e sono centinaia — e vale da ripiego per le pagine
+       che la barra non ce l'hanno. Titolo, brano, testata e data
+       vengono invece dai testi, e restano nella loro lingua: lo
+       dichiarano, così la voce di sintesi non li storpia. */
     const capo = el('p', 'au-cerca-esito-dove');
-    capo.appendChild(el('span', 'au-cerca-esito-sezione', voce.e || ''));
-    if (voce.f) capo.appendChild(el('span', 'au-cerca-esito-fonte', voce.f));
-    if (voce.d) capo.appendChild(el('span', 'au-cerca-esito-data', voce.d));
+    capo.appendChild(el('span', 'au-cerca-esito-sezione', sezione(voce.z, voce.e)));
+    if (voce.f) capo.appendChild(italiano(el('span', 'au-cerca-esito-fonte', voce.f)));
+    if (voce.d) capo.appendChild(italiano(el('span', 'au-cerca-esito-data', voce.d)));
     a.appendChild(capo);
 
-    a.appendChild(el('h3', 'au-cerca-esito-titolo', voce.t || '(senza titolo)'));
+    a.appendChild(italiano(el('h3', 'au-cerca-esito-titolo', voce.t || t('senzaTitolo'))));
 
     const brano = passo(voce, domanda, 220);
-    if (brano) a.appendChild(el('p', 'au-cerca-esito-brano', brano));
+    if (brano) a.appendChild(italiano(el('p', 'au-cerca-esito-brano', brano)));
 
     esiti.appendChild(a);
   };
@@ -87,19 +106,17 @@ export function avviaCerca() {
       return;
     }
     if (!indice) {
-      stato.textContent = 'Sto aprendo l’indice…';
+      stato.textContent = t('indiceInArrivo');
       return;
     }
 
     const trovati = interroga(indice, domanda, QUANTI);
     if (!trovati.length) {
-      stato.textContent = 'Niente che corrisponda. Forse con un’altra parola.';
+      stato.textContent = t('nessunEsito');
       return;
     }
 
-    stato.textContent = trovati.length === 1
-      ? 'Un risultato.'
-      : trovati.length + ' risultati.';
+    stato.textContent = t('esiti', trovati.length);
     // `interroga` restituisce l'esito con il suo punteggio; qui
     // interessa solo la voce che ci sta dentro.
     for (const esito of trovati) mostra(esito.voce, domanda);
@@ -119,7 +136,7 @@ export function avviaCerca() {
     if (!indice) {
       caricaIndice().then((i) => {
         indice = i;
-        if (!i) stato.textContent = 'L’indice non si è aperto: la ricerca non può funzionare.';
+        if (!i) stato.textContent = t('indiceGuasto');
         else if (campo.value.trim()) cerca();
       });
     }

@@ -10,14 +10,14 @@ eleventyExcludeFromCollections: true
 <div class="au-wrap">
   <div class="au-center">
     <main class="au-header" id="contenuto">
-      <p class="au-label">{{ site.motto }}</p>
-      <h1 class="au-name">Ricevuto</h1>
-      <p class="au-bio">
+      <p class="au-label" data-en="{{ site.en.motto }}">{{ site.motto }}</p>
+      <h1 class="au-name" data-en="Received">Ricevuto</h1>
+      <p class="au-bio" data-en="The message has gone and reached my inbox. I reply to the address you left, when I can.">
         Il messaggio è partito ed è arrivato nella mia posta. Rispondo
         all'indirizzo che hai lasciato, quando riesco.
       </p>
       <p class="au-bio">
-        <a class="au-link" href="{{ site.url }}/">Torna al sito →</a>
+        <a class="au-link" href="{{ site.url }}/" data-en="Back to the site →">Torna al sito →</a>
       </p>
     </main>
   </div>

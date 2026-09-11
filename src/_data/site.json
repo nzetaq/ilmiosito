@@ -6,10 +6,16 @@
   "motto": "Raccogli - Cataloga - Preserva",
   "bio": "Molti requisiti si ergono dinnanzi a una pratica esistenziale sufficientemente ben condotta.",
   "descrizione": "Scritti di filosofia di N·Z·Q: articoli su marxismo, linguaggio e intelligenza artificiale, poesie, tesi di laurea, Il Diavolo veste Pravda e appunti.",
+  "_nota_en": "L'inglese dell'impalcatura, e solo di quella. I testi — appunti, Il Diavolo veste Pravda, articoli, poesie — restano nella lingua in cui sono stati scritti: tradurli sarebbe riscriverli. Qui c'è ciò che serve a muoversi nel sito, non ciò che il sito dice. Ogni voce sta accanto alla propria italiana, così le due non possono allontanarsi senza che si veda.",
+  "en": {
+    "motto": "Collect - Catalogue - Preserve",
+    "bio": "Many requirements stand before an existential practice sufficiently well conducted."
+  },
   "sezioni": [
     {
       "id": "home",
-      "etichetta": "Home"
+      "etichetta": "Home",
+      "en": { "etichetta": "Home" }
     },
     {
       "id": "artificiosa",
@@ -19,7 +25,16 @@
         "Modello linguistico addestrato su un corpus insufficiente.",
         "Nessuna intelligenza è stata impiegata nella produzione di queste risposte.",
         "Risponde a niente."
-      ]
+      ],
+      "en": {
+        "etichetta": "A.I.",
+        "titolo": "Artificious Intelligence",
+        "sottotitolo": [
+          "A language model trained on an insufficient corpus.",
+          "No intelligence was employed in the production of these answers.",
+          "Answers to nothing."
+        ]
+      }
     },
     {
       "id": "il-diavolo-veste-pravda",
@@ -30,67 +45,93 @@
     },
     {
       "id": "articoli",
-      "etichetta": "Articoli"
+      "etichetta": "Articoli",
+      "en": { "etichetta": "Articles" }
     },
     {
       "id": "scritti",
-      "etichetta": "Poesie & Testi"
+      "etichetta": "Poesie & Testi",
+      "en": { "etichetta": "Poems & Texts" }
     },
     {
       "id": "tesi",
-      "etichetta": "Tesi"
+      "etichetta": "Tesi",
+      "en": { "etichetta": "Theses" }
     },
     {
       "id": "appunti",
-      "etichetta": "Appunti"
+      "etichetta": "Appunti",
+      "en": { "etichetta": "Notes" }
     },
     {
       "id": "galleria",
-      "etichetta": "Galleria"
+      "etichetta": "Galleria",
+      "en": { "etichetta": "Gallery" }
     },
     {
       "id": "contatti",
-      "etichetta": "Contatti"
+      "etichetta": "Contatti",
+      "en": { "etichetta": "Contact" }
     }
   ],
   "stili": [
     {
       "id": "officina",
-      "etichetta": "Officina"
+      "etichetta": "Officina",
+      "en": { "etichetta": "Workshop" }
     },
     {
       "id": "saggio",
-      "etichetta": "Saggio"
+      "etichetta": "Saggio",
+      "en": { "etichetta": "Essay" }
     },
     {
       "id": "insegna",
-      "etichetta": "Insegna"
+      "etichetta": "Insegna",
+      "en": { "etichetta": "Signboard" }
     },
     {
       "id": "cartone",
-      "etichetta": "Cartone"
+      "etichetta": "Cartone",
+      "en": { "etichetta": "Cardboard" }
     },
     {
       "id": "terminale",
-      "etichetta": "Terminale"
+      "etichetta": "Terminale",
+      "en": { "etichetta": "Terminal" }
     },
     {
       "id": "atlante",
-      "etichetta": "Atlante"
+      "etichetta": "Atlante",
+      "en": { "etichetta": "Atlas" }
     }
   ],
   "temi": [
     {
       "id": "notte",
-      "etichetta": "Notte"
+      "etichetta": "Notte",
+      "en": { "etichetta": "Night" }
     },
     {
       "id": "giorno",
-      "etichetta": "Giorno"
+      "etichetta": "Giorno",
+      "en": { "etichetta": "Day" }
     },
     {
       "id": "contrasto",
-      "etichetta": "Contrasto"
+      "etichetta": "Contrasto",
+      "en": { "etichetta": "Contrast" }
+    }
+  ],
+  "_nota_lingue": "Le due vesti linguistiche dell'impalcatura. I nomi sono endonimi — ciascuna lingua si chiama come si chiama da sé — e per questo non hanno una traduzione accanto: «Italiano» resta Italiano anche a chi legge in inglese, ed è l'unico modo perché chi non capisce la pagina riconosca comunque la propria.",
+  "lingue": [
+    {
+      "id": "it",
+      "etichetta": "Italiano"
+    },
+    {
+      "id": "en",
+      "etichetta": "English"
     }
   ],
   "contatti": {

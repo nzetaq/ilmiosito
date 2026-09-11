@@ -1,3 +1,5 @@
+import { t, alCambioLingua } from './lingua.js';
+
 /**
  * Il menù delle sezioni sugli schermi stretti.
  *
@@ -75,14 +77,14 @@ export function avviaMenu() {
   const nomina = () => {
     if (!voce) return;
     if (aperto()) {
-      voce.textContent = 'Sezioni';
+      voce.textContent = t('sezioni');
       return;
     }
     const corrente = pannello.querySelector(
       '.au-nav-btn[data-sez="' + (radice.getAttribute('data-sez') || 'home') + '"]'
     );
     if (!corrente) {
-      voce.textContent = 'Sezioni';
+      voce.textContent = t('sezioni');
       return;
     }
 
@@ -156,6 +158,12 @@ export function avviaMenu() {
   // Il nome sul pulsante segue la sezione comunque ci si arrivi: dal
   // menù, dal tasto indietro, o da un indirizzo scritto a mano.
   window.addEventListener('hashchange', nomina);
+
+  // E segue la lingua: quel nome è scritto qui, non nel documento, e
+  // la traduzione da sola non lo raggiungerebbe. La scala dei ripieghi
+  // si rifà da capo, perché «Poems & Texts» non occupa quanto «Poesie
+  // & Testi».
+  alCambioLingua(nomina);
 
   document.addEventListener('keydown', (evento) => {
     if (evento.key !== 'Escape' || !aperto()) return;

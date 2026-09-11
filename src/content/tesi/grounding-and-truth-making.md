@@ -1,9 +1,12 @@
 ---
 titolo: "Grounding and Truth-making: A critical discussion of neo-Aristotelianism"
 tipo: "Tesi di Laurea Magistrale"
+tipoEn: "Master's thesis"
 gruppo: "Tesi di Laurea Magistrale"
+gruppoEn: "Master's thesis"
 gruppoUrl: "https://www.academia.edu/171244862/Grounding_and_truthmaking"
 gruppoLinkTesto: "Link al testo su Academia →"
+gruppoLinkTestoEn: "Link to the text on Academia →"
 ordine: 1
 ---
 

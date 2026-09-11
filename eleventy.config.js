@@ -213,6 +213,11 @@ export default function (eleventyConfig) {
 
   // Raggruppa per il campo `gruppo` (premi letterari, tipo di tesi…).
   // Titolo e link del gruppo vengono dalla prima voce che lo apre.
+  //
+  // I campi che finiscono in `En` sono l'inglese dell'impalcatura:
+  // viaggiano accanto all'italiano perché la pagina possa mostrare
+  // l'uno o l'altro senza ricompilare. Mancano dove non hanno senso —
+  // il nome di un premio letterario è quello e basta.
   eleventyConfig.addFilter('perGruppo', (voci) => {
     const gruppi = [];
     for (const voce of voci || []) {
@@ -221,8 +226,10 @@ export default function (eleventyConfig) {
       if (!gruppo) {
         gruppo = {
           nome,
+          nomeEn: voce.data.gruppoEn,
           url: voce.data.gruppoUrl,
           linkTesto: voce.data.gruppoLinkTesto,
+          linkTestoEn: voce.data.gruppoLinkTestoEn,
           voci: []
         };
         gruppi.push(gruppo);
