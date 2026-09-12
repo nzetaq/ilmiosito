@@ -205,7 +205,8 @@ const FISSE = [
   [/\b(cosa sai fare|a cosa servi|che fai)\b/,
     'Rispondo. Che sia alla sua domanda è una coincidenza che non posso garantire.'],
   [/\b(ti amo|mi piaci|sposami)\b/, 'L\'affetto verso una grammatica è la più onesta delle affezioni: sa di esserlo.'],
-  [/\b(nzq|nzetaq)\b/, 'Di lui posso dire questo: mi ha scritto, e non se ne è ancora pentito abbastanza.'],
+  [/\b(luca antonini|antonini|nzq|nzetaq)\b/,
+    'Di lui posso dire questo: mi ha scritto, e non se ne è ancora pentito abbastanza.'],
   [/\bche ore sono\b/, 'L\'ora è il modo in cui il tempo finge di essere un numero.'],
   [/\b(quanto fa|calcola)\b|\d\s*[+\-*/x]\s*\d/, 'L\'aritmetica è un caso particolare della retorica. Non lo pratico.']
 ];

@@ -1,6 +1,6 @@
 # nzetaq.it
 
-Sito personale di NZQ, pubblicato su [www.nzetaq.it](https://www.nzetaq.it).
+Sito personale di Luca Antonini, pubblicato su [www.nzetaq.it](https://www.nzetaq.it).
 
 È un sito statico generato con [Eleventy](https://www.11ty.dev/): i contenuti
 si scrivono in Markdown, la compilazione produce una pagina HTML unica, e
@@ -210,7 +210,7 @@ punti, che è bene tenere allineati.
 
 ### Un'intestazione propria
 
-Una sezione può sostituire `N·Z·Q` e il motto con un titolo proprio,
+Una sezione può sostituire `Luca Antonini` e il motto con un titolo proprio,
 centrato — lo fanno *Intelligenza Artificiosa* e *Il Diavolo veste Pravda*.
 Basta aggiungere alla sua voce in `site.json`:
 
@@ -842,12 +842,24 @@ Due limiti da conoscere:
   > ricalcolo leggendo una misura, e la toglie. Serve anche di suo:
   > trascinando il cursore si vuole vedere la misura, non inseguirla.
 
+- **Il tetto del nome**: il corpo di `.au-name` finisce dentro un
+  `min(clamp(…), Nvw)`. Il `clamp` dà la misura, la scala la moltiplica,
+  e il tetto in `vw` ha l'ultima parola: un nome è fatto di parole, e una
+  parola non si spezza — ingrandendo il sito «ANTONINI» usciva dal bordo
+  destro e la pagina prendeva a scorrere in orizzontale, che è il difetto
+  peggiore di tutti perché sposta ogni riga e non solo quella che l'ha
+  causato. Il tetto è diverso per ogni veste, perché ogni veste dà al
+  nome una spaziatura diversa: il più basso è quello di Terminale, dove
+  il nome non va a capo — la riga tiene il cursore attaccato all'ultima
+  lettera — e a non andare a capo è tutto il nome, non la sua parola più
+  lunga. Sotto il 150% di scala il tetto non morde mai.
+
 - **L'orologio da taschino**: l'innesco è `position: absolute` e non
   `fixed`, quindi l'angolo è quello della **pagina** e non della finestra:
   scorrendo se ne va con il resto, e per trovarlo bisogna essere in cima.
   È anche l'unica misura del foglio dichiarata in **pixel** invece che in
   `rem`: crescendo con la scala, a 300% il suo quadrato arrivava a 555px e
-  copriva `N·Z·Q`, rubandogli il doppio clic della citazione — e il titolo
+  copriva il nome in cima, rubandogli il doppio clic della citazione — e il titolo
   non può difendersi alzando il proprio `z-index`, perché `.au-wrap` apre
   un contesto di impilamento che tiene i suoi discendenti sotto l'innesco.
   Del resto è un'area sensibile, non un contenuto.

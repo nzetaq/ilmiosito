@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   NZQ — foglio di stile unico
+   Luca Antonini — foglio di stile unico
    Estetica risografica: pochi inchiostri, campiture piene, nessuna
    sfumatura. I colori sono variabili dichiarate una sola volta; il
    tema chiaro si limita a ridichiararle scambiando fondo e figura.
@@ -832,7 +832,8 @@ a[href],
   text-transform: none;
   font-weight: 600;
   letter-spacing: -0.01em;
-  font-size: clamp(2.5rem, calc(7.4vw * var(--scala)), 4rem);
+  /* Minuscolo e senza maiuscoletto: la stessa parola sta in meno. */
+  font-size: min(clamp(2.5rem, calc(7.4vw * var(--scala)), 4rem), 19vw);
 }
 
 :root[data-stile='saggio'] .au-titolo-sezione,
@@ -934,7 +935,7 @@ a[href],
 }
 
 :root[data-stile='insegna'] .au-name {
-  font-size: clamp(3rem, calc(11vw * var(--scala)), 7rem);
+  font-size: min(clamp(3rem, calc(11vw * var(--scala)), 7rem), 18vw);
   font-weight: 700;
   letter-spacing: -0.055em;
   line-height: 0.92;
@@ -1069,7 +1070,8 @@ a[href],
 :root[data-stile='cartone'] .au-name {
   font-weight: 500;
   letter-spacing: 0.06em;
-  font-size: clamp(2rem, calc(6.2vw * var(--scala)), 3.25rem);
+  /* Spaziato: la parola occupa di più, e il tetto scende. */
+  font-size: min(clamp(2rem, calc(6.2vw * var(--scala)), 3.25rem), 16vw);
 }
 
 :root[data-stile='cartone'] .au-titolo-sezione {
@@ -1215,7 +1217,8 @@ a[href],
 :root[data-stile='atlante'] .au-name {
   font-weight: 500;
   letter-spacing: 0.12em;
-  font-size: clamp(1.9rem, calc(5.8vw * var(--scala)), 3rem);
+  /* La spaziatura più larga del sito: il tetto è il più basso. */
+  font-size: min(clamp(1.9rem, calc(5.8vw * var(--scala)), 3rem), 15vw);
 }
 
 :root[data-stile='atlante'] .au-titolo-sezione,
@@ -1345,7 +1348,11 @@ a[href],
    insieme al nome. E resta fermo: un cursore che lampeggia è
    movimento che nessuno ha chiesto. */
 :root[data-stile='terminale'] .au-name {
-  font-size: clamp(1.4rem, calc(3.2vw * var(--scala)), 2rem);
+  /* Qui il tetto è molto più basso che altrove perché il nome non va
+     a capo — la riga sotto tiene il cursore attaccato all'ultima
+     lettera — e a non andare a capo è tutto il nome, non la sua parola
+     più lunga. */
+  font-size: min(clamp(1.4rem, calc(3.2vw * var(--scala)), 2rem), 8vw);
   font-weight: 700;
   letter-spacing: 0.04em;
   /* Il nome e il cursore sono una cosa sola: nella colonna stretta il
@@ -1884,7 +1891,19 @@ body {
      distanza — dove non c'è scritto niente e nessuno se lo aspetta. */
   width: fit-content;
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, calc(7vw * var(--scala)), 3.625rem);
+  /* Il tetto in `vw` è l'ultima parola sul corpo del nome, e viene
+     dopo la scala. Serve perché il nome è fatto di parole e una parola
+     non si spezza: ingrandendo il sito, «ANTONINI» arrivava più in là
+     del bordo destro e la pagina prendeva a scorrere in orizzontale —
+     che è il difetto peggiore di tutti, perché sposta ogni riga di
+     testo e non solo quella che l'ha causato.
+     La misura è la larghezza della finestra, l'unica che il corpo non
+     possa superare comunque lo si ingrandisca. Sotto la scala del 150%
+     non morde mai: là decidono ancora il clamp e la sua misura in rem.
+     Ogni veste ha il proprio tetto perché ogni veste dà al nome una
+     spaziatura diversa, e la stessa parola vi occupa larghezze
+     diverse. */
+  font-size: min(clamp(2.25rem, calc(7vw * var(--scala)), 3.625rem), 18vw);
   font-weight: 700;
   line-height: 1.05;
   color: var(--titolo-forte);
@@ -2881,7 +2900,7 @@ body {
   -webkit-user-select: none;
   font-family: var(--font-display);
   /* Più contenuto del nome: «INTELLIGENZA ARTIFICIOSA» è lungo il
-     triplo di «N·Z·Q» e a quel corpo andrebbe a capo storto. */
+     doppio di «LUCA ANTONINI» e a quel corpo andrebbe a capo storto. */
   font-size: clamp(1.5rem, calc(4.4vw * var(--scala)), 2.5rem);
   font-weight: 700;
   line-height: 1.05;

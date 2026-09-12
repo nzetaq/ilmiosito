@@ -2,7 +2,7 @@
   "name": "nzetaq",
   "version": "1.0.0",
   "private": true,
-  "description": "Sito personale di NZQ — articoli, poesie, tesi, giornale e appunti",
+  "description": "Sito personale di Luca Antonini — articoli, poesie, tesi, giornale e appunti",
   "type": "module",
   "license": "UNLICENSED",
   "engines": {
