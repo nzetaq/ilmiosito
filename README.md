@@ -239,6 +239,29 @@ in alto a destra — accanto allo stile e alla luce, con lo stesso gesto.
 Viene ricordata in `localStorage` alla chiave `au-lingua` e vale per
 tutte le pagine.
 
+Chi decide, in ordine — il primo che risponde chiude la questione:
+
+1. **L'indirizzo**, se porta `?lingua=`. Vedi *La lingua nell'indirizzo*.
+2. **La scelta ricordata**, se qualcuno ha già toccato il pannello.
+3. **Il browser**, che è il caso di quasi tutti quelli che arrivano la
+   prima volta.
+4. L'italiano, se il browser non dice nulla.
+
+Del browser si legge `navigator.languages` nell'ordine in cui è
+dichiarato, e vince la prima delle due lingue che vi compare: chi mette
+l'inglese davanti all'italiano preferisce l'inglese, e chi non nomina né
+l'una né l'altra — il tedesco, il francese — legge di sicuro meglio
+l'inglese che l'italiano. È una supposizione, e per questo **non viene
+ricordata**: nessuno l'ha chiesta, vale finché una scelta non la
+smentisce, e la scelta vince sempre.
+
+Il prezzo è che un italiano col browser in inglese trova il sito in
+inglese: gli basta un clic sul pannello, e da lì in poi è ricordato.
+Vale anche per chi indicizza: un motore che dichiara l'inglese vede
+l'impalcatura inglese attorno a testi che restano italiani e che lo
+dichiarano con `lang`, mentre titolo, descrizione e canonical della
+pagina restano quelli di sempre.
+
 **Si traduce l'impalcatura, e il modo in cui i pezzi si presentano.**
 Da una parte i nomi delle sezioni, i comandi, le etichette dei moduli, le
 righe del piede: tutto ciò che serve a muoversi. Dall'altra i titoli
@@ -271,10 +294,12 @@ https://www.nzetaq.it/appunti/la-sostanza-sociale/?lingua=en
 ```
 
 Vale su ogni pagina, prima del primo disegno: chi apre il collegamento
-non vede comparire l'italiano per poi correggersi sotto gli occhi.
-`?lingua=it` fa il contrario, e vince anche su una scelta inglese già
-ricordata. Un valore che non esiste viene ignorato, e resta quel che
-c'era.
+non vede comparire l'italiano per poi correggersi sotto gli occhi. Ed è
+l'unico modo di essere certi della lingua in cui il sito si aprirà:
+senza, decide il browser di chi riceve — che quasi sempre ha ragione,
+ma non si può sapere prima. `?lingua=it` fa il contrario, e vince su
+tutto, compresa una scelta inglese già ricordata. Un valore che non
+esiste viene ignorato, e resta quel che c'era.
 
 `?lang=en` funziona allo stesso modo: è la parola che viene in mente a
 chi l'indirizzo lo riscrive a mano e non parla italiano — cioè proprio a

@@ -50,7 +50,36 @@
       // un lettore di schermo decide come pronunciare — e i testi,
       // che restano italiani, portano il proprio `lang` addosso.
       var lingue = [{% for l in site.lingue %}'{{ l.id }}'{% if not loop.last %}, {% endif %}{% endfor %}];
-      var lingua = scegli('au-lingua', lingue, '{{ site.lingua }}');
+
+      // Finché nessuno ha scelto, sceglie il browser. Chi arriva con un
+      // browser che non chiede l'italiano è quasi sempre qualcuno a cui
+      // l'italiano non serve, e un sito che non si capisce non dà il
+      // tempo di cercare il comando che lo direbbe: quel comando va
+      // trovato già girato dalla parte giusta.
+      //
+      // Si scorre l'elenco nell'ordine in cui è dichiarato e vince la
+      // prima delle due che compare: chi mette l'inglese davanti
+      // all'italiano preferisce l'inglese, e chi non nomina né l'una né
+      // l'altra — il tedesco, il francese — legge di sicuro meglio
+      // l'inglese che l'italiano.
+      //
+      // È una supposizione, e come tale non viene ricordata: nessuno
+      // l'ha chiesta. Vale finché una scelta non la smentisce, e la
+      // scelta, che invece si ricorda, vince sempre.
+      var supposta = function () {
+        var elenco = [];
+        try {
+          elenco = navigator.languages || [navigator.language || ''];
+        } catch (e) {}
+        for (var i = 0; i < elenco.length; i++) {
+          var v = String(elenco[i] || '').toLowerCase();
+          if (v.indexOf('it') === 0) return 'it';
+          if (v.indexOf('en') === 0) return 'en';
+        }
+        return elenco.length ? 'en' : '{{ site.lingua }}';
+      };
+
+      var lingua = scegli('au-lingua', lingue, supposta());
 
       // La lingua si può scrivere nell'indirizzo: `?lingua=en` vale
       // quanto sceglierla dal pannello. Serve a mandare il sito a
