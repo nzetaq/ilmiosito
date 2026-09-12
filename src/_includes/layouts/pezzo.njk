@@ -21,10 +21,14 @@ layout: layouts/base.njk
     </nav>
 
     {#- Il pezzo resta nella sua lingua: qui si traduce la strada, non
-       ciò che sta in fondo. `lang="it"` va sui nodi che portano il
-       testo e non sull'articolo intero, perché dentro c'è anche il
+       ciò che sta in fondo. Il `lang` va sui nodi che portano il testo
+       e non sull'articolo intero, perché dentro c'è anche il
        collegamento che va fuori — e quello, tradotto, parlerebbe
-       inglese dentro un'isola dichiarata italiana. -#}
+       inglese dentro un'isola dichiarata italiana.
+
+       `linguaTesto` è la lingua in cui il pezzo è scritto: italiana
+       per il giornale e gli appunti, inglese per la tesi. -#}
+    {%- set lingua = linguaTesto | default('it', true) %}
     <article class="au-pezzo" id="contenuto">
       {%- if data %}
       <p class="au-pezzo-data" lang="it">{{ data | dataEstesa }}</p>
@@ -33,11 +37,12 @@ layout: layouts/base.njk
          {%- if tipoEn %} data-en="{{ tipoEn }}"{% else %} lang="it"{% endif %}>{{ tipo }}</p>
       {%- endif %}
 
-      <h1 class="au-pezzo-titolo" lang="it">{{ titolo }}</h1>
+      <h1 class="au-pezzo-titolo"
+          {%- if titoloEn %} data-en="{{ titoloEn }}"{% else %} lang="{{ lingua }}"{% endif %}>{{ titolo }}</h1>
 
       {#- `au-gp-text` è la stessa prosa della colonna del giornale:
          il Markdown reso qui deve leggersi come si legge là. -#}
-      <div class="au-pezzo-testo au-gp-text" lang="it">{{ content | safe }}</div>
+      <div class="au-pezzo-testo au-gp-text" lang="{{ lingua }}">{{ content | safe }}</div>
 
       {%- if gruppoUrl %}
       <p class="au-pezzo-fuori">

@@ -52,11 +52,13 @@ si aggiorna da sé alla compilazione successiva. Il testo dopo il front matter
 ```markdown
 ---
 titolo: "Titolo dell'articolo"
+titoloEn: "Title of the article"   # facoltativo, vedi Le due lingue
 fonte: "Capibara"           # nome mostrato ed etichetta del filtro
 fonteId: "capibara"         # identificativo del filtro, senza spazi
 data: "2026-03"             # anno e mese
 ordine: 10                  # numero più alto = più in alto nell'elenco
 url: "https://…"            # dove si legge l'articolo
+sommarioEn: "One or two lines summing it up."   # facoltativo
 ---
 
 Una o due righe che ne sintetizzano il contenuto.
@@ -71,14 +73,16 @@ raggruppano per anno in automatico.
 ```markdown
 ---
 titolo: "Titolo"
+titoloEn: "Title"                           # facoltativa, vedi Le due lingue
 tipo: "Poesia"
-tipoEn: "Poem"                              # facoltativa, vedi Le due lingue
+tipoEn: "Poem"                              # facoltativa
 gruppo: "Premio Alberoandronico"            # intestazione del gruppo
 gruppoUrl: "https://…"                      # link accanto all'intestazione
 gruppoLinkTesto: "Vai all'Albo d'oro →"
 gruppoLinkTestoEn: "Go to the roll of honour →"   # facoltativa
 ordine: 4
 nota: "Selezionata nella … Edizione del Premio."
+notaEn: "Selected in the … edition of the Premio."   # facoltativa
 # data: "2026-03"                           # facoltativa
 # url: "https://…"                          # facoltativa, con linkTesto
 ---
@@ -235,14 +239,24 @@ in alto a destra — accanto allo stile e alla luce, con lo stesso gesto.
 Viene ricordata in `localStorage` alla chiave `au-lingua` e vale per
 tutte le pagine.
 
-**Si traduce solo l'impalcatura.** I nomi delle sezioni, i comandi, le
-etichette dei moduli, le righe del piede: tutto ciò che serve a muoversi.
-I testi — Il Diavolo veste Pravda, gli appunti, gli articoli, le poesie,
-le risposte dell'oracolo — restano nella lingua in cui sono stati
-scritti. Tradurli non sarebbe tradurli: sarebbe riscriverli. I nodi che
-li contengono portano `lang="it"`, così chi legge con una voce di sintesi
-li sente pronunciati come vanno pronunciati anche quando il sito attorno
-parla inglese.
+**Si traduce l'impalcatura, e il modo in cui i pezzi si presentano.**
+Da una parte i nomi delle sezioni, i comandi, le etichette dei moduli, le
+righe del piede: tutto ciò che serve a muoversi. Dall'altra i titoli
+degli articoli e dei testi, con i loro sommari e le loro note — e le date
+degli elenchi, che stanno accanto a quei titoli: sono il modo in cui un
+pezzo si presenta a chi passa, e in una lingua che non si conosce non
+presentano nulla.
+
+**Non si traducono i pezzi.** Il Diavolo veste Pravda, gli appunti, i
+versi delle poesie, l'abstract della tesi, le risposte dell'oracolo e le
+citazioni dei filosofi restano nella lingua in cui sono stati scritti.
+Tradurli non sarebbe tradurli: sarebbe riscriverli. Restano com'erano
+anche i nomi propri — *Il Diavolo veste Pravda*, le testate, i premi.
+
+I nodi che portano un testo dichiarano la sua lingua con `lang`, così chi
+legge con una voce di sintesi la sente pronunciata come va pronunciata
+anche quando il sito attorno parla l'altra. Quasi sempre è `it`; per la
+tesi, scritta in inglese, è `en` — lo dice il suo `linguaTesto`.
 
 ### Come si traduce una parola
 
@@ -274,10 +288,41 @@ proprio inglese accanto, nella stessa voce:
 
 Dove manca `en`, resta l'italiano: è così per *Il Diavolo veste Pravda*,
 che è un nome e non si traduce, e per i nomi delle testate e dei premi,
-che sono di chi li porta. Anche i contenuti possono portare
-un'etichetta inglese nel front matter — `tipoEn`, `gruppoEn`,
-`gruppoLinkTestoEn`, `linkTestoEn` — ma solo per le etichette: il titolo,
-la nota e il corpo non hanno gemello e non devono averlo.
+che sono di chi li porta.
+
+### Come si traduce un contenuto
+
+Nel front matter, accanto al campo italiano:
+
+| Campo | Che cos'è | Dove |
+| --- | --- | --- |
+| `titoloEn` | il titolo in inglese | articoli, poesie |
+| `sommarioEn` | la riga o due che presentano il pezzo | articoli |
+| `notaEn` | la nota del premio | poesie |
+| `tipoEn` | «Poesia», «Tesi di Laurea Magistrale» | poesie, tesi |
+| `gruppoEn`, `gruppoLinkTestoEn`, `linkTestoEn` | intestazione e testo dei collegamenti | dove ci sono i gemelli italiani |
+| `linguaTesto` | la lingua in cui il pezzo è scritto, se non è l'italiano | tesi |
+
+Dove il campo manca, resta l'italiano e il nodo lo dichiara: un pezzo
+senza `titoloEn` compare col suo titolo italiano anche nella pagina
+inglese, e non si rompe nulla. **Il corpo del file non si traduce mai**:
+per un articolo è il sommario, e per quello c'è `sommarioEn`; per una
+poesia sono i versi, e i versi sono la poesia.
+
+Il sommario di un articolo viene dal Markdown e può essere più d'un
+paragrafo: lì non c'è un testo solo da scambiare, e la pagina rende
+*due blocchi* marcati `data-solo="it"` e `data-solo="en"`, di cui il
+foglio di stile mostra quello che vale. Senza JavaScript `data-lingua`
+non viene scritto, e resta in pagina l'italiano.
+
+Le date degli elenchi seguono la lingua — «Agosto 2026» diventa «August
+2026» — attraverso i filtri `meseEn` e `dataEstesaEn`. Le date del
+giornale e degli appunti no: là la data appartiene al pezzo, come la sua
+prima riga.
+
+La ricerca conosce entrambi i titoli: l'indice porta `tEn` accanto a `t`,
+li pesa allo stesso modo — chi cerca in inglese cerca le parole che ha
+davanti agli occhi — e mostra quello della lingua in vigore.
 
 Le poche parole che il JavaScript scrive da sé — «tre risultati»,
 «Invio…», il nome della sezione sul pulsante del menu — non stanno nel

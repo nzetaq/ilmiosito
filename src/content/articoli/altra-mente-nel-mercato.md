@@ -1,5 +1,6 @@
 ---
 titolo: "Intelligenza Artificiale: un'altra mente nel mercato?"
+titoloEn: "Artificial Intelligence: another mind in the market?"
 fonte: "Marxismo Oggi"
 fonteId: "marxismo-oggi"
 data: "2026-01"

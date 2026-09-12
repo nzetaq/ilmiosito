@@ -1,11 +1,15 @@
 ---
 titolo: "Se ti amassi"
+titoloEn: "If I loved you"
 tipo: "Poesia"
+tipoEn: "Poem"
 gruppo: "Premio Alberoandronico"
 gruppoUrl: "https://alberoandronico.net/albo-doro/"
 gruppoLinkTesto: "Vai all'Albo d'oro →"
+gruppoLinkTestoEn: "Go to the roll of honour →"
 ordine: 2
 nota: "Selezionata nella XVI Edizione del Premio Alberoandronico."
+notaEn: "Selected in the XVI edition of the Premio Alberoandronico."
 ---
 
 E se ti amassi?

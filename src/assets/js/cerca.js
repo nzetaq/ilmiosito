@@ -1,5 +1,5 @@
 import { caricaIndice, interroga, passo } from './ricerca.js';
-import { t } from './lingua.js';
+import { t, lingua } from './lingua.js';
 
 /**
  * La ricerca per chi legge.
@@ -46,8 +46,11 @@ export function avviaCerca() {
     return n;
   };
 
-  const italiano = (n) => {
-    n.lang = 'it';
+  /* In quale lingua è scritto quel che il nodo porta. L'indice dice
+     `l` solo per i pezzi che non sono in italiano — la tesi — e
+     tace per tutti gli altri. */
+  const nella = (n, quale) => {
+    n.lang = quale || 'it';
     return n;
   };
 
@@ -85,14 +88,21 @@ export function avviaCerca() {
        dichiarano, così la voce di sintesi non li storpia. */
     const capo = el('p', 'au-cerca-esito-dove');
     capo.appendChild(el('span', 'au-cerca-esito-sezione', sezione(voce.z, voce.e)));
-    if (voce.f) capo.appendChild(italiano(el('span', 'au-cerca-esito-fonte', voce.f)));
-    if (voce.d) capo.appendChild(italiano(el('span', 'au-cerca-esito-data', voce.d)));
+    if (voce.f) capo.appendChild(nella(el('span', 'au-cerca-esito-fonte', voce.f), voce.l));
+    if (voce.d) capo.appendChild(nella(el('span', 'au-cerca-esito-data', voce.d), 'it'));
     a.appendChild(capo);
 
-    a.appendChild(italiano(el('h3', 'au-cerca-esito-titolo', voce.t || t('senzaTitolo'))));
+    /* Il titolo nella lingua in vigore, quando il pezzo ne dichiara
+       uno: chi legge l'elenco in inglese e ritrova l'esito in italiano
+       dubiterebbe di aver trovato la cosa giusta. Il brano invece
+       viene dal testo, e il testo è quello che è. */
+    const tradotto = lingua() === 'en' && voce.tEn;
+    a.appendChild(nella(
+      el('h3', 'au-cerca-esito-titolo', (tradotto ? voce.tEn : voce.t) || t('senzaTitolo')),
+      tradotto ? 'en' : voce.l));
 
     const brano = passo(voce, domanda, 220);
-    if (brano) a.appendChild(italiano(el('p', 'au-cerca-esito-brano', brano)));
+    if (brano) a.appendChild(nella(el('p', 'au-cerca-esito-brano', brano), voce.l));
 
     esiti.appendChild(a);
   };

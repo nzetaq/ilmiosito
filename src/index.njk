@@ -360,27 +360,50 @@ reti: "https://formsubmit.co"
     <section class="au-section" id="sec-home" aria-label="Home" data-en-etichetta="Home">
       <div class="au-home-grid">
         {%- for voce in collections.recenti %}
-        {#- Titoli, descrizioni e date restano nella lingua in cui il
-           pezzo è stato scritto: `lang="it"` lo dichiara a chi legge
-           con la voce. Si traduce solo ciò che porta altrove — il
-           «Leggi →» — e il nome della cosa, quando il pezzo ne dà
-           uno in inglese. -#}
+        {#- Il titolo di un articolo e la riga che lo riassume si
+           traducono: sono il modo in cui il pezzo si presenta a chi
+           passa, e in una lingua che non si conosce non presentano
+           nulla. Il pezzo vero sta altrove, e resta dov'è.
+
+           Il titolo scambia il proprio testo; il sommario, che viene
+           dal Markdown e può essere più d'un paragrafo, è reso in due
+           blocchi di cui il CSS mostra quello che vale — vedi
+           `data-solo` nel foglio di stile.
+
+           `lingua` è la lingua in cui il pezzo è scritto: quasi sempre
+           l'italiano, inglese per la tesi. Serve a chi legge con una
+           voce di sintesi, che altrimenti pronuncerebbe l'uno come se
+           fosse l'altro. -#}
+        {%- set lingua = voce.data.linguaTesto | default('it', true) %}
         <article class="au-home-card">
           {%- if voce.data.tipoScheda == 'articolo' %}
-          <p class="au-source" lang="it">{{ voce.data.fonte }}</p>
-          <h2 class="au-home-title" lang="it">{{ voce.data.titolo }}</h2>
+          <p class="au-source" lang="{{ lingua }}">{{ voce.data.fonte }}</p>
+          <h2 class="au-home-title"
+              {%- if voce.data.titoloEn %} data-en="{{ voce.data.titoloEn }}"{% else %} lang="{{ lingua }}"{% endif %}>{{ voce.data.titolo }}</h2>
           {%- if voce.templateContent | trim %}
-          <div class="au-home-desc" lang="it">{{ voce.templateContent | safe }}</div>
+          <div class="au-home-desc" lang="{{ lingua }}"
+               {%- if voce.data.sommarioEn %} data-solo="it"{% endif %}>{{ voce.templateContent | safe }}</div>
       {%- endif %}
-          <p class="au-home-date" lang="it">{{ voce.data.data | mese }} {{ voce.data.data | anno }}</p>
+          {%- if voce.data.sommarioEn %}
+          <p class="au-home-desc" lang="en" data-solo="en">{{ voce.data.sommarioEn }}</p>
+      {%- endif %}
+          {#- Il mese cambia lingua perché sta sotto un titolo che
+             cambia lingua: una data italiana appesa a una scheda
+             inglese si legge come una svista. L'anno non ha lingua. -#}
+          <p class="au-home-date"
+             data-en="{{ voce.data.data | meseEn }} {{ voce.data.data | anno }}">{{ voce.data.data | mese }} {{ voce.data.data | anno }}</p>
           <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener"
              data-en="Read →">Leggi →</a>
           {%- else %}
           <p class="au-poem-type"
              {%- if voce.data.tipoEn %} data-en="{{ voce.data.tipoEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.tipo }}</p>
-          <h2 class="au-home-title" lang="it">{{ voce.data.titolo }}</h2>
+          <h2 class="au-home-title"
+              {%- if voce.data.titoloEn %} data-en="{{ voce.data.titoloEn }}"{% else %} lang="{{ lingua }}"{% endif %}>{{ voce.data.titolo }}</h2>
+          {#- Qui il corpo sono i versi, o l'abstract della tesi: il
+             pezzo stesso, non il modo in cui si presenta. Non si
+             traduce. -#}
           {%- if voce.templateContent | trim %}
-          <div class="au-home-desc" lang="it">{{ voce.templateContent | safe }}</div>
+          <div class="au-home-desc" lang="{{ lingua }}">{{ voce.templateContent | safe }}</div>
       {%- endif %}
           {%- if voce.data.url %}
           <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener"
@@ -411,13 +434,21 @@ reti: "https://formsubmit.co"
         <article class="au-article" data-source="{{ voce.data.fonteId }}">
           <div>
             <p class="au-source" lang="it">{{ voce.data.fonte }}</p>
-            <h3 class="au-article-title" lang="it">{{ voce.data.titolo }}</h3>
+            <h3 class="au-article-title"
+                {%- if voce.data.titoloEn %} data-en="{{ voce.data.titoloEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.titolo }}</h3>
             {%- if voce.templateContent | trim %}
-            <div class="au-article-desc" lang="it">{{ voce.templateContent | safe }}</div>
+            <div class="au-article-desc" lang="it"
+                 {%- if voce.data.sommarioEn %} data-solo="it"{% endif %}>{{ voce.templateContent | safe }}</div>
+            {%- endif %}
+            {%- if voce.data.sommarioEn %}
+            <p class="au-article-desc" lang="en" data-solo="en">{{ voce.data.sommarioEn }}</p>
             {%- endif %}
           </div>
           <div class="au-right">
-            <p class="au-date" lang="it">{{ voce.data.data | mese }}<br>{{ voce.data.data | anno }}</p>
+            {#- Il <br> fra il mese e l'anno vuole che a tradursi sia
+               il solo mese: il testo di tutto il paragrafo se lo
+               porterebbe via. -#}
+            <p class="au-date"><span data-en="{{ voce.data.data | meseEn }}">{{ voce.data.data | mese }}</span><br>{{ voce.data.data | anno }}</p>
             <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener"
                data-en="Read →">Leggi →</a>
           </div>
@@ -440,7 +471,8 @@ reti: "https://formsubmit.co"
           <span class="au-poem-type"
                 {%- if voce.data.tipoEn %} data-en="{{ voce.data.tipoEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.tipo }}</span>
           {%- if voce.data.data %}
-          <span class="au-poem-date" lang="it">{{ voce.data.data | dataEstesa }}</span>
+          <span class="au-poem-date"
+                data-en="{{ voce.data.data | dataEstesaEn }}">{{ voce.data.data | dataEstesa }}</span>
       {%- endif %}
     </div>
         {#- I versi stanno nel corpo del file. Quando ci sono, il titolo
@@ -450,16 +482,24 @@ reti: "https://formsubmit.co"
         {%- set versi = voce | versi %}
         {%- if versi %}
         {%- set idVersi = 'versi-' ~ voce.page.fileSlug %}
-        <h3 class="au-poem-title au-poem-title--lente" lang="it"
+        <h3 class="au-poem-title au-poem-title--lente"
+            {%- if voce.data.titoloEn %} data-en="{{ voce.data.titoloEn }}"{% else %} lang="it"{% endif %}
             tabindex="0" aria-describedby="{{ idVersi }}">{{ voce.data.titolo }}</h3>
         {#- La sorgente resta nel documento, nascosta: è quella che legge
             un lettore di schermo, ed è da lì che la finestra copia. -#}
+        {#- I versi sono la poesia: restano come sono stati scritti. -#}
         <div class="au-poem-versi" id="{{ idVersi }}" lang="it" hidden>{{ versi }}</div>
         {%- else %}
-        <h3 class="au-poem-title" lang="it">{{ voce.data.titolo }}</h3>
+        <h3 class="au-poem-title"
+            {%- if voce.data.titoloEn %} data-en="{{ voce.data.titoloEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.titolo }}</h3>
     {%- endif %}
+        {#- La nota dice dove la poesia è arrivata: è una didascalia,
+           non un verso, e si traduce. Il `lang` sta sul paragrafo e
+           non sul riquadro, perché è il paragrafo a cambiare lingua. -#}
         {%- if voce.data.nota %}
-        <div class="au-poem-excerpt" lang="it"><p>{{ voce.data.nota }}</p></div>
+        <div class="au-poem-excerpt">
+          <p {% if voce.data.notaEn %}data-en="{{ voce.data.notaEn }}"{% else %}lang="it"{% endif %}>{{ voce.data.nota }}</p>
+        </div>
     {%- endif %}
         {%- if voce.data.url %}
         <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener"
@@ -483,13 +523,18 @@ reti: "https://formsubmit.co"
           <span class="au-poem-type"
                 {%- if voce.data.tipoEn %} data-en="{{ voce.data.tipoEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.tipo }}</span>
           {%- if voce.data.data %}
-          <span class="au-poem-date" lang="it">{{ voce.data.data | dataEstesa }}</span>
+          <span class="au-poem-date"
+                data-en="{{ voce.data.data | dataEstesaEn }}">{{ voce.data.data | dataEstesa }}</span>
       {%- endif %}
     </div>
-        <h3 class="au-poem-title" lang="it">
+        {#- Il titolo di una tesi e il suo abstract sono nella lingua
+           in cui la tesi è scritta — per questa, l'inglese — e non si
+           traducono: sono già il testo. -#}
+        {%- set lingua = voce.data.linguaTesto | default('it', true) %}
+        <h3 class="au-poem-title" lang="{{ lingua }}">
           <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
         </h3>
-        <div class="au-poem-excerpt" lang="it">{{ voce.templateContent | safe }}</div>
+        <div class="au-poem-excerpt" lang="{{ lingua }}">{{ voce.templateContent | safe }}</div>
         {%- if voce.data.url %}
         <a href="{{ voce.data.url }}" class="au-poem-link" target="_blank" rel="noopener"
            data-en="{{ voce.data.linkTestoEn or 'Read →' }}">{{ voce.data.linkTesto or 'Leggi →' }}</a>

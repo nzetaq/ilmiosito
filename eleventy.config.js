@@ -8,16 +8,25 @@ const MESI = [
   'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
 ];
 
+/* I mesi in inglese servono soltanto alle date che stanno accanto a un
+   titolo tradotto — un articolo, una poesia. Le date dei pezzi che
+   restano in italiano, il giornale e gli appunti, non li incontrano:
+   là la data appartiene al pezzo, come la sua prima riga. */
+const MESI_EN = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
 /**
  * Scompone una data testuale "AAAA-MM" oppure "AAAA-MM-GG".
  * Le date restano stringhe (mai oggetti Date) per non incorrere
  * negli slittamenti di fuso orario in fase di formattazione.
  */
-function scomponi(data) {
+function scomponi(data, mesi = MESI) {
   const [anno, mese, giorno] = String(data).split('-');
   return {
     anno,
-    mese: MESI[Number(mese) - 1] || '',
+    mese: mesi[Number(mese) - 1] || '',
     giorno: giorno ? String(Number(giorno)) : null
   };
 }
@@ -25,6 +34,13 @@ function scomponi(data) {
 /** "2026-03" → "Marzo 2026"; "2026-05-01" → "1 Maggio 2026". */
 function esteso(data) {
   const { anno, mese, giorno } = scomponi(data);
+  return giorno ? `${giorno} ${mese} ${anno}` : `${mese} ${anno}`;
+}
+
+/** Lo stesso, all'inglese: "1 May 2026" — il giorno prima del mese,
+    come si scrive in Gran Bretagna e come si legge senza ambiguità. */
+function estesoEn(data) {
+  const { anno, mese, giorno } = scomponi(data, MESI_EN);
   return giorno ? `${giorno} ${mese} ${anno}` : `${mese} ${anno}`;
 }
 
@@ -150,6 +166,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter('anno', (data) => scomponi(data).anno);
 
   eleventyConfig.addFilter('dataEstesa', esteso);
+
+  // Le stesse date per chi legge il sito in inglese: vedi MESI_EN.
+  eleventyConfig.addFilter('meseEn', (data) => scomponi(data, MESI_EN).mese);
+  eleventyConfig.addFilter('dataEstesaEn', estesoEn);
 
   /* Le prime righe di un testo, spogliate dei segni del Markdown.
      Serve al feed e alle descrizioni delle pagine singole; la
@@ -327,7 +347,16 @@ export default function (eleventyConfig) {
 
         voci.push({
           t: d.titolo || '',
+          // Il titolo inglese, dove il pezzo ne dichiara uno: la
+          // ricerca lo mostra a chi legge in inglese, e lo cerca in
+          // entrambe le lingue. Manca dov'è già una traduzione
+          // inutile — un titolo inglese, o un nome proprio.
+          tEn: d.titoloEn || '',
           s: testo,
+          // In quale lingua è scritto il pezzo: serve alla ricerca per
+          // dichiararlo su titolo e brano. Sta qui solo dove non è
+          // l'italiano, che è il caso di quasi tutto il sito.
+          l: d.linguaTesto && d.linguaTesto !== 'it' ? d.linguaTesto : undefined,
           // La provenienza è la testata per gli articoli, il premio per
           // le poesie: campi diversi, stesso ruolo per chi legge.
           f: d.fonte || d.gruppo || '',

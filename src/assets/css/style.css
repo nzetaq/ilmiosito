@@ -2099,14 +2099,14 @@ body {
   cursor: not-allowed;
 }
 
-/* ── Le due scelte della veste ──
-   Stile e Luce sono pulsanti grandi come quello della ricerca, e le
-   voci stanno sotto, nascoste finché non si chiede di vederle. Il
+/* ── Le scelte a pulsante ──
+   Stile, Luce e Lingua sono pulsanti grandi come quello della ricerca,
+   e le voci stanno sotto, nascoste finché non si chiede di vederle. Il
    pannello sta nel flusso e non appoggiato sopra la pagina: aprendolo
    la barra delle sezioni scende di un dito e si vede da dove viene
    quel che è comparso, mentre un pannello sovrapposto avrebbe dovuto
    trovarsi un posto anche dentro il pannello della veste, che sugli
-   schermi stretti è a sua volta una cosa che si apre. Aperti, i due
+   schermi stretti è a sua volta una cosa che si apre. Aperti, gli
    elenchi occupano quanto occupavano prima le due griglie sempre in
    vista: il guadagno è tutto nel tempo in cui restano chiusi. */
 .au-scelta {
@@ -3276,6 +3276,26 @@ body {
   font-weight: 400;
   color: var(--prosa-voce);
   line-height: 1.8;
+}
+
+/* ── Un blocco per lingua ──
+   Quasi tutta l'impalcatura si traduce cambiando il testo di un nodo:
+   basta l'inglese scritto accanto in `data-en`. Dove però il testo
+   viene dal Markdown — la descrizione di un articolo, che può essere
+   più d'un paragrafo — non c'è un testo solo da scambiare: ci sono due
+   blocchi resi, e si mostra quello della lingua in vigore.
+
+   Lo fa il CSS e non il JavaScript perché così vale già al primo
+   disegno, e perché senza JavaScript `data-lingua` non viene scritto:
+   il secondo selettore, che guarda la sua assenza, lascia in pagina
+   l'italiano — la lingua in cui il sito è scritto.
+
+   `display: none` e non `visibility`: il blocco che non vale non deve
+   esistere nemmeno per chi legge con una voce, che altrimenti si
+   sentirebbe leggere la stessa descrizione due volte. */
+:root[data-lingua='en'] [data-solo='it'],
+:root:not([data-lingua='en']) [data-solo='en'] {
+  display: none;
 }
 
 /* ── Prosa proveniente dal Markdown ── */

@@ -1,5 +1,6 @@
 ---
 titolo: "Apollineo e Dionisiaco"
+titoloEn: "Apollonian and Dionysian"
 tipo: "Poesia"
 tipoEn: "Poem"
 gruppo: "Premio Amori sui generis"
@@ -8,6 +9,7 @@ gruppoLinkTesto: "Vai ai risultati della VI Edizione →"
 gruppoLinkTestoEn: "Go to the results of the VI Edition →"
 ordine: 3
 nota: "Selezionata nella VI Edizione del Premio Amori sui generis"
+notaEn: "Selected in the VI edition of the Premio Amori sui generis"
 ---
 
 Ho cercato la pace,

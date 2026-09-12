@@ -1,5 +1,6 @@
 ---
 titolo: "A Bologna"
+titoloEn: "In Bologna"
 tipo: "Poesia"
 tipoEn: "Poem"
 gruppo: "Premio Alberoandronico"
@@ -8,6 +9,7 @@ gruppoLinkTesto: "Vai all'Albo d'oro →"
 gruppoLinkTestoEn: "Go to the roll of honour →"
 ordine: 1
 nota: "Selezionata nella XV Edizione del Premio Alberoandronico."
+notaEn: "Selected in the XV edition of the Premio Alberoandronico."
 ---
 
 Quante volte le linee di quest'archi

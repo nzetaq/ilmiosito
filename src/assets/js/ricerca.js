@@ -94,6 +94,9 @@ export function costruisci(voci) {
   const documenti = voci.map((v) => {
     const parole = [];
     for (let n = 0; n < PESO_TITOLO; n++) parole.push(...scomponi(v.t));
+    // Il titolo inglese, dove c'è, pesa quanto l'italiano: chi legge
+    // il sito in inglese cerca le parole che ha davanti agli occhi.
+    for (let n = 0; n < PESO_TITOLO; n++) parole.push(...scomponi(v.tEn));
     for (let n = 0; n < PESO_FONTE; n++) parole.push(...scomponi(v.f));
     // Il nome della categoria — «Poesia», «Tesi» — è l'unico posto in
     // cui certe voci dicono che cosa sono.
