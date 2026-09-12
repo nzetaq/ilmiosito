@@ -271,8 +271,8 @@ pezzo si presenta a chi passa, e in una lingua che non si conosce non
 presentano nulla.
 
 **Non si traducono i pezzi.** Il Diavolo veste Pravda, gli appunti, i
-versi delle poesie, l'abstract della tesi, le risposte dell'oracolo e le
-citazioni dei filosofi restano nella lingua in cui sono stati scritti.
+versi delle poesie, l'abstract della tesi e le risposte dell'oracolo
+restano nella lingua in cui sono stati scritti.
 Tradurli non sarebbe tradurli: sarebbe riscriverli. Restano com'erano
 anche i nomi di chi li ospita — le testate, i premi — che sono di chi li
 porta. *Il Diavolo veste Pravda* invece un nome inglese ce l'ha, ed è
@@ -402,6 +402,16 @@ Le poche parole che il JavaScript scrive da sé — «tre risultati»,
 «Invio…», il nome della sezione sul pulsante del menu — non stanno nel
 documento e non possono essere marcate. Sono tutte in
 `src/assets/js/lingua.js`, ciascuna accanto alla propria gemella.
+
+**Le citazioni dei filosofi** — quelle che compaiono col doppio clic
+sul nome in cima — fanno eccezione alla regola dei pezzi, e stanno in
+due lingue dentro `src/assets/js/citazioni.js`. La ragione è che qui
+nessuna delle due è l'originale: Marx e Wittgenstein hanno scritto in
+tedesco, Vološinov in russo, e la riga italiana è già una traduzione.
+Quella inglese è la traduzione canonica da cui l'italiana viene, non
+una traduzione della traduzione. Cambiano anche le virgolette, che sono
+un segno della lingua: sergenti in italiano, alte in inglese. Il nodo
+che porta la frase dichiara ogni volta quale delle due sta mostrando.
 
 ### Dove gira
 

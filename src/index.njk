@@ -21,13 +21,15 @@ reti: "https://formsubmit.co"
 <a class="au-salta" href="#contenuto" data-en="Skip to content">Salta al contenuto</a>
 
 <!-- ═══ OVERLAY FILOSOFO ═══ -->
-{#- `lang="it"` sulla citazione: le parole dei filosofi restano le
-   loro, e chi legge con la voce deve sentirle pronunciate come sono
-   state scritte anche quando l'impalcatura attorno parla inglese. -#}
+{#- Il `lang` della frase lo scrive `citazioni.js` quando la sceglie,
+   e non sta qui: le sei citazioni esistono in due lingue — nessuno dei
+   tre le ha scritte in italiano né in inglese, quindi ogni versione è
+   una traduzione e nessuna è più originale dell'altra — e il nodo
+   dichiara quella che porta in questo momento. -#}
 <dialog class="au-filosofo-overlay" id="au-filosofo-overlay" aria-label="Citazione"
         data-en-etichetta="Quotation">
   <div class="au-filosofo-card">
-    <p class="au-filosofo-quote" id="au-filosofo-quote" lang="it"></p>
+    <p class="au-filosofo-quote" id="au-filosofo-quote"></p>
     <p class="au-filosofo-attr" id="au-filosofo-attr"></p>
     <p class="au-filosofo-dismiss" data-en="— click to close —">— clicca per chiudere —</p>
   </div>
