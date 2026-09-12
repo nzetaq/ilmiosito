@@ -1,4 +1,4 @@
-import { t, alCambioLingua } from './lingua.js';
+import { t, lingua, alCambioLingua } from './lingua.js';
 
 /**
  * Il menù delle sezioni sugli schermi stretti.
@@ -120,7 +120,9 @@ export function avviaMenu() {
       return !sfora();
     };
 
-    const breve = corrente.dataset.breve;
+    // Il nome corto nella lingua in vigore, se la sezione ne dichiara
+    // uno: la sigla segue il nome di cui è sigla.
+    const breve = (lingua() === 'en' && corrente.dataset.breveEn) || corrente.dataset.breve;
     if (!adatta(corrente.textContent.trim()) && breve) adatta(breve);
   };
 

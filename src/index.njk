@@ -81,13 +81,12 @@ reti: "https://formsubmit.co"
   <!-- ═══ INTESTAZIONE ═══ -->
   <header class="au-header">
     <p class="au-label" data-en="{{ site.en.motto }}">{{ site.motto }}</p>
-    {#- Il marchio, non il nome: quello sta in fondo, nella riga della
-       licenza, dov'è un fatto giuridico e non un'insegna.
-       `aria-label` perché la formula, letta ad alta voce, non è una
-       formula: è una lettera, una vu e una O sbarrata. -#}
-    <h1 class="au-name au-marchio"
-        aria-label="{{ site.marchio.voce }}"
-        data-en-etichetta="{{ site.marchio.en.voce }}"><em>{{ site.marchio.parola }}</em>{{ site.marchio.formula }}</h1>
+    {#- Il nome del progetto, non quello di chi scrive: quello sta in
+       fondo, nella riga della licenza, dov'è un fatto giuridico e non
+       un'insegna — e nel titolo della scheda, che è quello che si
+       cerca. Qui sopra c'è come si chiama il posto; qui sotto, di che
+       cosa parla e chi lo tiene. -#}
+    <h1 class="au-name" data-en="{{ site.en.progetto }}">{{ site.progetto }}</h1>
     <p class="au-bio" data-en="{{ site.en.bio }}">{{ site.bio }}</p>
 
     {#- Intestazioni alternative: le sezioni che in site.json
@@ -185,12 +184,13 @@ reti: "https://formsubmit.co"
          si legge ad alta voce. -#}
       <span class="au-nav-punto" aria-hidden="true">·</span>
       {%- endif %}
-      {#- `data-en` è l'inglese di questa voce, quando ce n'è uno: «Il
-         Diavolo veste Pravda» è un nome e resta com'è. Il nome breve
-         non ha gemello per la stessa ragione — è la sigla di quel
-         nome. -#}
+      {#- `data-en` è l'inglese di questa voce, e `data-breve-en` quello
+         del nome corto che il pulsante del menù usa quando quello
+         lungo non ci sta. Il nome corto è la sigla del lungo, e
+         quando il lungo si traduce si traduce anche lei. -#}
       <a class="au-nav-btn" href="#{{ sezione.id }}" data-sez="{{ sezione.id }}"
          {%- if sezione.breve %} data-breve="{{ sezione.breve }}"{% endif %}
+         {%- if sezione.en and sezione.en.breve %} data-breve-en="{{ sezione.en.breve }}"{% endif %}
          {%- if sezione.en %} data-en="{{ sezione.en.etichetta }}"{% endif %}>{{ sezione.etichetta }}</a>
       {%- endfor %}
     </nav>
@@ -348,8 +348,8 @@ reti: "https://formsubmit.co"
 
   <!-- ═══ COLONNA SINISTRA: ULTIMA PAGINA DI GIORNALE ═══ -->
   <aside class="au-giornale-col" id="au-giornale-col" aria-label="Ultima pagina de Il Diavolo veste Pravda"
-         data-en-etichetta="Latest page of Il Diavolo veste Pravda">
-    <p class="au-gp-label">Il Diavolo veste Pravda</p>
+         data-en-etichetta="Latest page of The Devil wears Pravda">
+    <p class="au-gp-label" data-en="The Devil wears Pravda">Il Diavolo veste Pravda</p>
     {%- if ultimaGiornale %}
     {#- La data e il testo restano italiani: è il pezzo, non la via
        che ci porta. `lang` lo dichiara, così la voce di sintesi non
@@ -551,7 +551,8 @@ reti: "https://formsubmit.co"
     </section>
 
     <!-- ═══ GIORNALE ═══ -->
-    <section class="au-section" id="sec-il-diavolo-veste-pravda" aria-label="Il Diavolo veste Pravda">
+    <section class="au-section" id="sec-il-diavolo-veste-pravda" aria-label="Il Diavolo veste Pravda"
+             data-en-etichetta="The Devil wears Pravda">
       {#- Il titolo porta alla pagina propria del pezzo. Il testo resta
          qui per intero: la sezione si legge come si è sempre letta, e
          l'indirizzo serve a chi vuole mandarlo a qualcuno. -#}

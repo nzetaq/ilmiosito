@@ -1,22 +1,18 @@
 {
   "titolo": "Luca Antonini",
   "nome": "Luca Antonini",
-  "_nota_marchio": "Il segno in cima alla pagina: «prxs v Ø», cioè «o la prassi o il Nulla» scritto come lo scriverebbe un logico. La «v» è la lettera e non il segno ∨ della disgiunzione, e la Ø è quella danese e non il segno ∅ dell'insieme vuoto: i due segni giusti stanno fuori dai sottoinsiemi dei caratteri del sito — si vedrebbero disegnati dal carattere di sistema, con un altro peso, proprio nella scritta più grande della pagina. Le due lettere sono le forme da cui quei segni sono nati, e sono le sole che il sito possa disegnare da sé. `voce` è come si legge ad alta voce: un lettore di schermo, di quella riga, non saprebbe che farsene.",
-  "marchio": {
-    "parola": "prxs",
-    "formula": " v Ø",
-    "voce": "prassi o insieme vuoto",
-    "en": { "voce": "praxis or empty set" }
-  },
   "url": "https://www.nzetaq.it",
   "lingua": "it",
   "motto": "Raccogli - Cataloga - Preserva",
-  "bio": "O la prassi o il Nulla",
+  "_nota_progetto": "Il nome del progetto, che sta in cima alla pagina al posto di un nome di persona: quello resta in fondo, nella riga della licenza, dov'è un fatto giuridico e non un'insegna. Sotto, `bio` dice di che cosa si tratta e chi lo scrive.",
+  "progetto": "La Prassi o il Nulla",
+  "bio": "La sostanza sociale - Luca Antonini",
   "descrizione": "Scritti di filosofia di Luca Antonini: articoli su marxismo, linguaggio e intelligenza artificiale, poesie, tesi di laurea, Il Diavolo veste Pravda e appunti.",
   "_nota_en": "L'inglese dell'impalcatura, e solo di quella. I testi — appunti, Il Diavolo veste Pravda, articoli, poesie — restano nella lingua in cui sono stati scritti: tradurli sarebbe riscriverli. Qui c'è ciò che serve a muoversi nel sito, non ciò che il sito dice. Ogni voce sta accanto alla propria italiana, così le due non possono allontanarsi senza che si veda.",
   "en": {
     "motto": "Collect - Catalogue - Preserve",
-    "bio": "Either praxis or Nothingness"
+    "progetto": "Praxis or Nothingness",
+    "bio": "The Social Substance - Luca Antonini"
   },
   "sezioni": [
     {
@@ -48,7 +44,12 @@
       "etichetta": "Il Diavolo veste Pravda",
       "titolo": "Il Diavolo veste Pravda",
       "breve": "Il DvP",
-      "era": "giornale"
+      "era": "giornale",
+      "en": {
+        "etichetta": "The Devil wears Pravda",
+        "titolo": "The Devil wears Pravda",
+        "breve": "The DvP"
+      }
     },
     {
       "id": "articoli",

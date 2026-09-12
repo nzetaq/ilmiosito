@@ -274,7 +274,11 @@ presentano nulla.
 versi delle poesie, l'abstract della tesi, le risposte dell'oracolo e le
 citazioni dei filosofi restano nella lingua in cui sono stati scritti.
 Tradurli non sarebbe tradurli: sarebbe riscriverli. Restano com'erano
-anche i nomi propri — *Il Diavolo veste Pravda*, le testate, i premi.
+anche i nomi di chi li ospita — le testate, i premi — che sono di chi li
+porta. *Il Diavolo veste Pravda* invece un nome inglese ce l'ha, ed è
+*The Devil wears Pravda*: il gioco di parole si può rifare nell'altra
+lingua, e un nome che si può tradurre senza perderlo tanto vale
+tradurlo.
 
 I nodi che portano un testo dichiarano la sua lingua con `lang`, così chi
 legge con una voce di sintesi la sente pronunciata come va pronunciata
@@ -357,9 +361,8 @@ proprio inglese accanto, nella stessa voce:
 { "id": "appunti", "etichetta": "Appunti", "en": { "etichetta": "Notes" } }
 ```
 
-Dove manca `en`, resta l'italiano: è così per *Il Diavolo veste Pravda*,
-che è un nome e non si traduce, e per i nomi delle testate e dei premi,
-che sono di chi li porta.
+Dove manca `en`, resta l'italiano: è così per i nomi delle testate e dei
+premi, che sono di chi li porta.
 
 ### Come si traduce un contenuto
 
@@ -845,14 +848,17 @@ Due limiti da conoscere:
 - **Il tetto del nome**: il corpo di `.au-name` finisce dentro un
   `min(clamp(…), Nvw)`. Il `clamp` dà la misura, la scala la moltiplica,
   e il tetto in `vw` ha l'ultima parola: un nome è fatto di parole, e una
-  parola non si spezza — ingrandendo il sito «ANTONINI» usciva dal bordo
+  parola non si spezza — ingrandendo il sito una parola lunga usciva dal bordo
   destro e la pagina prendeva a scorrere in orizzontale, che è il difetto
   peggiore di tutti perché sposta ogni riga e non solo quella che l'ha
   causato. Il tetto è diverso per ogni veste, perché ogni veste dà al
-  nome una spaziatura diversa: il più basso è quello di Terminale, dove
-  il nome non va a capo — la riga tiene il cursore attaccato all'ultima
-  lettera — e a non andare a capo è tutto il nome, non la sua parola più
-  lunga. Sotto il 150% di scala il tetto non morde mai.
+  nome una spaziatura diversa. Sotto il 150% di scala non morde mai.
+  Accanto al tetto c'è `max-width: 100%`, che è l'altra metà del
+  rimedio: il riquadro del nome si stringe sul testo ma non può crescere
+  oltre la colonna che lo ospita — quella dell'intestazione cede il
+  posto ai comandi che le stanno accanto, e un nome più largo di lei le
+  passerebbe sopra senza far scorrere niente, cioè senza che nessuna
+  misura se ne accorga.
 
 - **L'orologio da taschino**: l'innesco è `position: absolute` e non
   `fixed`, quindi l'angolo è quello della **pagina** e non della finestra:

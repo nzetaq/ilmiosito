@@ -11,13 +11,11 @@ layout: layouts/base.njk
 
     {#- Il nome della sezione ha il proprio inglese in site.json, dove
        l'ha la barra della home: una sezione si chiama allo stesso modo
-       ovunque la si nomini. Dove non ce l'ha — «Il Diavolo veste
-       Pravda» — è perché è un nome, e i nomi non si traducono. -#}
+       ovunque la si nomini. -#}
     <nav class="au-pezzo-testata" aria-label="Ritorno al sito"
          data-en-etichetta="Back to the site">
       <a class="au-pezzo-marchio" href="{{ site.url }}/"
-         aria-label="{{ site.marchio.voce }}"
-         data-en-etichetta="{{ site.marchio.en.voce }}"><em>{{ site.marchio.parola }}</em>{{ site.marchio.formula }}</a>
+         data-en="{{ site.en.progetto }}">{{ site.progetto }}</a>
       <a class="au-pezzo-ritorno" href="{{ site.url }}/#{{ sezione }}"
          {%- if sez.en %} data-en="{{ sez.en.titolo or sez.en.etichetta }} →"{% endif %}>{{ sez.titolo or sez.etichetta }} →</a>
     </nav>
