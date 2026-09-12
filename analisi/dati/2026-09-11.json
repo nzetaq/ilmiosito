@@ -1,0 +1,31 @@
+{
+  "giorno": "2026-09-11",
+  "visite": 1,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/ · home",
+      "titolo": "NZQ — Home",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "paesi": [],
+  "provenienze": [],
+  "browser": [
+    {
+      "nome": "Chrome",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "sistemi": [
+    {
+      "nome": "Android",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ]
+}
