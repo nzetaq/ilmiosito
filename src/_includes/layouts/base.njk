@@ -49,10 +49,37 @@
       // tradotta. `lang` segue la scelta perché è l'attributo su cui
       // un lettore di schermo decide come pronunciare — e i testi,
       // che restano italiani, portano il proprio `lang` addosso.
-      var lingua = scegli(
-        'au-lingua',
-        [{% for l in site.lingue %}'{{ l.id }}'{% if not loop.last %}, {% endif %}{% endfor %}],
-        '{{ site.lingua }}');
+      var lingue = [{% for l in site.lingue %}'{{ l.id }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+      var lingua = scegli('au-lingua', lingue, '{{ site.lingua }}');
+
+      // La lingua si può scrivere nell'indirizzo: `?lingua=en` vale
+      // quanto sceglierla dal pannello. Serve a mandare il sito a
+      // qualcuno che l'italiano non lo legge, senza doverlo avvertire
+      // che c'è un comando da cercare in alto a destra.
+      //
+      // `lang` è accettata accanto a `lingua` perché è la parola che
+      // viene in mente a chi l'indirizzo lo riscrive a mano e non
+      // parla italiano — cioè proprio a chi questi indirizzi sono
+      // destinati.
+      //
+      // Viene ricordata, come se il pannello fosse stato toccato: i
+      // collegamenti interni non si portano dietro la domanda, e senza
+      // memoria il primo di essi riporterebbe chi legge alla lingua di
+      // prima. È una scelta esplicita di chi apre l'indirizzo, e la si
+      // disfa dal pannello come ogni altra.
+      try {
+        var chiesta = location.search.match(/[?&](?:lingua|lang)=([^&]*)/);
+        chiesta = chiesta ? decodeURIComponent(chiesta[1]) : '';
+        if (lingue.indexOf(chiesta) !== -1) {
+          lingua = chiesta;
+          // A parte: dove l'archiviazione non c'è, la domanda
+          // nell'indirizzo deve valere lo stesso per questa pagina.
+          try {
+            localStorage.setItem('au-lingua', chiesta);
+          } catch (e) {}
+        }
+      } catch (e) {}
+
       radice.setAttribute('data-lingua', lingua);
       radice.setAttribute('lang', lingua);
 

@@ -258,6 +258,34 @@ legge con una voce di sintesi la sente pronunciata come va pronunciata
 anche quando il sito attorno parla l'altra. Quasi sempre è `it`; per la
 tesi, scritta in inglese, è `en` — lo dice il suo `linguaTesto`.
 
+### La lingua nell'indirizzo
+
+Si può scrivere quale nell'indirizzo, e serve a mandare il sito a
+qualcuno che l'italiano non lo legge senza dovergli spiegare che c'è un
+comando da cercare:
+
+```
+https://www.nzetaq.it/?lingua=en
+https://www.nzetaq.it/?lingua=en#appunti
+https://www.nzetaq.it/appunti/la-sostanza-sociale/?lingua=en
+```
+
+Vale su ogni pagina, prima del primo disegno: chi apre il collegamento
+non vede comparire l'italiano per poi correggersi sotto gli occhi.
+`?lingua=it` fa il contrario, e vince anche su una scelta inglese già
+ricordata. Un valore che non esiste viene ignorato, e resta quel che
+c'era.
+
+`?lang=en` funziona allo stesso modo: è la parola che viene in mente a
+chi l'indirizzo lo riscrive a mano e non parla italiano — cioè proprio a
+chi questi indirizzi sono destinati.
+
+La scelta viene ricordata come se il pannello fosse stato toccato. È
+necessario: i collegamenti interni non si portano dietro la domanda, e
+senza memoria il primo di essi riporterebbe chi legge alla lingua di
+prima. Chi riceve il collegamento e preferisce l'italiano lo rimette dal
+pannello, dove ha rimesso ogni altra cosa.
+
 ### Come si traduce una parola
 
 L'inglese non sta in una tabella a parte: sta accanto all'italiano, nel
