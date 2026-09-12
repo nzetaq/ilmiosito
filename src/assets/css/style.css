@@ -1917,6 +1917,27 @@ body {
   color: var(--titolo-em);
 }
 
+/* ── Il marchio ──
+   «prxs v Ø» non è un nome ma una formula, e una formula non si scrive
+   in maiuscoletto: «PRXS V Ø» perde la parola dentro i segni, e la vu
+   della disgiunzione torna a essere una lettera come le altre. È
+   l'unica scritta del sito che sfugga alla regola, e le sfugge solo
+   qui: sulla 404, dove `.au-name` dice «Pagina non trovata», il
+   maiuscoletto resta.
+   Niente corsivo sulla parola, per quanto lo chiederebbe: Archivo qui
+   è servito nel solo taglio tondo, e inclinarlo a forza vorrebbe dire
+   proprio quel corsivo finto che il sito rifiuta per il Crimson. Al
+   suo posto il secondo inchiostro, che in questa pagina è già il modo
+   di dire «questa parte è d'altro genere». */
+.au-marchio {
+  text-transform: none;
+}
+
+.au-pezzo-marchio em {
+  font-style: normal;
+  color: var(--titolo-em);
+}
+
 .au-bio {
   font-size: 0.875rem;
   font-weight: 400;

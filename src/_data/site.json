@@ -1,6 +1,13 @@
 {
   "titolo": "Luca Antonini",
   "nome": "Luca Antonini",
+  "_nota_marchio": "Il segno in cima alla pagina: «prxs v Ø», cioè «o la prassi o il Nulla» scritto come lo scriverebbe un logico. La «v» è la lettera e non il segno ∨ della disgiunzione, e la Ø è quella danese e non il segno ∅ dell'insieme vuoto: i due segni giusti stanno fuori dai sottoinsiemi dei caratteri del sito — si vedrebbero disegnati dal carattere di sistema, con un altro peso, proprio nella scritta più grande della pagina. Le due lettere sono le forme da cui quei segni sono nati, e sono le sole che il sito possa disegnare da sé. `voce` è come si legge ad alta voce: un lettore di schermo, di quella riga, non saprebbe che farsene.",
+  "marchio": {
+    "parola": "prxs",
+    "formula": " v Ø",
+    "voce": "prassi o insieme vuoto",
+    "en": { "voce": "praxis or empty set" }
+  },
   "url": "https://www.nzetaq.it",
   "lingua": "it",
   "motto": "Raccogli - Cataloga - Preserva",

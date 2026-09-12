@@ -81,7 +81,13 @@ reti: "https://formsubmit.co"
   <!-- ═══ INTESTAZIONE ═══ -->
   <header class="au-header">
     <p class="au-label" data-en="{{ site.en.motto }}">{{ site.motto }}</p>
-    <h1 class="au-name">{{ site.nome }}</h1>
+    {#- Il marchio, non il nome: quello sta in fondo, nella riga della
+       licenza, dov'è un fatto giuridico e non un'insegna.
+       `aria-label` perché la formula, letta ad alta voce, non è una
+       formula: è una lettera, una vu e una O sbarrata. -#}
+    <h1 class="au-name au-marchio"
+        aria-label="{{ site.marchio.voce }}"
+        data-en-etichetta="{{ site.marchio.en.voce }}"><em>{{ site.marchio.parola }}</em>{{ site.marchio.formula }}</h1>
     <p class="au-bio" data-en="{{ site.en.bio }}">{{ site.bio }}</p>
 
     {#- Intestazioni alternative: le sezioni che in site.json
