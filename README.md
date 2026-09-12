@@ -283,15 +283,26 @@ tesi, scritta in inglese, è `en` — lo dice il suo `linguaTesto`.
 
 ### La lingua nell'indirizzo
 
-Si può scrivere quale nell'indirizzo, e serve a mandare il sito a
-qualcuno che l'italiano non lo legge senza dovergli spiegare che c'è un
-comando da cercare:
+**Non c'è bisogno di scriverla a mano.** Appena la si sceglie dal
+pannello, l'indirizzo lo dice — e continua a dirlo camminando per il
+sito, sezione dopo sezione e pezzo dopo pezzo:
 
 ```
 https://www.nzetaq.it/?lingua=en
 https://www.nzetaq.it/?lingua=en#appunti
 https://www.nzetaq.it/appunti/la-sostanza-sociale/?lingua=en
 ```
+
+Per mandare il sito in inglese a qualcuno basta quindi: scegliere
+English, andare dove lo si vuole mandare, copiare l'indirizzo dalla
+barra. Chi lo apre vede quel che si è visto, anche se il suo browser
+chiederebbe l'italiano.
+
+Si scrive solo quando la lingua è una scelta. La supposizione che il
+sito ricava dal browser resta fuori dall'indirizzo: non l'ha chiesta
+nessuno, e un indirizzo che la contenesse la imporrebbe a chiunque lo
+aprisse. Chi arriva su un indirizzo pulito continua ad avere la lingua
+del proprio browser.
 
 Vale su ogni pagina, prima del primo disegno: chi apre il collegamento
 non vede comparire l'italiano per poi correggersi sotto gli occhi. Ed è
@@ -303,13 +314,20 @@ esiste viene ignorato, e resta quel che c'era.
 
 `?lang=en` funziona allo stesso modo: è la parola che viene in mente a
 chi l'indirizzo lo riscrive a mano e non parla italiano — cioè proprio a
-chi questi indirizzi sono destinati.
+chi questi indirizzi sono destinati. Aprendolo si normalizza in
+`?lingua=en`, perché di scritture ne basta una. Le altre domande
+dell'indirizzo — un `?utm=` che arriva da fuori — restano dov'erano.
 
-La scelta viene ricordata come se il pannello fosse stato toccato. È
-necessario: i collegamenti interni non si portano dietro la domanda, e
-senza memoria il primo di essi riporterebbe chi legge alla lingua di
-prima. Chi riceve il collegamento e preferisce l'italiano lo rimette dal
-pannello, dove ha rimesso ogni altra cosa.
+La scelta viene ricordata come se il pannello fosse stato toccato: i
+collegamenti interni non si portano dietro la domanda, ed è la memoria a
+tenere la lingua da una pagina all'altra — l'indirizzo si limita a
+dichiararla. Chi riceve il collegamento e preferisce l'italiano lo
+rimette dal pannello, dove ha rimesso ogni altra cosa.
+
+Nell'indirizzo la lingua è scritta da `lingua.js` con `replaceState`,
+non da un secondo passo nella cronologia: non è un posto in cui si va, e
+il tasto indietro deve riportare da dove si veniva — non alla stessa
+pagina in un'altra lingua.
 
 ### Come si traduce una parola
 
