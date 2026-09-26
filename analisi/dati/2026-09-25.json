@@ -1,0 +1,31 @@
+{
+  "giorno": "2026-09-25",
+  "visite": 1,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/ · home",
+      "titolo": "NZQ — Home",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "paesi": [
+    {
+      "nome": "United States",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "provenienze": [],
+  "browser": [],
+  "sistemi": [
+    {
+      "nome": "Windows",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ]
+}
