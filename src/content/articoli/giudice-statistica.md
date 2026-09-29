@@ -1,7 +1,7 @@
 ---
 titolo: "Il giudice e la statistica. A proposito dell'I.A."
 titoloEn: "The judge and statistics. On the subject of A.I."
-fonte: "Marxismo-Oggi"
+fonte: "Marxismo Oggi"
 fonteId: "marxismo-oggi"
 data: "2026-09"
 ordine: 12
