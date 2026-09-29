@@ -53,20 +53,58 @@ si aggiorna da sé alla compilazione successiva. Il testo dopo il front matter
 ---
 titolo: "Titolo dell'articolo"
 titoloEn: "Title of the article"   # facoltativo, vedi Le due lingue
-fonte: "Capibara"           # nome mostrato ed etichetta del filtro
+fonte: "Capibara"           # facoltativo: nome mostrato ed etichetta del filtro
 fonteId: "capibara"         # identificativo del filtro, senza spazi
 data: "2026-03"             # anno e mese
 ordine: 10                  # numero più alto = più in alto nell'elenco
-url: "https://…"            # dove si legge l'articolo
+url: "https://…"            # facoltativo: dove si legge l'articolo
 sommarioEn: "One or two lines summing it up."   # facoltativo
 ---
 
 Una o due righe che ne sintetizzano il contenuto.
 ```
 
-I pulsanti di filtro nascono dalle fonti presenti: introdurre un nuovo
-`fonteId` aggiunge da sé il pulsante corrispondente. Gli articoli si
-raggruppano per anno in automatico.
+I pulsanti di filtro nascono dalle testate presenti: introdurre un
+nuovo `fonteId` aggiunge da sé il pulsante corrispondente, e non c'è
+nessun elenco di riviste scritto da qualche parte.
+
+#### L'ordine, che non dipende dalla testata
+
+**Nell'elenco decide `ordine`, e decide da solo.** Gli articoli sono
+disposti dal numero più alto al più basso; la data non ordina nulla, e
+serve soltanto a raggruppare per annata e a stampare il mese sotto il
+titolo. Due articoli con lo stesso `ordine` restano nell'ordine in cui
+Eleventy li incontra, che è quello alfabetico dei nomi di file: se
+contano, meglio dare numeri diversi.
+
+Il raggruppamento per annata segue quell'ordine e non il calendario: le
+annate compaiono nell'ordine in cui compare il loro primo articolo.
+Finché i numeri crescono col tempo — come è sempre stato qui — le due
+cose coincidono; dando a un pezzo vecchio un numero alto, la sua annata
+salirebbe in cima.
+
+**In home ci stanno tre schede**, e sono le tre col numero più alto
+fra tutti gli articoli. Le poesie e la tesi vengono dopo, e compaiono
+solo se gli articoli sono meno di tre. Anche qui la testata non conta
+nulla: contano solo i numeri.
+
+#### Un articolo che abita qui
+
+`fonte`, `fonteId` e `url` sono facoltativi, e un articolo non deve
+essere uscito da nessuna parte per stare in questa cartella.
+
+Senza `fonte` la scheda non porta l'insegna di nessuno e la barra dei
+filtri non guadagna un pulsante vuoto: l'articolo si vede sotto
+«Tutti», e sparisce filtrando per una testata — che è la verità, non
+viene da nessuna di quelle.
+
+Senza `url` l'articolo è di casa e **ottiene una pagina propria**,
+`/articoli/<nome-del-file>/`, come un appunto o un pezzo del giornale.
+Cambia allora il senso del corpo del file: per un articolo uscito
+altrove è il sommario, per questo è il testo — in elenco la scheda si
+riassume da sé, e il «Leggi →» porta qui invece che fuori. Entra anche
+nella mappa per i motori di ricerca, dove gli altri non stanno perché
+la loro casa è la rivista che li ha pubblicati.
 
 ### Una poesia — `src/content/scritti/`
 

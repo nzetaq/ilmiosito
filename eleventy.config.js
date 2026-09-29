@@ -265,6 +265,12 @@ export default function (eleventyConfig) {
     const fonti = [];
     for (const voce of voci || []) {
       const { fonteId, fonte } = voce.data;
+      // Un articolo uscito qui non ha testata, e una testata che non
+      // c'è non merita un pulsante: sarebbe un filtro senza nome che
+      // non filtra niente. Quegli articoli si vedono sotto «Tutti»,
+      // che è la verità — non vengono da nessuna parte perché sono
+      // già arrivati.
+      if (!fonteId) continue;
       if (!fonti.some((f) => f.id === fonteId)) fonti.push({ id: fonteId, nome: fonte });
     }
     return fonti;

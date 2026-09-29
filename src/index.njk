@@ -383,12 +383,23 @@ reti: "https://formsubmit.co"
            voce di sintesi, che altrimenti pronuncerebbe l'uno come se
            fosse l'altro. -#}
         {%- set lingua = voce.data.linguaTesto | default('it', true) %}
+        {#- Un articolo uscito qui non ha testata e non ha un fuori
+           dove mandare: al posto dell'insegna non c'è niente, e il
+           «Leggi →» porta alla sua pagina. Il corpo del file, che per
+           un articolo uscito altrove è il sommario, per lui è il
+           testo: in scheda si riassume. -#}
+        {%- set ospitato = voce.data.tipoScheda == 'articolo' and not voce.data.url %}
         <article class="au-home-card">
           {%- if voce.data.tipoScheda == 'articolo' %}
+          {%- if voce.data.fonte %}
           <p class="au-source" lang="{{ lingua }}">{{ voce.data.fonte }}</p>
+      {%- endif %}
           <h2 class="au-home-title"
               {%- if voce.data.titoloEn %} data-en="{{ voce.data.titoloEn }}"{% else %} lang="{{ lingua }}"{% endif %}>{{ voce.data.titolo }}</h2>
-          {%- if voce.templateContent | trim %}
+          {%- if ospitato %}
+          <p class="au-home-desc" lang="{{ lingua }}"
+             {%- if voce.data.sommarioEn %} data-solo="it"{% endif %}>{{ voce.rawInput | sintesi(200) }}</p>
+          {%- elif voce.templateContent | trim %}
           <div class="au-home-desc" lang="{{ lingua }}"
                {%- if voce.data.sommarioEn %} data-solo="it"{% endif %}>{{ voce.templateContent | safe }}</div>
       {%- endif %}
@@ -400,8 +411,12 @@ reti: "https://formsubmit.co"
              inglese si legge come una svista. L'anno non ha lingua. -#}
           <p class="au-home-date"
              data-en="{{ voce.data.data | meseEn }} {{ voce.data.data | anno }}">{{ voce.data.data | mese }} {{ voce.data.data | anno }}</p>
+          {%- if ospitato %}
+          <a href="{{ voce.url }}" class="au-link" data-en="Read →">Leggi →</a>
+          {%- else %}
           <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener"
              data-en="Read →">Leggi →</a>
+      {%- endif %}
           {%- else %}
           <p class="au-poem-type"
              {%- if voce.data.tipoEn %} data-en="{{ voce.data.tipoEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.tipo }}</p>
@@ -439,12 +454,21 @@ reti: "https://formsubmit.co"
       <div class="au-anno-gruppo">
         <h2 class="au-year">{{ gruppo.anno }}</h2>
         {%- for voce in gruppo.voci %}
+        {#- `data-source` resta vuoto per chi è uscito qui: i pulsanti
+           filtrano per testata, e chi non ne ha si vede sotto
+           «Tutti». -#}
+        {%- set ospitato = not voce.data.url %}
         <article class="au-article" data-source="{{ voce.data.fonteId }}">
           <div>
+            {%- if voce.data.fonte %}
             <p class="au-source" lang="it">{{ voce.data.fonte }}</p>
+            {%- endif %}
             <h3 class="au-article-title"
                 {%- if voce.data.titoloEn %} data-en="{{ voce.data.titoloEn }}"{% else %} lang="it"{% endif %}>{{ voce.data.titolo }}</h3>
-            {%- if voce.templateContent | trim %}
+            {%- if ospitato %}
+            <p class="au-article-desc" lang="it"
+               {%- if voce.data.sommarioEn %} data-solo="it"{% endif %}>{{ voce.rawInput | sintesi(200) }}</p>
+            {%- elif voce.templateContent | trim %}
             <div class="au-article-desc" lang="it"
                  {%- if voce.data.sommarioEn %} data-solo="it"{% endif %}>{{ voce.templateContent | safe }}</div>
             {%- endif %}
@@ -457,8 +481,12 @@ reti: "https://formsubmit.co"
                il solo mese: il testo di tutto il paragrafo se lo
                porterebbe via. -#}
             <p class="au-date"><span data-en="{{ voce.data.data | meseEn }}">{{ voce.data.data | mese }}</span><br>{{ voce.data.data | anno }}</p>
+            {%- if ospitato %}
+            <a href="{{ voce.url }}" class="au-link" data-en="Read →">Leggi →</a>
+            {%- else %}
             <a href="{{ voce.data.url }}" class="au-link" target="_blank" rel="noopener"
                data-en="Read →">Leggi →</a>
+            {%- endif %}
           </div>
         </article>
         {%- endfor %}

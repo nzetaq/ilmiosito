@@ -37,4 +37,18 @@ eleventyExcludeFromCollections: true
     <loc>{{ site.url }}{{ voce.url }}</loc>
   </url>
 {%- endfor %}
+{#- Gli articoli usciti altrove non compaiono: la loro casa è la
+   rivista che li ha pubblicati, e indicarne due sarebbe chiedere a un
+   motore di scegliere. Compaiono quelli usciti qui, che una casa sola
+   ce l'hanno — ed è questa. -#}
+{%- for voce in collections.articoli %}
+{%- if voce.url %}
+  <url>
+    <loc>{{ site.url }}{{ voce.url }}</loc>
+    {%- if voce.data.data %}
+    <lastmod>{{ voce.data.data }}</lastmod>
+    {%- endif %}
+  </url>
+{%- endif %}
+{%- endfor %}
 </urlset>
