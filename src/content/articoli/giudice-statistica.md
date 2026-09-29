@@ -1,12 +1,12 @@
 ---
-titolo: "Verità e finzione in senso sociale"
-titoloEn: "Truth and fiction in a social sense"
-fonte: "Capibara"
-fonteId: "capibara"
-data: "2026-01"
+titolo: "Il giudice e la statistica. A proposito dell'I.A."
+titoloEn: "The judge and statistics. On the subject of A.I."
+fonte: "Marxismo-Oggi"
+fonteId: "marxismo-oggi"
+data: "2026-09"
 ordine: 3
-url: "https://www.capibara.media/articoli/verita-finzione-in-senso-sociale"
-sommarioEn: "Beyond fiction: propaganda as a restructuring of rationality."
+url: "https://www.marxismo-oggi.it/saggi-e-contributi/saggi/815-il-giudice-e-la-statistica-a-proposito-dell-i-a"
+sommarioEn: "Between truth and the Mystical: the role of Artificial Intelligence."
 ---
 
-Oltre la finzione: la propaganda come ristrutturazione della razionalità.
+Il ruolo dell'Intelligenza Artificiale tra la verità e il Mistico.
