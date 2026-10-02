@@ -1,0 +1,79 @@
+{
+  "giorno": "2026-10-01",
+  "visite": 9,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/galleria",
+      "titolo": "NZQ — Galleria",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/il-diavolo-veste-pravda",
+      "titolo": "NZQ — Il Diavolo veste Pravda",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/contatti",
+      "titolo": "NZQ — Contatti",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/artificiosa",
+      "titolo": "NZQ — I.A.",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/appunti",
+      "titolo": "NZQ — Appunti",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/articoli",
+      "titolo": "Luca Antonini — Articoli",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/tesi",
+      "titolo": "NZQ — Tesi",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/scritti",
+      "titolo": "NZQ — Poesie & Testi",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/ · home",
+      "titolo": "Luca Antonini — Home",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "paesi": [],
+  "provenienze": [],
+  "browser": [
+    {
+      "nome": "Safari",
+      "titolo": "",
+      "visite": 9,
+      "unici": 0
+    }
+  ],
+  "sistemi": [
+    {
+      "nome": "macOS",
+      "titolo": "",
+      "visite": 9,
+      "unici": 0
+    }
+  ]
+}
