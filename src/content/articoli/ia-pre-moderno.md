@@ -1,12 +1,12 @@
 ---
-titolo: "Il giudice e la statistica. A proposito dell'I.A."
-titoloEn: "The judge and statistics. On the subject of A.I."
-fonte: "Marxismo Oggi"
-fonteId: "marxismo-oggi"
-data: "2026-09"
-ordine: 12
-url: "https://www.marxismo-oggi.it/saggi-e-contributi/saggi/815-il-giudice-e-la-statistica-a-proposito-dell-i-a"
-sommarioEn: "Between truth and the Mystical: the role of Artificial Intelligence."
+titolo: "Intelligenza Artificiale: ritorno al premoderno"
+titoloEn: "Artificial Intelligence: back to pre-modernism"
+fonte: "DIEMMEDI'"
+fonteId: "diemmedi"
+data: "2026-10"
+ordine: 13
+url: "https://www.centrostudilosurdo.com/wp-content/uploads/2026/10/DMD_n01-pagine-107-126.pdf"
+sommarioEn: "Artificial Intelligence as a tool to restore a pre-modernist society."
 ---
 
-Il ruolo dell'Intelligenza Artificiale tra la verità e il Mistico.
+L'Intelligenza Artificiale come strumento per tornare a una società pre-moderna.
