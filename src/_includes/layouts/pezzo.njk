@@ -27,7 +27,7 @@ layout: layouts/base.njk
        inglese dentro un'isola dichiarata italiana.
 
        `linguaTesto` è la lingua in cui il pezzo è scritto: italiana
-       per il giornale e gli appunti, inglese per la tesi. -#}
+       per gli articoli, inglese per la tesi. -#}
     {%- set lingua = linguaTesto | default('it', true) %}
     <article class="au-pezzo" id="contenuto">
       {%- if data %}
@@ -40,8 +40,9 @@ layout: layouts/base.njk
       <h1 class="au-pezzo-titolo"
           {%- if titoloEn %} data-en="{{ titoloEn }}"{% else %} lang="{{ lingua }}"{% endif %}>{{ titolo }}</h1>
 
-      {#- `au-gp-text` è la stessa prosa della colonna del giornale:
-         il Markdown reso qui deve leggersi come si legge là. -#}
+      {#- `au-gp-text` era la prosa della colonna del giornale, in home.
+         La colonna non c'è più; la classe ne porta ancora il nome, e
+         il suo disegno serve a queste pagine. -#}
       <div class="au-pezzo-testo au-gp-text" lang="{{ lingua }}">{{ content | safe }}</div>
 
       {%- if gruppoUrl %}

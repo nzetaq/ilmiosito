@@ -3,9 +3,9 @@
  *
  * Il sito si può leggere in italiano o in inglese, ma solo per la
  * parte che serve a muoversi: i nomi delle sezioni, i comandi, le
- * etichette dei moduli, le righe del piede. I testi — Il Diavolo veste
- * Pravda, gli appunti, le poesie, gli articoli, le risposte
- * dell'oracolo — restano nella lingua in cui sono stati scritti.
+ * etichette dei moduli, le righe del piede. I testi — le poesie, gli
+ * articoli, la tesi, le risposte dell'oracolo — restano nella lingua
+ * in cui sono stati scritti.
  * Tradurli non sarebbe tradurli: sarebbe riscriverli.
  *
  * Quasi tutte le parole dell'impalcatura stanno nel documento, ognuna

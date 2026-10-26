@@ -4,8 +4,8 @@
  * La sezione corrente vive in un solo posto: l'attributo `data-sez`
  * su <html>. Lo scrive già lo script nel <head>, prima del primo
  * disegno, e da quell'attributo il foglio di stile ricava tutto —
- * quale sezione è visibile, quale linguetta è accesa, se la colonna
- * del giornale c'è. Qui si aggiunge solo ciò che il CSS non sa fare:
+ * quale sezione è visibile, quale linguetta è accesa, quale
+ * intestazione compare. Qui si aggiunge solo ciò che il CSS non sa fare:
  * segnalare la sezione corrente alle tecnologie assistive e animare
  * il passaggio da una sezione all'altra.
  *
@@ -23,7 +23,7 @@ export function avviaRouter() {
   // Gli elementi che si compongono a scalare, nell'ordine in cui
   // compaiono nel documento.
   const COMPONIBILI =
-    '.au-filters, .au-year, .au-home-card, .au-article, .au-poem, .au-giornale-entry';
+    '.au-filters, .au-year, .au-home-card, .au-article, .au-poem';
 
   // Oltre una certa fila il ritardo non cresce più: gli elementi sotto
   // la piega arriverebbero con un'attesa che nessuno sta guardando.
@@ -47,8 +47,10 @@ export function avviaRouter() {
   /* Gli identificativi di ieri, tradotti in quelli di oggi. Lo script
      del <head> fa lo stesso al primo disegno; questo serve a chi
      arriva qui dopo — un collegamento vecchio premuto dentro la
-     pagina, o il tasto indietro su una cronologia che li contiene. */
-  const RINOMINATE = { giornale: 'il-diavolo-veste-pravda' };
+     pagina, o il tasto indietro su una cronologia che li contiene.
+     Oggi non ce n'è: l'unico, `giornale`, se n'è andato con la sezione
+     che nominava, e un indirizzo che lo porta ricade sulla home. */
+  const RINOMINATE = {};
 
   function daIndirizzo() {
     let id = '';

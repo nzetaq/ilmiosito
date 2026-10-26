@@ -10,8 +10,8 @@ const MESI = [
 
 /* I mesi in inglese servono soltanto alle date che stanno accanto a un
    titolo tradotto — un articolo, una poesia. Le date dei pezzi che
-   restano in italiano, il giornale e gli appunti, non li incontrano:
-   là la data appartiene al pezzo, come la sua prima riga. */
+   restano in italiano non li incontrano: là la data appartiene al
+   pezzo, come la sua prima riga. */
 const MESI_EN = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -112,11 +112,6 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ CNAME: 'CNAME' });
 
   eleventyConfig.addWatchTarget('src/assets/');
-  eleventyConfig.addWatchTarget('foto/');
-
-  /* Le fotografie non passano di qui: le prepara `_data/galleria.js`,
-     perché la pagina deve conoscerne nomi e misure mentre si scrive.
-     Vedi `strumenti/foto.mjs`. */
 
   // ── Impronta per la Content Security Policy ──
   // I due blocchi inline della pagina — lo script che decide tema e
@@ -278,8 +273,8 @@ export default function (eleventyConfig) {
 
   // La sezione a cui un pezzo appartiene, cercata per identificativo:
   // serve alle pagine singole per intitolare il collegamento di
-  // ritorno con il nome giusto — «Il Diavolo veste Pravda» e non
-  // «giornale». Il nome resta scritto in un posto solo, site.json.
+  // ritorno con il nome giusto — «Poesie & Testi» e non «scritti». Il
+  // nome resta scritto in un posto solo, site.json.
   eleventyConfig.addFilter('trovaSezione', (sezioni, id) => {
     return (sezioni || []).find((s) => s.id === id) || {};
   });
@@ -306,8 +301,8 @@ export default function (eleventyConfig) {
 
   // Il segnaposto non va indicizzato. Ritrovare Lorem ipsum sarebbe
   // peggio che non ritrovare nulla: l'oracolo risponderebbe in latino
-  // finto a chi ha chiesto in italiano. Finché giornale e appunti sono
-  // riempitivo restano fuori da soli, senza doverlo scrivere altrove.
+  // finto a chi ha chiesto in italiano. Un pezzo che è ancora
+  // riempitivo resta fuori da solo, senza doverlo scrivere altrove.
   const SEGNAPOSTO = /lorem ipsum|dolor sit amet|consectetur adipiscing/i;
 
   // Le sezioni da cui pescare, con l'ancora a cui rimandare il lettore.
@@ -322,9 +317,7 @@ export default function (eleventyConfig) {
     // è un file pubblico e leggibile: metterceli dentro vanificherebbe
     // la finestra che li mostra solo al passaggio del puntatore.
     { tag: 'scritti', sezione: 'scritti', etichetta: 'Poesie & Testi', riservato: true },
-    { tag: 'tesi', sezione: 'tesi', etichetta: 'Tesi' },
-    { tag: 'giornale', sezione: 'il-diavolo-veste-pravda', etichetta: 'Il Diavolo veste Pravda' },
-    { tag: 'appunti', sezione: 'appunti', etichetta: 'Appunti' }
+    { tag: 'tesi', sezione: 'tesi', etichetta: 'Tesi' }
   ];
 
   // Si legge `rawInput` — il Markdown sorgente, senza front matter — e
@@ -402,19 +395,14 @@ export default function (eleventyConfig) {
     ].slice(0, 3);
   });
 
-  /* Quel che si può seguire da fuori: i pezzi del Diavolo veste Pravda
-     e gli articoli usciti altrove, mescolati in un unico ordine
-     cronologico. Sono le due cose che escono a cadenza; il resto del
-     sito — poesie, tesi, appunti — si visita, non si segue.
+  /* Quel che si può seguire da fuori: gli articoli, dal più recente.
+     Sono la cosa che esce a cadenza; il resto del sito — poesie,
+     tesi — si visita, non si segue.
 
-     I due tipi puntano a posti diversi, e il modello lo sa: un pezzo
-     del giornale porta alla propria pagina qui, un articolo porta alla
-     rivista che l'ha pubblicato. */
+     Un articolo uscito altrove porta alla rivista che l'ha pubblicato,
+     uno uscito qui alla propria pagina, e il modello lo sa. */
   eleventyConfig.addCollection('seguibili', (api) => {
-    return [
-      ...api.getFilteredByTag('giornale'),
-      ...api.getFilteredByTag('articoli')
-    ].sort((a, b) => quando(b) - quando(a));
+    return [...api.getFilteredByTag('articoli')].sort((a, b) => quando(b) - quando(a));
   });
 
   return {

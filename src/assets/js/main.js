@@ -10,7 +10,6 @@ import { avviaAnalisi } from './analisi.js';
 import { avviaContatti } from './contatti.js';
 import { avviaMenu } from './menu.js';
 import { avviaCerca } from './cerca.js';
-import { avviaGalleria } from './galleria.js';
 
 // I moduli sono differiti per natura: il documento è già completo.
 // L'analisi si iscrive per prima, così non perde il primo annuncio.
@@ -31,4 +30,3 @@ avviaArtificiosa();
 avviaPoesie();
 avviaContatti();
 avviaCerca();
-avviaGalleria();

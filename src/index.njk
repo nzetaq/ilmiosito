@@ -14,9 +14,6 @@ reti: "https://formsubmit.co"
 {%- set articoli = collections.articoli | ordina('ordine', true) -%}
 {%- set scritti = collections.scritti | ordina('ordine') -%}
 {%- set tesi = collections.tesi | ordina('ordine') -%}
-{%- set giornale = collections.giornale | cronologia -%}
-{%- set appunti = collections.appunti | cronologia -%}
-{%- set ultimaGiornale = giornale | first -%}
 
 <a class="au-salta" href="#contenuto" data-en="Skip to content">Salta al contenuto</a>
 
@@ -54,20 +51,6 @@ reti: "https://formsubmit.co"
     <div class="au-cerca-esiti" id="au-cerca-esiti"></div>
     <p class="au-cerca-chiudi" data-en="— Esc to close —">— Esc per chiudere —</p>
   </div>
-</dialog>
-
-<!-- ═══ LENTE DELLA GALLERIA ═══ -->
-{#- Una fotografia in una griglia si guarda; per vederla ci vuole lo
-   schermo intero. Stessa grammatica della ricerca: un dialogo che si
-   apre sopra la pagina e si chiude con Esc o con un tocco fuori. -#}
-<dialog class="au-foto-scena" id="au-foto-scena" aria-label="Fotografia"
-        data-en-etichetta="Photograph">
-  <figure class="au-foto-grande">
-    <img id="au-foto-grande-immagine" alt="">
-    <figcaption class="au-foto-grande-didascalia" id="au-foto-grande-didascalia"
-                lang="it"></figcaption>
-  </figure>
-  <p class="au-foto-chiudi" data-en="— Esc to close —">— Esc per chiudere —</p>
 </dialog>
 
 <!-- ═══ AURORA DI SFONDO ═══ -->
@@ -124,7 +107,7 @@ reti: "https://formsubmit.co"
 
   <!-- ═══ NAVIGAZIONE SEZIONI ═══ -->
   {#- Il pulsante esiste in ogni pagina ma si vede solo sotto i 700px,
-     dove le otto voci non stanno in una riga. Sopra quella soglia
+     dove le voci non stanno in una riga. Sopra quella soglia
      scompare e la barra torna quella di sempre: un solo elenco di
      collegamenti, una sola verità nel documento, nessun menù
      duplicato da tenere allineato.
@@ -173,9 +156,9 @@ reti: "https://formsubmit.co"
       {%- for sezione in site.sezioni %}
       {#- `data-breve`, dove c'è, è il nome da usare sul pulsante del
          menù quando quello per esteso non ci sta: il pulsante porta il
-         nome della sezione corrente, e su un telefono stretto «Il
-         Diavolo veste Pravda» andrebbe a capo dentro il proprio
-         riquadro. Nella barra il nome resta sempre intero. -#}
+         nome della sezione corrente, e su un telefono stretto un nome
+         lungo andrebbe a capo dentro il proprio riquadro. Nella barra
+         il nome resta sempre intero. -#}
       {%- if not loop.first %}
       {#- Il punto fra un nome e l'altro. Sta nel documento e non in un
          `::before` della linguetta perché così è una voce della fila
@@ -201,11 +184,10 @@ reti: "https://formsubmit.co"
     {#- I comandi della veste. Senza JavaScript non fanno nulla e non
        compaiono: li nasconde il blocco <noscript>. -#}
   <div class="au-comandi" id="au-comandi">
-      {#- La ricerca non è una sezione e non prende una linguetta: la
-         barra ne ha già otto, e la nona la spezzerebbe. È un pannello
-         che si apre sopra la pagina e si richiude senza lasciare
-         traccia — chi cerca vuole tornare dov'era, non trovarsi
-         altrove. Si apre anche col tasto «/». -#}
+      {#- La ricerca non è una sezione e non prende una linguetta. È
+         un pannello che si apre sopra la pagina e si richiude senza
+         lasciare traccia — chi cerca vuole tornare dov'era, non
+         trovarsi altrove. Si apre anche col tasto «/». -#}
       <button class="au-comando au-cerca-apri" id="au-cerca-apri" type="button"
               aria-haspopup="dialog" data-en="Search">Cerca</button>
 
@@ -279,9 +261,8 @@ reti: "https://formsubmit.co"
 
          Cambia i nomi delle sezioni, i comandi, le etichette dei
          moduli: tutto ciò che serve a muoversi. Non tocca i testi —
-         Il Diavolo veste Pravda, gli appunti, le poesie, gli
-         articoli — che restano nella lingua in cui sono stati
-         scritti. Chi arriva da fuori trova la strada; quel che c'è
+         le poesie, gli articoli, la tesi — che restano nella lingua
+         in cui sono stati scritti. Chi arriva da fuori trova la strada; quel che c'è
          in fondo alla strada è quello che è.
 
          I nomi delle due lingue non si traducono: «Italiano» e
@@ -348,20 +329,7 @@ reti: "https://formsubmit.co"
 
 <div class="au-layout" id="au-layout">
 
-  <!-- ═══ COLONNA SINISTRA: ULTIMA PAGINA DI GIORNALE ═══ -->
-  <aside class="au-giornale-col" id="au-giornale-col" aria-label="Ultima pagina de Il Diavolo veste Pravda"
-         data-en-etichetta="Latest page of The Devil wears Pravda">
-    <p class="au-gp-label" data-en="The Devil wears Pravda">Il Diavolo veste Pravda</p>
-    {%- if ultimaGiornale %}
-    {#- La data e il testo restano italiani: è il pezzo, non la via
-       che ci porta. `lang` lo dichiara, così la voce di sintesi non
-       legge l'italiano con la pronuncia inglese. -#}
-    <p class="au-gp-date" lang="it">{{ ultimaGiornale.data.data | dataEstesa }}</p>
-    <div class="au-gp-text" lang="it">{{ ultimaGiornale.templateContent | safe }}</div>
-    {%- endif %}
-  </aside>
-
-  <!-- ═══ COLONNA DESTRA: CONTENUTO PRINCIPALE ═══ -->
+  <!-- ═══ CONTENUTO PRINCIPALE ═══ -->
   <main class="au-main" id="contenuto">
 
     <!-- ═══ HOME ═══ -->
@@ -580,42 +548,6 @@ reti: "https://formsubmit.co"
       {%- endfor %}
     </section>
 
-    <!-- ═══ GIORNALE ═══ -->
-    <section class="au-section" id="sec-il-diavolo-veste-pravda" aria-label="Il Diavolo veste Pravda"
-             data-en-etichetta="The Devil wears Pravda">
-      {#- Il titolo porta alla pagina propria del pezzo. Il testo resta
-         qui per intero: la sezione si legge come si è sempre letta, e
-         l'indirizzo serve a chi vuole mandarlo a qualcuno. -#}
-      {%- for voce in giornale %}
-      {#- Nessun `data-en` qui dentro, e non è una dimenticanza: i pezzi
-         restano come sono stati scritti. Cambiare lingua cambia la via
-         che ci porta, non ciò che dicono. -#}
-      <article class="au-giornale-entry" lang="it">
-        <p class="au-giornale-entry-date">{{ voce.data.data | dataEstesa }}</p>
-        <h2 class="au-giornale-entry-title">
-          <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
-        </h2>
-        <div class="au-giornale-entry-text">{{ voce.templateContent | safe }}</div>
-      </article>
-      {%- endfor %}
-    </section>
-
-    <!-- ═══ APPUNTI ═══ -->
-    <section class="au-section" id="sec-appunti" aria-label="Appunti" data-en-etichetta="Notes">
-      {%- for voce in appunti %}
-      {#- Nessun `data-en` qui dentro, e non è una dimenticanza: i pezzi
-         restano come sono stati scritti. Cambiare lingua cambia la via
-         che ci porta, non ciò che dicono. -#}
-      <article class="au-giornale-entry" lang="it">
-        <p class="au-giornale-entry-date">{{ voce.data.data | dataEstesa }}</p>
-        <h2 class="au-giornale-entry-title">
-          <a class="au-giornale-entry-link" href="{{ voce.url }}">{{ voce.data.titolo }}</a>
-        </h2>
-        <div class="au-giornale-entry-text">{{ voce.templateContent | safe }}</div>
-      </article>
-      {%- endfor %}
-    </section>
-
     <!-- ═══ INTELLIGENZA ARTIFICIOSA ═══ -->
     <section class="au-section" id="sec-artificiosa" aria-label="Intelligenza Artificiosa"
              data-en-etichetta="Artificious Intelligence">
@@ -641,57 +573,6 @@ reti: "https://formsubmit.co"
       </noscript>
     </section>
 
-
-    <!-- ═══ GALLERIA ═══ -->
-    {#- Le fotografie vengono dalla cartella `foto/`, fuori da `src/`:
-       Eleventy tratta come modello ogni file che trova nella cartella
-       d'ingresso, e un JPEG non è un modello. Gli originali non
-       arrivano mai in linea: `_data/galleria.js` ne prepara due copie
-       ridotte e spoglie, una per il riquadro e una per quando si apre.
-
-       Nel riquadro va la piccola, che pesa qualche decina di kilobyte;
-       la grande si scarica solo se qualcuno tocca quella foto. Gli
-       originali insieme facevano ventotto megabyte.
-
-       `width` e `height` sono le misure della copia piccola, già
-       raddrizzate: senza, il browser non sa quanto spazio riservare e
-       la pagina sobbalza mentre le immagini arrivano.
-       `loading="lazy"` le fa scaricare solo quando stanno per
-       servire. -#}
-    <section class="au-section" id="sec-galleria" aria-label="Galleria" data-en-etichetta="Gallery">
-      {%- if galleria.length %}
-      <div class="au-galleria">
-        {%- for foto in galleria %}
-        <figure class="au-foto">
-          <button class="au-foto-apri" type="button"
-                  data-foto="{{ base }}assets/foto/{{ foto.grande }}"
-                  data-didascalia="{{ foto.didascalia }}"
-                  aria-label="Ingrandisci{% if foto.didascalia %}: {{ foto.didascalia }}{% endif %}"
-                  data-en-etichetta="Enlarge{% if foto.didascalia %}: {{ foto.didascalia }}{% endif %}">
-            <img class="au-foto-immagine" src="{{ base }}assets/foto/{{ foto.piccola }}"
-                 alt="{{ foto.didascalia }}" loading="lazy" decoding="async"
-                 {%- if foto.larghezza %} width="{{ foto.larghezza }}" height="{{ foto.altezza }}"{% endif %}>
-          </button>
-          {%- if foto.didascalia %}
-          <figcaption class="au-foto-didascalia" lang="it">{{ foto.didascalia }}</figcaption>
-          {%- endif %}
-        </figure>
-        {%- endfor %}
-      </div>
-      {%- else %}
-      {#- La prosa e il nome della cartella stanno in due nodi: la
-         traduzione riscrive il contenuto del nodo che marca, e sul
-         paragrafo intero si porterebbe via il <code> che ha dentro. -#}
-      <p class="au-galleria-vuota">
-        <span data-en="There is nothing to see yet. Photographs are added by putting the files in the">Non
-        c'è ancora niente da vedere. Le fotografie si aggiungono
-        mettendo i file nella cartella</span>
-        <code>foto/</code>
-        <span data-en="folder of the repository: they appear here in order of name.">del
-        repository: compaiono qui in ordine di nome.</span>
-      </p>
-      {%- endif %}
-    </section>
 
     <!-- ═══ CONTATTI ═══ -->
     <section class="au-section" id="sec-contatti" aria-label="Contatti" data-en-etichetta="Contact">

@@ -26,8 +26,8 @@ eleventyExcludeFromCollections: true
     <copyright>{{ site.licenza.nome }} — {{ site.licenza.url }}</copyright>
     {%- endif %}
 {%- for voce in collections.seguibili %}
-{#- Un pezzo del giornale ha una pagina qui; un articolo è uscito
-   altrove, e il suo indirizzo è quello della rivista. -#}
+{#- Un articolo uscito altrove porta l'indirizzo della rivista; uno
+   uscito qui, quello della sua pagina. -#}
 {%- set indirizzo = voce.data.url or (site.url + voce.url) %}
     <item>
       <title>{{ voce.data.titolo }}</title>

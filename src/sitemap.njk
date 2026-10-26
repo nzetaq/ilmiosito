@@ -16,22 +16,6 @@ eleventyExcludeFromCollections: true
   <url>
     <loc>{{ site.url }}/</loc>
   </url>
-{%- for voce in collections.giornale | cronologia %}
-  <url>
-    <loc>{{ site.url }}{{ voce.url }}</loc>
-    {%- if voce.data.data %}
-    <lastmod>{{ voce.data.data }}</lastmod>
-    {%- endif %}
-  </url>
-{%- endfor %}
-{%- for voce in collections.appunti | cronologia %}
-  <url>
-    <loc>{{ site.url }}{{ voce.url }}</loc>
-    {%- if voce.data.data %}
-    <lastmod>{{ voce.data.data }}</lastmod>
-    {%- endif %}
-  </url>
-{%- endfor %}
 {%- for voce in collections.tesi %}
   <url>
     <loc>{{ site.url }}{{ voce.url }}</loc>

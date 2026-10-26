@@ -35,11 +35,18 @@ src/
     ├── articoli/
     ├── scritti/
     ├── tesi/
-    ├── giornale/
-    └── appunti/
+    ├── giornale/             fuori dal sito: i testi restano, senza pagine
+    └── appunti/              fuori dal sito: i testi restano, senza pagine
 
-foto/                         le fotografie della galleria, fuori da src/
+foto/                         le fotografie della galleria, oggi non pubblicate
 ```
+
+Il Diavolo veste Pravda, gli Appunti e la Galleria sono **fuori dal sito dal
+26 ottobre 2026**. I loro contenuti restano nel repository per poterli
+riprendere: i testi in `giornale/` e `appunti/` — il cui permalink è `false`,
+così non generano pagine — e le fotografie in `foto/`. Il resto — le voci di
+menu, i blocchi della pagina, gli stili, il modulo della galleria — si
+ritrova nella storia del repository, nel commit che le ha tolte.
 
 ## Aggiungere un contenuto
 
@@ -99,7 +106,7 @@ filtri non guadagna un pulsante vuoto: l'articolo si vede sotto
 viene da nessuna di quelle.
 
 Senza `url` l'articolo è di casa e **ottiene una pagina propria**,
-`/articoli/<nome-del-file>/`, come un appunto o un pezzo del giornale.
+`/articoli/<nome-del-file>/`, come una tesi.
 Cambia allora il senso del corpo del file: per un articolo uscito
 altrove è il sommario, per questo è il testo — in elenco la scheda si
 riassume da sé, e il «Leggi →» porta qui invece che fuori. Entra anche
@@ -201,6 +208,10 @@ lo stesso, e non toglie nulla al deterrente.
 
 ### Una pagina di giornale — `src/content/giornale/`
 
+> **Fuori dal sito dal 26 ottobre 2026**, come gli appunti: i file restano
+> qui ma non compaiono da nessuna parte. Quel che segue dice com'era, ed è
+> come tornerebbe a essere.
+
 ```markdown
 ---
 titolo: "Titolo della pagina"
@@ -249,14 +260,14 @@ punti, che è bene tenere allineati.
 ### Un'intestazione propria
 
 Una sezione può sostituire `Luca Antonini` e il motto con un titolo proprio,
-centrato — lo fanno *Intelligenza Artificiosa* e *Il Diavolo veste Pravda*.
-Basta aggiungere alla sua voce in `site.json`:
+centrato — lo fa *Intelligenza Artificiosa*, e lo faceva *Il Diavolo veste
+Pravda*. Basta aggiungere alla sua voce in `site.json`:
 
 ```json
 {
-  "id": "giornale",
-  "etichetta": "Il Diavolo veste Pravda",
-  "titolo": "Il Diavolo veste Pravda",
+  "id": "artificiosa",
+  "etichetta": "I.A.",
+  "titolo": "Intelligenza Artificiosa",
   "sottotitolo": ["Prima frase.", "Seconda frase."]
 }
 ```
@@ -308,15 +319,12 @@ degli elenchi, che stanno accanto a quei titoli: sono il modo in cui un
 pezzo si presenta a chi passa, e in una lingua che non si conosce non
 presentano nulla.
 
-**Non si traducono i pezzi.** Il Diavolo veste Pravda, gli appunti, i
-versi delle poesie, l'abstract della tesi e le risposte dell'oracolo
-restano nella lingua in cui sono stati scritti.
+**Non si traducono i pezzi.** I versi delle poesie, l'abstract della
+tesi e le risposte dell'oracolo restano nella lingua in cui sono stati
+scritti.
 Tradurli non sarebbe tradurli: sarebbe riscriverli. Restano com'erano
 anche i nomi di chi li ospita — le testate, i premi — che sono di chi li
-porta. *Il Diavolo veste Pravda* invece un nome inglese ce l'ha, ed è
-*The Devil wears Pravda*: il gioco di parole si può rifare nell'altra
-lingua, e un nome che si può tradurre senza perderlo tanto vale
-tradurlo.
+porta.
 
 I nodi che portano un testo dichiarano la sua lingua con `lang`, così chi
 legge con una voce di sintesi la sente pronunciata come va pronunciata
@@ -331,8 +339,8 @@ sito, sezione dopo sezione e pezzo dopo pezzo:
 
 ```
 https://www.nzetaq.it/?lingua=en
-https://www.nzetaq.it/?lingua=en#appunti
-https://www.nzetaq.it/appunti/la-sostanza-sociale/?lingua=en
+https://www.nzetaq.it/?lingua=en#articoli
+https://www.nzetaq.it/tesi/grounding-and-truth-making/?lingua=en
 ```
 
 Per mandare il sito in inglese a qualcuno basta quindi: scegliere
@@ -389,14 +397,14 @@ nodo stesso. Tre attributi, secondo dove il testo abita:
 Il nodo marcato con `data-en` deve contenere *solo* quel testo: la
 traduzione ne riscrive il contenuto, e un collegamento o un `<span>` lì
 dentro verrebbero portati via. Dove la frase ne contiene uno — il piede,
-la galleria vuota, il titolo della 404 — la prosa sta in un `<span>` suo
+il titolo della 404 — la prosa sta in un `<span>` suo
 e il resto fuori.
 
 Le parole che vengono da `site.json` — sezioni, stili, temi — hanno il
 proprio inglese accanto, nella stessa voce:
 
 ```json
-{ "id": "appunti", "etichetta": "Appunti", "en": { "etichetta": "Notes" } }
+{ "id": "tesi", "etichetta": "Tesi", "en": { "etichetta": "Theses" } }
 ```
 
 Dove manca `en`, resta l'italiano: è così per i nomi delle testate e dei
@@ -428,8 +436,8 @@ foglio di stile mostra quello che vale. Senza JavaScript `data-lingua`
 non viene scritto, e resta in pagina l'italiano.
 
 Le date degli elenchi seguono la lingua — «Agosto 2026» diventa «August
-2026» — attraverso i filtri `meseEn` e `dataEstesaEn`. Le date del
-giornale e degli appunti no: là la data appartiene al pezzo, come la sua
+2026» — attraverso i filtri `meseEn` e `dataEstesaEn`. Le date dei pezzi
+che restano in italiano no: là la data appartiene al pezzo, come la sua
 prima riga.
 
 La ricerca conosce entrambi i titoli: l'indice porta `tEn` accanto a `t`,
@@ -552,7 +560,13 @@ sezione.
 Si descrive in `src/_data/redazione.json` e basta: il template genera i
 campi, e `scrivi.js` li legge dal documento invece di ripeterne lo schema.
 
-## Galleria — `#galleria`
+## Galleria — fuori dal sito
+
+> **Fuori dal sito dal 26 ottobre 2026.** Le fotografie restano in `foto/`
+> ma non vengono pubblicate: il file che le preparava alla compilazione,
+> `src/_data/galleria.js`, è stato tolto, e con lui la sezione. Lo strumento
+> che le riduce e le ripulisce, `strumenti/foto.mjs`, è ancora qui. Quel che
+> segue dice com'era, ed è come tornerebbe a essere.
 
 Le fotografie stanno in **`foto/`**, fuori da `src/`: Eleventy tratta come
 modello ogni file che trova nella cartella d'ingresso, e un JPEG non è un
@@ -738,9 +752,13 @@ inventare — non è una garanzia di prudenza, è una proprietà strutturale.
 - Dei testi lunghi si cita **la frase pertinente**, non tutto: dell'abstract
   della tesi interessano due righe, non millecinquecento battute.
 
-Il **segnaposto non viene indicizzato**. Finché `giornale/` e `appunti/` sono
-Lorem ipsum restano fuori da soli, senza doverlo scrivere altrove: ritrovare
-latino finto sarebbe peggio che non ritrovare nulla.
+Il **segnaposto non viene indicizzato**. Un pezzo che è ancora Lorem ipsum
+resta fuori da solo, senza doverlo scrivere altrove: ritrovare latino finto
+sarebbe peggio che non ritrovare nulla.
+
+Si indicizzano articoli, poesie e tesi. Il Diavolo veste Pravda e gli
+appunti, da quando sono fuori dal sito, non entrano nell'indice: il
+ritrovamento manderebbe chi cerca verso pagine che non ci sono.
 
 > Il collo di bottiglia non è il codice, è il corpus. Oggi sono **14 voci per
 > circa 400 parole** di italiano vero. Ogni testo aggiunto migliora il
@@ -804,9 +822,8 @@ strumento a monte, non una dipendenza del sito.
 Il lessico è scritto a mano perché la comicità ha bisogno di parole scelte per
 come suonano, non per come sono frequenti. Ma `src/content/` contiene oggi
 circa 170 parole di prosa italiana — il resto è testo segnaposto o l'abstract
-inglese della tesi. Quando `giornale/` e `appunti/` avranno del testo vero,
-vale la pena riprendere in mano il lessico e lasciarvi entrare i termini di
-casa.
+inglese della tesi. Quando ci sarà più testo vero, vale la pena riprendere in
+mano il lessico e lasciarvi entrare i termini di casa.
 
 ## Sicurezza
 
@@ -976,15 +993,14 @@ Due limiti da conoscere:
 - **Sezione corrente**: vive in un solo posto, l'attributo `data-sez` su
   `<html>`. Lo scrive uno script nel `<head>`, prima del primo disegno,
   e da lì il foglio di stile ricava tutto: quale sezione è visibile,
-  quale linguetta è accesa, se compare la colonna del giornale. Così al
+  quale linguetta è accesa, quale intestazione compare. Così al
   ricaricamento la pagina appare già nella sezione giusta, senza passare
   un istante dalla home. Il router in JavaScript si limita ad aggiornare
   l'attributo e ad animare i passaggi.
 - **Passaggi fra sezioni**: la sezione entrante si compone a scalare, un
   elemento dopo l'altro; il router assegna a ciascuno il proprio posto in
-  fila nella variabile `--i`. Intanto la colonna del giornale si richiude
-  raccordata — è la traccia della griglia che passa da `1fr` a `0fr` — e
-  la linguetta del menu si accende per dissolvenza. Tutti i tempi sono
+  fila nella variabile `--i`. Intanto la linguetta del menu si accende per
+  dissolvenza. Tutti i tempi sono
   raccolti in cima a `style.css` (`--durata-voce`, `--passo-composizione`,
   `--durata-impaginazione`): per rendere il movimento più rapido o più
   lento basta cambiare quelli.

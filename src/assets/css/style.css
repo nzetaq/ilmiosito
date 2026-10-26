@@ -170,7 +170,7 @@
      c'è un istante in cui la pagina si muova alla velocità sbagliata. */
   --moto: 1;
 
-  --durata-impaginazione: calc(0.34s * var(--moto));  /* colonna che si chiude, larghezze */
+  --durata-impaginazione: calc(0.34s * var(--moto));  /* linguetta che si accende */
   --durata-uscita: calc(0.16s * var(--moto));         /* la sezione che se ne va */
   --durata-voce: calc(0.34s * var(--moto));           /* ogni elemento che si compone */
   --passo-composizione: calc(38ms * var(--moto));     /* ritardo fra un elemento e il seguente */
@@ -344,7 +344,6 @@ a[href],
   --descrizione: rgba(var(--inchiostro), var(--a-bio));
   --estratto: rgba(var(--inchiostro), var(--a-estratto));
   --meta: rgba(var(--inchiostro), var(--a-meta));
-  --gp-meta: rgba(var(--inchiostro), var(--a-gp-meta));
   --prosa: rgba(var(--inchiostro), var(--a-prosa));
   --prosa-voce: rgba(var(--inchiostro), var(--a-prosa-voce));
 
@@ -412,7 +411,6 @@ a[href],
   --a-bio: 0.6;
   --a-estratto: 0.62;
   --a-meta: 0.5;
-  --a-gp-meta: 0.52;
   --a-prosa: 0.74;
   --a-prosa-voce: 0.72;
   --a-nav: 0.55;
@@ -442,7 +440,6 @@ a[href],
   --a-bio: 0.64;
   --a-estratto: 0.64;
   --a-meta: 0.65;
-  --a-gp-meta: 0.65;
   --a-prosa: 0.76;
   --a-prosa-voce: 0.74;
   --a-nav: 0.65;
@@ -474,7 +471,6 @@ a[href],
   --a-bio: 0.85;
   --a-estratto: 0.85;
   --a-meta: 0.85;
-  --a-gp-meta: 0.85;
   --a-prosa: 0.96;
   --a-prosa-voce: 0.96;
   --a-nav: 0.85;
@@ -814,11 +810,8 @@ a[href],
 :root[data-stile='saggio'] .au-source,
 :root[data-stile='saggio'] .au-date,
 :root[data-stile='saggio'] .au-year,
-:root[data-stile='saggio'] .au-gp-label,
-:root[data-stile='saggio'] .au-gp-date,
 :root[data-stile='saggio'] .au-poem-type,
 :root[data-stile='saggio'] .au-poem-date,
-:root[data-stile='saggio'] .au-giornale-entry-date,
 :root[data-stile='saggio'] .au-pezzo-data,
 :root[data-stile='saggio'] .au-pezzo-ritorno,
 :root[data-stile='saggio'] .au-filter-btn,
@@ -848,8 +841,7 @@ a[href],
 :root[data-stile='saggio'] .au-nav,
 :root[data-stile='saggio'] .au-year,
 :root[data-stile='saggio'] .au-piede,
-:root[data-stile='saggio'] .au-pezzo-testata,
-:root[data-stile='saggio'] .au-giornale-col {
+:root[data-stile='saggio'] .au-pezzo-testata {
   border-width: 1px;
 }
 
@@ -876,9 +868,6 @@ a[href],
 :root[data-stile='saggio'][data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
 :root[data-stile='saggio'][data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
 :root[data-stile='saggio'][data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
-:root[data-stile='saggio'][data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
-:root[data-stile='saggio'][data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
-:root[data-stile='saggio'][data-sez='galleria'] .au-nav-btn[data-sez='galleria'],
 :root[data-stile='saggio'][data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
   color: var(--tinta-testo);
   background: none;
@@ -889,8 +878,7 @@ a[href],
 /* Il testo respira: corpo più grande, interlinea più larga, colonna
    più corta. Sono le tre misure che decidono se un saggio si legge
    fino in fondo. */
-:root[data-stile='saggio'] .au-gp-text,
-:root[data-stile='saggio'] .au-giornale-entry-text {
+:root[data-stile='saggio'] .au-gp-text {
   font-size: 0.9375rem;
   line-height: 1.95;
 }
@@ -1000,13 +988,11 @@ a[href],
 }
 
 /* Il testo si compatta: un cartellone non ha interlinea da libro. */
-:root[data-stile='insegna'] .au-gp-text,
-:root[data-stile='insegna'] .au-giornale-entry-text {
+:root[data-stile='insegna'] .au-gp-text {
   line-height: 1.62;
 }
 
 :root[data-stile='insegna'] .au-article-title,
-:root[data-stile='insegna'] .au-giornale-entry-title,
 :root[data-stile='insegna'] .au-home-card-title {
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -1080,7 +1066,6 @@ a[href],
 }
 
 :root[data-stile='cartone'] .au-article-title,
-:root[data-stile='cartone'] .au-giornale-entry-title,
 :root[data-stile='cartone'] .au-home-title,
 :root[data-stile='cartone'] .au-pezzo-titolo {
   font-weight: 600;
@@ -1092,8 +1077,7 @@ a[href],
 :root[data-stile='cartone'] .au-nav,
 :root[data-stile='cartone'] .au-year,
 :root[data-stile='cartone'] .au-piede,
-:root[data-stile='cartone'] .au-pezzo-testata,
-:root[data-stile='cartone'] .au-giornale-col {
+:root[data-stile='cartone'] .au-pezzo-testata {
   border-width: 1px;
 }
 
@@ -1172,18 +1156,10 @@ a[href],
   border-width: 1px;
 }
 
-/* Anche le fotografie sono ritagli: stesso angolo delle schede, e la
-   cornice si assottiglia per non contendere all'immagine. */
-:root[data-stile='cartone'] .au-foto-apri {
-  border-width: 1px;
-  border-radius: 1.2rem 0.25rem 1.2rem 0.25rem;
-}
-
 /* L'aria che il mezzo grado di peso in più si è preso, restituita
    all'interlinea: il testo si legge come prima, ma l'inchiostro è
    quello pieno delle stampe piatte. */
-:root[data-stile='cartone'] .au-gp-text,
-:root[data-stile='cartone'] .au-giornale-entry-text {
+:root[data-stile='cartone'] .au-gp-text {
   line-height: 1.85;
 }
 
@@ -1230,8 +1206,7 @@ a[href],
 :root[data-stile='atlante'] .au-nav,
 :root[data-stile='atlante'] .au-year,
 :root[data-stile='atlante'] .au-piede,
-:root[data-stile='atlante'] .au-pezzo-testata,
-:root[data-stile='atlante'] .au-giornale-col {
+:root[data-stile='atlante'] .au-pezzo-testata {
   border-width: 1px;
 }
 
@@ -1248,9 +1223,6 @@ a[href],
 :root[data-stile='atlante'][data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
 :root[data-stile='atlante'][data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
 :root[data-stile='atlante'][data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
-:root[data-stile='atlante'][data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
-:root[data-stile='atlante'][data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
-:root[data-stile='atlante'][data-sez='galleria'] .au-nav-btn[data-sez='galleria'],
 :root[data-stile='atlante'][data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
   color: var(--tinta-testo);
   background: none;
@@ -1281,8 +1253,7 @@ a[href],
 :root[data-stile='atlante'] .au-contatti-campo,
 :root[data-stile='atlante'] .au-contatti-invio,
 :root[data-stile='atlante'] .au-cerca-pannello,
-:root[data-stile='atlante'] .au-ia-campo,
-:root[data-stile='atlante'] .au-foto-apri {
+:root[data-stile='atlante'] .au-ia-campo {
   border-width: 1px;
   border-radius: 0;
 }
@@ -1388,14 +1359,12 @@ a[href],
 :root[data-stile='terminale'] .au-year,
 :root[data-stile='terminale'] .au-piede,
 :root[data-stile='terminale'] .au-pezzo-testata,
-:root[data-stile='terminale'] .au-giornale-col,
 :root[data-stile='terminale'] .au-comando,
 :root[data-stile='terminale'] .au-filter-btn,
 :root[data-stile='terminale'] .au-contatti-campo,
 :root[data-stile='terminale'] .au-contatti-invio,
 :root[data-stile='terminale'] .au-cerca-pannello,
-:root[data-stile='terminale'] .au-ia-campo,
-:root[data-stile='terminale'] .au-foto-apri {
+:root[data-stile='terminale'] .au-ia-campo {
   border-width: 1px;
 }
 
@@ -1403,8 +1372,7 @@ a[href],
    della stessa larghezza, e senza aria le righe si somigliano troppo
    per ritrovare la successiva. */
 :root[data-stile='terminale'] .au-pezzo-testo,
-:root[data-stile='terminale'] .au-gp-text,
-:root[data-stile='terminale'] .au-giornale-entry-text {
+:root[data-stile='terminale'] .au-gp-text {
   line-height: 1.85;
 }
 
@@ -1452,15 +1420,6 @@ a[href],
     max-width: 72rem;
   }
 
-  /* Fuori dalla home il contenitore si stringe, per tutte le vesti.
-     Qui no: stringendolo, a perdere larghezza sarebbe il testo, e la
-     colonna laterale resterebbe della stessa misura — la pagina
-     sembrerebbe sbilanciarsi a ogni cambio di sezione. La misura di
-     lettura la governa già `.au-layout`, che non si tocca. */
-  :root[data-stile='terminale'][data-sez]:not([data-sez='home']) .au-center {
-    max-width: 72rem;
-  }
-
   :root[data-stile='terminale'] .au-center > .au-header {
     grid-column: 1;
     grid-row: 1;
@@ -1505,15 +1464,11 @@ a[href],
     margin-top: 0;
   }
 
-  /* Fuori dalla home la colonna di lettura si centra nello spazio che
-     ha. Con la colonna laterale accanto, centrare significa staccarla
-     da quella e lasciare un vuoto in mezzo: qui il testo parte dal
-     bordo, allineato all'indice, e il margine resta tutto a destra.
-
-     Il selettore ripete `[data-sez]:not(...)` della regola che deve
-     scavalcare: senza, i due pesi sarebbero pari e vincerebbe l'altra
-     per il solo fatto di stare più avanti nel foglio. */
-  :root[data-stile='terminale'][data-sez]:not([data-sez='home']) .au-layout {
+  /* Altrove la colonna di lettura si centra nello spazio che ha. Con
+     la colonna laterale accanto, centrare significa staccarla da
+     quella e lasciare un vuoto in mezzo: qui il testo parte dal bordo,
+     allineato all'indice, e il margine resta tutto a destra. */
+  :root[data-stile='terminale'] .au-layout {
     margin-left: 0;
     margin-right: auto;
   }
@@ -1602,36 +1557,10 @@ a[href],
 :root[data-stile='terminale'][data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
 :root[data-stile='terminale'][data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
 :root[data-stile='terminale'][data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
-:root[data-stile='terminale'][data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
-:root[data-stile='terminale'][data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
-:root[data-stile='terminale'][data-sez='galleria'] .au-nav-btn[data-sez='galleria'],
 :root[data-stile='terminale'][data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
     color: var(--tinta-testo);
     background: none;
     border-left-color: currentColor;
-  }
-}
-
-/* La colonna laterale si prende quindici rem e mezza, e quel che
-   resta al testo va misurato di nuovo. La home terrebbe due colonne
-   fin dagli 861 punti, ma a quella larghezza, tolta la colonna
-   laterale, ne verrebbero due da ventotto caratteri l'una — e in
-   monospazio ventotto caratteri sono una strofa, non una prosa.
-   Fino ai 1200 punti la home resta dunque a una colonna sola, che è
-   quel che il foglio fa già da sé sotto gli 861. */
-@media (min-width: 861px) and (max-width: 1200px) {
-  :root[data-stile='terminale'] .au-layout {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  :root[data-stile='terminale'] .au-giornale-col {
-    position: static;
-    border-right: none;
-    border-bottom: 1px solid var(--filo-sezione);
-    padding-right: 0;
-    padding-bottom: 3rem;
-    margin-bottom: 3rem;
   }
 }
 
@@ -1736,20 +1665,15 @@ body {
   padding: 4rem 2rem 6rem;
 }
 
-/* La home è lo stato di riposo: contenitore largo e due colonne.
-   Le altre sezioni si stringono. Tutto dipende da [data-sez], che
-   lo script nel <head> scrive prima del primo disegno; se manca —
-   senza JavaScript — resta valida la veste della home. */
+/* Un contenitore solo, per la home come per le altre sezioni.
+
+   La home era più larga, con due colonne: a sinistra l'ultima pagina
+   del Diavolo veste Pravda, a destra le schede. Tolta quella sezione
+   dal sito, il 26 ottobre 2026, la colonna non aveva più niente da
+   mostrare, e la home si impagina come tutte le altre. */
 .au-center {
-  max-width: 68.75rem;
+  max-width: 53.75rem;
   margin: 0 auto;
-  /* Nessuna transizione sulla larghezza massima. Su Chromium restava
-     appesa: passando a una sezione la regola diceva 860 punti e il
-     contenitore ne teneva 1100, anche dopo sei secondi di quiete.
-     Stessa sorte dei binari della griglia poco più sotto — le
-     proprietà d'impaginazione, animate, in quel motore non arrivano a
-     destinazione. Il passaggio fra sezioni ha già la sua dissolvenza e
-     la sua composizione a scalare: quelle bastano. */
 
   /* Una griglia di due colonne per la prima riga, una sola per le
      altre: a sinistra il nome, a destra i comandi, e sotto la barra
@@ -1757,11 +1681,10 @@ body {
 
      Prima i comandi stavano fuori dal flusso, appoggiati in alto a
      destra. Finché l'intestazione era più alta di loro non si notava;
-     ma «Il Diavolo veste Pravda» ha un titolo e nessun sottotitolo,
-     quindi lì l'intestazione è corta — e la barra risaliva fin sotto
-     i comandi, addosso. Una riga di griglia invece è alta quanto il
-     più alto dei due, e il caso non può ripresentarsi con la prossima
-     sezione dal titolo breve. */
+     ma una sezione con un titolo e nessun sottotitolo ha l'intestazione
+     corta — e la barra risaliva fin sotto i comandi, addosso. Una riga
+     di griglia invece è alta quanto il più alto dei due, e il caso non
+     può ripresentarsi con la prossima sezione dal titolo breve. */
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
 }
@@ -1789,50 +1712,9 @@ body {
   grid-row: 3;
 }
 
-:root[data-sez]:not([data-sez='home']) .au-center {
-  max-width: 53.75rem;
-}
-
 .au-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
-  margin-top: 2rem;
-  /* Si anima la larghezza massima e nient'altro.
-
-     I binari della griglia erano in transizione anch'essi, ed è stato
-     un errore: su Chromium quell'animazione resta appesa e non arriva
-     mai a destinazione. I binari si fermano a metà — `316px 316px`
-     invece di `0px 680px` — e la colonna del giornale, che fuori dalla
-     home dovrebbe richiudersi, si tiene metà dello spazio. Il testo di
-     ogni sezione finiva a 316 punti invece che a 680: la metà.
-     Riproducibile, e stabile anche dopo cinque secondi di quiete.
-
-     Animare i binari di una griglia è una cerimonia costosa e mal
-     sostenuta, e il suo modo di fallire è il contenuto a metà
-     larghezza. Ora la colonna si richiude subito e la larghezza
-     massima accompagna il passaggio: la cerimonia resta, il rischio
-     no. */
-  transition: max-width var(--durata-impaginazione) var(--curva);
-}
-
-/* Uscendo dalla home la colonna del giornale se ne va e il contenuto
-   prende tutta la larghezza.
-
-   Prima la si faceva richiudere assegnandole un binario `0fr`. Non
-   funziona: su Chromium un binario `0fr` non scende a zero, si ferma
-   alla misura minima del proprio contenuto — 34 punti nel caso
-   migliore, molti di più in certe sezioni — e quel che resta lo divide
-   con l'altro. Il testo finiva a 341 punti invece che a 680: la metà.
-   In WebKit collassava, e per questo non lo avevo visto.
-
-   Una colonna sola, e la colonna del giornale tolta dal flusso: non
-   c'è più un binario da richiudere, quindi non c'è più niente che
-   possa richiudersi a metà. */
-:root[data-sez]:not([data-sez='home']) .au-layout {
   grid-template-columns: 1fr;
-  gap: 0;
   max-width: 42.5rem;
   /* `width: 100%` non è pleonastico. Da quando il contenitore centrale
      è una griglia, questo è un suo elemento; e un elemento di griglia
@@ -1842,12 +1724,7 @@ body {
      «Poesie & Testi», dove i titoli sono corti, la colonna di lettura
      scendeva da 680 punti a 341. */
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-:root[data-sez]:not([data-sez='home']) .au-giornale-col {
-  display: none;
+  margin: 2rem auto 0;
 }
 
 .au-main {
@@ -2389,9 +2266,6 @@ body {
 :root[data-sez='articoli'] .au-nav-btn[data-sez='articoli'],
 :root[data-sez='scritti'] .au-nav-btn[data-sez='scritti'],
 :root[data-sez='tesi'] .au-nav-btn[data-sez='tesi'],
-:root[data-sez='il-diavolo-veste-pravda'] .au-nav-btn[data-sez='il-diavolo-veste-pravda'],
-:root[data-sez='appunti'] .au-nav-btn[data-sez='appunti'],
-:root[data-sez='galleria'] .au-nav-btn[data-sez='galleria'],
 :root[data-sez='contatti'] .au-nav-btn[data-sez='contatti'] {
   color: var(--nav-attivo-testo);
   background: var(--nav-attivo-sfondo);
@@ -2413,9 +2287,6 @@ body {
 :root[data-sez='articoli'] #sec-articoli,
 :root[data-sez='scritti'] #sec-scritti,
 :root[data-sez='tesi'] #sec-tesi,
-:root[data-sez='il-diavolo-veste-pravda'] #sec-il-diavolo-veste-pravda,
-:root[data-sez='appunti'] #sec-appunti,
-:root[data-sez='galleria'] #sec-galleria,
 :root[data-sez='contatti'] #sec-contatti {
   display: block;
   opacity: 1;
@@ -2447,8 +2318,7 @@ body {
 .au-section.is-componendo .au-year,
 .au-section.is-componendo .au-home-card,
 .au-section.is-componendo .au-article,
-.au-section.is-componendo .au-poem,
-.au-section.is-componendo .au-giornale-entry {
+.au-section.is-componendo .au-poem {
   animation: componi var(--durata-voce) var(--curva) backwards;
   animation-delay: calc(var(--i, 0) * var(--passo-composizione));
 }
@@ -2890,16 +2760,13 @@ body {
 /* Le sezioni che in site.json dichiarano un `titolo`. Il CSS non sa
    confrontare due attributi fra loro, quindi la corrispondenza fra la
    sezione accesa e la sua intestazione va scritta una volta per
-   ciascuna: aggiungerne una terza costa due righe qui. */
+   ciascuna: aggiungerne un'altra costa due righe qui. */
 :root[data-sez='artificiosa'] .au-name,
-:root[data-sez='artificiosa'] .au-bio,
-:root[data-sez='il-diavolo-veste-pravda'] .au-name,
-:root[data-sez='il-diavolo-veste-pravda'] .au-bio {
+:root[data-sez='artificiosa'] .au-bio {
   display: none;
 }
 
-:root[data-sez='artificiosa'] .au-header-sezione[data-sez='artificiosa'],
-:root[data-sez='il-diavolo-veste-pravda'] .au-header-sezione[data-sez='il-diavolo-veste-pravda'] {
+:root[data-sez='artificiosa'] .au-header-sezione[data-sez='artificiosa'] {
   display: block;
 }
 
@@ -3187,67 +3054,7 @@ body {
   margin-top: 1.5rem;
 }
 
-/* ── Colonna del giornale ── */
-.au-giornale-col {
-  position: sticky;
-  top: 2rem;
-  border-right: 2px solid var(--filo-sezione);
-  padding-right: 2rem;
-  padding-top: 2.5rem;
-  /* min-width azzerato: senza, la traccia della griglia si rifiuterebbe
-     di scendere sotto la larghezza del proprio contenuto. */
-  min-width: 0;
-  overflow: hidden;
-  visibility: visible;
-  height: auto;
-  transition:
-    padding-right var(--durata-impaginazione) var(--curva),
-    border-right-width var(--durata-impaginazione) var(--curva),
-    visibility 0s,
-    height 0s,
-    padding-top 0s;
-}
-
-/* A colonna chiusa la barra sparisce dall'albero di accessibilità —
-   altrimenti verrebbe letta in ogni sezione — e smette di occupare
-   altezza. Quest'ultimo punto non è un dettaglio: con la traccia della
-   griglia a larghezza zero il testo andrebbe a capo a ogni parola, e la
-   colonna, pur invisibile, resterebbe alta migliaia di pixel allungando
-   di altrettanto la pagina da scorrere. Le tre cose scattano a
-   richiusura avvenuta, così durante il movimento la colonna è ancora
-   intera; al ritorno sulla home tornano invece subito, senza ritardo. */
-:root[data-sez]:not([data-sez='home']) .au-giornale-col {
-  padding-right: 0;
-  border-right-width: 0;
-  visibility: hidden;
-  height: 0;
-  padding-top: 0;
-  transition:
-    padding-right var(--durata-impaginazione) var(--curva),
-    border-right-width var(--durata-impaginazione) var(--curva),
-    visibility 0s linear var(--durata-impaginazione),
-    height 0s linear var(--durata-impaginazione),
-    padding-top 0s linear var(--durata-impaginazione);
-}
-
-.au-gp-label {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--etichetta);
-  margin-bottom: 0.75rem;
-}
-
-.au-gp-date {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--gp-meta);
-  margin-bottom: 1.5rem;
-}
-
+/* ── Prosa delle pagine singole ── */
 .au-gp-text {
   font-size: 0.875rem;
   font-weight: 400;
@@ -3255,34 +3062,8 @@ body {
   line-height: 1.8;
 }
 
-/* ── Voci di giornale e appunti ── */
-.au-giornale-entry {
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--filo);
-  transition: padding-left 0.15s;
-}
-
-.au-giornale-entry:hover { padding-left: 0.5rem; }
-.au-giornale-entry:last-child { border-bottom: none; }
-
-.au-giornale-entry-date {
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--fonte);
-  margin-bottom: 0.3rem;
-}
-
-.au-giornale-entry-title {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--titolo-voce);
-  letter-spacing: -0.015em;
-}
-
-/* Il titolo porta alla pagina propria del pezzo, ma non deve
+/* ── Titoli che portano alla pagina del pezzo ──
+   Il titolo porta alla pagina propria del pezzo, ma non deve
    annunciarsi come un collegamento: sottolineato e colorato
    spezzerebbe la colonna in una fila di richiami. Prende l'inchiostro
    del titolo e si scopre solo al passaggio del puntatore — chi non usa
@@ -3296,14 +3077,6 @@ body {
 .au-giornale-entry-link:hover,
 .au-giornale-entry-link:focus-visible {
   color: var(--accento);
-}
-
-.au-giornale-entry-text {
-  margin-top: 0.9rem;
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--prosa-voce);
-  line-height: 1.8;
 }
 
 /* ── Un blocco per lingua ──
@@ -3328,7 +3101,6 @@ body {
 
 /* ── Prosa proveniente dal Markdown ── */
 .au-gp-text p,
-.au-giornale-entry-text p,
 .au-article-desc p,
 .au-home-desc p,
 .au-poem-excerpt p {
@@ -3336,7 +3108,6 @@ body {
 }
 
 .au-gp-text p:last-child,
-.au-giornale-entry-text p:last-child,
 .au-article-desc p:last-child,
 .au-home-desc p:last-child,
 .au-poem-excerpt p:last-child {
@@ -3579,9 +3350,9 @@ body {
 
 .au-cerca-esito:hover,
 .au-cerca-esito:focus-visible {
-  /* Lo stesso scarto delle voci del giornale: la riga si sposta di
-     poco invece di accendersi. Un fondo pieno sotto otto risultati
-     sarebbe una scacchiera. */
+  /* Uno scarto e non una campitura: la riga si sposta di poco invece
+     di accendersi. Un fondo pieno sotto otto risultati sarebbe una
+     scacchiera. */
   padding-left: 0.4rem;
 }
 
@@ -3638,158 +3409,6 @@ body {
   /* Sedici pixel: sotto quella misura iOS ingrandisce la pagina da sé
      appena il campo prende il fuoco, e non la rimpicciolisce più. */
   .au-cerca-campo { font-size: 1rem; }
-}
-
-/* ══ LA GALLERIA ══
-   Una griglia che si conta da sé: le colonne nascono quando c'è
-   spazio per una larga almeno 14rem, e nessuno deve dichiarare
-   quante sono. Con tre foto o con trenta, la regola è la stessa. */
-.au-galleria {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-  gap: 1.25rem;
-}
-
-.au-foto {
-  margin: 0;
-}
-
-/* Il ritaglio è quadrato: fotografie di proporzioni diverse, messe
-   una accanto all'altra alla loro altezza, farebbero una griglia
-   sconnessa. `object-fit: cover` riempie il quadrato prendendo il
-   centro — e la foto intera si vede aprendola. */
-.au-foto-apri {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1;
-  padding: 0;
-  border: 2px solid var(--filo-forte);
-  background: none;
-  cursor: var(--cursore-mano);
-  overflow: hidden;
-  transition: border-color var(--durata-uscita) var(--curva);
-}
-
-.au-foto-apri:hover,
-.au-foto-apri:focus-visible {
-  border-color: var(--accento);
-}
-
-.au-foto-immagine {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Un filo di ingrandimento al passaggio: la foto si muove dentro la
-     propria cornice, che resta ferma. */
-  transition: transform var(--durata-impaginazione) var(--curva);
-}
-
-.au-foto-apri:hover .au-foto-immagine,
-.au-foto-apri:focus-visible .au-foto-immagine {
-  transform: scale(1.04);
-}
-
-.au-foto-didascalia {
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
-  line-height: 1.6;
-  color: var(--bio);
-}
-
-.au-galleria-vuota {
-  font-size: 0.875rem;
-  line-height: 1.8;
-  color: var(--bio);
-  max-width: 34rem;
-}
-
-.au-galleria-vuota code {
-  font-family: var(--font-testo);
-  color: var(--accento);
-}
-
-/* ── La lente della galleria ── */
-.au-foto-scena {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-  max-height: 100%;
-  border: none;
-  padding: 2rem;
-  color: inherit;
-  background: rgba(0, 0, 0, 0.88);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  opacity: 0;
-  transition:
-    opacity 0.18s linear,
-    display 0.18s linear allow-discrete,
-    overlay 0.18s linear allow-discrete;
-}
-
-.au-foto-scena[open] {
-  display: flex;
-  opacity: 1;
-}
-
-@starting-style {
-  .au-foto-scena[open] { opacity: 0; }
-}
-
-.au-foto-grande {
-  margin: 0;
-  /* Non deve mai eccedere lo schermo: una fotografia che si guarda
-     scorrendo non si guarda. */
-  max-width: 100%;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.9rem;
-}
-
-.au-foto-grande img {
-  display: block;
-  max-width: 100%;
-  max-height: 78vh;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
-.au-foto-grande-didascalia {
-  font-size: 0.8125rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.82);
-  text-align: center;
-  max-width: 42rem;
-}
-
-.au-foto-grande-didascalia:empty {
-  display: none;
-}
-
-.au-foto-chiudi {
-  font-size: 0.5625rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-@media (max-width: 700px) {
-  .au-galleria {
-    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
-    gap: 0.75rem;
-  }
-
-  .au-foto-scena { padding: 1rem; }
-  .au-foto-grande img { max-height: 70vh; }
 }
 
 /* ── Il piede ──
@@ -3933,28 +3552,7 @@ body {
 /* ── Adattamento agli schermi stretti ── */
 @media (max-width: 860px) {
   .au-layout {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  :root[data-sez]:not([data-sez='home']) .au-layout {
     max-width: 100%;
-    grid-template-columns: 1fr;
-  }
-
-  /* Qui la colonna è impilata sopra al contenuto, non affiancata:
-     richiudere una traccia della griglia non avrebbe senso. */
-  :root[data-sez]:not([data-sez='home']) .au-giornale-col {
-    display: none;
-  }
-
-  .au-giornale-col {
-    position: static;
-    border-right: none;
-    border-bottom: 2px solid var(--filo-sezione);
-    padding-right: 0;
-    padding-bottom: 3rem;
-    margin-bottom: 3rem;
   }
 }
 
@@ -4090,12 +3688,6 @@ body {
   :root { --spazio-main: 1.5rem; }
 
   .au-layout { margin-top: 1.25rem; }
-
-  .au-giornale-col {
-    padding-bottom: 2rem;
-    margin-bottom: 2rem;
-    padding-top: 1.5rem;
-  }
 
   /* Su schermo stretto i comandi non stanno in cima alla pagina: sono
      cinque righe che si mettono davanti a quel che si è venuti a

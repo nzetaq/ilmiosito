@@ -5,6 +5,11 @@ import sharp from 'sharp';
 /**
  * Le fotografie della galleria.
  *
+ * Oggi questo modulo non lo chiama nessuno: la galleria è fuori dal
+ * sito dal 26 ottobre 2026, e le foto restano in `foto/` senza essere
+ * pubblicate. Lo strumento resta per quando tornasse — a chiamarlo era
+ * `src/_data/galleria.js`, che si ritrova nella storia del repository.
+ *
  * Da una cartella di originali — quelli che escono dal telefono, da
  * quattromila punti di lato e qualche megabyte l'uno — si ricavano due
  * copie per ciascuna: una piccola per il riquadro nella griglia, una

@@ -7,8 +7,8 @@
   "_nota_progetto": "Il nome del progetto, che sta in cima alla pagina al posto di un nome di persona: quello resta in fondo, nella riga della licenza, dov'è un fatto giuridico e non un'insegna. Sotto, `bio` dice di che cosa si tratta e chi lo scrive.",
   "progetto": "La Prassi o il Nulla",
   "bio": "La sostanza sociale - Luca Antonini",
-  "descrizione": "Scritti di filosofia di Luca Antonini: articoli su marxismo, linguaggio e intelligenza artificiale, poesie, tesi di laurea, Il Diavolo veste Pravda e appunti.",
-  "_nota_en": "L'inglese dell'impalcatura, e solo di quella. I testi — appunti, Il Diavolo veste Pravda, articoli, poesie — restano nella lingua in cui sono stati scritti: tradurli sarebbe riscriverli. Qui c'è ciò che serve a muoversi nel sito, non ciò che il sito dice. Ogni voce sta accanto alla propria italiana, così le due non possono allontanarsi senza che si veda.",
+  "descrizione": "Scritti di filosofia di Luca Antonini: articoli su marxismo, linguaggio e intelligenza artificiale, poesie e tesi di laurea.",
+  "_nota_en": "L'inglese dell'impalcatura, e solo di quella. I testi — articoli, poesie, tesi — restano nella lingua in cui sono stati scritti: tradurli sarebbe riscriverli. Qui c'è ciò che serve a muoversi nel sito, non ciò che il sito dice. Ogni voce sta accanto alla propria italiana, così le due non possono allontanarsi senza che si veda.",
   "en": {
     "motto": "Collect - Catalogue - Preserve",
     "progetto": "Praxis or Nothingness",
@@ -40,18 +40,6 @@
       }
     },
     {
-      "id": "il-diavolo-veste-pravda",
-      "etichetta": "Il Diavolo veste Pravda",
-      "titolo": "Il Diavolo veste Pravda",
-      "breve": "Il DvP",
-      "era": "giornale",
-      "en": {
-        "etichetta": "The Devil wears Pravda",
-        "titolo": "The Devil wears Pravda",
-        "breve": "The DvP"
-      }
-    },
-    {
       "id": "articoli",
       "etichetta": "Articoli",
       "en": { "etichetta": "Articles" }
@@ -65,16 +53,6 @@
       "id": "tesi",
       "etichetta": "Tesi",
       "en": { "etichetta": "Theses" }
-    },
-    {
-      "id": "appunti",
-      "etichetta": "Appunti",
-      "en": { "etichetta": "Notes" }
-    },
-    {
-      "id": "galleria",
-      "etichetta": "Galleria",
-      "en": { "etichetta": "Gallery" }
     },
     {
       "id": "contatti",

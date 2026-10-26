@@ -1,9 +1,13 @@
 import { sintesi } from '../../../strumenti/sintesi.mjs';
 
 /**
- * Ogni pezzo del Diavolo veste Pravda ha ora un indirizzo proprio.
+ * Il Diavolo veste Pravda è fuori dal sito dal 26 ottobre 2026.
  *
- * Il file resta uno solo: compare dentro la sezione della home, come
+ * I pezzi restano in questa cartella per poterli riprendere, ma non
+ * generano più pagine: il permalink è `false`. Quel che segue dice
+ * com'era quando la sezione c'era, ed è come tornerebbe a essere.
+ *
+ * Ogni pezzo aveva un indirizzo proprio. Il file resta uno solo: compare dentro la sezione della home, come
  * sempre, e in più a `/giornale/<nome-del-file>/`. Quell'indirizzo è
  * ciò che si può mandare a qualcuno, citare in nota, o mostrare
  * anteprimato quando viene condiviso.
@@ -27,7 +31,8 @@ export default {
   layout: 'layouts/pezzo.njk',
   sezione: 'il-diavolo-veste-pravda',
   radice: '/',
-  permalink: (data) => `/giornale/${data.page.fileSlug}/index.html`,
+  // Per rimettere le pagine: (data) => `/giornale/${data.page.fileSlug}/index.html`
+  permalink: false,
   tipoOg: 'article',
   eleventyComputed: {
     // La descrizione per i motori di ricerca e per le anteprime, presa

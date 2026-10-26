@@ -1,5 +1,9 @@
 # Le fotografie della galleria
 
+> **La galleria è fuori dal sito dal 26 ottobre 2026.** Le foto restano
+> in questa cartella ma non vengono pubblicate. Quel che segue dice
+> com'era quando la sezione c'era, ed è come tornerebbe a essere.
+
 Metti qui i file — `.jpg`, `.png`, `.webp` — e compariranno nella
 sezione **Galleria** del sito, in ordine di nome.
 
