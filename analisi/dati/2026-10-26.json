@@ -1,0 +1,37 @@
+{
+  "giorno": "2026-10-26",
+  "visite": 2,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/articoli",
+      "titolo": "Luca Antonini — Articoli",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/ · home",
+      "titolo": "Luca Antonini — Home",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "paesi": [
+    {
+      "nome": "Italy",
+      "titolo": "",
+      "visite": 2,
+      "unici": 0
+    }
+  ],
+  "provenienze": [
+    {
+      "nome": "",
+      "titolo": "",
+      "visite": 2,
+      "unici": 0
+    }
+  ],
+  "browser": [],
+  "sistemi": []
+}
