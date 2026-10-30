@@ -1,0 +1,37 @@
+{
+  "giorno": "2026-10-29",
+  "visite": 2,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/articoli",
+      "titolo": "Luca Antonini — Articoli",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/ · home",
+      "titolo": "Luca Antonini — Home",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "paesi": [],
+  "provenienze": [],
+  "browser": [
+    {
+      "nome": "Chrome",
+      "titolo": "",
+      "visite": 2,
+      "unici": 0
+    }
+  ],
+  "sistemi": [
+    {
+      "nome": "Android",
+      "titolo": "",
+      "visite": 2,
+      "unici": 0
+    }
+  ]
+}
