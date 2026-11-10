@@ -1,0 +1,49 @@
+{
+  "giorno": "2026-11-09",
+  "visite": 4,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/artificiosa",
+      "titolo": "NZQ — I.A.",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/articoli",
+      "titolo": "Luca Antonini — Articoli",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/scritti",
+      "titolo": "NZQ — Poesie & Testi",
+      "visite": 1,
+      "unici": 0
+    },
+    {
+      "nome": "/ · home",
+      "titolo": "Luca Antonini — Home",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "paesi": [
+    {
+      "nome": "Italy",
+      "titolo": "",
+      "visite": 4,
+      "unici": 0
+    }
+  ],
+  "provenienze": [],
+  "browser": [
+    {
+      "nome": "Chrome",
+      "titolo": "",
+      "visite": 4,
+      "unici": 0
+    }
+  ],
+  "sistemi": []
+}
