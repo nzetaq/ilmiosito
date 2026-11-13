@@ -1,0 +1,31 @@
+{
+  "giorno": "2026-11-12",
+  "visite": 1,
+  "eventi": 0,
+  "pagine": [
+    {
+      "nome": "/ · home",
+      "titolo": "Luca Antonini — Home",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "paesi": [
+    {
+      "nome": "Italy",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ],
+  "provenienze": [],
+  "browser": [],
+  "sistemi": [
+    {
+      "nome": "Android",
+      "titolo": "",
+      "visite": 1,
+      "unici": 0
+    }
+  ]
+}
